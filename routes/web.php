@@ -31,9 +31,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('homes', 'HomeController', ['except' => ['create', 'store', 'destroy']]);
 
     // Applications
+    Route::delete('applications/destroy', 'ApplicationsController@massDestroy')->name('applications.massDestroy');
     Route::post('applications/media', 'ApplicationsController@storeMedia')->name('applications.storeMedia');
     Route::post('applications/ckmedia', 'ApplicationsController@storeCKEditorImages')->name('applications.storeCKEditorImages');
-    Route::resource('applications', 'ApplicationsController', ['except' => ['show', 'destroy']]);
+    Route::resource('applications', 'ApplicationsController', ['except' => ['show']]);
 
     // Brands
     Route::delete('brands/destroy', 'BrandsController@massDestroy')->name('brands.massDestroy');

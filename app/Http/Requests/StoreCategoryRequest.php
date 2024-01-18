@@ -34,13 +34,6 @@ class StoreCategoryRequest extends FormRequest
                 'required',
                 'unique:categories',
             ],
-            'cover_photo' => [
-                'required',
-            ],
-            'product_image_id' => [
-                'required',
-                'integer',
-            ],
             'applications.*' => [
                 'integer',
             ],

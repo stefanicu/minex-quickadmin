@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
+use App\Http\Requests\MassDestroyApplicationRequest;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Models\Application;
@@ -113,6 +114,26 @@ class ApplicationsController extends Controller
         }
 
         return redirect()->route('admin.applications.index');
+    }
+
+    public function destroy(Application $application)
+    {
+        abort_if(Gate::denies('application_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $application->delete();
+
+        return back();
+    }
+
+    public function massDestroy(MassDestroyApplicationRequest $request)
+    {
+        $applications = Application::find(request('ids'));
+
+        foreach ($applications as $application) {
+            $application->delete();
+        }
+
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 
     public function storeCKEditorImages(Request $request)

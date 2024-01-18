@@ -50,7 +50,7 @@
                 <span class="help-block">{{ trans('cruds.category.fields.slug_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="cover_photo">{{ trans('cruds.category.fields.cover_photo') }}</label>
+                <label for="cover_photo">{{ trans('cruds.category.fields.cover_photo') }}</label>
                 <div class="needsclick dropzone {{ $errors->has('cover_photo') ? 'is-invalid' : '' }}" id="cover_photo-dropzone">
                 </div>
                 @if($errors->has('cover_photo'))
@@ -59,8 +59,8 @@
                 <span class="help-block">{{ trans('cruds.category.fields.cover_photo_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="product_image_id">{{ trans('cruds.category.fields.product_image') }}</label>
-                <select class="form-control select2 {{ $errors->has('product_image') ? 'is-invalid' : '' }}" name="product_image_id" id="product_image_id" required>
+                <label for="product_image_id">{{ trans('cruds.category.fields.product_image') }}</label>
+                <select class="form-control select2 {{ $errors->has('product_image') ? 'is-invalid' : '' }}" name="product_image_id" id="product_image_id">
                     @foreach($product_images as $id => $entry)
                         <option value="{{ $id }}" {{ old('product_image_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
