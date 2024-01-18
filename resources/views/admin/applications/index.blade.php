@@ -37,9 +37,6 @@
                         {{ trans('cruds.application.fields.slug') }}
                     </th>
                     <th>
-                        {{ trans('cruds.application.fields.image') }}
-                    </th>
-                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -100,7 +97,6 @@
 { data: 'language', name: 'language' },
 { data: 'name', name: 'name' },
 { data: 'slug', name: 'slug' },
-{ data: 'image', name: 'image', sortable: false, searchable: false },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
