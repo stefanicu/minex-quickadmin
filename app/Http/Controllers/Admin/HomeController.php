@@ -33,7 +33,7 @@ class HomeController
             'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
             'group_by_field_format' => 'd.m.Y H:i:s',
-            'column_class'          => 'col-md-12',
+            'column_class'          => 'col-md-6',
             'entries_number'        => '5',
             'translation_key'       => 'category',
         ];
