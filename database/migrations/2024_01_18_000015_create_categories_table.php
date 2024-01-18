@@ -15,6 +15,11 @@ class CreateCategoriesTable extends Migration
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->integer('page_views')->nullable();
+            $table->integer('oldid')->nullable();
+            $table->string('oldimage')->nullable();
+            $table->integer('oldgroupid')->nullable();
+            $table->integer('oldproductid')->nullable();
+            $table->string('oldproductimg')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
