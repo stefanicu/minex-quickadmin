@@ -117,6 +117,8 @@ return [
             'online_helper'     => ' ',
             'language'          => 'Language',
             'language_helper'   => ' ',
+            'categories'        => 'Categories',
+            'categories_helper' => ' ',
         ],
     ],
     'brand' => [

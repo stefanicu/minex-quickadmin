@@ -67,6 +67,16 @@
                             @endif
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.application.fields.categories') }}
+                        </th>
+                        <td>
+                            @foreach($application->categories as $key => $categories)
+                                <span class="label label-info">{{ $categories->name }}</span>
+                            @endforeach
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">
@@ -78,22 +88,6 @@
     </div>
 </div>
 
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.relatedData') }}
-    </div>
-    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="#applications_categories" role="tab" data-toggle="tab">
-                {{ trans('cruds.category.title') }}
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="applications_categories">
-            @includeIf('admin.applications.relationships.applicationsCategories', ['categories' => $application->applicationsCategories])
-        </div>
-    </div>
-</div>
+
 
 @endsection

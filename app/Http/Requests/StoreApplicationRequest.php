@@ -34,6 +34,12 @@ class StoreApplicationRequest extends FormRequest
                 'required',
                 'unique:applications',
             ],
+            'categories.*' => [
+                'integer',
+            ],
+            'categories' => [
+                'array',
+            ],
         ];
     }
 }

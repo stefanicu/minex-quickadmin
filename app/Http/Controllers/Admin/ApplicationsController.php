@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyApplicationRequest;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Models\Application;
+use App\Models\Category;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -23,7 +24,7 @@ class ApplicationsController extends Controller
         abort_if(Gate::denies('application_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Application::query()->select(sprintf('%s.*', (new Application)->table));
+            $query = Application::with(['categories'])->select(sprintf('%s.*', (new Application)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -59,8 +60,16 @@ class ApplicationsController extends Controller
             $table->editColumn('slug', function ($row) {
                 return $row->slug ? $row->slug : '';
             });
+            $table->editColumn('categories', function ($row) {
+                $labels = [];
+                foreach ($row->categories as $category) {
+                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $category->name);
+                }
 
-            $table->rawColumns(['actions', 'placeholder', 'online']);
+                return implode(' ', $labels);
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'online', 'categories']);
 
             return $table->make(true);
         }
@@ -72,13 +81,15 @@ class ApplicationsController extends Controller
     {
         abort_if(Gate::denies('application_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.applications.create');
+        $categories = Category::pluck('name', 'id');
+
+        return view('admin.applications.create', compact('categories'));
     }
 
     public function store(StoreApplicationRequest $request)
     {
         $application = Application::create($request->all());
-
+        $application->categories()->sync($request->input('categories', []));
         if ($request->input('image', false)) {
             $application->addMedia(storage_path('tmp/uploads/' . basename($request->input('image'))))->toMediaCollection('image');
         }
@@ -94,13 +105,17 @@ class ApplicationsController extends Controller
     {
         abort_if(Gate::denies('application_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.applications.edit', compact('application'));
+        $categories = Category::pluck('name', 'id');
+
+        $application->load('categories');
+
+        return view('admin.applications.edit', compact('application', 'categories'));
     }
 
     public function update(UpdateApplicationRequest $request, Application $application)
     {
         $application->update($request->all());
-
+        $application->categories()->sync($request->input('categories', []));
         if ($request->input('image', false)) {
             if (! $application->image || $request->input('image') !== $application->image->file_name) {
                 if ($application->image) {
@@ -119,7 +134,7 @@ class ApplicationsController extends Controller
     {
         abort_if(Gate::denies('application_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $application->load('applicationsCategories');
+        $application->load('categories');
 
         return view('admin.applications.show', compact('application'));
     }
