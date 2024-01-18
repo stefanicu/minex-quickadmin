@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Requests\MassDestroyApplicationRequest;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Models\Application;
@@ -51,25 +50,11 @@ class ApplicationsController extends Controller
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
             });
-            $table->editColumn('language', function ($row) {
-                return $row->language ? Application::LANGUAGE_SELECT[$row->language] : '';
-            });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });
-            $table->editColumn('slug', function ($row) {
-                return $row->slug ? $row->slug : '';
-            });
-            $table->editColumn('categories', function ($row) {
-                $labels = [];
-                foreach ($row->categories as $category) {
-                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $category->name);
-                }
 
-                return implode(' ', $labels);
-            });
-
-            $table->rawColumns(['actions', 'placeholder', 'online', 'categories']);
+            $table->rawColumns(['actions', 'placeholder', 'online']);
 
             return $table->make(true);
         }
@@ -128,35 +113,6 @@ class ApplicationsController extends Controller
         }
 
         return redirect()->route('admin.applications.index');
-    }
-
-    public function show(Application $application)
-    {
-        abort_if(Gate::denies('application_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $application->load('categories');
-
-        return view('admin.applications.show', compact('application'));
-    }
-
-    public function destroy(Application $application)
-    {
-        abort_if(Gate::denies('application_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $application->delete();
-
-        return back();
-    }
-
-    public function massDestroy(MassDestroyApplicationRequest $request)
-    {
-        $applications = Application::find(request('ids'));
-
-        foreach ($applications as $application) {
-            $application->delete();
-        }
-
-        return response(null, Response::HTTP_NO_CONTENT);
     }
 
     public function storeCKEditorImages(Request $request)
