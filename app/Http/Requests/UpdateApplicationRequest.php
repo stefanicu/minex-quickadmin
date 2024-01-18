@@ -34,6 +34,12 @@ class UpdateApplicationRequest extends FormRequest
                 'required',
                 'unique:applications,slug,' . request()->route('application')->id,
             ],
+            'categories.*' => [
+                'integer',
+            ],
+            'categories' => [
+                'array',
+            ],
         ];
     }
 }

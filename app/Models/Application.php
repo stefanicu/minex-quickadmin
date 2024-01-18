@@ -59,11 +59,6 @@ class Application extends Model implements HasMedia
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
-    public function applicationsCategories()
-    {
-        return $this->belongsToMany(Category::class);
-    }
-
     public function getImageAttribute()
     {
         $file = $this->getMedia('image')->last();
@@ -74,5 +69,10 @@ class Application extends Model implements HasMedia
         }
 
         return $file;
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
     }
 }
