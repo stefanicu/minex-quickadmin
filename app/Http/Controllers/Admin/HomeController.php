@@ -2,125 +2,44 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Requests\UpdateHomeRequest;
-use App\Models\Home;
-use Gate;
-use Illuminate\Http\Request;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Symfony\Component\HttpFoundation\Response;
-use Yajra\DataTables\Facades\DataTables;
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
-class HomeController extends Controller
+class HomeController
 {
-    use MediaUploadingTrait;
-
-    public function index(Request $request)
+    public function index()
     {
-        abort_if(Gate::denies('home_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $settings1 = [
+            'chart_title'        => 'Applications',
+            'chart_type'         => 'line',
+            'report_type'        => 'group_by_string',
+            'model'              => 'App\Models\Application',
+            'group_by_field'     => 'name',
+            'aggregate_function' => 'count',
+            'filter_field'       => 'created_at',
+            'column_class'       => 'col-md-6',
+            'entries_number'     => '5',
+            'translation_key'    => 'application',
+        ];
 
-        if ($request->ajax()) {
-            $query = Home::query()->select(sprintf('%s.*', (new Home)->table));
-            $table = Datatables::of($query);
+        $chart1 = new LaravelChart($settings1);
 
-            $table->addColumn('placeholder', '&nbsp;');
-            $table->addColumn('actions', '&nbsp;');
+        $settings2 = [
+            'chart_title'           => 'Categories',
+            'chart_type'            => 'bar',
+            'report_type'           => 'group_by_date',
+            'model'                 => 'App\Models\Category',
+            'group_by_field'        => 'created_at',
+            'group_by_period'       => 'day',
+            'aggregate_function'    => 'count',
+            'filter_field'          => 'created_at',
+            'group_by_field_format' => 'd.m.Y H:i:s',
+            'column_class'          => 'col-md-12',
+            'entries_number'        => '5',
+            'translation_key'       => 'category',
+        ];
 
-            $table->editColumn('actions', function ($row) {
-                $viewGate      = 'home_show';
-                $editGate      = 'home_edit';
-                $deleteGate    = 'home_delete';
-                $crudRoutePart = 'homes';
+        $chart2 = new LaravelChart($settings2);
 
-                return view('partials.datatablesActions', compact(
-                    'viewGate',
-                    'editGate',
-                    'deleteGate',
-                    'crudRoutePart',
-                    'row'
-                ));
-            });
-
-            $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : '';
-            });
-            $table->editColumn('language', function ($row) {
-                return $row->language ? Home::LANGUAGE_SELECT[$row->language] : '';
-            });
-            $table->editColumn('name', function ($row) {
-                return $row->name ? $row->name : '';
-            });
-            $table->editColumn('slug', function ($row) {
-                return $row->slug ? $row->slug : '';
-            });
-            $table->editColumn('first_text', function ($row) {
-                return $row->first_text ? $row->first_text : '';
-            });
-            $table->editColumn('button', function ($row) {
-                return $row->button ? $row->button : '';
-            });
-            $table->editColumn('image', function ($row) {
-                if ($photo = $row->image) {
-                    return sprintf(
-                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
-                        $photo->url,
-                        $photo->thumbnail
-                    );
-                }
-
-                return '';
-            });
-
-            $table->rawColumns(['actions', 'placeholder', 'image']);
-
-            return $table->make(true);
-        }
-
-        return view('admin.homes.index');
-    }
-
-    public function edit(Home $home)
-    {
-        abort_if(Gate::denies('home_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.homes.edit', compact('home'));
-    }
-
-    public function update(UpdateHomeRequest $request, Home $home)
-    {
-        $home->update($request->all());
-
-        if ($request->input('image', false)) {
-            if (! $home->image || $request->input('image') !== $home->image->file_name) {
-                if ($home->image) {
-                    $home->image->delete();
-                }
-                $home->addMedia(storage_path('tmp/uploads/' . basename($request->input('image'))))->toMediaCollection('image');
-            }
-        } elseif ($home->image) {
-            $home->image->delete();
-        }
-
-        return redirect()->route('admin.homes.index');
-    }
-
-    public function show(Home $home)
-    {
-        abort_if(Gate::denies('home_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.homes.show', compact('home'));
-    }
-
-    public function storeCKEditorImages(Request $request)
-    {
-        abort_if(Gate::denies('home_create') && Gate::denies('home_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $model         = new Home();
-        $model->id     = $request->input('crud_id', 0);
-        $model->exists = true;
-        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
-
-        return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
+        return view('home', compact('chart1', 'chart2'));
     }
 }
