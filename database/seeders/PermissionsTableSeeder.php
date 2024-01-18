@@ -96,182 +96,186 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 22,
-                'title' => 'application_access',
+                'title' => 'application_delete',
             ],
             [
                 'id'    => 23,
-                'title' => 'brand_create',
+                'title' => 'application_access',
             ],
             [
                 'id'    => 24,
-                'title' => 'brand_edit',
+                'title' => 'brand_create',
             ],
             [
                 'id'    => 25,
-                'title' => 'brand_show',
+                'title' => 'brand_edit',
             ],
             [
                 'id'    => 26,
-                'title' => 'brand_delete',
+                'title' => 'brand_show',
             ],
             [
                 'id'    => 27,
-                'title' => 'brand_access',
+                'title' => 'brand_delete',
             ],
             [
                 'id'    => 28,
-                'title' => 'industry_create',
+                'title' => 'brand_access',
             ],
             [
                 'id'    => 29,
-                'title' => 'industry_edit',
+                'title' => 'industry_create',
             ],
             [
                 'id'    => 30,
-                'title' => 'industry_show',
+                'title' => 'industry_edit',
             ],
             [
                 'id'    => 31,
-                'title' => 'industry_delete',
+                'title' => 'industry_show',
             ],
             [
                 'id'    => 32,
-                'title' => 'industry_access',
+                'title' => 'industry_delete',
             ],
             [
                 'id'    => 33,
-                'title' => 'product_create',
+                'title' => 'industry_access',
             ],
             [
                 'id'    => 34,
-                'title' => 'product_edit',
+                'title' => 'product_create',
             ],
             [
                 'id'    => 35,
-                'title' => 'product_show',
+                'title' => 'product_edit',
             ],
             [
                 'id'    => 36,
-                'title' => 'product_delete',
+                'title' => 'product_show',
             ],
             [
                 'id'    => 37,
-                'title' => 'product_access',
+                'title' => 'product_delete',
             ],
             [
                 'id'    => 38,
-                'title' => 'reference_create',
+                'title' => 'product_access',
             ],
             [
                 'id'    => 39,
-                'title' => 'reference_edit',
+                'title' => 'reference_create',
             ],
             [
                 'id'    => 40,
-                'title' => 'reference_show',
+                'title' => 'reference_edit',
             ],
             [
                 'id'    => 41,
-                'title' => 'reference_delete',
+                'title' => 'reference_show',
             ],
             [
                 'id'    => 42,
-                'title' => 'reference_access',
+                'title' => 'reference_delete',
             ],
             [
                 'id'    => 43,
-                'title' => 'blog_create',
+                'title' => 'reference_access',
             ],
             [
                 'id'    => 44,
-                'title' => 'blog_edit',
+                'title' => 'blog_create',
             ],
             [
                 'id'    => 45,
-                'title' => 'blog_show',
+                'title' => 'blog_edit',
             ],
             [
                 'id'    => 46,
-                'title' => 'blog_delete',
+                'title' => 'blog_show',
             ],
             [
                 'id'    => 47,
-                'title' => 'blog_access',
+                'title' => 'blog_delete',
             ],
             [
                 'id'    => 48,
-                'title' => 'contact_show',
+                'title' => 'blog_access',
             ],
             [
                 'id'    => 49,
-                'title' => 'contact_delete',
+                'title' => 'contact_show',
             ],
             [
                 'id'    => 50,
-                'title' => 'contact_access',
+                'title' => 'contact_delete',
             ],
             [
                 'id'    => 51,
-                'title' => 'testimonial_create',
+                'title' => 'contact_access',
             ],
             [
                 'id'    => 52,
-                'title' => 'testimonial_edit',
+                'title' => 'testimonial_create',
             ],
             [
                 'id'    => 53,
-                'title' => 'testimonial_show',
+                'title' => 'testimonial_edit',
             ],
             [
                 'id'    => 54,
-                'title' => 'testimonial_delete',
+                'title' => 'testimonial_show',
             ],
             [
                 'id'    => 55,
-                'title' => 'testimonial_access',
+                'title' => 'testimonial_delete',
             ],
             [
                 'id'    => 56,
-                'title' => 'translation_center_create',
+                'title' => 'testimonial_access',
             ],
             [
                 'id'    => 57,
-                'title' => 'translation_center_edit',
+                'title' => 'translation_center_create',
             ],
             [
                 'id'    => 58,
-                'title' => 'translation_center_show',
+                'title' => 'translation_center_edit',
             ],
             [
                 'id'    => 59,
-                'title' => 'translation_center_delete',
+                'title' => 'translation_center_show',
             ],
             [
                 'id'    => 60,
-                'title' => 'translation_center_access',
+                'title' => 'translation_center_delete',
             ],
             [
                 'id'    => 61,
-                'title' => 'gdpr_contact_access',
+                'title' => 'translation_center_access',
             ],
             [
                 'id'    => 62,
-                'title' => 'category_create',
+                'title' => 'gdpr_contact_access',
             ],
             [
                 'id'    => 63,
-                'title' => 'category_edit',
+                'title' => 'category_create',
             ],
             [
                 'id'    => 64,
-                'title' => 'category_delete',
+                'title' => 'category_edit',
             ],
             [
                 'id'    => 65,
-                'title' => 'category_access',
+                'title' => 'category_delete',
             ],
             [
                 'id'    => 66,
+                'title' => 'category_access',
+            ],
+            [
+                'id'    => 67,
                 'title' => 'profile_password_edit',
             ],
         ];

@@ -51,7 +51,15 @@
                 <span class="help-block">{{ trans('cruds.category.fields.slug_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="cover_photo">{{ trans('cruds.category.fields.cover_photo') }}</label>
+                <label for="page_views">{{ trans('cruds.category.fields.page_views') }}</label>
+                <input class="form-control {{ $errors->has('page_views') ? 'is-invalid' : '' }}" type="number" name="page_views" id="page_views" value="{{ old('page_views', $category->page_views) }}" step="1">
+                @if($errors->has('page_views'))
+                    <span class="text-danger">{{ $errors->first('page_views') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.category.fields.page_views_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="cover_photo">{{ trans('cruds.category.fields.cover_photo') }}</label>
                 <div class="needsclick dropzone {{ $errors->has('cover_photo') ? 'is-invalid' : '' }}" id="cover_photo-dropzone">
                 </div>
                 @if($errors->has('cover_photo'))
@@ -60,8 +68,8 @@
                 <span class="help-block">{{ trans('cruds.category.fields.cover_photo_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="product_image_id">{{ trans('cruds.category.fields.product_image') }}</label>
-                <select class="form-control select2 {{ $errors->has('product_image') ? 'is-invalid' : '' }}" name="product_image_id" id="product_image_id" required>
+                <label for="product_image_id">{{ trans('cruds.category.fields.product_image') }}</label>
+                <select class="form-control select2 {{ $errors->has('product_image') ? 'is-invalid' : '' }}" name="product_image_id" id="product_image_id">
                     @foreach($product_images as $id => $entry)
                         <option value="{{ $id }}" {{ (old('product_image_id') ? old('product_image_id') : $category->product_image->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach

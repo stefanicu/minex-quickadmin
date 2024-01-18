@@ -77,14 +77,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.category.fields.page_views') }}
-                        </th>
-                        <td>
-                            {{ $category->page_views }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.category.fields.applications') }}
                         </th>
                         <td>

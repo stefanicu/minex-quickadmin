@@ -34,12 +34,11 @@ class UpdateCategoryRequest extends FormRequest
                 'required',
                 'unique:categories,slug,' . request()->route('category')->id,
             ],
-            'cover_photo' => [
-                'required',
-            ],
-            'product_image_id' => [
-                'required',
+            'page_views' => [
+                'nullable',
                 'integer',
+                'min:-2147483648',
+                'max:2147483647',
             ],
             'applications.*' => [
                 'integer',
