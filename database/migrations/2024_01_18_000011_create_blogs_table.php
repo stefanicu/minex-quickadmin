@@ -15,8 +15,9 @@ class CreateBlogsTable extends Migration
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->longText('content');
+            $table->integer('oldid')->nullable();
+            $table->string('oldimage')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 }

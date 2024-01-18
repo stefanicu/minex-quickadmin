@@ -57,18 +57,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.category.fields.cover_photo') }}
-                        </th>
-                        <td>
-                            @if($category->cover_photo)
-                                <a href="{{ $category->cover_photo->getUrl() }}" target="_blank" style="display: inline-block">
-                                    <img src="{{ $category->cover_photo->getUrl('thumb') }}">
-                                </a>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.category.fields.product_image') }}
                         </th>
                         <td>
