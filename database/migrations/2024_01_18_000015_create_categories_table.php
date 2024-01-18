@@ -21,7 +21,6 @@ class CreateCategoriesTable extends Migration
             $table->integer('oldproductid')->nullable();
             $table->string('oldproductimg')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 }

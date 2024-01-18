@@ -17,7 +17,6 @@ class CreateApplicationsTable extends Migration
             $table->integer('oldid')->nullable();
             $table->string('oldimage')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 }

@@ -7,4 +7,8 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Contacts
     Route::apiResource('contacts', 'ContactsApiController', ['except' => ['store', 'update']]);
+
+    // Categories
+    Route::post('categories/media', 'CategoriesApiController@storeMedia')->name('categories.storeMedia');
+    Route::apiResource('categories', 'CategoriesApiController', ['except' => ['show']]);
 });
