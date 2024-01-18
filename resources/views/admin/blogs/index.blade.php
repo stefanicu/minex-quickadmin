@@ -28,13 +28,7 @@
                         {{ trans('cruds.blog.fields.online') }}
                     </th>
                     <th>
-                        {{ trans('cruds.blog.fields.language') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.blog.fields.name') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.blog.fields.slug') }}
                     </th>
                     <th>
                         {{ trans('cruds.blog.fields.image') }}
@@ -97,9 +91,7 @@
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'online', name: 'online' },
-{ data: 'language', name: 'language' },
 { data: 'name', name: 'name' },
-{ data: 'slug', name: 'slug' },
 { data: 'image', name: 'image', sortable: false, searchable: false },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],

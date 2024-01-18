@@ -31,6 +31,9 @@
                         {{ trans('cruds.application.fields.name') }}
                     </th>
                     <th>
+                        {{ trans('cruds.application.fields.image') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -89,6 +92,7 @@
 { data: 'id', name: 'id' },
 { data: 'online', name: 'online' },
 { data: 'name', name: 'name' },
+{ data: 'image', name: 'image', sortable: false, searchable: false },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,

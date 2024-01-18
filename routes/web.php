@@ -64,7 +64,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('blogs/destroy', 'BlogController@massDestroy')->name('blogs.massDestroy');
     Route::post('blogs/media', 'BlogController@storeMedia')->name('blogs.storeMedia');
     Route::post('blogs/ckmedia', 'BlogController@storeCKEditorImages')->name('blogs.storeCKEditorImages');
-    Route::resource('blogs', 'BlogController');
+    Route::resource('blogs', 'BlogController', ['except' => ['show']]);
 
     // Contacts
     Route::delete('contacts/destroy', 'ContactsController@massDestroy')->name('contacts.massDestroy');

@@ -54,8 +54,19 @@ class ApplicationsController extends Controller
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });
+            $table->editColumn('image', function ($row) {
+                if ($photo = $row->image) {
+                    return sprintf(
+                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+                        $photo->url,
+                        $photo->thumbnail
+                    );
+                }
 
-            $table->rawColumns(['actions', 'placeholder', 'online']);
+                return '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'online', 'image']);
 
             return $table->make(true);
         }

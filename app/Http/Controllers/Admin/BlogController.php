@@ -50,14 +50,8 @@ class BlogController extends Controller
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
             });
-            $table->editColumn('language', function ($row) {
-                return $row->language ? Blog::LANGUAGE_SELECT[$row->language] : '';
-            });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
-            });
-            $table->editColumn('slug', function ($row) {
-                return $row->slug ? $row->slug : '';
             });
             $table->editColumn('image', function ($row) {
                 if ($photo = $row->image) {
@@ -124,13 +118,6 @@ class BlogController extends Controller
         }
 
         return redirect()->route('admin.blogs.index');
-    }
-
-    public function show(Blog $blog)
-    {
-        abort_if(Gate::denies('blog_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.blogs.show', compact('blog'));
     }
 
     public function destroy(Blog $blog)
