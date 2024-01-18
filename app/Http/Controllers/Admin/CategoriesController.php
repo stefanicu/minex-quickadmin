@@ -52,14 +52,8 @@ class CategoriesController extends Controller
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
             });
-            $table->editColumn('language', function ($row) {
-                return $row->language ? Category::LANGUAGE_SELECT[$row->language] : '';
-            });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
-            });
-            $table->editColumn('slug', function ($row) {
-                return $row->slug ? $row->slug : '';
             });
             $table->editColumn('cover_photo', function ($row) {
                 if ($photo = $row->cover_photo) {
@@ -72,20 +66,8 @@ class CategoriesController extends Controller
 
                 return '';
             });
-            $table->addColumn('product_image_name', function ($row) {
-                return $row->product_image ? $row->product_image->name : '';
-            });
 
-            $table->editColumn('applications', function ($row) {
-                $labels = [];
-                foreach ($row->applications as $application) {
-                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $application->name);
-                }
-
-                return implode(' ', $labels);
-            });
-
-            $table->rawColumns(['actions', 'placeholder', 'online', 'cover_photo', 'product_image', 'applications']);
+            $table->rawColumns(['actions', 'placeholder', 'online', 'cover_photo']);
 
             return $table->make(true);
         }
@@ -148,15 +130,6 @@ class CategoriesController extends Controller
         }
 
         return redirect()->route('admin.categories.index');
-    }
-
-    public function show(Category $category)
-    {
-        abort_if(Gate::denies('category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $category->load('product_image', 'applications', 'categoriesProducts');
-
-        return view('admin.categories.show', compact('category'));
     }
 
     public function destroy(Category $category)

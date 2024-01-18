@@ -119,6 +119,10 @@ return [
             'language_helper'   => ' ',
             'categories'        => 'Categories',
             'categories_helper' => ' ',
+            'oldid'             => 'Oldid',
+            'oldid_helper'      => ' ',
+            'oldimage'          => 'Oldimage',
+            'oldimage_helper'   => ' ',
         ],
     ],
     'brand' => [
@@ -206,10 +210,6 @@ return [
             'reference'             => 'Reference',
             'reference_helper'      => ' ',
         ],
-    ],
-    'productsManagement' => [
-        'title'          => 'Products Management',
-        'title_singular' => 'Products Management',
     ],
     'reference' => [
         'title'          => 'References',
@@ -362,10 +362,6 @@ return [
             'deleted_at'        => 'Deleted at',
             'deleted_at_helper' => ' ',
         ],
-    ],
-    'multilingualContentHub' => [
-        'title'          => 'Multilingual Content',
-        'title_singular' => 'Multilingual Content',
     ],
     'gdprContact' => [
         'title'          => 'GDPR',

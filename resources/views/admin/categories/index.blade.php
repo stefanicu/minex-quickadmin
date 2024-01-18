@@ -28,22 +28,10 @@
                         {{ trans('cruds.category.fields.online') }}
                     </th>
                     <th>
-                        {{ trans('cruds.category.fields.language') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.category.fields.name') }}
                     </th>
                     <th>
-                        {{ trans('cruds.category.fields.slug') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.category.fields.cover_photo') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.category.fields.product_image') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.category.fields.applications') }}
                     </th>
                     <th>
                         &nbsp;
@@ -103,16 +91,12 @@
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'online', name: 'online' },
-{ data: 'language', name: 'language' },
 { data: 'name', name: 'name' },
-{ data: 'slug', name: 'slug' },
 { data: 'cover_photo', name: 'cover_photo', sortable: false, searchable: false },
-{ data: 'product_image_name', name: 'product_image.name' },
-{ data: 'applications', name: 'applications.name' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 4, 'asc' ]],
+    order: [[ 3, 'asc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-Category').DataTable(dtOverrideGlobals);

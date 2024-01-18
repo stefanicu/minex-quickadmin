@@ -84,7 +84,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
     Route::post('categories/media', 'CategoriesController@storeMedia')->name('categories.storeMedia');
     Route::post('categories/ckmedia', 'CategoriesController@storeCKEditorImages')->name('categories.storeCKEditorImages');
-    Route::resource('categories', 'CategoriesController');
+    Route::resource('categories', 'CategoriesController', ['except' => ['show']]);
 
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
 });
