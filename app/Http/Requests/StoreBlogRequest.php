@@ -25,7 +25,6 @@ class StoreBlogRequest extends FormRequest
                 'min:0',
                 'max:255',
                 'required',
-                'unique:blogs',
             ],
             'slug' => [
                 'string',

@@ -12,7 +12,7 @@ class CreateBlogsTable extends Migration
             $table->bigIncrements('id');
             $table->boolean('online')->default(0)->nullable();
             $table->string('language');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('slug')->unique();
             $table->longText('content');
             $table->integer('oldid')->nullable();

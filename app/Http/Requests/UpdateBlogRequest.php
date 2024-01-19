@@ -25,7 +25,6 @@ class UpdateBlogRequest extends FormRequest
                 'min:0',
                 'max:255',
                 'required',
-                'unique:blogs,name,' . request()->route('blog')->id,
             ],
             'slug' => [
                 'string',
