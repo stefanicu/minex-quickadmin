@@ -79,3 +79,7 @@ SELECT * FROM (
     FROM minex_live.noutati WHERE del='0' and nume2!=''
 ) AS blogs;
 
+#brands import
+
+
+
