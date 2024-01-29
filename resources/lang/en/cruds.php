@@ -147,6 +147,10 @@ return [
             'deleted_at_helper' => ' ',
             'photo'             => 'Photo',
             'photo_helper'      => ' ',
+            'oldid'             => 'Oldid',
+            'oldid_helper'      => ' ',
+            'oldimage'          => 'Oldimage',
+            'oldimage_helper'   => ' ',
         ],
     ],
     'industry' => [

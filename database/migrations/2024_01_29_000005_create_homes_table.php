@@ -18,7 +18,6 @@ class CreateHomesTable extends Migration
             $table->longText('quote')->nullable();
             $table->string('button')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 }
