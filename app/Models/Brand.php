@@ -42,6 +42,8 @@ class Brand extends Model implements HasMedia
         'language',
         'name',
         'slug',
+        'oldid',
+        'oldimage',
         'created_at',
         'updated_at',
         'deleted_at',
