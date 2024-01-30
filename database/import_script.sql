@@ -35,7 +35,6 @@ SELECT * FROM (
 
 # application_category import in apl_cat, process, delete apl_cat
 USE minex_live;
-DROP TABLE IF EXISTS minexq.apl_cat;
 CREATE TABLE minexq.apl_cat (
     `id_apl` bigint NULL,
     `id_cat` bigint NULL
