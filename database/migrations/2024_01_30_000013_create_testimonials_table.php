@@ -16,6 +16,8 @@ class CreateTestimonialsTable extends Migration
             $table->longText('content');
             $table->string('name');
             $table->string('job');
+            $table->integer('oldid')->nullable();
+            $table->string('oldimage')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

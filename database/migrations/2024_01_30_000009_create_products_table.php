@@ -18,6 +18,8 @@ class CreateProductsTable extends Migration
             $table->longText('specifications')->nullable();
             $table->longText('advantages')->nullable();
             $table->longText('usage')->nullable();
+            $table->integer('oldid')->nullable();
+            $table->string('oldimage')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

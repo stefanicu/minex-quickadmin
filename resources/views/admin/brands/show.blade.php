@@ -33,14 +33,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.brand.fields.language') }}
-                        </th>
-                        <td>
-                            {{ App\Models\Brand::LANGUAGE_SELECT[$brand->language] ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.brand.fields.name') }}
                         </th>
                         <td>

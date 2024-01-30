@@ -24,13 +24,6 @@ class UpdateProductRequest extends FormRequest
                 'required',
                 'integer',
             ],
-            'categories.*' => [
-                'integer',
-            ],
-            'categories' => [
-                'required',
-                'array',
-            ],
             'name' => [
                 'string',
                 'min:0',
@@ -45,7 +38,25 @@ class UpdateProductRequest extends FormRequest
                 'required',
                 'unique:products,slug,' . request()->route('product')->id,
             ],
+            'applicaitons.*' => [
+                'integer',
+            ],
+            'applicaitons' => [
+                'array',
+            ],
+            'categories.*' => [
+                'integer',
+            ],
+            'categories' => [
+                'array',
+            ],
             'photo' => [
+                'array',
+            ],
+            'references.*' => [
+                'integer',
+            ],
+            'references' => [
                 'array',
             ],
         ];

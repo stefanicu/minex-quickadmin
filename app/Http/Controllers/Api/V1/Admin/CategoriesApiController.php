@@ -55,13 +55,4 @@ class CategoriesApiController extends Controller
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
-
-    public function destroy(Category $category)
-    {
-        abort_if(Gate::denies('category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $category->delete();
-
-        return response(null, Response::HTTP_NO_CONTENT);
-    }
 }
