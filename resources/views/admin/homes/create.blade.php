@@ -31,14 +31,6 @@
                 <span class="help-block">{{ trans('cruds.home.fields.name_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="slug">{{ trans('cruds.home.fields.slug') }}</label>
-                <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', '') }}" required>
-                @if($errors->has('slug'))
-                    <span class="text-danger">{{ $errors->first('slug') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.home.fields.slug_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label for="first_text">{{ trans('cruds.home.fields.first_text') }}</label>
                 <textarea class="form-control {{ $errors->has('first_text') ? 'is-invalid' : '' }}" name="first_text" id="first_text">{{ old('first_text') }}</textarea>
                 @if($errors->has('first_text'))
@@ -78,6 +70,18 @@
                     <span class="text-danger">{{ $errors->first('image') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.home.fields.image_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="idd_id">{{ trans('cruds.home.fields.idd') }}</label>
+                <select class="form-control select2 {{ $errors->has('idd') ? 'is-invalid' : '' }}" name="idd_id" id="idd_id">
+                    @foreach($idds as $id => $entry)
+                        <option value="{{ $id }}" {{ old('idd_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('idd'))
+                    <span class="text-danger">{{ $errors->first('idd') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.home.fields.idd_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

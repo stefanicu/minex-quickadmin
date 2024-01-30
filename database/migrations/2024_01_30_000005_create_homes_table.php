@@ -12,7 +12,6 @@ class CreateHomesTable extends Migration
             $table->bigIncrements('id');
             $table->string('language');
             $table->string('name')->unique();
-            $table->string('slug')->unique();
             $table->longText('first_text')->nullable();
             $table->longText('seccond_text')->nullable();
             $table->longText('quote')->nullable();

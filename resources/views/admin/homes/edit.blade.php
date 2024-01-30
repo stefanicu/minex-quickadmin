@@ -32,14 +32,6 @@
                 <span class="help-block">{{ trans('cruds.home.fields.name_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="slug">{{ trans('cruds.home.fields.slug') }}</label>
-                <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', $home->slug) }}" required>
-                @if($errors->has('slug'))
-                    <span class="text-danger">{{ $errors->first('slug') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.home.fields.slug_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label for="first_text">{{ trans('cruds.home.fields.first_text') }}</label>
                 <textarea class="form-control {{ $errors->has('first_text') ? 'is-invalid' : '' }}" name="first_text" id="first_text">{{ old('first_text', $home->first_text) }}</textarea>
                 @if($errors->has('first_text'))

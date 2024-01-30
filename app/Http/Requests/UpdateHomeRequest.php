@@ -27,13 +27,6 @@ class UpdateHomeRequest extends FormRequest
                 'required',
                 'unique:homes,name,' . request()->route('home')->id,
             ],
-            'slug' => [
-                'string',
-                'min:0',
-                'max:255',
-                'required',
-                'unique:homes,slug,' . request()->route('home')->id,
-            ],
             'button' => [
                 'string',
                 'min:0',

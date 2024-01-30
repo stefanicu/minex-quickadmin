@@ -77,6 +77,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('categories/ckmedia', 'CategoriesController@storeCKEditorImages')->name('categories.storeCKEditorImages');
     Route::resource('categories', 'CategoriesController', ['except' => ['show', 'destroy']]);
 
+    // Home Index
+    Route::post('home-indices/media', 'HomeIndexController@storeMedia')->name('home-indices.storeMedia');
+    Route::post('home-indices/ckmedia', 'HomeIndexController@storeCKEditorImages')->name('home-indices.storeCKEditorImages');
+    Route::resource('home-indices', 'HomeIndexController', ['except' => ['create', 'store', 'show', 'destroy']]);
+
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {

@@ -10,79 +10,25 @@ use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
-use Yajra\DataTables\Facades\DataTables;
 
 class HomeController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index(Request $request)
+    public function index()
     {
         abort_if(Gate::denies('home_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        if ($request->ajax()) {
-            $query = Home::query()->select(sprintf('%s.*', (new Home)->table));
-            $table = Datatables::of($query);
+        $homes = Home::with(['idd', 'media'])->get();
 
-            $table->addColumn('placeholder', '&nbsp;');
-            $table->addColumn('actions', '&nbsp;');
-
-            $table->editColumn('actions', function ($row) {
-                $viewGate      = 'home_show';
-                $editGate      = 'home_edit';
-                $deleteGate    = 'home_delete';
-                $crudRoutePart = 'homes';
-
-                return view('partials.datatablesActions', compact(
-                    'viewGate',
-                    'editGate',
-                    'deleteGate',
-                    'crudRoutePart',
-                    'row'
-                ));
-            });
-
-            $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : '';
-            });
-            $table->editColumn('language', function ($row) {
-                return $row->language ? Home::LANGUAGE_SELECT[$row->language] : '';
-            });
-            $table->editColumn('name', function ($row) {
-                return $row->name ? $row->name : '';
-            });
-            $table->editColumn('slug', function ($row) {
-                return $row->slug ? $row->slug : '';
-            });
-            $table->editColumn('first_text', function ($row) {
-                return $row->first_text ? $row->first_text : '';
-            });
-            $table->editColumn('button', function ($row) {
-                return $row->button ? $row->button : '';
-            });
-            $table->editColumn('image', function ($row) {
-                if ($photo = $row->image) {
-                    return sprintf(
-                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
-                        $photo->url,
-                        $photo->thumbnail
-                    );
-                }
-
-                return '';
-            });
-
-            $table->rawColumns(['actions', 'placeholder', 'image']);
-
-            return $table->make(true);
-        }
-
-        return view('admin.homes.index');
+        return view('admin.homes.index', compact('homes'));
     }
 
     public function edit(Home $home)
     {
         abort_if(Gate::denies('home_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $home->load('idd');
 
         return view('admin.homes.edit', compact('home'));
     }

@@ -35,4 +35,8 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Categories
     Route::post('categories/media', 'CategoriesApiController@storeMedia')->name('categories.storeMedia');
     Route::apiResource('categories', 'CategoriesApiController', ['except' => ['show', 'destroy']]);
+
+    // Home Index
+    Route::post('home-indices/media', 'HomeIndexApiController@storeMedia')->name('home-indices.storeMedia');
+    Route::apiResource('home-indices', 'HomeIndexApiController', ['except' => ['store', 'show', 'destroy']]);
 });
