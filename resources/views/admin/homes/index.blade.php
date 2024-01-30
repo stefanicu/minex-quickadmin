@@ -7,39 +7,86 @@
     </div>
 
     <div class="card-body">
-        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Home">
-            <thead>
-                <tr>
-                    <th width="10">
+        <div class="table-responsive">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-Home">
+                <thead>
+                    <tr>
+                        <th width="10">
 
-                    </th>
-                    <th>
-                        {{ trans('cruds.home.fields.id') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.home.fields.language') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.home.fields.name') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.home.fields.slug') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.home.fields.first_text') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.home.fields.button') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.home.fields.image') }}
-                    </th>
-                    <th>
-                        &nbsp;
-                    </th>
-                </tr>
-            </thead>
-        </table>
+                        </th>
+                        <th>
+                            {{ trans('cruds.home.fields.id') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.home.fields.language') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.home.fields.name') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.home.fields.first_text') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.home.fields.button') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.home.fields.image') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.home.fields.idd') }}
+                        </th>
+                        <th>
+                            &nbsp;
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($homes as $key => $home)
+                        <tr data-entry-id="{{ $home->id }}">
+                            <td>
+
+                            </td>
+                            <td>
+                                {{ $home->id ?? '' }}
+                            </td>
+                            <td>
+                                {{ App\Models\Home::LANGUAGE_SELECT[$home->language] ?? '' }}
+                            </td>
+                            <td>
+                                {{ $home->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $home->first_text ?? '' }}
+                            </td>
+                            <td>
+                                {{ $home->button ?? '' }}
+                            </td>
+                            <td>
+                                @if($home->image)
+                                    <a href="{{ $home->image->getUrl() }}" target="_blank" style="display: inline-block">
+                                        <img src="{{ $home->image->getUrl('thumb') }}">
+                                    </a>
+                                @endif
+                            </td>
+                            <td>
+                                {{ $home->idd->oldid ?? '' }}
+                            </td>
+                            <td>
+
+                                @can('home_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.homes.edit', $home->id) }}">
+                                        {{ trans('global.edit') }}
+                                    </a>
+                                @endcan
+
+
+                            </td>
+
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -52,35 +99,18 @@
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
   
-  let dtOverrideGlobals = {
-    buttons: dtButtons,
-    processing: true,
-    serverSide: true,
-    retrieve: true,
-    aaSorting: [],
-    ajax: "{{ route('admin.homes.index') }}",
-    columns: [
-      { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'language', name: 'language' },
-{ data: 'name', name: 'name' },
-{ data: 'slug', name: 'slug' },
-{ data: 'first_text', name: 'first_text' },
-{ data: 'button', name: 'button' },
-{ data: 'image', name: 'image', sortable: false, searchable: false },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
-    ],
+  $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
     order: [[ 1, 'desc' ]],
     pageLength: 25,
-  };
-  let table = $('.datatable-Home').DataTable(dtOverrideGlobals);
+  });
+  let table = $('.datatable-Home:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
-});
+})
 
 </script>
 @endsection

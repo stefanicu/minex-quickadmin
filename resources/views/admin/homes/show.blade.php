@@ -41,14 +41,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.home.fields.slug') }}
-                        </th>
-                        <td>
-                            {{ $home->slug }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.home.fields.first_text') }}
                         </th>
                         <td>

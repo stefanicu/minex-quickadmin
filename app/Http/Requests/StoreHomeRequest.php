@@ -27,13 +27,6 @@ class StoreHomeRequest extends FormRequest
                 'required',
                 'unique:homes',
             ],
-            'slug' => [
-                'string',
-                'min:0',
-                'max:255',
-                'required',
-                'unique:homes',
-            ],
             'button' => [
                 'string',
                 'min:0',

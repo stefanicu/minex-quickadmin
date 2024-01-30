@@ -208,6 +208,18 @@
                         </ul>
                     </li>
                 @endcan
+                @can('home_index_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.home-indices.index") }}" class="nav-link {{ request()->is("admin/home-indices") || request()->is("admin/home-indices/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-home">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.homeIndex.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
                     @can('profile_password_edit')
                         <li class="nav-item">
