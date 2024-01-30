@@ -1,3 +1,7 @@
+
+# run this command to bring all quick admin changes and custom user, this will clean the database and you will need to run entire import
+# php artisan migrate:fresh --seed
+
 # applications import
 DELETE FROM minexq.applications;
 ALTER TABLE minexq.applications AUTO_INCREMENT = 1;
@@ -80,6 +84,13 @@ SELECT * FROM (
 ) AS blogs;
 
 #brands import
+DELETE FROM minexq.brands;
+ALTER TABLE minexq.brands AUTO_INCREMENT = 1;
 
+INSERT INTO minexq.brands(online, name, slug, oldid, oldimage)
+SELECT * FROM (
+    SELECT IF(online > 0, 1, 0) AS online, nume AS name, slug, id AS oldid, img AS oldimage
+    FROM minex_live.branduri WHERE del='0' and nume!=''
+) AS applications;
 
 
