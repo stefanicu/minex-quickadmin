@@ -28,28 +28,22 @@
                                 {{ trans('cruds.product.fields.online') }}
                             </th>
                             <th>
-                                {{ trans('cruds.product.fields.language') }}
-                            </th>
-                            <th>
                                 {{ trans('cruds.product.fields.brand') }}
                             </th>
                             <th>
                                 {{ trans('cruds.brand.fields.slug') }}
                             </th>
                             <th>
-                                {{ trans('cruds.product.fields.categories') }}
-                            </th>
-                            <th>
                                 {{ trans('cruds.product.fields.name') }}
                             </th>
                             <th>
-                                {{ trans('cruds.product.fields.slug') }}
+                                {{ trans('cruds.product.fields.applicaitons') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.product.fields.categories') }}
                             </th>
                             <th>
                                 {{ trans('cruds.product.fields.photo') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.product.fields.reference') }}
                             </th>
                             <th>
                                 &nbsp;
@@ -70,24 +64,23 @@
                                     <input type="checkbox" disabled="disabled" {{ $product->online ? 'checked' : '' }}>
                                 </td>
                                 <td>
-                                    {{ App\Models\Product::LANGUAGE_SELECT[$product->language] ?? '' }}
-                                </td>
-                                <td>
                                     {{ $product->brand->name ?? '' }}
                                 </td>
                                 <td>
                                     {{ $product->brand->slug ?? '' }}
                                 </td>
                                 <td>
-                                    @foreach($product->categories as $key => $item)
+                                    {{ $product->name ?? '' }}
+                                </td>
+                                <td>
+                                    @foreach($product->applicaitons as $key => $item)
                                         <span class="badge badge-info">{{ $item->name }}</span>
                                     @endforeach
                                 </td>
                                 <td>
-                                    {{ $product->name ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $product->slug ?? '' }}
+                                    @foreach($product->categories as $key => $item)
+                                        <span class="badge badge-info">{{ $item->name }}</span>
+                                    @endforeach
                                 </td>
                                 <td>
                                     @foreach($product->photo as $key => $media)
@@ -97,14 +90,6 @@
                                     @endforeach
                                 </td>
                                 <td>
-                                    {{ $product->reference->name ?? '' }}
-                                </td>
-                                <td>
-                                    @can('product_show')
-                                        <a class="btn btn-xs btn-primary" href="{{ route('admin.products.show', $product->id) }}">
-                                            {{ trans('global.view') }}
-                                        </a>
-                                    @endcan
 
                                     @can('product_edit')
                                         <a class="btn btn-xs btn-info" href="{{ route('admin.products.edit', $product->id) }}">
@@ -112,13 +97,6 @@
                                         </a>
                                     @endcan
 
-                                    @can('product_delete')
-                                        <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                        </form>
-                                    @endcan
 
                                 </td>
 
@@ -135,36 +113,7 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('product_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.products.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
-
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
-        return
-      }
-
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
-
+  
   $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
     order: [[ 1, 'desc' ]],

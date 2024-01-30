@@ -1,49 +1,52 @@
 <div class="m-3">
-    @can('product_create')
+    @can('reference_create')
         <div style="margin-bottom: 10px;" class="row">
             <div class="col-lg-12">
-                <a class="btn btn-success" href="{{ route('admin.products.create') }}">
-                    {{ trans('global.add') }} {{ trans('cruds.product.title_singular') }}
+                <a class="btn btn-success" href="{{ route('admin.references.create') }}">
+                    {{ trans('global.add') }} {{ trans('cruds.reference.title_singular') }}
                 </a>
             </div>
         </div>
     @endcan
     <div class="card">
         <div class="card-header">
-            {{ trans('cruds.product.title_singular') }} {{ trans('global.list') }}
+            {{ trans('cruds.reference.title_singular') }} {{ trans('global.list') }}
         </div>
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class=" table table-bordered table-striped table-hover datatable datatable-brandProducts">
+                <table class=" table table-bordered table-striped table-hover datatable datatable-industriesReferences">
                     <thead>
                         <tr>
                             <th width="10">
 
                             </th>
                             <th>
-                                {{ trans('cruds.product.fields.id') }}
+                                {{ trans('cruds.reference.fields.id') }}
                             </th>
                             <th>
-                                {{ trans('cruds.product.fields.online') }}
+                                {{ trans('cruds.reference.fields.industries') }}
                             </th>
                             <th>
-                                {{ trans('cruds.product.fields.brand') }}
+                                {{ trans('cruds.industry.fields.name') }}
                             </th>
                             <th>
-                                {{ trans('cruds.brand.fields.slug') }}
+                                {{ trans('cruds.reference.fields.online') }}
                             </th>
                             <th>
-                                {{ trans('cruds.product.fields.name') }}
+                                {{ trans('cruds.reference.fields.language') }}
                             </th>
                             <th>
-                                {{ trans('cruds.product.fields.applicaitons') }}
+                                {{ trans('cruds.reference.fields.name') }}
                             </th>
                             <th>
-                                {{ trans('cruds.product.fields.categories') }}
+                                {{ trans('cruds.reference.fields.slug') }}
                             </th>
                             <th>
-                                {{ trans('cruds.product.fields.photo') }}
+                                {{ trans('cruds.reference.fields.photo_square') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.reference.fields.photo_wide') }}
                             </th>
                             <th>
                                 &nbsp;
@@ -51,48 +54,51 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($products as $key => $product)
-                            <tr data-entry-id="{{ $product->id }}">
+                        @foreach($references as $key => $reference)
+                            <tr data-entry-id="{{ $reference->id }}">
                                 <td>
 
                                 </td>
                                 <td>
-                                    {{ $product->id ?? '' }}
+                                    {{ $reference->id ?? '' }}
                                 </td>
                                 <td>
-                                    <span style="display:none">{{ $product->online ?? '' }}</span>
-                                    <input type="checkbox" disabled="disabled" {{ $product->online ? 'checked' : '' }}>
+                                    {{ $reference->industries->online ?? '' }}
                                 </td>
                                 <td>
-                                    {{ $product->brand->name ?? '' }}
+                                    {{ $reference->industries->name ?? '' }}
                                 </td>
                                 <td>
-                                    {{ $product->brand->slug ?? '' }}
+                                    <span style="display:none">{{ $reference->online ?? '' }}</span>
+                                    <input type="checkbox" disabled="disabled" {{ $reference->online ? 'checked' : '' }}>
                                 </td>
                                 <td>
-                                    {{ $product->name ?? '' }}
+                                    {{ App\Models\Reference::LANGUAGE_SELECT[$reference->language] ?? '' }}
                                 </td>
                                 <td>
-                                    @foreach($product->applicaitons as $key => $item)
-                                        <span class="badge badge-info">{{ $item->name }}</span>
-                                    @endforeach
+                                    {{ $reference->name ?? '' }}
                                 </td>
                                 <td>
-                                    @foreach($product->categories as $key => $item)
-                                        <span class="badge badge-info">{{ $item->name }}</span>
-                                    @endforeach
+                                    {{ $reference->slug ?? '' }}
                                 </td>
                                 <td>
-                                    @foreach($product->photo as $key => $media)
+                                    @foreach($reference->photo_square as $key => $media)
                                         <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
                                             <img src="{{ $media->getUrl('thumb') }}">
                                         </a>
                                     @endforeach
                                 </td>
                                 <td>
+                                    @if($reference->photo_wide)
+                                        <a href="{{ $reference->photo_wide->getUrl() }}" target="_blank" style="display: inline-block">
+                                            <img src="{{ $reference->photo_wide->getUrl('thumb') }}">
+                                        </a>
+                                    @endif
+                                </td>
+                                <td>
 
-                                    @can('product_edit')
-                                        <a class="btn btn-xs btn-info" href="{{ route('admin.products.edit', $product->id) }}">
+                                    @can('reference_edit')
+                                        <a class="btn btn-xs btn-info" href="{{ route('admin.references.edit', $reference->id) }}">
                                             {{ trans('global.edit') }}
                                         </a>
                                     @endcan
@@ -119,7 +125,7 @@
     order: [[ 1, 'desc' ]],
     pageLength: 25,
   });
-  let table = $('.datatable-brandProducts:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  let table = $('.datatable-industriesReferences:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();

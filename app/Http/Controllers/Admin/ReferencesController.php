@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Requests\MassDestroyReferenceRequest;
 use App\Http\Requests\StoreReferenceRequest;
 use App\Http\Requests\UpdateReferenceRequest;
+use App\Models\Industry;
 use App\Models\Reference;
 use Gate;
 use Illuminate\Http\Request;
@@ -23,7 +23,7 @@ class ReferencesController extends Controller
         abort_if(Gate::denies('reference_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Reference::query()->select(sprintf('%s.*', (new Reference)->table));
+            $query = Reference::with(['industries'])->select(sprintf('%s.*', (new Reference)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -46,6 +46,13 @@ class ReferencesController extends Controller
 
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
+            });
+            $table->addColumn('industries_online', function ($row) {
+                return $row->industries ? $row->industries->online : '';
+            });
+
+            $table->editColumn('industries.name', function ($row) {
+                return $row->industries ? (is_string($row->industries) ? $row->industries : $row->industries->name) : '';
             });
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
@@ -82,7 +89,7 @@ class ReferencesController extends Controller
                 return '';
             });
 
-            $table->rawColumns(['actions', 'placeholder', 'online', 'photo_square', 'photo_wide']);
+            $table->rawColumns(['actions', 'placeholder', 'industries', 'online', 'photo_square', 'photo_wide']);
 
             return $table->make(true);
         }
@@ -94,7 +101,9 @@ class ReferencesController extends Controller
     {
         abort_if(Gate::denies('reference_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.references.create');
+        $industries = Industry::pluck('online', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.references.create', compact('industries'));
     }
 
     public function store(StoreReferenceRequest $request)
@@ -120,7 +129,11 @@ class ReferencesController extends Controller
     {
         abort_if(Gate::denies('reference_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.references.edit', compact('reference'));
+        $industries = Industry::pluck('online', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $reference->load('industries');
+
+        return view('admin.references.edit', compact('industries', 'reference'));
     }
 
     public function update(UpdateReferenceRequest $request, Reference $reference)
@@ -153,33 +166,6 @@ class ReferencesController extends Controller
         }
 
         return redirect()->route('admin.references.index');
-    }
-
-    public function show(Reference $reference)
-    {
-        abort_if(Gate::denies('reference_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.references.show', compact('reference'));
-    }
-
-    public function destroy(Reference $reference)
-    {
-        abort_if(Gate::denies('reference_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $reference->delete();
-
-        return back();
-    }
-
-    public function massDestroy(MassDestroyReferenceRequest $request)
-    {
-        $references = Reference::find(request('ids'));
-
-        foreach ($references as $reference) {
-            $reference->delete();
-        }
-
-        return response(null, Response::HTTP_NO_CONTENT);
     }
 
     public function storeCKEditorImages(Request $request)

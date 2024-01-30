@@ -43,6 +43,8 @@ class Industry extends Model implements HasMedia
         'language',
         'name',
         'slug',
+        'oldid',
+        'oldimage',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -57,6 +59,11 @@ class Industry extends Model implements HasMedia
     {
         $this->addMediaConversion('thumb')->fit('crop', 50, 50);
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
+    }
+
+    public function industriesReferences()
+    {
+        return $this->hasMany(Reference::class, 'industries_id', 'id');
     }
 
     public function getPhotoAttribute()

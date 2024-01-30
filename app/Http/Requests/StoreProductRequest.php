@@ -24,13 +24,6 @@ class StoreProductRequest extends FormRequest
                 'required',
                 'integer',
             ],
-            'categories.*' => [
-                'integer',
-            ],
-            'categories' => [
-                'required',
-                'array',
-            ],
             'name' => [
                 'string',
                 'min:0',
@@ -45,7 +38,25 @@ class StoreProductRequest extends FormRequest
                 'required',
                 'unique:products',
             ],
+            'applicaitons.*' => [
+                'integer',
+            ],
+            'applicaitons' => [
+                'array',
+            ],
+            'categories.*' => [
+                'integer',
+            ],
+            'categories' => [
+                'array',
+            ],
             'photo' => [
+                'array',
+            ],
+            'references.*' => [
+                'integer',
+            ],
+            'references' => [
                 'array',
             ],
         ];
