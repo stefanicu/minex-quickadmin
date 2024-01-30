@@ -47,6 +47,8 @@ class Testimonial extends Model implements HasMedia
         'content',
         'name',
         'job',
+        'oldid',
+        'oldimage',
         'created_at',
         'updated_at',
         'deleted_at',

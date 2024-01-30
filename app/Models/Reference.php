@@ -39,13 +39,18 @@ class Reference extends Model implements HasMedia
     ];
 
     protected $fillable = [
+        'industries_id',
         'online',
         'language',
         'name',
         'slug',
         'content',
-        'home_consultancy',
-        'home_references',
+        'oldid',
+        'oldimage_1',
+        'oldimage_2',
+        'oldimage_3',
+        'oldimage_4',
+        'oldimage_5',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -60,6 +65,16 @@ class Reference extends Model implements HasMedia
     {
         $this->addMediaConversion('thumb')->fit('crop', 50, 50);
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
+    }
+
+    public function referencesProducts()
+    {
+        return $this->belongsToMany(Product::class);
+    }
+
+    public function industries()
+    {
+        return $this->belongsTo(Industry::class, 'industries_id');
     }
 
     public function getPhotoSquareAttribute()

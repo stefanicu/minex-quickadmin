@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Requests\MassDestroyProductRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Application;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
@@ -26,7 +26,7 @@ class ProductsController extends Controller
         abort_if(Gate::denies('product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Product::with(['brand', 'categories', 'reference'])->select(sprintf('%s.*', (new Product)->table));
+            $query = Product::with(['brand', 'applicaitons', 'categories', 'references'])->select(sprintf('%s.*', (new Product)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -53,15 +53,23 @@ class ProductsController extends Controller
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
             });
-            $table->editColumn('language', function ($row) {
-                return $row->language ? Product::LANGUAGE_SELECT[$row->language] : '';
-            });
             $table->addColumn('brand_name', function ($row) {
                 return $row->brand ? $row->brand->name : '';
             });
 
             $table->editColumn('brand.slug', function ($row) {
                 return $row->brand ? (is_string($row->brand) ? $row->brand : $row->brand->slug) : '';
+            });
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : '';
+            });
+            $table->editColumn('applicaitons', function ($row) {
+                $labels = [];
+                foreach ($row->applicaitons as $applicaiton) {
+                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $applicaiton->name);
+                }
+
+                return implode(' ', $labels);
             });
             $table->editColumn('categories', function ($row) {
                 $labels = [];
@@ -70,12 +78,6 @@ class ProductsController extends Controller
                 }
 
                 return implode(' ', $labels);
-            });
-            $table->editColumn('name', function ($row) {
-                return $row->name ? $row->name : '';
-            });
-            $table->editColumn('slug', function ($row) {
-                return $row->slug ? $row->slug : '';
             });
             $table->editColumn('photo', function ($row) {
                 if (! $row->photo) {
@@ -88,11 +90,8 @@ class ProductsController extends Controller
 
                 return implode(' ', $links);
             });
-            $table->addColumn('reference_name', function ($row) {
-                return $row->reference ? $row->reference->name : '';
-            });
 
-            $table->rawColumns(['actions', 'placeholder', 'online', 'brand', 'categories', 'photo', 'reference']);
+            $table->rawColumns(['actions', 'placeholder', 'online', 'brand', 'applicaitons', 'categories', 'photo']);
 
             return $table->make(true);
         }
@@ -106,17 +105,21 @@ class ProductsController extends Controller
 
         $brands = Brand::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
+        $applicaitons = Application::pluck('name', 'id');
+
         $categories = Category::pluck('name', 'id');
 
-        $references = Reference::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $references = Reference::pluck('online', 'id');
 
-        return view('admin.products.create', compact('brands', 'categories', 'references'));
+        return view('admin.products.create', compact('applicaitons', 'brands', 'categories', 'references'));
     }
 
     public function store(StoreProductRequest $request)
     {
         $product = Product::create($request->all());
+        $product->applicaitons()->sync($request->input('applicaitons', []));
         $product->categories()->sync($request->input('categories', []));
+        $product->references()->sync($request->input('references', []));
         foreach ($request->input('photo', []) as $file) {
             $product->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('photo');
         }
@@ -134,19 +137,23 @@ class ProductsController extends Controller
 
         $brands = Brand::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
+        $applicaitons = Application::pluck('name', 'id');
+
         $categories = Category::pluck('name', 'id');
 
-        $references = Reference::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $references = Reference::pluck('online', 'id');
 
-        $product->load('brand', 'categories', 'reference');
+        $product->load('brand', 'applicaitons', 'categories', 'references');
 
-        return view('admin.products.edit', compact('brands', 'categories', 'product', 'references'));
+        return view('admin.products.edit', compact('applicaitons', 'brands', 'categories', 'product', 'references'));
     }
 
     public function update(UpdateProductRequest $request, Product $product)
     {
         $product->update($request->all());
+        $product->applicaitons()->sync($request->input('applicaitons', []));
         $product->categories()->sync($request->input('categories', []));
+        $product->references()->sync($request->input('references', []));
         if (count($product->photo) > 0) {
             foreach ($product->photo as $media) {
                 if (! in_array($media->file_name, $request->input('photo', []))) {
@@ -162,35 +169,6 @@ class ProductsController extends Controller
         }
 
         return redirect()->route('admin.products.index');
-    }
-
-    public function show(Product $product)
-    {
-        abort_if(Gate::denies('product_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $product->load('brand', 'categories', 'reference');
-
-        return view('admin.products.show', compact('product'));
-    }
-
-    public function destroy(Product $product)
-    {
-        abort_if(Gate::denies('product_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $product->delete();
-
-        return back();
-    }
-
-    public function massDestroy(MassDestroyProductRequest $request)
-    {
-        $products = Product::find(request('ids'));
-
-        foreach ($products as $product) {
-            $product->delete();
-        }
-
-        return response(null, Response::HTTP_NO_CONTENT);
     }
 
     public function storeCKEditorImages(Request $request)

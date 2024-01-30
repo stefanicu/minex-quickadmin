@@ -49,6 +49,8 @@ class Home extends Model implements HasMedia
         'seccond_text',
         'quote',
         'button',
+        'oldid',
+        'oldimage',
         'created_at',
         'updated_at',
         'deleted_at',

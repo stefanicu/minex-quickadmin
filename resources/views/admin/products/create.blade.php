@@ -46,22 +46,6 @@
                 <span class="help-block">{{ trans('cruds.product.fields.brand_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="categories">{{ trans('cruds.product.fields.categories') }}</label>
-                <div style="padding-bottom: 4px">
-                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
-                </div>
-                <select class="form-control select2 {{ $errors->has('categories') ? 'is-invalid' : '' }}" name="categories[]" id="categories" multiple required>
-                    @foreach($categories as $id => $category)
-                        <option value="{{ $id }}" {{ in_array($id, old('categories', [])) ? 'selected' : '' }}>{{ $category }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('categories'))
-                    <span class="text-danger">{{ $errors->first('categories') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.product.fields.categories_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.product.fields.name') }}</label>
                 <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
                 @if($errors->has('name'))
@@ -76,6 +60,38 @@
                     <span class="text-danger">{{ $errors->first('slug') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.product.fields.slug_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="applicaitons">{{ trans('cruds.product.fields.applicaitons') }}</label>
+                <div style="padding-bottom: 4px">
+                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                </div>
+                <select class="form-control select2 {{ $errors->has('applicaitons') ? 'is-invalid' : '' }}" name="applicaitons[]" id="applicaitons" multiple>
+                    @foreach($applicaitons as $id => $applicaiton)
+                        <option value="{{ $id }}" {{ in_array($id, old('applicaitons', [])) ? 'selected' : '' }}>{{ $applicaiton }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('applicaitons'))
+                    <span class="text-danger">{{ $errors->first('applicaitons') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.product.fields.applicaitons_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="categories">{{ trans('cruds.product.fields.categories') }}</label>
+                <div style="padding-bottom: 4px">
+                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                </div>
+                <select class="form-control select2 {{ $errors->has('categories') ? 'is-invalid' : '' }}" name="categories[]" id="categories" multiple>
+                    @foreach($categories as $id => $category)
+                        <option value="{{ $id }}" {{ in_array($id, old('categories', [])) ? 'selected' : '' }}>{{ $category }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('categories'))
+                    <span class="text-danger">{{ $errors->first('categories') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.product.fields.categories_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="description">{{ trans('cruds.product.fields.description') }}</label>
@@ -119,16 +135,20 @@
                 <span class="help-block">{{ trans('cruds.product.fields.usage_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="reference_id">{{ trans('cruds.product.fields.reference') }}</label>
-                <select class="form-control select2 {{ $errors->has('reference') ? 'is-invalid' : '' }}" name="reference_id" id="reference_id">
-                    @foreach($references as $id => $entry)
-                        <option value="{{ $id }}" {{ old('reference_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                <label for="references">{{ trans('cruds.product.fields.references') }}</label>
+                <div style="padding-bottom: 4px">
+                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                </div>
+                <select class="form-control select2 {{ $errors->has('references') ? 'is-invalid' : '' }}" name="references[]" id="references" multiple>
+                    @foreach($references as $id => $reference)
+                        <option value="{{ $id }}" {{ in_array($id, old('references', [])) ? 'selected' : '' }}>{{ $reference }}</option>
                     @endforeach
                 </select>
-                @if($errors->has('reference'))
-                    <span class="text-danger">{{ $errors->first('reference') }}</span>
+                @if($errors->has('references'))
+                    <span class="text-danger">{{ $errors->first('references') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.product.fields.reference_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.product.fields.references_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

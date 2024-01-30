@@ -2,88 +2,118 @@
 
 namespace App\Http\Controllers\Admin;
 
-use LaravelDaily\LaravelCharts\Classes\LaravelChart;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\MediaUploadingTrait;
+use App\Http\Requests\UpdateHomeRequest;
+use App\Models\Home;
+use Gate;
+use Illuminate\Http\Request;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
-class HomeController
+class HomeController extends Controller
 {
-    public function index()
+    use MediaUploadingTrait;
+
+    public function index(Request $request)
     {
-        $settings1 = [
-            'chart_title'           => 'Applications',
-            'chart_type'            => 'number_block',
-            'report_type'           => 'group_by_date',
-            'model'                 => 'App\Models\Application',
-            'group_by_field'        => 'created_at',
-            'group_by_period'       => 'day',
-            'aggregate_function'    => 'count',
-            'filter_field'          => 'created_at',
-            'group_by_field_format' => 'd.m.Y H:i:s',
-            'column_class'          => 'col-md-3',
-            'entries_number'        => '5',
-            'translation_key'       => 'application',
-        ];
+        abort_if(Gate::denies('home_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $settings1['total_number'] = 0;
-        if (class_exists($settings1['model'])) {
-            $settings1['total_number'] = $settings1['model']::when(isset($settings1['filter_field']), function ($query) use ($settings1) {
-                if (isset($settings1['filter_days'])) {
-                    return $query->where($settings1['filter_field'], '>=',
-                        now()->subDays($settings1['filter_days'])->format('Y-m-d'));
-                } elseif (isset($settings1['filter_period'])) {
-                    switch ($settings1['filter_period']) {
-                        case 'week': $start = date('Y-m-d', strtotime('last Monday'));
-                        break;
-                        case 'month': $start = date('Y-m') . '-01';
-                        break;
-                        case 'year': $start = date('Y') . '-01-01';
-                        break;
-                    }
-                    if (isset($start)) {
-                        return $query->where($settings1['filter_field'], '>=', $start);
-                    }
+        if ($request->ajax()) {
+            $query = Home::query()->select(sprintf('%s.*', (new Home)->table));
+            $table = Datatables::of($query);
+
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate      = 'home_show';
+                $editGate      = 'home_edit';
+                $deleteGate    = 'home_delete';
+                $crudRoutePart = 'homes';
+
+                return view('partials.datatablesActions', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('language', function ($row) {
+                return $row->language ? Home::LANGUAGE_SELECT[$row->language] : '';
+            });
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : '';
+            });
+            $table->editColumn('slug', function ($row) {
+                return $row->slug ? $row->slug : '';
+            });
+            $table->editColumn('first_text', function ($row) {
+                return $row->first_text ? $row->first_text : '';
+            });
+            $table->editColumn('button', function ($row) {
+                return $row->button ? $row->button : '';
+            });
+            $table->editColumn('image', function ($row) {
+                if ($photo = $row->image) {
+                    return sprintf(
+                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+                        $photo->url,
+                        $photo->thumbnail
+                    );
                 }
-            })
-                ->{$settings1['aggregate_function'] ?? 'count'}($settings1['aggregate_field'] ?? '*');
+
+                return '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'image']);
+
+            return $table->make(true);
         }
 
-        $settings2 = [
-            'chart_title'           => 'Categories',
-            'chart_type'            => 'number_block',
-            'report_type'           => 'group_by_date',
-            'model'                 => 'App\Models\Category',
-            'group_by_field'        => 'created_at',
-            'group_by_period'       => 'day',
-            'aggregate_function'    => 'count',
-            'filter_field'          => 'created_at',
-            'group_by_field_format' => 'd.m.Y H:i:s',
-            'column_class'          => 'col-md-3',
-            'entries_number'        => '5',
-            'translation_key'       => 'category',
-        ];
+        return view('admin.homes.index');
+    }
 
-        $settings2['total_number'] = 0;
-        if (class_exists($settings2['model'])) {
-            $settings2['total_number'] = $settings2['model']::when(isset($settings2['filter_field']), function ($query) use ($settings2) {
-                if (isset($settings2['filter_days'])) {
-                    return $query->where($settings2['filter_field'], '>=',
-                        now()->subDays($settings2['filter_days'])->format('Y-m-d'));
-                } elseif (isset($settings2['filter_period'])) {
-                    switch ($settings2['filter_period']) {
-                        case 'week': $start = date('Y-m-d', strtotime('last Monday'));
-                        break;
-                        case 'month': $start = date('Y-m') . '-01';
-                        break;
-                        case 'year': $start = date('Y') . '-01-01';
-                        break;
-                    }
-                    if (isset($start)) {
-                        return $query->where($settings2['filter_field'], '>=', $start);
-                    }
+    public function edit(Home $home)
+    {
+        abort_if(Gate::denies('home_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return view('admin.homes.edit', compact('home'));
+    }
+
+    public function update(UpdateHomeRequest $request, Home $home)
+    {
+        $home->update($request->all());
+
+        if ($request->input('image', false)) {
+            if (! $home->image || $request->input('image') !== $home->image->file_name) {
+                if ($home->image) {
+                    $home->image->delete();
                 }
-            })
-                ->{$settings2['aggregate_function'] ?? 'count'}($settings2['aggregate_field'] ?? '*');
+                $home->addMedia(storage_path('tmp/uploads/' . basename($request->input('image'))))->toMediaCollection('image');
+            }
+        } elseif ($home->image) {
+            $home->image->delete();
         }
 
-        return view('home', compact('settings1', 'settings2'));
+        return redirect()->route('admin.homes.index');
+    }
+
+    public function storeCKEditorImages(Request $request)
+    {
+        abort_if(Gate::denies('home_create') && Gate::denies('home_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $model         = new Home();
+        $model->id     = $request->input('crud_id', 0);
+        $model->exists = true;
+        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+
+        return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
 }

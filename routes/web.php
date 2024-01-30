@@ -28,7 +28,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Home
     Route::post('homes/media', 'HomeController@storeMedia')->name('homes.storeMedia');
     Route::post('homes/ckmedia', 'HomeController@storeCKEditorImages')->name('homes.storeCKEditorImages');
-    Route::resource('homes', 'HomeController', ['except' => ['create', 'store', 'destroy']]);
+    Route::resource('homes', 'HomeController', ['except' => ['create', 'store', 'show', 'destroy']]);
 
     // Applications
     Route::post('applications/media', 'ApplicationsController@storeMedia')->name('applications.storeMedia');
@@ -36,54 +36,46 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('applications', 'ApplicationsController', ['except' => ['show', 'destroy']]);
 
     // Brands
-    Route::delete('brands/destroy', 'BrandsController@massDestroy')->name('brands.massDestroy');
     Route::post('brands/media', 'BrandsController@storeMedia')->name('brands.storeMedia');
     Route::post('brands/ckmedia', 'BrandsController@storeCKEditorImages')->name('brands.storeCKEditorImages');
-    Route::resource('brands', 'BrandsController');
+    Route::resource('brands', 'BrandsController', ['except' => ['show', 'destroy']]);
 
     // Industries
-    Route::delete('industries/destroy', 'IndustriesController@massDestroy')->name('industries.massDestroy');
     Route::post('industries/media', 'IndustriesController@storeMedia')->name('industries.storeMedia');
     Route::post('industries/ckmedia', 'IndustriesController@storeCKEditorImages')->name('industries.storeCKEditorImages');
-    Route::resource('industries', 'IndustriesController');
+    Route::resource('industries', 'IndustriesController', ['except' => ['show', 'destroy']]);
 
     // Products
-    Route::delete('products/destroy', 'ProductsController@massDestroy')->name('products.massDestroy');
     Route::post('products/media', 'ProductsController@storeMedia')->name('products.storeMedia');
     Route::post('products/ckmedia', 'ProductsController@storeCKEditorImages')->name('products.storeCKEditorImages');
-    Route::resource('products', 'ProductsController');
+    Route::resource('products', 'ProductsController', ['except' => ['show', 'destroy']]);
 
     // References
-    Route::delete('references/destroy', 'ReferencesController@massDestroy')->name('references.massDestroy');
     Route::post('references/media', 'ReferencesController@storeMedia')->name('references.storeMedia');
     Route::post('references/ckmedia', 'ReferencesController@storeCKEditorImages')->name('references.storeCKEditorImages');
-    Route::resource('references', 'ReferencesController');
+    Route::resource('references', 'ReferencesController', ['except' => ['show', 'destroy']]);
 
     // Blog
-    Route::delete('blogs/destroy', 'BlogController@massDestroy')->name('blogs.massDestroy');
     Route::post('blogs/media', 'BlogController@storeMedia')->name('blogs.storeMedia');
     Route::post('blogs/ckmedia', 'BlogController@storeCKEditorImages')->name('blogs.storeCKEditorImages');
-    Route::resource('blogs', 'BlogController', ['except' => ['show']]);
+    Route::resource('blogs', 'BlogController', ['except' => ['show', 'destroy']]);
 
     // Contacts
-    Route::delete('contacts/destroy', 'ContactsController@massDestroy')->name('contacts.massDestroy');
-    Route::resource('contacts', 'ContactsController', ['except' => ['create', 'store', 'edit', 'update']]);
+    Route::resource('contacts', 'ContactsController', ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
 
     // Testimonials
-    Route::delete('testimonials/destroy', 'TestimonialsController@massDestroy')->name('testimonials.massDestroy');
     Route::post('testimonials/media', 'TestimonialsController@storeMedia')->name('testimonials.storeMedia');
     Route::post('testimonials/ckmedia', 'TestimonialsController@storeCKEditorImages')->name('testimonials.storeCKEditorImages');
-    Route::resource('testimonials', 'TestimonialsController');
+    Route::resource('testimonials', 'TestimonialsController', ['except' => ['show', 'destroy']]);
 
     // Translation Center
     Route::delete('translation-centers/destroy', 'TranslationCenterController@massDestroy')->name('translation-centers.massDestroy');
     Route::resource('translation-centers', 'TranslationCenterController');
 
     // Categories
-    Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
     Route::post('categories/media', 'CategoriesController@storeMedia')->name('categories.storeMedia');
     Route::post('categories/ckmedia', 'CategoriesController@storeCKEditorImages')->name('categories.storeCKEditorImages');
-    Route::resource('categories', 'CategoriesController', ['except' => ['show']]);
+    Route::resource('categories', 'CategoriesController', ['except' => ['show', 'destroy']]);
 
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
 });

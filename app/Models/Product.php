@@ -53,7 +53,8 @@ class Product extends Model implements HasMedia
         'specifications',
         'advantages',
         'usage',
-        'reference_id',
+        'oldid',
+        'oldimage',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -75,6 +76,11 @@ class Product extends Model implements HasMedia
         return $this->belongsTo(Brand::class, 'brand_id');
     }
 
+    public function applicaitons()
+    {
+        return $this->belongsToMany(Application::class);
+    }
+
     public function categories()
     {
         return $this->belongsToMany(Category::class);
@@ -92,8 +98,8 @@ class Product extends Model implements HasMedia
         return $files;
     }
 
-    public function reference()
+    public function references()
     {
-        return $this->belongsTo(Reference::class, 'reference_id');
+        return $this->belongsToMany(Reference::class);
     }
 }

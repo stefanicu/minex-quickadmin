@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Requests\MassDestroyCategoryRequest;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Application;
@@ -14,18 +13,68 @@ use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class CategoriesController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $categories = Category::with(['product_image', 'applications', 'media'])->get();
+        if ($request->ajax()) {
+            $query = Category::with(['product_image', 'applications'])->select(sprintf('%s.*', (new Category)->table));
+            $table = Datatables::of($query);
 
-        return view('admin.categories.index', compact('categories'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate      = 'category_show';
+                $editGate      = 'category_edit';
+                $deleteGate    = 'category_delete';
+                $crudRoutePart = 'categories';
+
+                return view('partials.datatablesActions', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('online', function ($row) {
+                return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
+            });
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : '';
+            });
+            $table->editColumn('page_views', function ($row) {
+                return $row->page_views ? $row->page_views : '';
+            });
+            $table->editColumn('cover_photo', function ($row) {
+                if ($photo = $row->cover_photo) {
+                    return sprintf(
+                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+                        $photo->url,
+                        $photo->thumbnail
+                    );
+                }
+
+                return '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'online', 'cover_photo']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.categories.index');
     }
 
     public function create()
@@ -83,26 +132,6 @@ class CategoriesController extends Controller
         }
 
         return redirect()->route('admin.categories.index');
-    }
-
-    public function destroy(Category $category)
-    {
-        abort_if(Gate::denies('category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $category->delete();
-
-        return back();
-    }
-
-    public function massDestroy(MassDestroyCategoryRequest $request)
-    {
-        $categories = Category::find(request('ids'));
-
-        foreach ($categories as $category) {
-            $category->delete();
-        }
-
-        return response(null, Response::HTTP_NO_CONTENT);
     }
 
     public function storeCKEditorImages(Request $request)
