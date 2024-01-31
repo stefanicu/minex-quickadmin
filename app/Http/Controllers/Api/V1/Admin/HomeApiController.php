@@ -19,7 +19,7 @@ class HomeApiController extends Controller
     {
         abort_if(Gate::denies('home_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new HomeResource(Home::with(['idd'])->get());
+        return new HomeResource(Home::with(['home'])->get());
     }
 
     public function update(UpdateHomeRequest $request, Home $home)

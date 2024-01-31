@@ -72,16 +72,16 @@
                 <span class="help-block">{{ trans('cruds.home.fields.image_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="idd_id">{{ trans('cruds.home.fields.idd') }}</label>
-                <select class="form-control select2 {{ $errors->has('idd') ? 'is-invalid' : '' }}" name="idd_id" id="idd_id">
-                    @foreach($idds as $id => $entry)
-                        <option value="{{ $id }}" {{ old('idd_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                <label for="home_id">{{ trans('cruds.home.fields.home') }}</label>
+                <select class="form-control select2 {{ $errors->has('home') ? 'is-invalid' : '' }}" name="home_id" id="home_id">
+                    @foreach($homes as $id => $entry)
+                        <option value="{{ $id }}" {{ old('home_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
                 </select>
-                @if($errors->has('idd'))
-                    <span class="text-danger">{{ $errors->first('idd') }}</span>
+                @if($errors->has('home'))
+                    <span class="text-danger">{{ $errors->first('home') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.home.fields.idd_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.home.fields.home_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

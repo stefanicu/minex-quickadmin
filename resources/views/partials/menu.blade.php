@@ -208,14 +208,26 @@
                         </ul>
                     </li>
                 @endcan
-                @can('home_index_access')
+                @can('home_id_access')
                     <li class="nav-item">
-                        <a href="{{ route("admin.home-indices.index") }}" class="nav-link {{ request()->is("admin/home-indices") || request()->is("admin/home-indices/*") ? "active" : "" }}">
+                        <a href="{{ route("admin.home-ids.index") }}" class="nav-link {{ request()->is("admin/home-ids") || request()->is("admin/home-ids/*") ? "active" : "" }}">
                             <i class="fa-fw nav-icon fas fa-home">
 
                             </i>
                             <p>
-                                {{ trans('cruds.homeIndex.title') }}
+                                {{ trans('cruds.homeId.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
+                @can('application_id_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.application-ids.index") }}" class="nav-link {{ request()->is("admin/application-ids") || request()->is("admin/application-ids/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fab fa-autoprefixer">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.applicationId.title') }}
                             </p>
                         </a>
                     </li>

@@ -33,9 +33,6 @@
                             {{ trans('cruds.home.fields.image') }}
                         </th>
                         <th>
-                            {{ trans('cruds.home.fields.idd') }}
-                        </th>
-                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -67,9 +64,6 @@
                                         <img src="{{ $home->image->getUrl('thumb') }}">
                                     </a>
                                 @endif
-                            </td>
-                            <td>
-                                {{ $home->idd->oldid ?? '' }}
                             </td>
                             <td>
 

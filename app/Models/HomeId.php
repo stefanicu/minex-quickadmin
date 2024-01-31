@@ -9,11 +9,11 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Home extends Model implements HasMedia
+class HomeId extends Model implements HasMedia
 {
     use InteractsWithMedia, HasFactory;
 
-    public $table = 'homes';
+    public $table = 'home_ids';
 
     protected $appends = [
         'image',
@@ -25,31 +25,9 @@ class Home extends Model implements HasMedia
         'deleted_at',
     ];
 
-    public const LANGUAGE_SELECT = [
-        'en' => 'English',
-        'ro' => 'Romanian',
-        'bg' => 'Bulgarian',
-    ];
-
-    public static $searchable = [
-        'language',
-        'name',
-        'first_text',
-        'seccond_text',
-        'quote',
-        'button',
-    ];
-
     protected $fillable = [
-        'language',
-        'name',
-        'first_text',
-        'seccond_text',
-        'quote',
-        'button',
         'oldid',
         'oldimage',
-        'home_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -66,6 +44,11 @@ class Home extends Model implements HasMedia
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
+    public function homeHomes()
+    {
+        return $this->hasMany(Home::class, 'home_id', 'id');
+    }
+
     public function getImageAttribute()
     {
         $file = $this->getMedia('image')->last();
@@ -76,10 +59,5 @@ class Home extends Model implements HasMedia
         }
 
         return $file;
-    }
-
-    public function home()
-    {
-        return $this->belongsTo(HomeId::class, 'home_id');
     }
 }
