@@ -2,6 +2,10 @@
 # run this command to bring all quick admin changes and custom user, this will clean the database and you will need to run entire import
 # php artisan migrate:fresh --seed
 
+# home import
+DELETE FROM minexq.applications;
+ALTER TABLE minexq.applications AUTO_INCREMENT = 1;
+
 # applications import
 DELETE FROM minexq.applications;
 ALTER TABLE minexq.applications AUTO_INCREMENT = 1;
