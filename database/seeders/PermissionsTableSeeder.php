@@ -212,14 +212,18 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 51,
-                'title' => 'home_index_edit',
+                'title' => 'home_id_edit',
             ],
             [
                 'id'    => 52,
-                'title' => 'home_index_access',
+                'title' => 'home_id_access',
             ],
             [
                 'id'    => 53,
+                'title' => 'application_id_access',
+            ],
+            [
+                'id'    => 54,
                 'title' => 'profile_password_edit',
             ],
         ];

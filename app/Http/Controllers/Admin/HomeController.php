@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\UpdateHomeRequest;
 use App\Models\Home;
+use App\Models\HomeId;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -19,7 +20,7 @@ class HomeController extends Controller
     {
         abort_if(Gate::denies('home_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $homes = Home::with(['idd', 'media'])->get();
+        $homes = Home::with(['home', 'media'])->get();
 
         return view('admin.homes.index', compact('homes'));
     }
@@ -28,9 +29,11 @@ class HomeController extends Controller
     {
         abort_if(Gate::denies('home_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $home->load('idd');
+        $homes = HomeId::pluck('oldid', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.homes.edit', compact('home'));
+        $home->load('home');
+
+        return view('admin.homes.edit', compact('home', 'homes'));
     }
 
     public function update(UpdateHomeRequest $request, Home $home)

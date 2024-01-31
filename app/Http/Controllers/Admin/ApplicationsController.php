@@ -12,65 +12,18 @@ use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
-use Yajra\DataTables\Facades\DataTables;
 
 class ApplicationsController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index(Request $request)
+    public function index()
     {
         abort_if(Gate::denies('application_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        if ($request->ajax()) {
-            $query = Application::with(['categories'])->select(sprintf('%s.*', (new Application)->table));
-            $table = Datatables::of($query);
+        $applications = Application::with(['categories', 'media'])->get();
 
-            $table->addColumn('placeholder', '&nbsp;');
-            $table->addColumn('actions', '&nbsp;');
-
-            $table->editColumn('actions', function ($row) {
-                $viewGate      = 'application_show';
-                $editGate      = 'application_edit';
-                $deleteGate    = 'application_delete';
-                $crudRoutePart = 'applications';
-
-                return view('partials.datatablesActions', compact(
-                    'viewGate',
-                    'editGate',
-                    'deleteGate',
-                    'crudRoutePart',
-                    'row'
-                ));
-            });
-
-            $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : '';
-            });
-            $table->editColumn('online', function ($row) {
-                return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
-            });
-            $table->editColumn('name', function ($row) {
-                return $row->name ? $row->name : '';
-            });
-            $table->editColumn('image', function ($row) {
-                if ($photo = $row->image) {
-                    return sprintf(
-                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
-                        $photo->url,
-                        $photo->thumbnail
-                    );
-                }
-
-                return '';
-            });
-
-            $table->rawColumns(['actions', 'placeholder', 'online', 'image']);
-
-            return $table->make(true);
-        }
-
-        return view('admin.applications.index');
+        return view('admin.applications.index', compact('applications'));
     }
 
     public function create()

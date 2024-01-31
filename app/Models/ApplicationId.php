@@ -9,14 +9,20 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Home extends Model implements HasMedia
+class ApplicationId extends Model implements HasMedia
 {
     use InteractsWithMedia, HasFactory;
 
-    public $table = 'homes';
+    public $table = 'application_ids';
 
     protected $appends = [
         'image',
+    ];
+
+    public static $searchable = [
+        'language',
+        'name',
+        'slug',
     ];
 
     protected $dates = [
@@ -31,25 +37,13 @@ class Home extends Model implements HasMedia
         'bg' => 'Bulgarian',
     ];
 
-    public static $searchable = [
-        'language',
-        'name',
-        'first_text',
-        'seccond_text',
-        'quote',
-        'button',
-    ];
-
     protected $fillable = [
+        'online',
         'language',
         'name',
-        'first_text',
-        'seccond_text',
-        'quote',
-        'button',
+        'slug',
         'oldid',
         'oldimage',
-        'home_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -78,8 +72,8 @@ class Home extends Model implements HasMedia
         return $file;
     }
 
-    public function home()
+    public function categories()
     {
-        return $this->belongsTo(HomeId::class, 'home_id');
+        return $this->belongsToMany(Category::class);
     }
 }
