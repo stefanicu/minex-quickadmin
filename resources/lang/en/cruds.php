@@ -95,8 +95,6 @@ return [
             'oldid_helper'        => ' ',
             'oldimage'            => 'Oldimage',
             'oldimage_helper'     => ' ',
-            'home'                => 'Home',
-            'home_helper'         => ' ',
         ],
     ],
     'application' => [
@@ -467,14 +465,6 @@ return [
         'fields'         => [
             'id'                => 'ID',
             'id_helper'         => ' ',
-            'online'            => 'Online',
-            'online_helper'     => ' ',
-            'language'          => 'Language',
-            'language_helper'   => ' ',
-            'name'              => 'Name',
-            'name_helper'       => ' ',
-            'slug'              => 'Slug',
-            'slug_helper'       => ' ',
             'image'             => 'Image',
             'image_helper'      => ' ',
             'categories'        => 'Categories',

@@ -55,4 +55,13 @@ class ApplicationsApiController extends Controller
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
+
+    public function destroy(Application $application)
+    {
+        abort_if(Gate::denies('application_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $application->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
+    }
 }

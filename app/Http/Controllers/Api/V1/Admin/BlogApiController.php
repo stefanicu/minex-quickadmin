@@ -55,4 +55,13 @@ class BlogApiController extends Controller
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
+
+    public function destroy(Blog $blog)
+    {
+        abort_if(Gate::denies('blog_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $blog->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
+    }
 }

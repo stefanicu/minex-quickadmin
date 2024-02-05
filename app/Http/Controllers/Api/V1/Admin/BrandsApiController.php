@@ -55,4 +55,13 @@ class BrandsApiController extends Controller
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
+
+    public function destroy(Brand $brand)
+    {
+        abort_if(Gate::denies('brand_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $brand->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
+    }
 }

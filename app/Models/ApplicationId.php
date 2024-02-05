@@ -19,29 +19,13 @@ class ApplicationId extends Model implements HasMedia
         'image',
     ];
 
-    public static $searchable = [
-        'language',
-        'name',
-        'slug',
-    ];
-
     protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at',
     ];
 
-    public const LANGUAGE_SELECT = [
-        'en' => 'English',
-        'ro' => 'Romanian',
-        'bg' => 'Bulgarian',
-    ];
-
     protected $fillable = [
-        'online',
-        'language',
-        'name',
-        'slug',
         'oldid',
         'oldimage',
         'created_at',

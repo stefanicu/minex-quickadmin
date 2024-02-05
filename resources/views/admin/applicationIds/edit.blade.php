@@ -11,46 +11,6 @@
             @method('PUT')
             @csrf
             <div class="form-group">
-                <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
-                    <input type="hidden" name="online" value="0">
-                    <input class="form-check-input" type="checkbox" name="online" id="online" value="1" {{ $applicationId->online || old('online', 0) === 1 ? 'checked' : '' }}>
-                    <label class="form-check-label" for="online">{{ trans('cruds.applicationId.fields.online') }}</label>
-                </div>
-                @if($errors->has('online'))
-                    <span class="text-danger">{{ $errors->first('online') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.applicationId.fields.online_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required">{{ trans('cruds.applicationId.fields.language') }}</label>
-                <select class="form-control {{ $errors->has('language') ? 'is-invalid' : '' }}" name="language" id="language" required>
-                    <option value disabled {{ old('language', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\ApplicationId::LANGUAGE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('language', $applicationId->language) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('language'))
-                    <span class="text-danger">{{ $errors->first('language') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.applicationId.fields.language_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="name">{{ trans('cruds.applicationId.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $applicationId->name) }}" required>
-                @if($errors->has('name'))
-                    <span class="text-danger">{{ $errors->first('name') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.applicationId.fields.name_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="slug">{{ trans('cruds.applicationId.fields.slug') }}</label>
-                <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', $applicationId->slug) }}" required>
-                @if($errors->has('slug'))
-                    <span class="text-danger">{{ $errors->first('slug') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.applicationId.fields.slug_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label for="image">{{ trans('cruds.applicationId.fields.image') }}</label>
                 <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}" id="image-dropzone">
                 </div>

@@ -18,12 +18,6 @@
                             {{ trans('cruds.applicationId.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.applicationId.fields.online') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.applicationId.fields.name') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.applicationId.fields.image') }}
                         </th>
                         <th>
@@ -39,13 +33,6 @@
                             </td>
                             <td>
                                 {{ $applicationId->id ?? '' }}
-                            </td>
-                            <td>
-                                <span style="display:none">{{ $applicationId->online ?? '' }}</span>
-                                <input type="checkbox" disabled="disabled" {{ $applicationId->online ? 'checked' : '' }}>
-                            </td>
-                            <td>
-                                {{ $applicationId->name ?? '' }}
                             </td>
                             <td>
                                 @if($applicationId->image)

@@ -62,4 +62,13 @@ class ProductsApiController extends Controller
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
+
+    public function destroy(Product $product)
+    {
+        abort_if(Gate::denies('product_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $product->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
+    }
 }

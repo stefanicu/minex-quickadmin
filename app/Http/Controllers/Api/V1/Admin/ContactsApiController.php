@@ -24,4 +24,13 @@ class ContactsApiController extends Controller
 
         return new ContactResource($contact);
     }
+
+    public function destroy(Contact $contact)
+    {
+        abort_if(Gate::denies('contact_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $contact->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
+use App\Http\Requests\MassDestroyBlogRequest;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Models\Blog;
@@ -117,6 +118,26 @@ class BlogController extends Controller
         }
 
         return redirect()->route('admin.blogs.index');
+    }
+
+    public function destroy(Blog $blog)
+    {
+        abort_if(Gate::denies('blog_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $blog->delete();
+
+        return back();
+    }
+
+    public function massDestroy(MassDestroyBlogRequest $request)
+    {
+        $blogs = Blog::find(request('ids'));
+
+        foreach ($blogs as $blog) {
+            $blog->delete();
+        }
+
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 
     public function storeCKEditorImages(Request $request)

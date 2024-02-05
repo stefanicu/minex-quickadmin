@@ -17,23 +17,6 @@ class StoreApplicationIdRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => [
-                'required',
-            ],
-            'name' => [
-                'string',
-                'min:0',
-                'max:255',
-                'required',
-                'unique:application_ids',
-            ],
-            'slug' => [
-                'string',
-                'min:0',
-                'max:255',
-                'required',
-                'unique:application_ids',
-            ],
             'categories.*' => [
                 'integer',
             ],

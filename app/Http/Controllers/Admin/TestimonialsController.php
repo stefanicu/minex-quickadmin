@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
+use App\Http\Requests\MassDestroyTestimonialRequest;
 use App\Http\Requests\StoreTestimonialRequest;
 use App\Http\Requests\UpdateTestimonialRequest;
 use App\Models\Testimonial;
@@ -129,6 +130,26 @@ class TestimonialsController extends Controller
         }
 
         return redirect()->route('admin.testimonials.index');
+    }
+
+    public function destroy(Testimonial $testimonial)
+    {
+        abort_if(Gate::denies('testimonial_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $testimonial->delete();
+
+        return back();
+    }
+
+    public function massDestroy(MassDestroyTestimonialRequest $request)
+    {
+        $testimonials = Testimonial::find(request('ids'));
+
+        foreach ($testimonials as $testimonial) {
+            $testimonial->delete();
+        }
+
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 
     public function storeCKEditorImages(Request $request)
