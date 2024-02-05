@@ -25,38 +25,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.applicationId.fields.online') }}
-                        </th>
-                        <td>
-                            <input type="checkbox" disabled="disabled" {{ $applicationId->online ? 'checked' : '' }}>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.applicationId.fields.language') }}
-                        </th>
-                        <td>
-                            {{ App\Models\ApplicationId::LANGUAGE_SELECT[$applicationId->language] ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.applicationId.fields.name') }}
-                        </th>
-                        <td>
-                            {{ $applicationId->name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.applicationId.fields.slug') }}
-                        </th>
-                        <td>
-                            {{ $applicationId->slug }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.applicationId.fields.image') }}
                         </th>
                         <td>

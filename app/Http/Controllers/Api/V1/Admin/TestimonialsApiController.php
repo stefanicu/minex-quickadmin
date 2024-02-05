@@ -58,4 +58,13 @@ class TestimonialsApiController extends Controller
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
+
+    public function destroy(Testimonial $testimonial)
+    {
+        abort_if(Gate::denies('testimonial_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $testimonial->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
+    }
 }

@@ -15,69 +15,30 @@
     </div>
 
     <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Application">
-                <thead>
-                    <tr>
-                        <th width="10">
+        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Application">
+            <thead>
+                <tr>
+                    <th width="10">
 
-                        </th>
-                        <th>
-                            {{ trans('cruds.application.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.application.fields.online') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.application.fields.name') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.application.fields.image') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($applications as $key => $application)
-                        <tr data-entry-id="{{ $application->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $application->id ?? '' }}
-                            </td>
-                            <td>
-                                <span style="display:none">{{ $application->online ?? '' }}</span>
-                                <input type="checkbox" disabled="disabled" {{ $application->online ? 'checked' : '' }}>
-                            </td>
-                            <td>
-                                {{ $application->name ?? '' }}
-                            </td>
-                            <td>
-                                @if($application->image)
-                                    <a href="{{ $application->image->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $application->image->getUrl('thumb') }}">
-                                    </a>
-                                @endif
-                            </td>
-                            <td>
-
-                                @can('application_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.applications.edit', $application->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </th>
+                    <th>
+                        {{ trans('cruds.application.fields.id') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.application.fields.online') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.application.fields.name') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.application.fields.image') }}
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 
@@ -89,19 +50,62 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-  
-  $.extend(true, $.fn.dataTable.defaults, {
+@can('application_delete')
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
+  let deleteButton = {
+    text: deleteButtonTrans,
+    url: "{{ route('admin.applications.massDestroy') }}",
+    className: 'btn-danger',
+    action: function (e, dt, node, config) {
+      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
+          return entry.id
+      });
+
+      if (ids.length === 0) {
+        alert('{{ trans('global.datatables.zero_selected') }}')
+
+        return
+      }
+
+      if (confirm('{{ trans('global.areYouSure') }}')) {
+        $.ajax({
+          headers: {'x-csrf-token': _token},
+          method: 'POST',
+          url: config.url,
+          data: { ids: ids, _method: 'DELETE' }})
+          .done(function () { location.reload() })
+      }
+    }
+  }
+  dtButtons.push(deleteButton)
+@endcan
+
+  let dtOverrideGlobals = {
+    buttons: dtButtons,
+    processing: true,
+    serverSide: true,
+    retrieve: true,
+    aaSorting: [],
+    ajax: "{{ route('admin.applications.index') }}",
+    columns: [
+      { data: 'placeholder', name: 'placeholder' },
+{ data: 'id', name: 'id' },
+{ data: 'online', name: 'online' },
+{ data: 'name', name: 'name' },
+{ data: 'image', name: 'image', sortable: false, searchable: false },
+{ data: 'actions', name: '{{ trans('global.actions') }}' }
+    ],
     orderCellsTop: true,
     order: [[ 1, 'desc' ]],
     pageLength: 25,
-  });
-  let table = $('.datatable-Application:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  };
+  let table = $('.datatable-Application').DataTable(dtOverrideGlobals);
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
-})
+});
 
 </script>
 @endsection

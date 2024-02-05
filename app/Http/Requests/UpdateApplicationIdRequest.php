@@ -17,23 +17,6 @@ class UpdateApplicationIdRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => [
-                'required',
-            ],
-            'name' => [
-                'string',
-                'min:0',
-                'max:255',
-                'required',
-                'unique:application_ids,name,' . request()->route('application_id')->id,
-            ],
-            'slug' => [
-                'string',
-                'min:0',
-                'max:255',
-                'required',
-                'unique:application_ids,slug,' . request()->route('application_id')->id,
-            ],
             'categories.*' => [
                 'integer',
             ],

@@ -20,7 +20,6 @@ class GlobalSearchController extends Controller
         'Testimonial'       => 'cruds.testimonial.title',
         'TranslationCenter' => 'cruds.translationCenter.title',
         'Category'          => 'cruds.category.title',
-        'ApplicationId'     => 'cruds.applicationId.title',
     ];
 
     public function search(Request $request)

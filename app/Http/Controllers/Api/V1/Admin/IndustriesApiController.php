@@ -55,4 +55,13 @@ class IndustriesApiController extends Controller
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
+
+    public function destroy(Industry $industry)
+    {
+        abort_if(Gate::denies('industry_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $industry->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
+    }
 }

@@ -49,7 +49,6 @@ class Home extends Model implements HasMedia
         'button',
         'oldid',
         'oldimage',
-        'home_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -76,10 +75,5 @@ class Home extends Model implements HasMedia
         }
 
         return $file;
-    }
-
-    public function home()
-    {
-        return $this->belongsTo(HomeId::class, 'home_id');
     }
 }

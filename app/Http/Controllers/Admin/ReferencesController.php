@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
+use App\Http\Requests\MassDestroyReferenceRequest;
 use App\Http\Requests\StoreReferenceRequest;
 use App\Http\Requests\UpdateReferenceRequest;
 use App\Models\Industry;
@@ -166,6 +167,26 @@ class ReferencesController extends Controller
         }
 
         return redirect()->route('admin.references.index');
+    }
+
+    public function destroy(Reference $reference)
+    {
+        abort_if(Gate::denies('reference_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $reference->delete();
+
+        return back();
+    }
+
+    public function massDestroy(MassDestroyReferenceRequest $request)
+    {
+        $references = Reference::find(request('ids'));
+
+        foreach ($references as $reference) {
+            $reference->delete();
+        }
+
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 
     public function storeCKEditorImages(Request $request)
