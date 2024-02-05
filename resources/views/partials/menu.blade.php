@@ -208,30 +208,6 @@
                         </ul>
                     </li>
                 @endcan
-                @can('home_id_access')
-                    <li class="nav-item">
-                        <a href="{{ route("admin.home-ids.index") }}" class="nav-link {{ request()->is("admin/home-ids") || request()->is("admin/home-ids/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-home">
-
-                            </i>
-                            <p>
-                                {{ trans('cruds.homeId.title') }}
-                            </p>
-                        </a>
-                    </li>
-                @endcan
-                @can('application_id_access')
-                    <li class="nav-item">
-                        <a href="{{ route("admin.application-ids.index") }}" class="nav-link {{ request()->is("admin/application-ids") || request()->is("admin/application-ids/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fab fa-autoprefixer">
-
-                            </i>
-                            <p>
-                                {{ trans('cruds.applicationId.title') }}
-                            </p>
-                        </a>
-                    </li>
-                @endcan
                 @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
                     @can('profile_password_edit')
                         <li class="nav-item">
