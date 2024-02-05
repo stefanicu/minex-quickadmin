@@ -2,10 +2,6 @@
 # run this command to bring all quick admin changes and custom user, this will clean the database and you will need to run entire import
 # php artisan migrate:fresh --seed
 
-# home import
-DELETE FROM minexq.applications;
-ALTER TABLE minexq.applications AUTO_INCREMENT = 1;
-
 # applications import
 DELETE FROM minexq.applications;
 ALTER TABLE minexq.applications AUTO_INCREMENT = 1;
@@ -13,10 +9,10 @@ ALTER TABLE minexq.applications AUTO_INCREMENT = 1;
 INSERT INTO minexq.applications(online, language, name, slug, oldid, oldimage)
 SELECT * FROM (
     SELECT IF(online > 0, 1, 0) AS online, 'ro' AS language, nume AS name, slug, id AS oldid, img AS oldimage FROM minex_live.aplicatii WHERE del='0' and nume!=''
-        UNION
-    SELECT IF(online > 0, 1, 0) AS online, 'en' AS language, nume1 AS name, slug1 AS slug, id AS oldid, img AS oldimage FROM minex_live.aplicatii WHERE del='0' and nume1!=''
-        UNION
-    SELECT IF(online > 0, 1, 0) AS online, 'bg' AS language, nume2 AS name, slug2 AS slug, id AS oldid, img AS oldimage FROM minex_live.aplicatii WHERE del='0' and nume2!=''
+#         UNION
+#     SELECT IF(online > 0, 1, 0) AS online, 'en' AS language, nume1 AS name, slug1 AS slug, id AS oldid, img AS oldimage FROM minex_live.aplicatii WHERE del='0' and nume1!=''
+#         UNION
+#     SELECT IF(online > 0, 1, 0) AS online, 'bg' AS language, nume2 AS name, slug2 AS slug, id AS oldid, img AS oldimage FROM minex_live.aplicatii WHERE del='0' and nume2!=''
 ) AS applications;
 
 
@@ -28,12 +24,12 @@ INSERT INTO minexq.categories(online, language, name, slug, oldid, oldgroupid, o
 SELECT * FROM (
     SELECT IF(online > 0, 1, 0) AS online, 'ro' AS language, nume AS name, slug, id AS oldid, id_gru AS oldgroupid, img_xl AS oldimage, id_pro AS oldproductid, img_pro AS oldproductimg, viz AS page_views
     FROM minex_live.categorii WHERE del='0' and nume!=''
-        UNION
-    SELECT IF(online > 0, 1, 0) AS online, 'en' AS language, nume1 AS name, slug1 AS slug, id AS oldid, id_gru AS oldgroupid, img_xl AS oldimage, id_pro AS oldproductid, img_pro AS oldproductimg, viz AS page_views
-    FROM minex_live.categorii WHERE del='0' and nume1!=''
-        UNION
-    SELECT IF(online > 0, 1, 0) AS online, 'bg' AS language, nume2 AS name, slug2 AS slug, id AS oldid, id_gru AS oldgroupid, img_xl AS oldimage, id_pro AS oldproductid, img_pro AS oldproductimg, viz AS page_views
-    FROM minex_live.categorii WHERE del='0' and nume2!=''
+#         UNION
+#     SELECT IF(online > 0, 1, 0) AS online, 'en' AS language, nume1 AS name, slug1 AS slug, id AS oldid, id_gru AS oldgroupid, img_xl AS oldimage, id_pro AS oldproductid, img_pro AS oldproductimg, viz AS page_views
+#     FROM minex_live.categorii WHERE del='0' and nume1!=''
+#         UNION
+#     SELECT IF(online > 0, 1, 0) AS online, 'bg' AS language, nume2 AS name, slug2 AS slug, id AS oldid, id_gru AS oldgroupid, img_xl AS oldimage, id_pro AS oldproductid, img_pro AS oldproductimg, viz AS page_views
+#     FROM minex_live.categorii WHERE del='0' and nume2!=''
 ) AS categories;
 
 
@@ -67,23 +63,23 @@ INSERT INTO minexq.blogs(online, language, name, slug, content, created_at, oldi
 SELECT * FROM (
     SELECT IF(online > 0, 1, 0) AS online, 'ro' AS language, nume AS name, slug, content, dt as created_at, id AS oldid, img AS oldimage
     FROM minex_live.iqindustrial WHERE del='0' and nume!=''
-        UNION
-    SELECT IF(online > 0, 1, 0) AS online, 'en' AS language, nume1 AS name, slug1 AS slug, content1 as content, dt as created_at, id AS oldid, img AS oldimage
-    FROM minex_live.iqindustrial WHERE del='0' and nume1!=''
-        UNION
-    SELECT IF(online > 0, 1, 0) AS online, 'bg' AS language, nume2 AS name, slug2 AS slug, content2 as content, dt as created_at, id AS oldid, img AS oldimage
-    FROM minex_live.iqindustrial WHERE del='0' and nume2!=''
+#         UNION
+#     SELECT IF(online > 0, 1, 0) AS online, 'en' AS language, nume1 AS name, slug1 AS slug, content1 as content, dt as created_at, id AS oldid, img AS oldimage
+#     FROM minex_live.iqindustrial WHERE del='0' and nume1!=''
+#         UNION
+#     SELECT IF(online > 0, 1, 0) AS online, 'bg' AS language, nume2 AS name, slug2 AS slug, content2 as content, dt as created_at, id AS oldid, img AS oldimage
+#     FROM minex_live.iqindustrial WHERE del='0' and nume2!=''
 
         UNION
 
     SELECT IF(online > 0, 1, 0) AS online, 'ro' AS language, nume AS name, slug, content, dt as created_at, id AS oldid, img AS oldimage
     FROM minex_live.noutati WHERE del='0' and nume!=''
-        UNION
-    SELECT IF(online > 0, 1, 0) AS online, 'en' AS language, nume1 AS name, slug1 AS slug, content1 as content, dt as created_at, id AS oldid, img AS oldimage
-    FROM minex_live.noutati WHERE del='0' and nume1!=''
-        UNION
-    SELECT IF(online > 0, 1, 0) AS online, 'bg' AS language, nume2 AS name, slug2 AS slug, content2 as content, dt as created_at, id AS oldid, img AS oldimage
-    FROM minex_live.noutati WHERE del='0' and nume2!=''
+#         UNION
+#     SELECT IF(online > 0, 1, 0) AS online, 'en' AS language, nume1 AS name, slug1 AS slug, content1 as content, dt as created_at, id AS oldid, img AS oldimage
+#     FROM minex_live.noutati WHERE del='0' and nume1!=''
+#         UNION
+#     SELECT IF(online > 0, 1, 0) AS online, 'bg' AS language, nume2 AS name, slug2 AS slug, content2 as content, dt as created_at, id AS oldid, img AS oldimage
+#     FROM minex_live.noutati WHERE del='0' and nume2!=''
 ) AS blogs;
 
 #brands import
