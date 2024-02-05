@@ -86,16 +86,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('categories/ckmedia', 'CategoriesController@storeCKEditorImages')->name('categories.storeCKEditorImages');
     Route::resource('categories', 'CategoriesController', ['except' => ['show']]);
 
-    // Home Id
-    Route::post('home-ids/media', 'HomeIdController@storeMedia')->name('home-ids.storeMedia');
-    Route::post('home-ids/ckmedia', 'HomeIdController@storeCKEditorImages')->name('home-ids.storeCKEditorImages');
-    Route::resource('home-ids', 'HomeIdController', ['except' => ['create', 'store', 'show', 'destroy']]);
-
-    // Application Id
-    Route::post('application-ids/media', 'ApplicationIdController@storeMedia')->name('application-ids.storeMedia');
-    Route::post('application-ids/ckmedia', 'ApplicationIdController@storeCKEditorImages')->name('application-ids.storeCKEditorImages');
-    Route::resource('application-ids', 'ApplicationIdController', ['except' => ['create', 'store', 'edit', 'update', 'show', 'destroy']]);
-
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
