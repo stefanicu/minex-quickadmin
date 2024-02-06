@@ -86,6 +86,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('front-pages/ckmedia', 'FrontPageController@storeCKEditorImages')->name('front-pages.storeCKEditorImages');
     Route::resource('front-pages', 'FrontPageController', ['except' => ['create', 'store', 'show', 'destroy']]);
 
+    // New Test
+    Route::delete('new-tests/destroy', 'NewTestController@massDestroy')->name('new-tests.massDestroy');
+    Route::resource('new-tests', 'NewTestController');
+
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
