@@ -93,8 +93,6 @@ return [
             'oldid_helper'      => ' ',
             'oldimage'          => 'Oldimage',
             'oldimage_helper'   => ' ',
-            'test'              => 'Test',
-            'test_helper'       => ' ',
         ],
     ],
     'brand' => [

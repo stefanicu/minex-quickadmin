@@ -45,7 +45,6 @@ class Application extends Model implements HasMedia
         'slug',
         'oldid',
         'oldimage',
-        'test',
         'created_at',
         'updated_at',
         'deleted_at',
