@@ -25,7 +25,7 @@
                         {{ trans('cruds.application.fields.id') }}
                     </th>
                     <th>
-                        {{ trans('cruds.application.fields.online') }}
+                        {{ trans('cruds.application.fields.online') }} online
                     </th>
                     <th>
                         {{ trans('cruds.application.fields.name') }}
@@ -104,7 +104,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 });
 
 </script>
