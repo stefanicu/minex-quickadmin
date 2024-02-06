@@ -1,10 +1,6 @@
 <?php
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:sanctum']], function () {
-    // Home
-    Route::post('homes/media', 'HomeApiController@storeMedia')->name('homes.storeMedia');
-    Route::apiResource('homes', 'HomeApiController', ['except' => ['store', 'show', 'destroy']]);
-
     // Applications
     Route::post('applications/media', 'ApplicationsApiController@storeMedia')->name('applications.storeMedia');
     Route::apiResource('applications', 'ApplicationsApiController', ['except' => ['show']]);
@@ -39,4 +35,8 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Categories
     Route::post('categories/media', 'CategoriesApiController@storeMedia')->name('categories.storeMedia');
     Route::apiResource('categories', 'CategoriesApiController', ['except' => ['show']]);
+
+    // Front Page
+    Route::post('front-pages/media', 'FrontPageApiController@storeMedia')->name('front-pages.storeMedia');
+    Route::apiResource('front-pages', 'FrontPageApiController', ['except' => ['store', 'show', 'destroy']]);
 });

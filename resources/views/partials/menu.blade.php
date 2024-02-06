@@ -25,14 +25,14 @@
                         </p>
                     </a>
                 </li>
-                @can('home_access')
+                @can('front_page_access')
                     <li class="nav-item">
-                        <a href="{{ route("admin.homes.index") }}" class="nav-link {{ request()->is("admin/homes") || request()->is("admin/homes/*") ? "active" : "" }}">
+                        <a href="{{ route("admin.front-pages.index") }}" class="nav-link {{ request()->is("admin/front-pages") || request()->is("admin/front-pages/*") ? "active" : "" }}">
                             <i class="fa-fw nav-icon fas fa-home">
 
                             </i>
                             <p>
-                                {{ trans('cruds.home.title') }}
+                                {{ trans('cruds.frontPage.title') }}
                             </p>
                         </a>
                     </li>
@@ -206,6 +206,18 @@
                                 </li>
                             @endcan
                         </ul>
+                    </li>
+                @endcan
+                @can('new_test_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.new-tests.index") }}" class="nav-link {{ request()->is("admin/new-tests") || request()->is("admin/new-tests/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-cogs">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.newTest.title') }}
+                            </p>
+                        </a>
                     </li>
                 @endcan
                 @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
