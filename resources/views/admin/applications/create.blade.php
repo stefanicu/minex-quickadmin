@@ -75,6 +75,14 @@
                 <span class="help-block">{{ trans('cruds.application.fields.categories_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="test">{{ trans('cruds.application.fields.test') }}</label>
+                <input class="form-control {{ $errors->has('test') ? 'is-invalid' : '' }}" type="text" name="test" id="test" value="{{ old('test', '') }}">
+                @if($errors->has('test'))
+                    <span class="text-danger">{{ $errors->first('test') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.application.fields.test_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

@@ -40,6 +40,10 @@ class StoreApplicationRequest extends FormRequest
             'categories' => [
                 'array',
             ],
+            'test' => [
+                'string',
+                'nullable',
+            ],
         ];
     }
 }
