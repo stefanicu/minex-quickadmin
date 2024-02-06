@@ -76,175 +76,175 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 17,
-                'title' => 'home_edit',
-            ],
-            [
-                'id'    => 18,
-                'title' => 'home_access',
-            ],
-            [
-                'id'    => 19,
                 'title' => 'application_create',
             ],
             [
-                'id'    => 20,
+                'id'    => 18,
                 'title' => 'application_edit',
             ],
             [
-                'id'    => 21,
+                'id'    => 19,
                 'title' => 'application_delete',
             ],
             [
-                'id'    => 22,
+                'id'    => 20,
                 'title' => 'application_access',
             ],
             [
-                'id'    => 23,
+                'id'    => 21,
                 'title' => 'brand_create',
             ],
             [
-                'id'    => 24,
+                'id'    => 22,
                 'title' => 'brand_edit',
             ],
             [
-                'id'    => 25,
+                'id'    => 23,
                 'title' => 'brand_delete',
             ],
             [
-                'id'    => 26,
+                'id'    => 24,
                 'title' => 'brand_access',
             ],
             [
-                'id'    => 27,
+                'id'    => 25,
                 'title' => 'industry_create',
             ],
             [
-                'id'    => 28,
+                'id'    => 26,
                 'title' => 'industry_edit',
             ],
             [
-                'id'    => 29,
+                'id'    => 27,
                 'title' => 'industry_delete',
             ],
             [
-                'id'    => 30,
+                'id'    => 28,
                 'title' => 'industry_access',
             ],
             [
-                'id'    => 31,
+                'id'    => 29,
                 'title' => 'product_create',
             ],
             [
-                'id'    => 32,
+                'id'    => 30,
                 'title' => 'product_edit',
             ],
             [
-                'id'    => 33,
+                'id'    => 31,
                 'title' => 'product_delete',
             ],
             [
-                'id'    => 34,
+                'id'    => 32,
                 'title' => 'product_access',
             ],
             [
-                'id'    => 35,
+                'id'    => 33,
                 'title' => 'reference_create',
             ],
             [
-                'id'    => 36,
+                'id'    => 34,
                 'title' => 'reference_edit',
             ],
             [
-                'id'    => 37,
+                'id'    => 35,
                 'title' => 'reference_delete',
             ],
             [
-                'id'    => 38,
+                'id'    => 36,
                 'title' => 'reference_access',
             ],
             [
-                'id'    => 39,
+                'id'    => 37,
                 'title' => 'blog_create',
             ],
             [
-                'id'    => 40,
+                'id'    => 38,
                 'title' => 'blog_edit',
             ],
             [
-                'id'    => 41,
+                'id'    => 39,
                 'title' => 'blog_delete',
             ],
             [
-                'id'    => 42,
+                'id'    => 40,
                 'title' => 'blog_access',
             ],
             [
-                'id'    => 43,
+                'id'    => 41,
                 'title' => 'contact_show',
             ],
             [
-                'id'    => 44,
+                'id'    => 42,
                 'title' => 'contact_delete',
             ],
             [
-                'id'    => 45,
+                'id'    => 43,
                 'title' => 'contact_access',
             ],
             [
-                'id'    => 46,
+                'id'    => 44,
                 'title' => 'testimonial_create',
             ],
             [
-                'id'    => 47,
+                'id'    => 45,
                 'title' => 'testimonial_edit',
             ],
             [
-                'id'    => 48,
+                'id'    => 46,
                 'title' => 'testimonial_delete',
             ],
             [
-                'id'    => 49,
+                'id'    => 47,
                 'title' => 'testimonial_access',
             ],
             [
-                'id'    => 50,
+                'id'    => 48,
                 'title' => 'translation_center_create',
             ],
             [
-                'id'    => 51,
+                'id'    => 49,
                 'title' => 'translation_center_edit',
             ],
             [
-                'id'    => 52,
+                'id'    => 50,
                 'title' => 'translation_center_show',
             ],
             [
-                'id'    => 53,
+                'id'    => 51,
                 'title' => 'translation_center_delete',
             ],
             [
-                'id'    => 54,
+                'id'    => 52,
                 'title' => 'translation_center_access',
             ],
             [
-                'id'    => 55,
+                'id'    => 53,
                 'title' => 'gdpr_contact_access',
             ],
             [
-                'id'    => 56,
+                'id'    => 54,
                 'title' => 'category_create',
             ],
             [
-                'id'    => 57,
+                'id'    => 55,
                 'title' => 'category_edit',
             ],
             [
-                'id'    => 58,
+                'id'    => 56,
                 'title' => 'category_delete',
             ],
             [
-                'id'    => 59,
+                'id'    => 57,
                 'title' => 'category_access',
+            ],
+            [
+                'id'    => 58,
+                'title' => 'front_page_edit',
+            ],
+            [
+                'id'    => 59,
+                'title' => 'front_page_access',
             ],
             [
                 'id'    => 60,

@@ -25,11 +25,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
     Route::resource('users', 'UsersController');
 
-    // Home
-    Route::post('homes/media', 'HomeController@storeMedia')->name('homes.storeMedia');
-    Route::post('homes/ckmedia', 'HomeController@storeCKEditorImages')->name('homes.storeCKEditorImages');
-    Route::resource('homes', 'HomeController', ['except' => ['create', 'store', 'show', 'destroy']]);
-
     // Applications
     Route::delete('applications/destroy', 'ApplicationsController@massDestroy')->name('applications.massDestroy');
     Route::post('applications/media', 'ApplicationsController@storeMedia')->name('applications.storeMedia');
@@ -85,6 +80,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('categories/media', 'CategoriesController@storeMedia')->name('categories.storeMedia');
     Route::post('categories/ckmedia', 'CategoriesController@storeCKEditorImages')->name('categories.storeCKEditorImages');
     Route::resource('categories', 'CategoriesController', ['except' => ['show']]);
+
+    // Front Page
+    Route::post('front-pages/media', 'FrontPageController@storeMedia')->name('front-pages.storeMedia');
+    Route::post('front-pages/ckmedia', 'FrontPageController@storeCKEditorImages')->name('front-pages.storeCKEditorImages');
+    Route::resource('front-pages', 'FrontPageController', ['except' => ['create', 'store', 'show', 'destroy']]);
 
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
 });

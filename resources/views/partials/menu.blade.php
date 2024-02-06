@@ -25,14 +25,14 @@
                         </p>
                     </a>
                 </li>
-                @can('home_access')
+                @can('front_page_access')
                     <li class="nav-item">
-                        <a href="{{ route("admin.homes.index") }}" class="nav-link {{ request()->is("admin/homes") || request()->is("admin/homes/*") ? "active" : "" }}">
+                        <a href="{{ route("admin.front-pages.index") }}" class="nav-link {{ request()->is("admin/front-pages") || request()->is("admin/front-pages/*") ? "active" : "" }}">
                             <i class="fa-fw nav-icon fas fa-home">
 
                             </i>
                             <p>
-                                {{ trans('cruds.home.title') }}
+                                {{ trans('cruds.frontPage.title') }}
                             </p>
                         </a>
                     </li>
