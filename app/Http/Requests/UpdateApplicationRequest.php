@@ -40,6 +40,10 @@ class UpdateApplicationRequest extends FormRequest
             'categories' => [
                 'array',
             ],
+            'test' => [
+                'string',
+                'nullable',
+            ],
         ];
     }
 }

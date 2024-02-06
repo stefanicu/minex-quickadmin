@@ -16,6 +16,7 @@ class CreateApplicationsTable extends Migration
             $table->string('slug')->unique();
             $table->integer('oldid')->nullable();
             $table->string('oldimage')->nullable();
+            $table->string('test')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

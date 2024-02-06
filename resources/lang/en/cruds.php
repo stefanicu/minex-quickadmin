@@ -93,6 +93,8 @@ return [
             'oldid_helper'      => ' ',
             'oldimage'          => 'Oldimage',
             'oldimage_helper'   => ' ',
+            'test'              => 'Test',
+            'test_helper'       => ' ',
         ],
     ],
     'brand' => [
@@ -437,22 +439,6 @@ return [
             'updated_at_helper'   => ' ',
             'deleted_at'          => 'Deleted at',
             'deleted_at_helper'   => ' ',
-        ],
-    ],
-    'newTest' => [
-        'title'          => 'New Test',
-        'title_singular' => 'New Test',
-        'fields'         => [
-            'id'                => 'ID',
-            'id_helper'         => ' ',
-            'nume'              => 'Nume',
-            'nume_helper'       => ' ',
-            'created_at'        => 'Created at',
-            'created_at_helper' => ' ',
-            'updated_at'        => 'Updated at',
-            'updated_at_helper' => ' ',
-            'deleted_at'        => 'Deleted at',
-            'deleted_at_helper' => ' ',
         ],
     ],
 
