@@ -25,14 +25,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.application.fields.online') }}
-                        </th>
-                        <td>
-                            <input type="checkbox" disabled="disabled" {{ $application->online ? 'checked' : '' }}>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.application.fields.language') }}
                         </th>
                         <td>

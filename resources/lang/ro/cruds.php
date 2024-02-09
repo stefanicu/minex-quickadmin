@@ -83,7 +83,7 @@ return [
             'updated_at_helper' => ' ',
             'deleted_at'        => 'Deleted at',
             'deleted_at_helper' => ' ',
-            'online'            => 'Online test',
+            'online'            => 'Online',
             'online_helper'     => ' ',
             'language'          => 'Language',
             'language_helper'   => ' ',
