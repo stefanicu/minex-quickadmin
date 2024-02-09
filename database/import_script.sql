@@ -48,7 +48,7 @@ SELECT * FROM (
 DELETE FROM minexq.application_category;
 INSERT INTO minexq.application_category(category_id,application_id)
 SELECT * FROM (
-    SELECT c.id AS category_id, a.id AS application_id FROM minexq.apl_cat ac
+    SELECT c.id AS category_id, a.id AS application_id FROM minexq.apl_cat
         INNER JOIN minexq.applications a on ac.id_apl = a.oldid
         INNER JOIN minexq.categories c on ac.id_cat = c.oldid AND c.language = a.language
 ) AS application_category;
