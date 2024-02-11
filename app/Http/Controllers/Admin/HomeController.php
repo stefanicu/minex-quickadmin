@@ -111,6 +111,7 @@ class HomeController
         if (class_exists($settings3['model'])) {
             $settings3['data'] = $settings3['model']::latest()
                 ->take($settings3['entries_number'])
+                ->where('online', '>', 0)
                 ->get();
         }
 
