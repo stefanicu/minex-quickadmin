@@ -15,6 +15,6 @@ INSERT INTO minexq.application_category(application_id,category_id)
 SELECT * FROM (
     SELECT a.id AS application_id, c.id AS category_id FROM minexq.apl_cat ac
         INNER JOIN minexq.applications a on ac.id_apl = a.oldid
-        INNER JOIN minexq.categories c on ac.id_cat = c.oldid AND c.language = a.language
+        INNER JOIN minexq.categories c on ac.id_cat = c.oldid
     ) AS application_category;
-#DROP TABLE IF EXISTS minexq.apl_cat;
+DROP TABLE IF EXISTS minexq.apl_cat;
