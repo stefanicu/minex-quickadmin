@@ -44,6 +44,35 @@
                             </div>
                             <!-- /.info-box -->
                         </div>
+                        <div class="{{ $settings5['column_class'] }}">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-red" style="display:flex; flex-direction: column; justify-content: center;">
+                                    <i class="fa fa-chart-line"></i>
+                                </span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">{{ $settings5['chart_title'] }}</span>
+                                    <span class="info-box-number">{{ number_format($settings5['total_number']) }}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <div class="{{ $settings6['column_class'] }}">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-red" style="display:flex; flex-direction: column; justify-content: center;">
+                                    <i class="fa fa-chart-line"></i>
+                                </span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">{{ $settings6['chart_title'] }}</span>
+                                    <span class="info-box-number">{{ number_format($settings6['total_number']) }}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+
                         {{-- Widget - latest entries --}}
                         <div class="{{ $settings3['column_class'] }}" style="overflow-x: auto;">
                             <h3>{{ $settings3['chart_title'] }}</h3>
@@ -122,34 +151,7 @@
                             </table>
                         </div>
 
-                        <div class="{{ $settings5['column_class'] }}">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-red" style="display:flex; flex-direction: column; justify-content: center;">
-                                    <i class="fa fa-chart-line"></i>
-                                </span>
 
-                                <div class="info-box-content">
-                                    <span class="info-box-text">{{ $settings5['chart_title'] }}</span>
-                                    <span class="info-box-number">{{ number_format($settings5['total_number']) }}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <div class="{{ $settings6['column_class'] }}">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-red" style="display:flex; flex-direction: column; justify-content: center;">
-                                    <i class="fa fa-chart-line"></i>
-                                </span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">{{ $settings6['chart_title'] }}</span>
-                                    <span class="info-box-number">{{ number_format($settings6['total_number']) }}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
                     </div>
                 </div>
             </div>
