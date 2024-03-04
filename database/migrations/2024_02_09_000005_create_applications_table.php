@@ -11,12 +11,22 @@ class CreateApplicationsTable extends Migration
         Schema::create('applications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('online')->default(0)->nullable();
-            $table->string('language');
-            $table->string('name')->unique();
-            $table->string('slug')->unique();
             $table->integer('oldid')->nullable();
             $table->string('oldimage')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('applications_translations', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->foreignId('application_id')->references('id')->on('applications')->onDelete('cascade');
+            $table->string('locale')->index();
+            $table->boolean('online')->default(0)->nullable();
+
+            $table->string('name');
+            $table->string('slug');
+
+            $table->unique('name','locale');
             $table->softDeletes();
         });
     }
