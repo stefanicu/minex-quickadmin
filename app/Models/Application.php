@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Astrotomic\Translatable\Translatable;
 
-class Application extends Model implements HasMedia
+class Application extends Model implements HasMedia, TranslatableContract
 {
-    use SoftDeletes, InteractsWithMedia, HasFactory;
+    use SoftDeletes, InteractsWithMedia, HasFactory, Translatable;
 
     public $table = 'applications';
 
@@ -32,17 +34,14 @@ class Application extends Model implements HasMedia
         'deleted_at',
     ];
 
-    public const LANGUAGE_SELECT = [
-        'en' => 'English',
-        'ro' => 'Romanian',
-        'bg' => 'Bulgarian',
-    ];
+//    public const LANGUAGE_SELECT = [
+//        'en' => 'English',
+//        'ro' => 'Romanian',
+//        'bg' => 'Bulgarian',
+//    ];
 
     protected $fillable = [
         'online',
-        'language',
-        'name',
-        'slug',
         'oldid',
         'oldimage',
         'created_at',
@@ -50,7 +49,7 @@ class Application extends Model implements HasMedia
         'deleted_at',
     ];
 
-    protected function serializeDate(DateTimeInterface $date)
+    protected function serializeDate(DateTimeInterface $date): string
     {
         return $date->format('Y-m-d H:i:s');
     }
@@ -73,7 +72,7 @@ class Application extends Model implements HasMedia
         return $file;
     }
 
-    public function categories()
+    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Category::class);
     }
