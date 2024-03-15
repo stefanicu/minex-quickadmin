@@ -18,10 +18,10 @@ class UsersTableSeeder extends Seeder
                 'remember_token' => null,
             ],
             [
-                'id'             => 1,
+                'id'             => 2,
                 'name'           => 'kopa',
                 'email'          => 'eugen.kovacs@gmail.com',
-                'password'       => bcrypt('sarutoby'),
+                'password'       => bcrypt('12345'),
                 'remember_token' => null,
             ],
         ];
