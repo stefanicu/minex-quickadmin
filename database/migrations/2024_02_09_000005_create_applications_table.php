@@ -16,18 +16,5 @@ class CreateApplicationsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
-        Schema::create('applications_translations', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->foreignId('application_id')->references('id')->on('applications')->onDelete('cascade');
-            $table->string('locale')->index();
-            $table->boolean('online')->default(0)->nullable();
-
-            $table->string('name');
-            $table->string('slug');
-
-            $table->unique('name','locale');
-            $table->softDeletes();
-        });
     }
 }

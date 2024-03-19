@@ -17,13 +17,14 @@ class Application extends Model implements HasMedia, TranslatableContract
     use SoftDeletes, InteractsWithMedia, HasFactory, Translatable;
 
     public $table = 'applications';
+    public $translatedAttributes = ['name','slug'];
 
     protected $appends = [
         'image',
     ];
 
     public static $searchable = [
-        'language',
+        'locale',
         'name',
         'slug',
     ];

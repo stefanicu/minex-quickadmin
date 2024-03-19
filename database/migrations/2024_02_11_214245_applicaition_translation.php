@@ -11,7 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('applications_translations', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('locale')->index();
 
+            $table->foreignId('application_id')->references('id')->on('applications')->onDelete('cascade');
+            $table->unique('name','locale');
+
+            $table->boolean('online')->default(0)->nullable();
+            $table->string('name');
+            $table->string('slug');
+            $table->softDeletes();
+        });
     }
 
     /**
