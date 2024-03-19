@@ -17,7 +17,7 @@ class Application extends Model implements HasMedia, TranslatableContract
     use SoftDeletes, InteractsWithMedia, HasFactory, Translatable;
 
     public $table = 'applications';
-    public $translatedAttributes = ['name','slug'];
+    public $translatedAttributes = ['online','name','slug'];
 
     protected $appends = [
         'image',
