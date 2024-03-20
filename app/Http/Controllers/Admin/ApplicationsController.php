@@ -51,9 +51,9 @@ class ApplicationsController extends Controller
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
             });
-            $table->editColumn('name', function ($row) {
-                return $row->name ? $row->name : '';
-            });
+//            $table->editColumn('name', function ($row) {
+//                return $row->name ? $row->name : '';
+//            });
             $table->editColumn('image', function ($row) {
                 if ($photo = $row->image) {
                     return sprintf(
@@ -102,7 +102,7 @@ class ApplicationsController extends Controller
     {
         abort_if(Gate::denies('application_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $categories = Category::pluck('name', 'id');
+        $categories = [];//Category::pluck('name', 'id');
 
         $application->load('categories');
 
@@ -111,6 +111,7 @@ class ApplicationsController extends Controller
 
     public function update(UpdateApplicationRequest $request, Application $application)
     {
+        dd($request->all());
         $application->update($request->all());
         $application->categories()->sync($request->input('categories', []));
         if ($request->input('image', false)) {

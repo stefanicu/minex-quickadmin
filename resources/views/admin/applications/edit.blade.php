@@ -4,6 +4,9 @@
 <div class="card">
     <div class="card-header">
         {{ trans('global.edit') }} {{ trans('cruds.application.title_singular') }}
+        @php
+            //dd($application);
+        @endphp;
     </div>
 
     <div class="card-body">
@@ -21,19 +24,7 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.application.fields.online_helper') }}</span>
             </div>
-            <div class="form-group">
-                <label class="required">{{ trans('cruds.application.fields.language') }}</label>
-                <select class="form-control {{ $errors->has('language') ? 'is-invalid' : '' }}" name="language" id="language" required>
-                    <option value disabled {{ old('language', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\Application::LANGUAGE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('language', $application->language) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('language'))
-                    <span class="text-danger">{{ $errors->first('language') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.application.fields.language_helper') }}</span>
-            </div>
+
             <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.application.fields.name') }}</label>
                 <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $application->name) }}" required>

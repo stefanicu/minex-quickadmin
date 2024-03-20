@@ -6,7 +6,10 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateApplicationsTable extends Migration
 {
-    public function up()
+    /**
+     * @return void
+     */
+    public function up(): void
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->bigIncrements('id');
