@@ -111,7 +111,6 @@ class ApplicationsController extends Controller
 
     public function update(UpdateApplicationRequest $request, Application $application)
     {
-        dd($request->all());//test
         $application->update($request->all());
         $application->categories()->sync($request->input('categories', []));
         if ($request->input('image', false)) {

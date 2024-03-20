@@ -8,4 +8,9 @@ class ApplicationTranslation extends Model
 {
     public $timestamps = false;
     protected $fillable = ['online','name','slug'];
+
+    public static $searchable = [
+        'name',
+        'slug',
+    ];
 }
