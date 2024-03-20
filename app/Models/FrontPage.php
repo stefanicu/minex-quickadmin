@@ -25,14 +25,7 @@ class FrontPage extends Model implements HasMedia
         'deleted_at',
     ];
 
-    public const LANGUAGE_SELECT = [
-        'en' => 'English',
-        'ro' => 'Romanian',
-        'bg' => 'Bulgarian',
-    ];
-
     public static $searchable = [
-        'language',
         'name',
         'first_text',
         'seccond_text',
@@ -41,7 +34,6 @@ class FrontPage extends Model implements HasMedia
     ];
 
     protected $fillable = [
-        'language',
         'name',
         'first_text',
         'seccond_text',

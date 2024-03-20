@@ -50,9 +50,6 @@ class TestimonialsController extends Controller
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
             });
-            $table->editColumn('language', function ($row) {
-                return $row->language ? Testimonial::LANGUAGE_SELECT[$row->language] : '';
-            });
             $table->editColumn('company', function ($row) {
                 return $row->company ? $row->company : '';
             });

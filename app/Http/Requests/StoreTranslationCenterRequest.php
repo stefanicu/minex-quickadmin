@@ -17,9 +17,6 @@ class StoreTranslationCenterRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => [
-                'required',
-            ],
             'name' => [
                 'string',
                 'min:0',

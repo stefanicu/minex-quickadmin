@@ -46,9 +46,6 @@ class TranslationCenterController extends Controller
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
             });
-            $table->editColumn('language', function ($row) {
-                return $row->language ? TranslationCenter::LANGUAGE_SELECT[$row->language] : '';
-            });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });

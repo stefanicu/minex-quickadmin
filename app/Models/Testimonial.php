@@ -27,22 +27,14 @@ class Testimonial extends Model implements HasMedia
     ];
 
     public static $searchable = [
-        'language',
         'company',
         'content',
         'name',
         'job',
     ];
 
-    public const LANGUAGE_SELECT = [
-        'en' => 'English',
-        'ro' => 'Romanian',
-        'bg' => 'Bulgarian',
-    ];
-
     protected $fillable = [
         'online',
-        'language',
         'company',
         'content',
         'name',

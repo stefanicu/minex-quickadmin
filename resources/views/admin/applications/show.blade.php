@@ -25,14 +25,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.application.fields.language') }}
-                        </th>
-                        <td>
-                            {{ App\Models\Application::LANGUAGE_SELECT[$application->language] ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.application.fields.name') }}
                         </th>
                         <td>

@@ -45,9 +45,6 @@ class FrontPageController extends Controller
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
-            $table->editColumn('language', function ($row) {
-                return $row->language ? FrontPage::LANGUAGE_SELECT[$row->language] : '';
-            });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });

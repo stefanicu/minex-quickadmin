@@ -25,14 +25,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.frontPage.fields.language') }}
-                        </th>
-                        <td>
-                            {{ App\Models\FrontPage::LANGUAGE_SELECT[$frontPage->language] ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.frontPage.fields.name') }}
                         </th>
                         <td>

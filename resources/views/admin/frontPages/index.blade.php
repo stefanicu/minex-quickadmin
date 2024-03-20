@@ -17,9 +17,6 @@
                         {{ trans('cruds.frontPage.fields.id') }}
                     </th>
                     <th>
-                        {{ trans('cruds.frontPage.fields.language') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.frontPage.fields.name') }}
                     </th>
                     <th>
@@ -59,7 +56,6 @@
     columns: [
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
-{ data: 'language', name: 'language' },
 { data: 'name', name: 'name' },
 { data: 'first_text', name: 'first_text' },
 { data: 'button', name: 'button' },

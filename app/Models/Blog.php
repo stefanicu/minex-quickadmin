@@ -20,28 +20,20 @@ class Blog extends Model implements HasMedia
         'image',
     ];
 
+    public static $searchable = [
+        'name',
+        'slug',
+        'content',
+    ];
+
     protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at',
     ];
 
-    public static $searchable = [
-        'language',
-        'name',
-        'slug',
-        'content',
-    ];
-
-    public const LANGUAGE_SELECT = [
-        'en' => 'English',
-        'ro' => 'Romanian',
-        'bg' => 'Bulgarian',
-    ];
-
     protected $fillable = [
         'online',
-        'language',
         'name',
         'slug',
         'content',

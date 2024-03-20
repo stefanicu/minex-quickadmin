@@ -17,19 +17,10 @@ class UpdateApplicationRequest extends FormRequest
     public function rules()
     {
         return [
-            'categories.*' => [
-                'integer',
-            ],
-            'categories' => [
-                'array',
-            ],
-            'locale' => [
-                'required',
-            ],
             'name' => [
                 'string',
                 'min:0',
-                'max:3',
+                'max:255',
                 'required',
                 'unique:applications,name,' . request()->route('application')->id,
             ],
@@ -39,7 +30,13 @@ class UpdateApplicationRequest extends FormRequest
                 'max:255',
                 'required',
                 'unique:applications,slug,' . request()->route('application')->id,
-            ]
+            ],
+            'categories.*' => [
+                'integer',
+            ],
+            'categories' => [
+                'array',
+            ],
         ];
     }
 }

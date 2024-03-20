@@ -25,12 +25,6 @@ class TranslationCenter extends Model
         'deleted_at',
     ];
 
-    public const LANGUAGE_SELECT = [
-        'en' => 'English',
-        'ro' => 'Romanian',
-        'bg' => 'Bulgarian',
-    ];
-
     public const SECTION_SELECT = [
         'menu'    => 'Menu',
         'forms'   => 'Forms',
@@ -39,7 +33,6 @@ class TranslationCenter extends Model
 
     protected $fillable = [
         'online',
-        'language',
         'name',
         'slug',
         'section',

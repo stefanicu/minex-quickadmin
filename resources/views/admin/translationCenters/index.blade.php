@@ -28,9 +28,6 @@
                         {{ trans('cruds.translationCenter.fields.online') }}
                     </th>
                     <th>
-                        {{ trans('cruds.translationCenter.fields.language') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.translationCenter.fields.name') }}
                     </th>
                     <th>
@@ -97,14 +94,13 @@
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'online', name: 'online' },
-{ data: 'language', name: 'language' },
 { data: 'name', name: 'name' },
 { data: 'slug', name: 'slug' },
 { data: 'section', name: 'section' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 4, 'asc' ]],
+    order: [[ 3, 'asc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-TranslationCenter').DataTable(dtOverrideGlobals);

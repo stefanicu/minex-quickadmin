@@ -10,19 +10,6 @@
         <form method="POST" action="{{ route("admin.front-pages.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label class="required">{{ trans('cruds.frontPage.fields.language') }}</label>
-                <select class="form-control {{ $errors->has('language') ? 'is-invalid' : '' }}" name="language" id="language" required>
-                    <option value disabled {{ old('language', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\FrontPage::LANGUAGE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('language', 'en') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('language'))
-                    <span class="text-danger">{{ $errors->first('language') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.frontPage.fields.language_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.frontPage.fields.name') }}</label>
                 <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
                 @if($errors->has('name'))
