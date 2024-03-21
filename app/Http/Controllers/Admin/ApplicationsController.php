@@ -109,8 +109,9 @@ class ApplicationsController extends Controller
         return view('admin.applications.edit', compact('application', 'categories'));
     }
 
-    public function update(UpdateApplicationRequest $request, Application $application)
+    public function update(Request $request, Application $application)
     {
+        dd($request);
         $application->update($request->all());
         $application->categories()->sync($request->input('categories', []));
         if ($request->input('image', false)) {
