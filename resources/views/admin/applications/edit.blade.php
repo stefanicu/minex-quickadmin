@@ -4,9 +4,6 @@
 <div class="card">
     <div class="card-header">
         {{ trans('global.edit') }} {{ trans('cruds.application.title_singular') }}
-        @php
-            //dd($application);
-        @endphp;
     </div>
 
     <div class="card-body">

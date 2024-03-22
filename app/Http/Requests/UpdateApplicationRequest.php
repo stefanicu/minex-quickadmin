@@ -23,22 +23,22 @@ class UpdateApplicationRequest extends FormRequest
             'categories' => [
                 'array',
             ],
-            'locale' => [
-                'required',
-            ],
+//            'locale' => [
+//                'required',
+//            ],
             'name' => [
                 'string',
                 'min:0',
-                'max:3',
+                'max:255',
                 'required',
-                'unique:applications,name,' . request()->route('application')->id,
+                'unique:application_translations,name,' . request()->route('application')->id . ',application_id',
             ],
             'slug' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:applications,slug,' . request()->route('application')->id,
+                'unique:application_translations,slug,' . request()->route('application')->id . ',application_id',
             ]
         ];
     }
