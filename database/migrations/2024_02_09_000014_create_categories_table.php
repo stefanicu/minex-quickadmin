@@ -11,9 +11,7 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('online')->default(0)->nullable();
-            $table->string('language');
-            $table->string('name')->unique();
-            $table->string('slug')->unique();
+
             $table->integer('page_views')->nullable();
             $table->integer('oldid')->nullable();
             $table->string('oldimage')->nullable();
@@ -21,6 +19,21 @@ class CreateCategoriesTable extends Migration
             $table->integer('oldproductid')->nullable();
             $table->string('oldproductimg')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('category_translations', function (Blueprint $table) {
+            $table->bigIncrements('id');
+
+            $table->string('locale')->index();
+
+            $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->unique('name','locale');
+
+            $table->boolean('online')->default(0)->nullable();
+            $table->string('name')->unique();
+            $table->string('slug')->unique();
+
             $table->softDeletes();
         });
     }

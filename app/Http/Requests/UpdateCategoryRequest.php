@@ -17,22 +17,22 @@ class UpdateCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => [
-                'required',
-            ],
+            // 'locale' => [
+            //     'required',
+            // ],
             'name' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:categories,name,' . request()->route('category')->id,
+                'unique:category_translations,name,' . request()->route('category')->id . ',"category_id"',
             ],
             'slug' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:categories,slug,' . request()->route('category')->id,
+                'unique:category_translations,slug,' . request()->route('category')->id . '"category_id"',
             ],
             'page_views' => [
                 'nullable',
