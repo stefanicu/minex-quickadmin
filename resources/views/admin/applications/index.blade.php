@@ -88,14 +88,14 @@
     aaSorting: [],
     ajax: "{{ route('admin.applications.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'online', name: 'online' },
-{ data: 'name', name: 'name' },
-{ data: 'image', name: 'image', sortable: false, searchable: false },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
+        { data: 'placeholder', name: 'placeholder' },
+        { data: 'id', name: 'id' },
+        { data: 'online', name: 'online' },
+        { data: 'name', name: 'name' },
+        { data: 'image', name: 'image', sortable: false, searchable: false },
+        { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
-    orderCellsTop: true,
+    orderCellsTop: false,
     order: [[ 1, 'desc' ]],
     pageLength: 25,
   };
@@ -104,7 +104,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 });
 
 </script>
