@@ -28,11 +28,13 @@ class CreateCategoriesTable extends Migration
             $table->string('locale')->index();
 
             $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->unique('name','locale');
 
             $table->boolean('online')->default(0)->nullable();
-            $table->string('name')->unique();
-            $table->string('slug')->unique();
+            $table->string('name');
+            $table->string('slug');
+
+            $table->unique(['name', 'locale']);
+            $table->unique(['slug', 'locale']);
 
             $table->softDeletes();
         });

@@ -31,14 +31,7 @@
                             <input type="checkbox" disabled="disabled" {{ $category->online ? 'checked' : '' }}>
                         </td>
                     </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.category.fields.language') }}
-                        </th>
-                        <td>
-                            {{ App\Models\Category::LANGUAGE_SELECT[$category->language] ?? '' }}
-                        </td>
-                    </tr>
+
                     <tr>
                         <th>
                             {{ trans('cruds.category.fields.name') }}

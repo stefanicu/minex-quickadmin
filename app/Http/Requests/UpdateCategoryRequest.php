@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Category;
 use Gate;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 
 class UpdateCategoryRequest extends FormRequest
 {
@@ -14,25 +14,40 @@ class UpdateCategoryRequest extends FormRequest
         return Gate::allows('category_edit');
     }
 
-    public function rules()
+    public function rules(): array
     {
+//        $unique = Rule::unique('category_translations', 'name')
+//            ->ignore('category_id',request()->route('category')->id)
+//            ->where('locale', $this->input('locale'));
+//        $category_id = request()->route('category')->id;
+//        dd(
+//            $this->input('locale'),
+//            $category_id,
+//            $unique
+//        );
         return [
-            // 'locale' => [
-            //     'required',
-            // ],
+             'locale' => [
+                 'required',
+             ],
             'name' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:category_translations,name,' . request()->route('category')->id . ',"category_id"',
+                Rule::unique('category_translations', 'name')
+                    ->where('locale', app()->getLocale())
+                    ->ignore(request()->route('category')->id,'category_id')
+
             ],
             'slug' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:category_translations,slug,' . request()->route('category')->id . '"category_id"',
+                Rule::unique('category_translations', 'slug')
+                    ->where('locale', app()->getLocale())
+                    ->ignore(request()->route('category')->id,'category_id')
+
             ],
             'page_views' => [
                 'nullable',
