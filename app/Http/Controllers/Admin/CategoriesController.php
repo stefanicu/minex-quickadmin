@@ -31,8 +31,6 @@ class CategoriesController extends Controller
                 ->where('category_translations.locale','=',app()->getLocale())
                 ->select(sprintf('%s.*', (new Category)->table));
 
-            ray(Datatables::of($query));
-
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
