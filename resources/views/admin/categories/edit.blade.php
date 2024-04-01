@@ -58,7 +58,7 @@
                 <label for="product_image_id">{{ trans('cruds.category.fields.product_image') }}</label>
                 <select class="form-control select2 {{ $errors->has('product_image') ? 'is-invalid' : '' }}" name="product_image_id" id="product_image_id">
                     @foreach($product_images as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('product_image_id') ? old('product_image_id') : $category->product_image->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}
+                        <option value="{{ $id }}" {{ (old('product_image_id') ? old('product_image_id') : $category->product_image->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('product_image'))
@@ -74,7 +74,7 @@
                 </div>
                 <select class="form-control select2 {{ $errors->has('applications') ? 'is-invalid' : '' }}" name="applications[]" id="applications" multiple>
                     @foreach($applications as $id => $application)
-                        <option value="{{ $id }}" {{ (in_array($id, old('applications', [])) || $category->applications->contains($id)) ? 'selected' : '' }}>{{ $application }}
+                        <option value="{{ $id }}" {{ (in_array($id, old('applications', [])) || $category->applications->contains($id)) ? 'selected' : '' }}>{{ $application }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('applications'))
