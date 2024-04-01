@@ -16,15 +16,6 @@ class UpdateCategoryRequest extends FormRequest
 
     public function rules(): array
     {
-//        $unique = Rule::unique('category_translations', 'name')
-//            ->ignore('category_id',request()->route('category')->id)
-//            ->where('locale', $this->input('locale'));
-//        $category_id = request()->route('category')->id;
-//        dd(
-//            $this->input('locale'),
-//            $category_id,
-//            $unique
-//        );
         return [
              'locale' => [
                  'required',
