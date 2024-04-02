@@ -10,19 +10,6 @@
         <form method="POST" action="{{ route("admin.frontpages.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label class="required">{{ trans('cruds.frontPage.fields.language') }}</label>
-                <select class="form-control {{ $errors->has('language') ? 'is-invalid' : '' }}" name="language" id="language" required>
-                    <option value disabled {{ old('language', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\FrontPage::LANGUAGE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('language', 'en') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('language'))
-                    <span class="text-danger">{{ $errors->first('language') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.frontPage.fields.language_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.frontPage.fields.name') }}</label>
                 <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
                 @if($errors->has('name'))
@@ -39,12 +26,12 @@
                 <span class="help-block">{{ trans('cruds.frontPage.fields.first_text_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="seccond_text">{{ trans('cruds.frontPage.fields.seccond_text') }}</label>
-                <textarea class="form-control ckeditor {{ $errors->has('seccond_text') ? 'is-invalid' : '' }}" name="seccond_text" id="seccond_text">{!! old('seccond_text') !!}</textarea>
-                @if($errors->has('seccond_text'))
-                    <span class="text-danger">{{ $errors->first('seccond_text') }}</span>
+                <label for="second_text">{{ trans('cruds.frontPage.fields.second_text') }}</label>
+                <textarea class="form-control ckeditor {{ $errors->has('second_text') ? 'is-invalid' : '' }}" name="second_text" id="second_text">{!! old('second_text') !!}</textarea>
+                @if($errors->has('second_text'))
+                    <span class="text-danger">{{ $errors->first('second_text') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.frontPage.fields.seccond_text_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.frontPage.fields.second_text_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="quote">{{ trans('cruds.frontPage.fields.quote') }}</label>
@@ -72,6 +59,7 @@
                 <span class="help-block">{{ trans('cruds.frontPage.fields.image_helper') }}</span>
             </div>
             <div class="form-group">
+                <input type="hidden" name="locale" value="{{app()->getLocale()}}">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

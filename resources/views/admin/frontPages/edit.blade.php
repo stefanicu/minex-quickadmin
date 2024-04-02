@@ -40,12 +40,12 @@
                 <span class="help-block">{{ trans('cruds.frontPage.fields.first_text_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="seccond_text">{{ trans('cruds.frontPage.fields.seccond_text') }}</label>
-                <textarea class="form-control ckeditor {{ $errors->has('seccond_text') ? 'is-invalid' : '' }}" name="seccond_text" id="seccond_text">{!! old('seccond_text', $frontPage->seccond_text) !!}</textarea>
-                @if($errors->has('seccond_text'))
-                    <span class="text-danger">{{ $errors->first('seccond_text') }}</span>
+                <label for="second_text">{{ trans('cruds.frontPage.fields.second_text') }}</label>
+                <textarea class="form-control ckeditor {{ $errors->has('second_text') ? 'is-invalid' : '' }}" name="second_text" id="second_text">{!! old('second_text', $frontPage->second_text) !!}</textarea>
+                @if($errors->has('second_text'))
+                    <span class="text-danger">{{ $errors->first('second_text') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.frontPage.fields.seccond_text_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.frontPage.fields.second_text_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="quote">{{ trans('cruds.frontPage.fields.quote') }}</label>
@@ -73,6 +73,7 @@
                 <span class="help-block">{{ trans('cruds.frontPage.fields.image_helper') }}</span>
             </div>
             <div class="form-group">
+                <input type="hidden" name="locale" value="{{app()->getLocale()}}">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

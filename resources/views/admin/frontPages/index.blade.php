@@ -17,13 +17,7 @@
                         {{ trans('cruds.frontPage.fields.id') }}
                     </th>
                     <th>
-                        {{ trans('cruds.frontPage.fields.language') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.frontPage.fields.name') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.frontPage.fields.first_text') }}
                     </th>
                     <th>
                         {{ trans('cruds.frontPage.fields.button') }}
@@ -59,15 +53,13 @@
     columns: [
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
-{ data: 'language', name: 'language' },
-{ data: 'name', name: 'name' },
-{ data: 'first_text', name: 'first_text' },
-{ data: 'button', name: 'button' },
+{ data: 'name', name: 'frontpage_translations.name' },
+{ data: 'button', name: 'frontpage_translations.button' },
 { data: 'image', name: 'image', sortable: false, searchable: false },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 1, 'asc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-FrontPage').DataTable(dtOverrideGlobals);

@@ -25,7 +25,7 @@ class CreateFrontPagesTable extends Migration
 
             $table->string('name');
             $table->longText('first_text')->nullable();
-            $table->longText('seccond_text')->nullable();
+            $table->longText('second_text')->nullable();
             $table->longText('quote')->nullable();
             $table->string('button')->nullable();
 

@@ -8,7 +8,6 @@ use App\Http\Requests\UpdateFrontPageRequest;
 use App\Models\FrontPage;
 use Gate;
 use Illuminate\Http\Request;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -21,7 +20,10 @@ class FrontPageController extends Controller
         abort_if(Gate::denies('frontpage_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = FrontPage::query()->select(sprintf('%s.*', (new FrontPage)->table));
+            $query = FrontPage::join('frontpage_translations','frontpages.id','=','frontpage_translations.frontpage_id')
+                ->where('frontpage_translations.locale','=',app()->getLocale())
+                ->select(sprintf('%s.*', (new FrontPage)->table));
+
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -44,9 +46,6 @@ class FrontPageController extends Controller
 
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
-            });
-            $table->editColumn('language', function ($row) {
-                return $row->language ? FrontPage::LANGUAGE_SELECT[$row->language] : '';
             });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';

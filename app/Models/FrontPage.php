@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Astrotomic\Translatable\Translatable;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,11 +11,12 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class FrontPage extends Model implements HasMedia
+class FrontPage extends Model implements HasMedia, TranslatableContract
 {
-    use InteractsWithMedia, HasFactory;
+    use InteractsWithMedia, HasFactory, Translatable;
 
     public $table = 'frontpages';
+    public $translatedAttributes = ['name','first_text','second_text','quote','button'];
 
     protected $appends = [
         'image',
@@ -25,28 +28,7 @@ class FrontPage extends Model implements HasMedia
         'deleted_at',
     ];
 
-    public const LANGUAGE_SELECT = [
-        'en' => 'English',
-        'ro' => 'Romanian',
-        'bg' => 'Bulgarian',
-    ];
-
-    public static $searchable = [
-        'language',
-        'name',
-        'first_text',
-        'seccond_text',
-        'quote',
-        'button',
-    ];
-
     protected $fillable = [
-        'language',
-        'name',
-        'first_text',
-        'seccond_text',
-        'quote',
-        'button',
         'oldid',
         'oldimage',
         'created_at',

@@ -24,9 +24,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>
-                            {{ trans('cruds.frontPage.fields.language') }}
-                        </th>
                         <td>
                             {{ App\Models\FrontPage::LANGUAGE_SELECT[$frontPage->language] ?? '' }}
                         </td>
@@ -49,10 +46,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.frontPage.fields.seccond_text') }}
+                            {{ trans('cruds.frontPage.fields.second_text') }}
                         </th>
                         <td>
-                            {!! $frontPage->seccond_text !!}
+                            {!! $frontPage->second_text !!}
                         </td>
                     </tr>
                     <tr>
