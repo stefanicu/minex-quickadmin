@@ -9,6 +9,7 @@ use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Models\Application;
 use App\Models\Category;
+use App\Models\CategoryTranslation;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -24,7 +25,11 @@ class ApplicationsController extends Controller
         abort_if(Gate::denies('application_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Application::with(['categories'])->select(sprintf('%s.*', (new Application)->table));
+            $query = Application::join('application_translations','applications.id','=','application_translations.application_id')
+                ->with(['categories'])
+                ->where('application_translations.locale','=',app()->getLocale())
+                ->select(sprintf('%s.*', (new Application)->table));
+
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -78,7 +83,7 @@ class ApplicationsController extends Controller
     {
         abort_if(Gate::denies('application_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $categories = Category::pluck('name', 'id');
+        $categories = CategoryTranslation::where('locale',app()->getLocale() )->orderBy('name','asc')->pluck('name', 'id');
 
         return view('admin.applications.create', compact('categories'));
     }
@@ -102,7 +107,7 @@ class ApplicationsController extends Controller
     {
         abort_if(Gate::denies('application_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $categories = Category::pluck('name', 'id');
+        $categories = CategoryTranslation::where('locale',app()->getLocale() )->orderBy('name','asc')->pluck('name', 'id');
 
         $application->load('categories');
 
@@ -111,7 +116,6 @@ class ApplicationsController extends Controller
 
     public function update(UpdateApplicationRequest $request, Application $application)
     {
-        // dd($request->all());
         $application->update($request->all());
         $application->categories()->sync($request->input('categories', []));
         if ($request->input('image', false)) {

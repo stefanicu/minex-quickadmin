@@ -91,7 +91,7 @@
         { data: 'placeholder', name: 'placeholder' },
         { data: 'id', name: 'id' },
         { data: 'online', name: 'online' },
-        { data: 'name', name: 'name' },
+        { data: 'name', name: 'application_translations.name' },
         { data: 'image', name: 'image', sortable: false, searchable: false },
         { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
