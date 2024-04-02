@@ -31,7 +31,7 @@ class FrontPageController extends Controller
                 $viewGate      = 'frontpage_show';
                 $editGate      = 'frontpage_edit';
                 $deleteGate    = 'frontpage_delete';
-                $crudRoutePart = 'front-pages';
+                $crudRoutePart = 'frontpages';
 
                 return view('partials.datatablesActions', compact(
                     'viewGate',
@@ -99,7 +99,7 @@ class FrontPageController extends Controller
             $frontPage->image->delete();
         }
 
-        return redirect()->route('admin.front-pages.index');
+        return redirect()->route('admin.frontpages.index');
     }
 
     public function storeCKEditorImages(Request $request)

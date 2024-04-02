@@ -23,7 +23,7 @@
                 </li>
                 @can('frontpage_access')
                     <li class="nav-item">
-                        <a href="{{ route("admin.front-pages.index") }}" class="nav-link {{ request()->is("admin/front-pages") || request()->is("admin/front-pages/*") ? "active" : "" }}">
+                        <a href="{{ route("admin.frontpages.index") }}" class="nav-link {{ request()->is("admin/frontpages") || request()->is("admin/frontpages/*") ? "active" : "" }}">
                             <i class="fa-fw nav-icon fas fa-home">
 
                             </i>
