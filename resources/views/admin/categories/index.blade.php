@@ -24,9 +24,9 @@
                     <th>
                         {{ trans('cruds.category.fields.id') }}
                     </th>
-                    <th>
-                        {{ trans('cruds.category.fields.online') }}
-                    </th>
+{{--                    <th>--}}
+{{--                        {{ trans('cruds.category.fields.online') }}--}}
+{{--                    </th>--}}
                     <th>
                         {{ trans('cruds.category.fields.name') }}
                     </th>
@@ -93,14 +93,14 @@
     columns: [
         { data: 'placeholder', name: 'placeholder' },
         { data: 'id', name: 'id' },
-        { data: 'online', name: 'online' },
+        // { data: 'online', name: 'online' },
         { data: 'name', name: 'category_translations.name' },
         { data: 'page_views', name: 'page_views' },
         { data: 'cover_photo', name: 'cover_photo', sortable: false, searchable: false },
         { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: false,
-    order: [[ 3, 'asc' ]],
+    order: [[ 2, 'asc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-Category').DataTable(dtOverrideGlobals);
