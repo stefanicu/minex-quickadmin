@@ -10,13 +10,13 @@ SELECT * FROM (
 
 INSERT INTO minexq.category_translations(online, locale, name, slug, category_id)
 SELECT * FROM (
-     SELECT IF(online > 0, 1, 0) AS online, 'ro'  AS locale, nume AS name, slug, id as category_id
+     SELECT IF(online > 0, 1, 0) AS online, 'ro'  AS locale, trim(nume) AS name, trim(slug), id as category_id
      FROM minex_live.categorii WHERE del='0' and nume!=''
          UNION
-    SELECT IF(online > 0, 1, 0) AS online, 'en'  AS locale, nume1 AS name, slug1 AS slug, id as category_id
+    SELECT IF(online > 0, 1, 0) AS online, 'en'  AS locale, trim(nume1) AS name, trim(slug1) AS slug, id as category_id
     FROM minex_live.categorii WHERE del='0' and nume1!=''
          UNION
-     SELECT IF(online > 0, 1, 0) AS online, 'bg' AS locale,  nume2 AS name, slug2 AS slug, id as category_id
+     SELECT IF(online > 0, 1, 0) AS online, 'bg' AS locale, trim(nume2) AS name, trim(slug2) AS slug, id as category_id
      FROM minex_live.categorii WHERE del='0' and nume2!=''
 ) AS category_translations;
 

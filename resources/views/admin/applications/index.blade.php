@@ -24,9 +24,9 @@
                     <th>
                         {{ trans('cruds.application.fields.id') }}
                     </th>
-                    <th>
-                        {{ trans('cruds.application.fields.online') }}
-                    </th>
+{{--                    <th>--}}
+{{--                        {{ trans('cruds.application.fields.online') }}--}}
+{{--                    </th>--}}
                     <th>
                         {{ trans('cruds.application.fields.name') }}
                     </th>
@@ -90,13 +90,12 @@
     columns: [
         { data: 'placeholder', name: 'placeholder' },
         { data: 'id', name: 'id' },
-        { data: 'online', name: 'online' },
         { data: 'name', name: 'application_translations.name' },
         { data: 'image', name: 'image', sortable: false, searchable: false },
         { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: false,
-    order: [[ 1, 'desc' ]],
+    order: [[ 3, 'asc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-Application').DataTable(dtOverrideGlobals);
