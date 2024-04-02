@@ -13,7 +13,7 @@ class FrontPage extends Model implements HasMedia
 {
     use InteractsWithMedia, HasFactory;
 
-    public $table = 'front_pages';
+    public $table = 'frontpages';
 
     protected $appends = [
         'image',

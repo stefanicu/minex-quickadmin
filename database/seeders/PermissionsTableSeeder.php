@@ -240,11 +240,11 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 58,
-                'title' => 'front_page_edit',
+                'title' => 'frontpage_edit',
             ],
             [
                 'id'    => 59,
-                'title' => 'front_page_access',
+                'title' => 'frontpage_access',
             ],
             [
                 'id'    => 60,

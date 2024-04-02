@@ -18,7 +18,7 @@ class FrontPageController extends Controller
 
     public function index(Request $request)
     {
-        abort_if(Gate::denies('front_page_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('frontpage_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
             $query = FrontPage::query()->select(sprintf('%s.*', (new FrontPage)->table));
@@ -28,9 +28,9 @@ class FrontPageController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'front_page_show';
-                $editGate      = 'front_page_edit';
-                $deleteGate    = 'front_page_delete';
+                $viewGate      = 'frontpage_show';
+                $editGate      = 'frontpage_edit';
+                $deleteGate    = 'frontpage_delete';
                 $crudRoutePart = 'front-pages';
 
                 return view('partials.datatablesActions', compact(
@@ -79,7 +79,7 @@ class FrontPageController extends Controller
 
     public function edit(FrontPage $frontPage)
     {
-        abort_if(Gate::denies('front_page_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('frontpage_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.frontPages.edit', compact('frontPage'));
     }
@@ -104,7 +104,7 @@ class FrontPageController extends Controller
 
     public function storeCKEditorImages(Request $request)
     {
-        abort_if(Gate::denies('front_page_create') && Gate::denies('front_page_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('frontpage_create') && Gate::denies('frontpage_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $model         = new FrontPage();
         $model->id     = $request->input('crud_id', 0);

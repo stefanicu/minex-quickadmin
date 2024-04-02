@@ -11,7 +11,7 @@ class StoreFrontPageRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('front_page_create');
+        return Gate::allows('frontpage_create');
     }
 
     public function rules()
@@ -25,7 +25,7 @@ class StoreFrontPageRequest extends FormRequest
                 'min:0',
                 'max:255',
                 'required',
-                'unique:front_pages',
+                'unique:frontpages',
             ],
             'button' => [
                 'string',

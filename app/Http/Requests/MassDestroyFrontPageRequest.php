@@ -11,7 +11,7 @@ class MassDestroyFrontPageRequest extends FormRequest
 {
     public function authorize()
     {
-        abort_if(Gate::denies('front_page_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('frontpage_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
     }
@@ -20,7 +20,7 @@ class MassDestroyFrontPageRequest extends FormRequest
     {
         return [
             'ids'   => 'required|array',
-            'ids.*' => 'exists:front_pages,id',
+            'ids.*' => 'exists:frontpages,id',
         ];
     }
 }

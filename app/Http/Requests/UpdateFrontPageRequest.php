@@ -11,7 +11,7 @@ class UpdateFrontPageRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('front_page_edit');
+        return Gate::allows('frontpage_edit');
     }
 
     public function rules()
@@ -25,7 +25,7 @@ class UpdateFrontPageRequest extends FormRequest
                 'min:0',
                 'max:255',
                 'required',
-                'unique:front_pages,name,' . request()->route('front_page')->id,
+                'unique:frontpages,name,' . request()->route('frontpage')->id,
             ],
             'button' => [
                 'string',
