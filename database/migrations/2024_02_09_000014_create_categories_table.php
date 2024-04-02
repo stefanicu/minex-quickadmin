@@ -35,8 +35,6 @@ class CreateCategoriesTable extends Migration
 
             $table->unique(['name', 'locale']);
             $table->unique(['slug', 'locale']);
-
-            $table->softDeletes();
         });
     }
 }

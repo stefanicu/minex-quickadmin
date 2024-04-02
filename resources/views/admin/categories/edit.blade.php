@@ -83,7 +83,7 @@
                 <span class="help-block">{{ trans('cruds.category.fields.applications_helper') }}</span>
             </div>
             <div class="form-group">
-                <input type="hidden" name="locale" value="ro">
+                <input type="hidden" name="locale" value="{{app()->getLocale()}}">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
