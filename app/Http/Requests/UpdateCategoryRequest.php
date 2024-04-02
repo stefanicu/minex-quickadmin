@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Category;
 use Gate;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 
 class UpdateCategoryRequest extends FormRequest
 {
@@ -14,25 +14,31 @@ class UpdateCategoryRequest extends FormRequest
         return Gate::allows('category_edit');
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
-            'language' => [
-                'required',
-            ],
+             'locale' => [
+                 'required',
+             ],
             'name' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:categories,name,' . request()->route('category')->id,
+                Rule::unique('category_translations', 'name')
+                    ->where('locale', app()->getLocale())
+                    ->ignore(request()->route('category')->id,'category_id')
+
             ],
             'slug' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:categories,slug,' . request()->route('category')->id,
+                Rule::unique('category_translations', 'slug')
+                    ->where('locale', app()->getLocale())
+                    ->ignore(request()->route('category')->id,'category_id')
+
             ],
             'page_views' => [
                 'nullable',

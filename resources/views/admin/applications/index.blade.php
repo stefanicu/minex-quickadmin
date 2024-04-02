@@ -24,9 +24,9 @@
                     <th>
                         {{ trans('cruds.application.fields.id') }}
                     </th>
-                    <th>
-                        {{ trans('cruds.application.fields.online') }}
-                    </th>
+{{--                    <th>--}}
+{{--                        {{ trans('cruds.application.fields.online') }}--}}
+{{--                    </th>--}}
                     <th>
                         {{ trans('cruds.application.fields.name') }}
                     </th>
@@ -88,15 +88,14 @@
     aaSorting: [],
     ajax: "{{ route('admin.applications.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'online', name: 'online' },
-{ data: 'name', name: 'name' },
-{ data: 'image', name: 'image', sortable: false, searchable: false },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
+        { data: 'placeholder', name: 'placeholder' },
+        { data: 'id', name: 'id' },
+        { data: 'name', name: 'application_translations.name' },
+        { data: 'image', name: 'image', sortable: false, searchable: false },
+        { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
-    orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    orderCellsTop: false,
+    order: [[ 3, 'asc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-Application').DataTable(dtOverrideGlobals);
@@ -104,7 +103,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 });
 
 </script>

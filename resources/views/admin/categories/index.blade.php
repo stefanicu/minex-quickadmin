@@ -91,15 +91,15 @@
     aaSorting: [],
     ajax: "{{ route('admin.categories.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'online', name: 'online' },
-{ data: 'name', name: 'name' },
-{ data: 'page_views', name: 'page_views' },
-{ data: 'cover_photo', name: 'cover_photo', sortable: false, searchable: false },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
+        { data: 'placeholder', name: 'placeholder' },
+        { data: 'id', name: 'id' },
+        { data: 'online', name: 'online' },
+        { data: 'name', name: 'category_translations.name' },
+        { data: 'page_views', name: 'page_views' },
+        { data: 'cover_photo', name: 'cover_photo', sortable: false, searchable: false },
+        { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
-    orderCellsTop: true,
+    orderCellsTop: false,
     order: [[ 3, 'asc' ]],
     pageLength: 25,
   };
@@ -108,7 +108,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 });
 
 </script>

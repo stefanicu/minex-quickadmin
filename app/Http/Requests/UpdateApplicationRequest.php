@@ -6,6 +6,7 @@ use App\Models\Application;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 
 class UpdateApplicationRequest extends FormRequest
 {
@@ -23,22 +24,26 @@ class UpdateApplicationRequest extends FormRequest
             'categories' => [
                 'array',
             ],
-//            'locale' => [
-//                'required',
-//            ],
+            'locale' => [
+                'required',
+            ],
             'name' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:application_translations,name,' . request()->route('application')->id . ',application_id',
+                Rule::unique('application_translations', 'name')
+                    ->where('locale', app()->getLocale())
+                    ->ignore(request()->route('application')->id,'application_id')
             ],
             'slug' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:application_translations,slug,' . request()->route('application')->id . ',application_id',
+                Rule::unique('application_translations', 'slug')
+                    ->where('locale', app()->getLocale())
+                    ->ignore(request()->route('application')->id,'application_id')
             ]
         ];
     }
