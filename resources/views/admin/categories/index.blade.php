@@ -100,7 +100,7 @@
         { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: false,
-    order: [[ 3, 'asc' ]],
+    order: [[ 2, 'asc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-Category').DataTable(dtOverrideGlobals);
