@@ -49,12 +49,12 @@
     serverSide: true,
     retrieve: true,
     aaSorting: [],
-    ajax: "{{ route('admin.frontpages.index') }}",
+    ajax: "{{ route('admin.front_pages.index') }}",
     columns: [
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
-{ data: 'name', name: 'frontpage_translations.name' },
-{ data: 'button', name: 'frontpage_translations.button' },
+{ data: 'name', name: 'front_page_translations.name' },
+{ data: 'button', name: 'front_page_translations.button' },
 { data: 'image', name: 'image', sortable: false, searchable: false },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],

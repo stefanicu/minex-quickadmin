@@ -82,9 +82,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('categories', 'CategoriesController', ['except' => ['show']]);
 
     // Front Page
-    Route::post('frontpages/media', 'FrontPageController@storeMedia')->name('frontpages.storeMedia');
-    Route::post('frontpages/ckmedia', 'FrontPageController@storeCKEditorImages')->name('frontpages.storeCKEditorImages');
-    Route::resource('frontpages', 'FrontPageController', ['except' => ['create', 'store', 'show', 'destroy']]);
+    Route::post('front_pages/media', 'FrontPageController@storeMedia')->name('front_pages.storeMedia');
+    Route::post('front_pages/ckmedia', 'FrontPageController@storeCKEditorImages')->name('front_pages.storeCKEditorImages');
+    Route::resource('front_pages', 'FrontPageController', ['except' => ['create', 'store', 'show', 'destroy']]);
 
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
 });

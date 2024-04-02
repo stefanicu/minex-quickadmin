@@ -17,11 +17,11 @@ class FrontPageController extends Controller
 
     public function index(Request $request)
     {
-        abort_if(Gate::denies('frontpage_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('front_page_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = FrontPage::join('frontpage_translations','frontpages.id','=','frontpage_translations.frontpage_id')
-                ->where('frontpage_translations.locale','=',app()->getLocale())
+            $query = FrontPage::join('front_page_translations','front_pages.id','=','front_page_translations.front_page_id')
+                ->where('front_page_translations.locale','=',app()->getLocale())
                 ->select(sprintf('%s.*', (new FrontPage)->table));
 
             $table = Datatables::of($query);
@@ -30,10 +30,10 @@ class FrontPageController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'frontpage_show';
-                $editGate      = 'frontpage_edit';
-                $deleteGate    = 'frontpage_delete';
-                $crudRoutePart = 'frontpages';
+                $viewGate      = 'front_page_show';
+                $editGate      = 'front_page_edit';
+                $deleteGate    = 'front_page_delete';
+                $crudRoutePart = 'front_pages';
 
                 return view('partials.datatablesActions', compact(
                     'viewGate',
@@ -78,7 +78,7 @@ class FrontPageController extends Controller
 
     public function edit(FrontPage $frontPage)
     {
-        abort_if(Gate::denies('frontpage_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('front_page_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.frontPages.edit', compact('frontPage'));
     }
@@ -98,12 +98,12 @@ class FrontPageController extends Controller
             $frontPage->image->delete();
         }
 
-        return redirect()->route('admin.frontpages.index');
+        return redirect()->route('admin.front_pages.index');
     }
 
     public function storeCKEditorImages(Request $request)
     {
-        abort_if(Gate::denies('frontpage_create') && Gate::denies('frontpage_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('front_page_create') && Gate::denies('front_page_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $model         = new FrontPage();
         $model->id     = $request->input('crud_id', 0);

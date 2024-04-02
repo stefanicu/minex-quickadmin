@@ -8,7 +8,7 @@ class CreateFrontPagesTable extends Migration
 {
     public function up()
     {
-        Schema::create('frontpages', function (Blueprint $table) {
+        Schema::create('front_pages', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->integer('oldid')->nullable();
@@ -16,12 +16,12 @@ class CreateFrontPagesTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('frontpage_translations', function (Blueprint $table) {
+        Schema::create('front_page_translations', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->string('locale')->index();
 
-            $table->foreignId('frontpage_id')->references('id')->on('frontpages')->onDelete('cascade');
+            $table->foreignId('front_page_id')->references('id')->on('front_pages')->onDelete('cascade');
 
             $table->string('name');
             $table->longText('first_text')->nullable();
@@ -35,6 +35,6 @@ class CreateFrontPagesTable extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('frontpages');
+        Schema::dropIfExists('front_pages');
     }
 }

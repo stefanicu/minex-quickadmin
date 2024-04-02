@@ -17,7 +17,7 @@ class FrontPageApiController extends Controller
 
     public function index()
     {
-        abort_if(Gate::denies('frontpage_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('front_page_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new FrontPageResource(FrontPage::all());
     }

@@ -12,7 +12,7 @@ class UpdateFrontPageRequest extends FormRequest
 {
     public function authorize()
     {
-        return Gate::allows('frontpage_edit');
+        return Gate::allows('front_page_edit');
     }
 
     public function rules()
@@ -26,9 +26,9 @@ class UpdateFrontPageRequest extends FormRequest
                 'min:0',
                 'max:255',
                 'required',
-                Rule::unique('frontpage_translations', 'name')
+                Rule::unique('front_page_translations', 'name')
                     ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('frontpage')->id,'frontpage_id')
+                    ->ignore(request()->route('front_page')->id,'front_page_id')
             ],
             'button' => [
                 'string',

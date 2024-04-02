@@ -15,7 +15,7 @@ class FrontPage extends Model implements HasMedia, TranslatableContract
 {
     use InteractsWithMedia, HasFactory, Translatable;
 
-    public $table = 'frontpages';
+    public $table = 'front_pages';
     public $translatedAttributes = ['name','first_text','second_text','quote','button'];
 
     protected $appends = [

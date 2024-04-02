@@ -47,7 +47,7 @@ class ImportMinex extends Command
         echo '
         Brands import data.....................done';
 
-        DB::unprepared(file_get_contents('database/import_scripts/frontpages.sql'));
+        DB::unprepared(file_get_contents('database/import_scripts/front_pages.sql'));
         echo '
         FrontPages import data...............done';
 

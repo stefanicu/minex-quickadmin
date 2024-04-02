@@ -7,7 +7,7 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.frontpages.store") }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.front_pages.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.frontPage.fields.name') }}</label>
@@ -84,7 +84,7 @@
               return new Promise(function(resolve, reject) {
                 // Init request
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', '{{ route('admin.frontpages.storeCKEditorImages') }}', true);
+                xhr.open('POST', '{{ route('admin.front_pages.storeCKEditorImages') }}', true);
                 xhr.setRequestHeader('x-csrf-token', window._token);
                 xhr.setRequestHeader('Accept', 'application/json');
                 xhr.responseType = 'json';
@@ -139,7 +139,7 @@
 
 <script>
     Dropzone.options.imageDropzone = {
-    url: '{{ route('admin.frontpages.storeMedia') }}',
+    url: '{{ route('admin.front_pages.storeMedia') }}',
     maxFilesize: 4, // MB
     acceptedFiles: '.jpeg,.jpg,.png,.gif',
     maxFiles: 1,
