@@ -137,14 +137,15 @@
         searchable: false,
         targets: -1
     }],
-    select: {
-      style:    'multi+shift',
-      selector: 'td:first-child'
-    },
+    // select: {
+    //   style:    'multi+shift',
+    //   selector: 'td:first-child'
+    // },
     order: [],
-    scrollX: true,
+    scrollX: false,
     pageLength: 100,
-    dom: 'lBfrtip<"actions">',
+      // dom: 'lBfrtip<"actions">',
+      dom: '',
     buttons: [
       // {
       //   extend: 'selectAll',

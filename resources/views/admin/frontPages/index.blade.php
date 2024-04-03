@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.admin_home')
 @section('content')
 
 <div class="card">
@@ -18,12 +18,6 @@
                     </th>
                     <th>
                         {{ trans('cruds.frontPage.fields.name') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.frontPage.fields.button') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.frontPage.fields.image') }}
                     </th>
                     <th>
                         &nbsp;
@@ -54,8 +48,6 @@
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'name', name: 'front_page_translations.name' },
-{ data: 'button', name: 'front_page_translations.button' },
-{ data: 'image', name: 'image', sortable: false, searchable: false },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,

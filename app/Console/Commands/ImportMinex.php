@@ -39,23 +39,41 @@ class ImportMinex extends Command
         echo '
         Application_Category import data.......done';
 
-        DB::unprepared(file_get_contents('database/import_scripts/blogs.sql'));
+        DB::unprepared(file_get_contents('database/import_scripts/front_pages.sql'));
         echo '
-        Blogs import data......................done';
+        FrontPages import data.................done';
+
+        echo '
+
+           --- not translatable imports ---
+        '
+        ;
 
         DB::unprepared(file_get_contents('database/import_scripts/brands.sql'));
         echo '
         Brands import data.....................done';
 
-        DB::unprepared(file_get_contents('database/import_scripts/front_pages.sql'));
+        DB::unprepared(file_get_contents('database/import_scripts/contacts.sql'));
         echo '
-        FrontPages import data...............done';
+        Contacts import data.................done';
 
         echo '
 
+            --- not translated imports ---
+        '
+        ;
 
-        --- IMPORT COMPLETED ---
 
+        DB::unprepared(file_get_contents('database/import_scripts/blogs.sql'));
+        echo '
+        Blogs import data......................done';
+
+
+        echo '
+
+            ==============================
+            ====   IMPORT COMPLETED   ====
+            ==============================
                                                                                  ';
     }
 }

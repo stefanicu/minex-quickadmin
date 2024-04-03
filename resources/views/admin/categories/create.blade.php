@@ -10,11 +10,11 @@
         <form method="POST" action="{{ route("admin.categories.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
-                    <input type="hidden" name="online" value="0">
-                    <input class="form-check-input" type="checkbox" name="online" id="online" value="1" {{ old('online', 0) == 1 || old('online') === null ? 'checked' : '' }}>
-                    <label class="form-check-label" for="online">{{ trans('cruds.category.fields.online') }}</label>
-                </div>
+{{--                <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">--}}
+{{--                    <input type="hidden" name="online" value="0">--}}
+{{--                    <input class="form-check-input" type="checkbox" name="online" id="online" value="1" {{ old('online', 0) == 1 || old('online') === null ? 'checked' : '' }}>--}}
+{{--                    <label class="form-check-label" for="online">{{ trans('cruds.category.fields.online') }}</label>--}}
+{{--                </div>--}}
                 @if($errors->has('online'))
                     <span class="text-danger">{{ $errors->first('online') }}</span>
                 @endif
