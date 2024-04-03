@@ -22,42 +22,45 @@
                     <th>
                         {{ trans('cruds.contact.fields.surname') }}
                     </th>
-                    <th>
-                        {{ trans('cruds.contact.fields.email') }}
-                    </th>
+{{--                    <th>--}}
+{{--                        {{ trans('cruds.contact.fields.email') }}--}}
+{{--                    </th>--}}
                     <th>
                         {{ trans('cruds.contact.fields.job') }}
                     </th>
                     <th>
                         {{ trans('cruds.contact.fields.industry') }}
                     </th>
-                    <th>
-                        {{ trans('cruds.contact.fields.how_about') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.contact.fields.message') }}
-                    </th>
+{{--                    <th>--}}
+{{--                        {{ trans('cruds.contact.fields.how_about') }}--}}
+{{--                    </th>--}}
+{{--                    <th>--}}
+{{--                        {{ trans('cruds.contact.fields.message') }}--}}
+{{--                    </th>--}}
                     <th>
                         {{ trans('cruds.contact.fields.company') }}
                     </th>
-                    <th>
-                        {{ trans('cruds.contact.fields.phone') }}
-                    </th>
+{{--                    <th>--}}
+{{--                        {{ trans('cruds.contact.fields.phone') }}--}}
+{{--                    </th>--}}
                     <th>
                         {{ trans('cruds.contact.fields.country') }}
                     </th>
-                    <th>
-                        {{ trans('cruds.contact.fields.county') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.contact.fields.city') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.contact.fields.checkbox') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.contact.fields.product') }}
-                    </th>
+{{--                    <th>--}}
+{{--                        {{ trans('cruds.contact.fields.county') }}--}}
+{{--                    </th>--}}
+{{--                    <th>--}}
+{{--                        {{ trans('cruds.contact.fields.city') }}--}}
+{{--                    </th>--}}
+{{--                    <th>--}}
+{{--                        {{ trans('cruds.contact.fields.checkbox') }}--}}
+{{--                    </th>--}}
+{{--                    <th>--}}
+{{--                        {{ trans('cruds.contact.fields.product') }}--}}
+{{--                    </th>--}}
+                        <th>
+                            {{ trans('cruds.contact.fields.created_at') }}
+                        </th>
                     <th>
                         &nbsp;
                     </th>
@@ -117,22 +120,23 @@
 { data: 'id', name: 'id' },
 { data: 'name', name: 'name' },
 { data: 'surname', name: 'surname' },
-{ data: 'email', name: 'email' },
+// { data: 'email', name: 'email' },
 { data: 'job', name: 'job' },
 { data: 'industry', name: 'industry' },
-{ data: 'how_about', name: 'how_about' },
-{ data: 'message', name: 'message' },
+// { data: 'how_about', name: 'how_about' },
+// { data: 'message', name: 'message' },
 { data: 'company', name: 'company' },
-{ data: 'phone', name: 'phone' },
+// { data: 'phone', name: 'phone' },
 { data: 'country', name: 'country' },
-{ data: 'county', name: 'county' },
-{ data: 'city', name: 'city' },
-{ data: 'checkbox', name: 'checkbox' },
-{ data: 'product', name: 'product' },
+// { data: 'county', name: 'county' },
+// { data: 'city', name: 'city' },
+// { data: 'checkbox', name: 'checkbox' },
+// { data: 'product', name: 'product' },
+{ data: 'created_at', name: 'created_at' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 7, 'desc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-Contact').DataTable(dtOverrideGlobals);
