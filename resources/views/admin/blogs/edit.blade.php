@@ -10,30 +10,18 @@
         <form method="POST" action="{{ route("admin.blogs.update", [$blog->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
-            <div class="form-group">
-                <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
-                    <input type="hidden" name="online" value="0">
-                    <input class="form-check-input" type="checkbox" name="online" id="online" value="1" {{ $blog->online || old('online', 0) === 1 ? 'checked' : '' }}>
-                    <label class="form-check-label" for="online">{{ trans('cruds.blog.fields.online') }}</label>
-                </div>
-                @if($errors->has('online'))
-                    <span class="text-danger">{{ $errors->first('online') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.blog.fields.online_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required">{{ trans('cruds.blog.fields.language') }}</label>
-                <select class="form-control {{ $errors->has('language') ? 'is-invalid' : '' }}" name="language" id="language" required>
-                    <option value disabled {{ old('language', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\Blog::LANGUAGE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('language', $blog->language) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('language'))
-                    <span class="text-danger">{{ $errors->first('language') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.blog.fields.language_helper') }}</span>
-            </div>
+{{--            <div class="form-group">--}}
+{{--                <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">--}}
+{{--                    <input type="hidden" name="online" value="0">--}}
+{{--                    <input class="form-check-input" type="checkbox" name="online" id="online" value="1" {{ $blog->online || old('online', 0) === 1 ? 'checked' : '' }}>--}}
+{{--                    <label class="form-check-label" for="online">{{ trans('cruds.blog.fields.online') }}</label>--}}
+{{--                </div>--}}
+{{--                @if($errors->has('online'))--}}
+{{--                    <span class="text-danger">{{ $errors->first('online') }}</span>--}}
+{{--                @endif--}}
+{{--                <span class="help-block">{{ trans('cruds.blog.fields.online_helper') }}</span>--}}
+{{--            </div>--}}
+
             <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.blog.fields.name') }}</label>
                 <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $blog->name) }}" required>
@@ -52,12 +40,22 @@
             </div>
             <div class="form-group">
                 <label for="content">{{ trans('cruds.blog.fields.content') }}</label>
-                <textarea class="form-control ckeditor {{ $errors->has('content') ? 'is-invalid' : '' }}" name="content" id="content">{!! old('content', $blog->content) !!}</textarea>
+                <textarea class="form-control ckeditor {{ $errors->has('content') ? 'is-invalid' : '' }}" rows="200" name="content" id="content">{!! old('content', $blog->content) !!}</textarea>
                 @if($errors->has('content'))
                     <span class="text-danger">{{ $errors->first('content') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.blog.fields.content_helper') }}</span>
             </div>
+
+            <div class="form-group">
+                <label class="" for="image_text">{{ trans('Image Text') }}</label>
+                <input class="form-control {{ $errors->has('image_text') ? 'is-invalid' : '' }}" type="text" name="image_text" id="image_text" value="{{ old('image_text', '') }}">
+                @if($errors->has('image_text'))
+                    <span class="text-danger">{{ $errors->first('image_text') }}</span>
+                @endif
+                <span class="help-block">{{ trans(' ') }}</span>
+            </div>
+
             <div class="form-group">
                 <label for="image">{{ trans('cruds.blog.fields.image') }}</label>
                 <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}" id="image-dropzone">
@@ -68,6 +66,7 @@
                 <span class="help-block">{{ trans('cruds.blog.fields.image_helper') }}</span>
             </div>
             <div class="form-group">
+                <input type="hidden" name="locale" value="{{app()->getLocale()}}">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

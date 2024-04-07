@@ -43,6 +43,10 @@ class ImportMinex extends Command
         echo '
         FrontPages import data.................done';
 
+        DB::unprepared(file_get_contents('database/import_scripts/blogs.sql'));
+        echo '
+        Blogs import data......................done';
+
         echo '
 
            --- not translatable imports ---
@@ -62,11 +66,6 @@ class ImportMinex extends Command
             --- not translated imports ---
         '
         ;
-
-
-        DB::unprepared(file_get_contents('database/import_scripts/blogs.sql'));
-        echo '
-        Blogs import data......................done';
 
 
         echo '

@@ -3,7 +3,7 @@
 <div class="login-box">
     <div class="login-logo">
         <div class="login-logo">
-            <a href="{{ route('admin.home') }}">
+            <a href="{{ route('home') }}">
                 {{ trans('panel.site_title') }}
             </a>
         </div>
@@ -11,7 +11,7 @@
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">
-                {{ trans('global.login') }}
+                {{ trans('Login') }}
             </p>
 
             @if(session()->has('message'))
