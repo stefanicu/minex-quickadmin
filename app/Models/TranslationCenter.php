@@ -6,29 +6,20 @@ use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Astrotomic\Translatable\Translatable;
 
-class TranslationCenter extends Model
+class TranslationCenter extends Model implements TranslatableContract
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes, HasFactory, Translatable;
 
     public $table = 'translation_centers';
-
-    public static $searchable = [
-        'name',
-        'slug',
-        'section',
-    ];
+    public $translatedAttributes = ['name'];
 
     protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at',
-    ];
-
-    public const LANGUAGE_SELECT = [
-        'en' => 'English',
-        'ro' => 'Romanian',
-        'bg' => 'Bulgarian',
     ];
 
     public const SECTION_SELECT = [
@@ -38,11 +29,8 @@ class TranslationCenter extends Model
     ];
 
     protected $fillable = [
-        'online',
         'language',
         'name',
-        'slug',
-        'section',
         'created_at',
         'updated_at',
         'deleted_at',

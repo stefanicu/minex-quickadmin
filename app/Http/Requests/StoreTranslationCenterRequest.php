@@ -17,7 +17,7 @@ class StoreTranslationCenterRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => [
+            'locale' => [
                 'required',
             ],
             'name' => [
@@ -25,18 +25,8 @@ class StoreTranslationCenterRequest extends FormRequest
                 'min:0',
                 'max:255',
                 'required',
-                'unique:translation_centers',
-            ],
-            'slug' => [
-                'string',
-                'min:0',
-                'max:255',
-                'required',
-                'unique:translation_centers',
-            ],
-            'section' => [
-                'required',
-            ],
+                'unique:translation_center_translations',
+            ]
         ];
     }
 }
