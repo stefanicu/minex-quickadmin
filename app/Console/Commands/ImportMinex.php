@@ -49,7 +49,7 @@ class ImportMinex extends Command
 
         DB::unprepared(file_get_contents('database/import_scripts/translation_centers.sql'));
         echo '
-        Blogs import data......................done';
+        Translation Centers import data........done';
 
         echo '
 

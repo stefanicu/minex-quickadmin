@@ -1,24 +1,266 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="{{ app()->getLocale() }}">
 
-        <title>Minex Group</title>
+<?php
+if (isset($_POST['search'])) {
+    $search = $_POST['search'];
+    redirect('search/' . $search);
+}
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+if (isset($data[0]['nume'])) {
+    $datanume = ' | ' . $data[0]['nume'];
+} else {
+    if (isset($page)) {
+        $datanume = ' | ' . $page;
+    } else {
+        $datanume = "";
+    }
+}
 
-        <!-- Styles -->
-        <style>
-            /* ! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Figtree, sans-serif;font-feature-settings:normal}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::-webkit-backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.relative{position:relative}.mx-auto{margin-left:auto;margin-right:auto}.mx-6{margin-left:1.5rem;margin-right:1.5rem}.ml-4{margin-left:1rem}.mt-16{margin-top:4rem}.mt-6{margin-top:1.5rem}.mt-4{margin-top:1rem}.-mt-px{margin-top:-1px}.mr-1{margin-right:0.25rem}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.h-16{height:4rem}.h-7{height:1.75rem}.h-6{height:1.5rem}.h-5{height:1.25rem}.min-h-screen{min-height:100vh}.w-auto{width:auto}.w-16{width:4rem}.w-7{width:1.75rem}.w-6{width:1.5rem}.w-5{width:1.25rem}.max-w-7xl{max-width:80rem}.shrink-0{flex-shrink:0}.scale-100{--tw-scale-x:1;--tw-scale-y:1;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.items-center{align-items:center}.justify-center{justify-content:center}.gap-6{gap:1.5rem}.gap-4{gap:1rem}.self-center{align-self:center}.rounded-lg{border-radius:0.5rem}.rounded-full{border-radius:9999px}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-red-50{--tw-bg-opacity:1;background-color:rgb(254 242 242 / var(--tw-bg-opacity))}.bg-dots-darker{background-image:url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E")}.from-gray-700\/50{--tw-gradient-from:rgb(55 65 81 / 0.5);--tw-gradient-to:rgb(55 65 81 / 0);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-transparent{--tw-gradient-to:rgb(0 0 0 / 0);--tw-gradient-stops:var(--tw-gradient-from), transparent, var(--tw-gradient-to)}.bg-center{background-position:center}.stroke-red-500{stroke:#ef4444}.stroke-gray-400{stroke:#9ca3af}.p-6{padding:1.5rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.text-center{text-align:center}.text-right{text-align:right}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.font-semibold{font-weight:600}.leading-relaxed{line-height:1.625}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity))}.underline{-webkit-text-decoration-line:underline;text-decoration-line:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-gray-500\/20{--tw-shadow-color:rgb(107 114 128 / 0.2);--tw-shadow:var(--tw-shadow-colored)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.selection\:bg-red-500 *::selection{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity))}.selection\:text-white *::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.selection\:bg-red-500::selection{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity))}.selection\:text-white::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.hover\:text-gray-900:hover{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity))}.hover\:text-gray-700:hover{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity))}.focus\:rounded-sm:focus{border-radius:0.125rem}.focus\:outline:focus{outline-style:solid}.focus\:outline-2:focus{outline-width:2px}.focus\:outline-red-500:focus{outline-color:#ef4444}.group:hover .group-hover\:stroke-gray-600{stroke:#4b5563}@media (prefers-reduced-motion: no-preference){.motion-safe\:hover\:scale-\[1\.01\]:hover{--tw-scale-x:1.01;--tw-scale-y:1.01;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}@media (prefers-color-scheme: dark){.dark\:bg-gray-900{--tw-bg-opacity:1;background-color:rgb(17 24 39 / var(--tw-bg-opacity))}.dark\:bg-gray-800\/50{background-color:rgb(31 41 55 / 0.5)}.dark\:bg-red-800\/20{background-color:rgb(153 27 27 / 0.2)}.dark\:bg-dots-lighter{background-image:url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E")}.dark\:bg-gradient-to-bl{background-image:linear-gradient(to bottom left, var(--tw-gradient-stops))}.dark\:stroke-gray-600{stroke:#4b5563}.dark\:text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity))}.dark\:text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.dark\:shadow-none{--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.dark\:ring-1{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.dark\:ring-inset{--tw-ring-inset:inset}.dark\:ring-white\/5{--tw-ring-color:rgb(255 255 255 / 0.05)}.dark\:hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.group:hover .dark\:group-hover\:stroke-gray-400{stroke:#9ca3af}}@media (min-width: 640px){.sm\:fixed{position:fixed}.sm\:top-0{top:0px}.sm\:right-0{right:0px}.sm\:ml-0{margin-left:0px}.sm\:flex{display:flex}.sm\:items-center{align-items:center}.sm\:justify-center{justify-content:center}.sm\:justify-between{justify-content:space-between}.sm\:text-left{text-align:left}.sm\:text-right{text-align:right}}@media (min-width: 768px){.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 1024px){.lg\:gap-8{gap:2rem}.lg\:p-8{padding:2rem}}
-        </style>
-        @yield('styles')
-    </head>
+if ($this->session->userdata('lng') == 0) {
+    $imgNavSel = 'imgNavRom';
+    $alt = 'RO';
+} elseif ($this->session->userdata('lng') == 1) {
+    $imgNavSel = 'imgNavEng';
+    $alt = 'EN';
+} elseif ($this->session->userdata('lng') == 2) {
+    $imgNavSel = 'imgNavBlg';
+    $alt = 'BG';
+} elseif ($this->session->userdata('lng') == 3) {
+    $imgNavSel = 'imgNavX';
+    $alt = 'X';
+}
 
-    <body class="antialiased">
-    @yield('content')
+$page = 'Acasa';
+?>
+<html>
+<head>
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PM3K8LC');</script>
+    <!-- End Google Tag Manager -->
+
+    <?php
+    global $meta_description;
+    if(!$meta_description){
+        $meta_description = "Minex Group – your reliable partner in developing complex technical projects for surface treatment and metal processing. We offer you everything from designing and construction, to equipping and maintenance.";
+    }
+    ?>
+    <meta charset="utf-8">
+    <title>Minex Group <?php echo $datanume; ?></title>
+    <meta name="description" content="<?=$meta_description;?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="assets/images/favicon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!--link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"-->
+    <link href="//fonts.googleapis.com/css?family=Exo+2:400,800" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,400&amp;subset=cyrillic" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Josefin+Sans:300" rel="stylesheet" type="text/css">
+    <script src='//www.google.com/recaptcha/api.js'></script>
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+
+    <script>
+        window.addEventListener("load", function(){
+            window.cookieconsent.initialise({
+                "palette": {
+                    "popup": {
+                        "background": "#eeeeee",
+                        "text": "#333333"
+                    },
+                    "button": {
+                        "background": "#ff7200",
+                        "text": "#fff"
+                    }
+                },
+                "content": {
+
+                    <?php
+                    switch(app()->getLocale()){
+                        case 'ro':
+                            echo '"message" : "Prin utilizarea site-ului nostru acceptati faptul ca folosim Cookie-uri in scopul imbunatatirii permanente a experientei dumneavoastra de utilizator. Mai multe informatii despre Cookie-uri pe care le folosim aflati pe pagina ",
+						"link" : "Conformitate GDPR.",
+						"href": "http://www.minexgroup.eu/gdpr",
+						"dismiss": "Am inteles!"';
+                            break;
+                        case 'en':
+                            echo '"message" : "By using this website, you agree with our use of cookies to improve its performance and enhance your user experience. More info on our ",
+						"link" : "GDPR compliance page.",
+						"href": "http://www.minexgroup.eu/gdpr",
+						"dismiss": "Got it!"';
+                            break;
+                        case 'bg':
+                            echo '"message" : "By using this website, you agree with our use of cookies to improve its performance and enhance your user experience. More info on our ",
+						"link" : "GDPR compliance page.",
+						"href": "http://www.minexgroup.eu/gdpr",
+						"dismiss": "Got it!"';
+                            break;
+                    }
+                    ?>
+                }
+            })});
+    </script>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.min.css') }}">
+    <link href="{{ asset('css/stefanicu.css') }}" rel="stylesheet">
+</head>
+<?php
+
+switch (app()->getLocale()) {
+    case 'ro': // --- Romana ---
+        $aplicatie = 'aplicatie';
+        $iqindustrial = 'iqindustrial';
+
+        $form_nume = 'Te rugam sa introduci numele';
+        $form_nume1 = 'Numele trebuie sa contina cel putin 3 caractere';
+        $form_pren = 'Te rugam sa introduci prenumele';
+        $form_pren1 = 'Prenumele trebuie sa contina cel putin 3 caractere';
+        $form_email = 'Te rugam sa introduci un email valid';
+        $form_func = 'Te rugam sa introduci functia pe care o detineti';
+        $form_dom = 'Te rugam sa introduci domeniul in care activati';
+        $form_cumati = 'Va rugam sa ne spunti cum ati auzit de noi';
+        $form_mesaj = 'Va rugam sa introduceti un mesaj';
+        $home = 'Home';
+        $search = 'cauta...';
+
+        break;
+    case 'en': // --- Engleza ---
+        $aplicatie = 'application';
+        $iqindustrial = 'industrialiq';
+
+        $form_nume = 'Please enter your first name';
+        $form_nume1 = 'Your last first name must be at least 3 characters long';
+        $form_pren = 'Please provide your last name';
+        $form_pren1 = 'Your last last name must be at least 3 characters long';
+        $form_email = 'Please enter a valid email address';
+        $form_func = 'Please enter your job title';
+        $form_dom = 'Please enter your industry';
+        $form_cumati = 'Please tell us how did you hear about us';
+        $form_mesaj = 'Please enter a message';
+        $home = 'Home';
+        $search = 'search...';
+
+        break;
+    case 'bg': // --- bulgara ---
+        $aplicatie = 'application';
+        $iqindustrial = 'industrialiq';
+
+        $form_nume = 'Моля въведете собственото си име';
+        $form_nume1 = 'Последното ви име трябва да е с дължина най-малко 3 знака';
+        $form_pren = 'Моля, въведете фамилното си име';
+        $form_pren1 = 'Последното ви име трябва да е с дължина най-малко 3 знака';
+        $form_email = 'Моля, въведете валиден имейл адрес';
+        $form_func = 'Моля, въведете длъжност';
+        $form_dom = 'Моля, въведете индустрията си';
+        $form_cumati = 'Моля, кажете ни как чухте за нас';
+        $form_mesaj = 'Моля, въведете съобщение';
+        $home = 'Начало';
+        $search = 'търси...';
+
+        break;
+}
+
+?>
+<body class="">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PM3K8LC"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <a name="totop" id="totop"></a>
+    <div class="footer_visible">
+{{--        @include('partials.main_menu')--}}
+
+        @yield('content')
+
+        <div class="internal-nav__footer">
+            <a href="#totop" class="internal-nav internal-nav__totop toTop-js">
+                <svg x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+                <circle fill="#ff7200" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="50" cy="50" r="45.93"/>
+                    <polygon fill="#FFFFFF" points="49.99,36.73 25.79,50.56 25.79,62.7 49.99,48.86 74.2,62.7 74.2,50.56 "/>
+            </svg>
+            </a>
+        </div>
+
+    </div><!-- /#footer_visible -->
+    <footer class="d-flex py-2 px-4 justify-content-between align-items-center">
+        <a class="navbar-brand" href="@php route('home') @endphp" title="Minex Group">
+            <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 139 100">
+                <path fill="#FFF" d="M117 91l7 9h-7l-4-5-6 5h-9l12-10-7-9h8l3 5 6-5h8l-11 10zm-84 9h8l5-19h-7l-6 19zm32-8l-6-11h-7l-5 19h6l4-11 6 11h7l5-19h-7l-3 11zm31 0l2-4H86l1-3h12l1-4H80l-5 19h21l1-4H83l2-4h11zM24 81l-8 12-1-12H6l-5 19h5l4-14 1 14h6l9-14-4 14h6l5-19h-9z"></path>
+                <path fill="#ced4da" d="M110 50h8l10-2-3-6h-3l-15-4h-1l-5 8v4z"></path>
+                <path fill="#FFF" d="M89 55l-2-1-2-2-4-8s3-4 7-4l8 1 2 20-2 2s-7-1-8-6c-1-1 1-2 1-2zm-4-30c7 0 12 4 12 4L80 16l-2 12s3-3 7-3zm13 0L81 13l-1 2 17 12 1-2zm0-4l-1-1 2-8h1l1-1c-4-3-13-5-18-5l-1 6 16 11v-2zm5 1l2-9h-4l-1 8 3 1zM94 0c-7-1-10 5-10 5s12 1 17 5c0-3-1-8-7-10zM80 61c-2-1-2 0-3 1l6 1h5v-2h-8zm18 4s-1 2-4 0c-4-3-4-2-5-1-2 1-8 1-12-1-1-1-4 6-4 6h33l-3-8-5 4zm41-21v3h-8s0 2-2 2h-2s1 3-2 2l-5 1s-2 2-4 0l-1-1h-2l-13 11-3-22s-4-3-10-2c-5 2-7 6-7 6l3 8 4 4v4c-4 0-8 1-10-4l-4-12c0-4 4-17 13-17s17 10 17 10l3 1-2 10-3-2v4l5-1v-3l3 2 1-3h-4l1-7 15 4s3-1 5 1l3 1h9zm-20-2v1h5v-1h-5zm1 5l-7 2 1 1h-1 3l3-2 1-1zm5 0v-3h-11l-3 1v2l1 1 13-2v1z"></path>
+                <path fill="#ced4da" d="M81 50h7l10-2-2-6h-4l-14-4h-1l-5 8v4z"></path>
+                <path fill="#FFF" d="M59 55l-1-1s-2 0-2-2l-4-8s3-4 7-4c3-1 7 1 7 1l3 20-2 2s-7-1-9-6l1-2zm-3-30c7 0 11 4 11 4h1L50 16l-1 12s2-3 7-3zm13 0L52 13l-1 2 17 12 1-2zm0-4l-1-1 1-8h2v-1c-3-3-12-5-17-5l-2 6 17 11v-2zm5 1l1-9h-3l-2 8 4 1zM64 0c-6-1-10 5-10 5s12 1 17 5c0-3 0-8-7-10zM51 61c-2-1-3 0-3 1l5 1h6v-2h-8zm17 4s-1 2-4 0c-4-3-4-2-5-1s-7 1-11-1c-2-1-4 6-4 6h33l-4-8-5 4zm42-21v3h-8s0 2-2 2h-2s1 3-3 2l-5 1s-2 2-3 0l-1-1h-3L71 62l-3-22s-5-3-10-2c-6 2-8 5-8 5l4 9s1 3 3 3c0 3-1 4 1 5-4 0-8 1-10-4l-4-12c0-4 4-17 13-17s17 10 17 10l3 1-2 10-3-2v4l5-1v-3l2 2 1-3h-3l1-7 14 4s4-1 6 1l2 1h10zm-20-2v1h5v-1h-5zm0 5l-6 2v1h2l4-2v-1zm6 0v-3H85l-4 1 1 2 1 1 13-2v1z"></path>
+                <path fill="#ced4da" d="M52 50h8l10-2-3-6h-3l-15-4h-1l-5 8v4z"></path>
+                <path fill="#FFF" d="M129 78H0v-6h129v6zM30 57c1 5 8 6 8 6l2-2-2-20s-4-2-8-1-7 4-7 4l4 8 2 2 2 1s-2 1-1 2zM20 28l2-12 17 13s-5-4-12-4c-5 0-7 3-7 3zm19-1L22 15l1-2 17 12-1 2zm1-4L24 12l1-6c5 0 14 2 18 5l-1 1h-1l-2 8 1 1v2zm2-2l1-8h4l-2 9-3-1zm1-11c-5-4-17-5-17-5s3-6 10-5c6 2 7 7 7 10zM30 61v2h-5l-6-1c1-1 1-2 3-1h8zm15 0l3 8H15s2-7 4-6c4 2 10 2 12 1 1-1 1-2 5 1 3 2 4 0 4 0l5-4zm27-17l-3-2h-5l-15-4-1 7h4l-1 3-3-2v3l-5 1v-4l3 2 2-10-3-1s-8-10-17-10-13 13-13 17l4 12c2 5 6 4 10 4v-5c-2 0-4-3-4-3l-3-9s1-3 7-5c5-1 10 2 10 2l3 22 13-11h2l1 1c1 2 4 0 4 0s1-1 5-1c3 1 2-2 2-2h2c2 0 2-2 2-2h8v-3h-9zm-6-2v1h-5v-1h5zm-5 6l-4 2h-2v-1a84 84 0 0 1 6-1zm6-1v-1l-13 2-1-1v-2l3-1h11v3z"></path>
+            </svg>
+        </a>
+        <ul class="list-inline my-0 mr-auto ml-4">
+
+            <li class="list-inline-item">
+                <a href="https://www.linkedin.com/company/minex-group" aria-label="Linkedin Link">
+                    <svg class="social-ico social-ico--linked-in" x="0px" y="0px" viewBox="0 0 100 100" xml:space="preserve">
+                        <path fill="#fff" d="M93.75,0H6.25C2.8,0,0,2.8,0,6.25v87.5C0,97.2,2.8,100,6.25,100h87.5c3.45,0,6.25-2.8,6.25-6.25V6.25 C100,2.8,97.2,0,93.75,0z M34.38,78.13h-12.5V34.38h12.5V78.13z M28.13,31.25c-3.45,0-6.25-2.8-6.25-6.25s2.8-6.25,6.25-6.25 s6.25,2.8,6.25,6.25S31.58,31.25,28.13,31.25z M78.13,78.13h-12.5v-25c0-4.1-2.29-6.25-6.25-6.25c-4.05,0-6.25,2.2-6.25,6.25v25 h-12.5V34.38h12.5v6.25c0.71-3.07,2.21-6.25,10.93-6.25c12.44,0,14.07,9.38,14.07,21.88V78.13z"></path>
+                    </svg>
+                    <span class="d-none">LinkedIn</span>
+                </a>
+            </li>
+            <li class="list-inline-item">
+                <a href="https://www.youtube.com/user/minextv" aria-label="Youtube Link">
+                    <svg class="social-ico social-ico--you-tube" x="0px" y="0px" viewBox="0 0 100 100" xml:space="preserve">
+                        <path fill="#fff" d="M74.72,47.57H25.97c-7.75,0-14.03,6.29-14.03,14.03v11.28c0,7.75,6.28,14.03,14.03,14.03h48.75 c7.75,0,14.03-6.29,14.03-14.03V61.6C88.75,53.85,82.47,47.57,74.72,47.57z M36.21,56.35h-4.53v22.52H27.3V56.35h-4.53v-3.83h13.44 V56.35z M49.02,78.86h-3.88v-2.13c-0.72,0.79-1.47,1.39-2.24,1.79c-0.78,0.42-1.53,0.62-2.26,0.62c-0.9,0-1.57-0.29-2.03-0.87 c-0.45-0.58-0.68-1.44-0.68-2.61V59.42h3.88v14.91c0,0.46,0.09,0.79,0.24,1c0.17,0.21,0.43,0.31,0.8,0.31 c0.28,0,0.65-0.13,1.08-0.41c0.44-0.28,0.84-0.62,1.21-1.05V59.42h3.88V78.86z M62.2,78.01c-0.61,0.74-1.49,1.1-2.64,1.1 c-0.76,0-1.44-0.14-2.03-0.42c-0.59-0.28-1.15-0.72-1.66-1.32v1.49h-3.93V52.51h3.93V61c0.53-0.59,1.08-1.04,1.66-1.35 c0.59-0.31,1.19-0.46,1.79-0.46c1.23,0,2.17,0.41,2.81,1.24c0.65,0.83,0.98,2.04,0.98,3.63v10.79h0 C63.12,76.22,62.81,77.28,62.2,78.01z M76.59,69.61h-7.43v3.66c0,1.02,0.13,1.73,0.38,2.13c0.26,0.4,0.7,0.59,1.32,0.59 c0.65,0,1.09-0.17,1.35-0.5c0.25-0.34,0.39-1.07,0.39-2.22v-0.88h4v1c0,1.99-0.48,3.49-1.47,4.51c-0.97,1-2.42,1.5-4.36,1.5 c-1.74,0-3.12-0.53-4.11-1.6c-0.99-1.06-1.5-2.54-1.5-4.41v-8.73c0-1.68,0.55-3.06,1.66-4.12c1.1-1.06,2.51-1.59,4.25-1.59 c1.78,0,3.15,0.49,4.1,1.47c0.95,0.98,1.43,2.39,1.43,4.24V69.61z M72.18,62.88c0.27,0.34,0.41,0.93,0.41,1.74v1.97h-3.43v-1.97 c0-0.82,0.13-1.4,0.4-1.74c0.27-0.36,0.71-0.54,1.33-0.54C71.48,62.34,71.92,62.52,72.18,62.88z M58.7,62.78 c0.28,0.34,0.41,0.83,0.41,1.5v10.04c0,0.62-0.11,1.06-0.33,1.34c-0.22,0.28-0.57,0.42-1.05,0.42c-0.33,0-0.64-0.08-0.94-0.21 c-0.3-0.14-0.61-0.38-0.92-0.69V63.06c0.26-0.27,0.53-0.47,0.8-0.6c0.27-0.13,0.55-0.19,0.82-0.19 C58.01,62.28,58.42,62.45,58.7,62.78z M32.36,29.31l-5.86-17.53h4.96l3.2,11.6h0.31l3.05-11.6h5l-5.73,16.99v12.04h-4.92V29.31z  M49.68,41.35c1.99,0,3.55-0.52,4.69-1.56c1.13-1.05,1.69-2.48,1.69-4.31V24.42c0-1.63-0.58-2.97-1.73-4.01 c-1.16-1.03-2.64-1.55-4.45-1.55c-1.99,0-3.57,0.49-4.75,1.47c-1.17,0.98-1.76,2.3-1.76,3.96v11.1c0,1.82,0.57,3.26,1.72,4.34 C46.24,40.81,47.77,41.35,49.68,41.35z M47.87,24.13L47.87,24.13c0-0.47,0.17-0.84,0.5-1.14c0.34-0.29,0.77-0.43,1.31-0.43 c0.58,0,1.05,0.14,1.4,0.43c0.36,0.29,0.53,0.67,0.53,1.14V35.8c0,0.57-0.17,1.03-0.53,1.35c-0.35,0.33-0.82,0.49-1.41,0.49 c-0.58,0-1.02-0.16-1.34-0.49c-0.31-0.32-0.47-0.77-0.47-1.36V24.13z M60.38,40.16c-0.51-0.63-0.76-1.59-0.76-2.86V19.4h4.37v16.42 c0,0.5,0.1,0.87,0.28,1.09c0.18,0.23,0.48,0.35,0.89,0.35c0.32,0,0.73-0.15,1.22-0.45c0.49-0.3,0.94-0.69,1.35-1.15V19.4h4.37v21.41 h-4.37v-2.37c-0.8,0.87-1.64,1.54-2.52,2c-0.87,0.45-1.71,0.69-2.54,0.69C61.65,41.13,60.9,40.8,60.38,40.16z"></path>
+                    </svg>
+                    <span class="d-none">You tube</span>
+                </a>
+            </li>
+            <li class="list-inline-item">
+                <a href="https://twitter.com/MinexGroup" aria-label="Twitter Link">
+                    <svg class="social-ico social-ico--twitter" x="0px" y="0px" viewBox="0 0 100 100" xml:space="preserve">
+                        <path fill="#fff" d="M87.32,26.32c-2.73,1.21-5.67,2.03-8.75,2.4c3.15-1.88,5.56-4.87,6.7-8.43c-2.94,1.75-6.2,3.01-9.67,3.7 c-2.78-2.96-6.74-4.81-11.12-4.81c-8.41,0-15.23,6.82-15.23,15.23c0,1.19,0.13,2.35,0.39,3.47c-12.66-0.64-23.88-6.7-31.39-15.91 c-1.31,2.25-2.06,4.86-2.06,7.66c0,5.28,2.69,9.94,6.77,12.67c-2.5-0.08-4.84-0.77-6.9-1.91c0,0.06,0,0.13,0,0.19 c0,7.38,5.25,13.53,12.22,14.93c-1.28,0.35-2.62,0.53-4.01,0.53c-0.98,0-1.94-0.09-2.87-0.27c1.94,6.05,7.56,10.45,14.23,10.58 c-5.21,4.08-11.78,6.52-18.91,6.52c-1.23,0-2.44-0.07-3.63-0.21c6.74,4.32,14.75,6.84,23.34,6.84c28.01,0,43.33-23.2,43.33-43.33 c0-0.66-0.01-1.32-0.04-1.97C82.7,32.06,85.28,29.38,87.32,26.32z"></path>
+                    </svg>
+                    <span class="d-none">Twitter</span>
+                </a>
+            </li>
+            <li class="list-inline-item">
+                <a href="https://www.facebook.com/MinexGroup/" aria-label="Facebook Link">
+                    <svg class="social-ico social-ico--facebook" x="0px" y="0px" viewBox="0 0 100 100" xml:space="preserve">
+                        <path fill="#fff" d="M93.75,0H6.25C2.8,0,0,2.8,0,6.25v87.5C0,97.2,2.8,100,6.25,100h46.88V62.5h-12.5V46.88h12.5V37.5 c0-12.87,7.27-21.88,18.75-21.88c5.5,0,9.38,0,12.5,0v15.63h-6.25c-6.24,0-9.38,3.13-9.38,9.38v6.25h15.63L81.25,62.5h-12.5V100h25 c3.45,0,6.25-2.8,6.25-6.25V6.25C100,2.8,97.2,0,93.75,0z"></path>
+                    </svg>
+                    <span class="d-none">Facebook</span>
+                </a>
+            </li>
+        </ul>
+        <p class="text-right my-0 m-button">
+            <?php //echo $copy[0]['nume']; ?>
+        </p>
+    </footer>
+
+    <?php
+    // MINEX-v2 footer font scripts
+    //<link href="https://fonts.googleapis.com/css?family=Exo+2:400,700|Comfortaa:300,700&amp;subset=cyrillic" rel="stylesheet">
+
+    ?>
+    <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/customBootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.bxslider.min.js') }}"></script>
+    <script src="{{ asset('js/lozad.min.js') }}"></script>
+    <script src="{{ asset('js/static.min.js') }}"></script>
+    <script src="{{ asset('js/hide-menu.js') }}"></script>
+    <script>$(".fixed--top").autoHidingNavbar(); <?php if ($page == "referinte") : ?>$(document).ready(() => { let url = location.href.replace(/\/$/, ""); if (location.hash) { const hash = url.split("#"); $('#myTab a[href="#'+hash[1]+'"]').tab("show"); url = location.href.replace(/\/#/, "#"); history.replaceState(null, null, url); setTimeout(() => { $(window).scrollTop(0); }, 400); } $('a[data-toggle="tab"]').on("click", function() { let newUrl; const hash = $(this).attr("href"); if(hash == "#home") { newUrl = url.split("#")[0]; } else { newUrl = url.split("#")[0] + hash; } newUrl += "/"; history.replaceState(null, null, newUrl); }); });
+        <?php endif;?></script>
+
+{{--    <?php if ($page == "produs") : ?>--}}
+
+{{--        <script src="<?=THEMEURL;?>assetsss/js/validate/jquery.validate.min.js"></script>--}}
+{{--        <script src="<?=THEMEURL;?>assetsss/js/validate/setprodus.validate.js"></script>--}}
+{{--        <script src="<?=THEMEURL;?>assetsss/js/countries.js"></script>--}}
+{{--        <script>populateCountries("tara", "jud");</script>--}}
+{{--    --}}
+{{--    <?php endif; ?>--}}
+
     @yield('scripts')
     </body>
 </html>
+
+

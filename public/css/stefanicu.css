@@ -1,0 +1,122 @@
+#map {
+    position: relative;
+    height: 100%;
+}
+
+.form-label {display: none;}
+
+
+option[value=""][disabled] {
+  display: none;
+}
+
+option {
+  color: black;
+}
+
+.h2 small {color:#777;}
+.list-group-item.active a {color:#fff;}
+.list-group-item.active a span.badge-primary {
+  color: #ff7200;
+  background-color: #fff;
+}
+
+.blockquote-home {
+    font-size: 1.2rem;
+}
+.animate-area--title {
+  max-width: 60rem;
+}
+
+.footer_visible{
+  min-height: 90vh;
+}
+
+.fixed--top {
+  z-index: 200;
+}
+
+.h3 small { color: #777;}
+
+.form-checkbox-min{
+  width: 2.5rem;
+  height: 2rem;
+  display: block;
+  float: left;
+}
+
+.multumim-center{
+  padding: 3rem;
+  font-weight: bold;
+  text-align: center;
+  background-color: #ffffffad;
+}
+
+.error{
+  background-color: #ffd1d1ad;
+  display: block;
+  width: 100%;
+  padding: 0 .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-clip: padding-box;
+  border-radius: .25rem;
+}
+
+.captcha-error {
+  width: 304px;
+}
+
+#contact {
+  margin-top: -100px;
+  margin-bottom: 100px;
+  display: block;
+  height: 0;
+}
+
+.navbar--minex .navbar-nav .nav-link {
+  padding: .3rem .9rem;
+}
+
+.dropdown-menu a {
+  padding: .2rem 0;
+}
+
+.animate-area--sub {
+  font-size: 1.8rem;
+}
+
+.wrap_russian {
+    word-wrap: break-word;
+}
+
+.searchbox-input {
+  width: auto;
+}
+
+@media (max-width: 1240px){
+  .navbar--minex .navbar-nav .nav-link {
+    padding: .3rem .4rem;
+  }
+  .form-control.searchbox-input {
+    width: 100px;
+  }
+}
+
+footer{
+  background-color: #ced4da;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: max-content auto;
+}
+
+dt {
+  grid-column-start: 1;
+  padding-right: 10px;
+}
+
+dd {
+  grid-column-start: 2;
+}
