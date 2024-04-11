@@ -17,19 +17,19 @@ if (isset($data[0]['nume'])) {
     }
 }
 
-if ($this->session->userdata('lng') == 0) {
-    $imgNavSel = 'imgNavRom';
-    $alt = 'RO';
-} elseif ($this->session->userdata('lng') == 1) {
-    $imgNavSel = 'imgNavEng';
-    $alt = 'EN';
-} elseif ($this->session->userdata('lng') == 2) {
-    $imgNavSel = 'imgNavBlg';
-    $alt = 'BG';
-} elseif ($this->session->userdata('lng') == 3) {
-    $imgNavSel = 'imgNavX';
-    $alt = 'X';
-}
+// if ($this->session->userdata('lng') == 0) {
+//     $imgNavSel = 'imgNavRom';
+//     $alt = 'RO';
+// } elseif ($this->session->userdata('lng') == 1) {
+//     $imgNavSel = 'imgNavEng';
+//     $alt = 'EN';
+// } elseif ($this->session->userdata('lng') == 2) {
+//     $imgNavSel = 'imgNavBlg';
+//     $alt = 'BG';
+// } elseif ($this->session->userdata('lng') == 3) {
+//     $imgNavSel = 'imgNavX';
+//     $alt = 'X';
+// }
 
 $page = 'Acasa';
 ?>
