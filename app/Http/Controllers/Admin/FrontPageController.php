@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateFrontPageRequest;
 use App\Models\FrontPage;
 use Gate;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -20,10 +21,7 @@ class FrontPageController extends Controller
         abort_if(Gate::denies('front_page_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = FrontPage::join('front_page_translations','front_pages.id','=','front_page_translations.front_page_id')
-                ->where('front_page_translations.locale','=',app()->getLocale())
-                ->select(sprintf('%s.*', (new FrontPage)->table));
-
+            $query = FrontPage::query()->select(sprintf('%s.*', (new FrontPage)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -33,7 +31,7 @@ class FrontPageController extends Controller
                 $viewGate      = 'front_page_show';
                 $editGate      = 'front_page_edit';
                 $deleteGate    = 'front_page_delete';
-                $crudRoutePart = 'front_pages';
+                $crudRoutePart = 'front-pages';
 
                 return view('partials.datatablesActions', compact(
                     'viewGate',
@@ -98,7 +96,7 @@ class FrontPageController extends Controller
             $frontPage->image->delete();
         }
 
-        return redirect()->route('admin.front_pages.index');
+        return redirect()->route('admin.front-pages.index');
     }
 
     public function storeCKEditorImages(Request $request)

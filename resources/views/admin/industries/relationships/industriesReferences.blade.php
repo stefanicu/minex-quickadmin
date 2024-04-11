@@ -34,9 +34,6 @@
                                 {{ trans('cruds.reference.fields.online') }}
                             </th>
                             <th>
-                                {{ trans('cruds.reference.fields.language') }}
-                            </th>
-                            <th>
                                 {{ trans('cruds.reference.fields.name') }}
                             </th>
                             <th>
@@ -71,9 +68,6 @@
                                 <td>
                                     <span style="display:none">{{ $reference->online ?? '' }}</span>
                                     <input type="checkbox" disabled="disabled" {{ $reference->online ? 'checked' : '' }}>
-                                </td>
-                                <td>
-                                    {{ App\Models\Reference::LANGUAGE_SELECT[$reference->language] ?? '' }}
                                 </td>
                                 <td>
                                     {{ $reference->name ?? '' }}

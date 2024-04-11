@@ -33,14 +33,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.reference.fields.language') }}
-                        </th>
-                        <td>
-                            {{ App\Models\Reference::LANGUAGE_SELECT[$reference->language] ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.reference.fields.name') }}
                         </th>
                         <td>

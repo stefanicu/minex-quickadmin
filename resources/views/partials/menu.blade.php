@@ -11,7 +11,11 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li>
+                    <select class="searchable-field form-control">
 
+                    </select>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs("admin.home") ? "active" : "" }}" href="{{ route("admin.home") }}">
                         <i class="fas fa-fw fa-tachometer-alt nav-icon">
@@ -23,7 +27,7 @@
                 </li>
                 @can('front_page_access')
                     <li class="nav-item">
-                        <a href="{{ route("admin.front_pages.index") }}" class="nav-link {{ request()->is("admin/front_pages") || request()->is("admin/front_pages/*") ? "active" : "" }}">
+                        <a href="{{ route("admin.front-pages.index") }}" class="nav-link {{ request()->is("admin/front-pages") || request()->is("admin/front-pages/*") ? "active" : "" }}">
                             <i class="fa-fw nav-icon fas fa-home">
 
                             </i>
@@ -202,6 +206,18 @@
                                 </li>
                             @endcan
                         </ul>
+                    </li>
+                @endcan
+                @can('fron_test_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.fron-tests.index") }}" class="nav-link {{ request()->is("admin/fron-tests") || request()->is("admin/fron-tests/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon fas fa-cogs">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.fronTest.title') }}
+                            </p>
+                        </a>
                     </li>
                 @endcan
                 @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))

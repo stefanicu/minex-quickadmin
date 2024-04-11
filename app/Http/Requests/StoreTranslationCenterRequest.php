@@ -17,16 +17,23 @@ class StoreTranslationCenterRequest extends FormRequest
     public function rules()
     {
         return [
-            'locale' => [
-                'required',
-            ],
             'name' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:translation_center_translations',
-            ]
+                'unique:translation_centers',
+            ],
+            'slug' => [
+                'string',
+                'min:0',
+                'max:255',
+                'required',
+                'unique:translation_centers',
+            ],
+            'section' => [
+                'required',
+            ],
         ];
     }
 }

@@ -33,14 +33,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.translationCenter.fields.language') }}
-                        </th>
-                        <td>
-                            {{ App\Models\TranslationCenter::LANGUAGE_SELECT[$translationCenter->language] ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.translationCenter.fields.name') }}
                         </th>
                         <td>

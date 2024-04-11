@@ -13,8 +13,8 @@ class FrontPageTest extends DuskTestCase
         $admin = App\Models\User::find(1);
         $this->browse(function (Browser $browser) use ($admin) {
             $browser->loginAs($admin);
-            $browser->visit(route('admin.front_page.index'));
-            $browser->assertRouteIs('admin.front_page.index');
+            $browser->visit(route('admin.frontpage.index'));
+            $browser->assertRouteIs('admin.frontpage.index');
         });
     }
 }

@@ -26,14 +26,7 @@ class Product extends Model implements HasMedia
         'deleted_at',
     ];
 
-    public const LANGUAGE_SELECT = [
-        'en' => 'English',
-        'ro' => 'Romanian',
-        'bg' => 'Bulgarian',
-    ];
-
     public static $searchable = [
-        'language',
         'name',
         'slug',
         'description',
@@ -45,7 +38,6 @@ class Product extends Model implements HasMedia
 
     protected $fillable = [
         'online',
-        'language',
         'brand_id',
         'name',
         'slug',

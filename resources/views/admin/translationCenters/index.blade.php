@@ -1,14 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-@can('translation_center_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.translation-centers.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.translationCenter.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
+
 <div class="card">
     <div class="card-header">
         {{ trans('cruds.translationCenter.title_singular') }} {{ trans('global.list') }}
@@ -24,11 +16,18 @@
                     <th>
                         {{ trans('cruds.translationCenter.fields.id') }}
                     </th>
-
+                    <th>
+                        {{ trans('cruds.translationCenter.fields.online') }}
+                    </th>
                     <th>
                         {{ trans('cruds.translationCenter.fields.name') }}
                     </th>
-
+                    <th>
+                        {{ trans('cruds.translationCenter.fields.slug') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.translationCenter.fields.section') }}
+                    </th>
                     <th>
                         &nbsp;
                     </th>
@@ -46,7 +45,7 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-
+  
   let dtOverrideGlobals = {
     buttons: dtButtons,
     processing: true,
@@ -57,12 +56,14 @@
     columns: [
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
-{ data: 'language', name: 'language' },
-{ data: 'name', name: 'translation_center_translations.name' },
+{ data: 'online', name: 'online' },
+{ data: 'name', name: 'name' },
+{ data: 'slug', name: 'slug' },
+{ data: 'section', name: 'section' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 4, 'asc' ]],
+    order: [[ 3, 'asc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-TranslationCenter').DataTable(dtOverrideGlobals);
@@ -70,7 +71,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-
+  
 });
 
 </script>

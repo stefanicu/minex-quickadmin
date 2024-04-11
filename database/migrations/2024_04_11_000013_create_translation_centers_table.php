@@ -10,21 +10,12 @@ class CreateTranslationCentersTable extends Migration
     {
         Schema::create('translation_centers', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->boolean('online')->default(0)->nullable();
+            $table->string('name')->unique();
+            $table->string('slug')->unique();
+            $table->string('section');
             $table->timestamps();
             $table->softDeletes();
-        });
-
-
-        Schema::create('translation_center_translations', function (Blueprint $table) {
-            $table->bigIncrements('id');
-
-            $table->string('locale')->index();
-
-            $table->foreignId('translation_center_id')->references('id')->on('translation_centers')->onDelete('cascade');
-
-            $table->string('name');
-
-            $table->unique(['name', 'locale']);
         });
     }
 }

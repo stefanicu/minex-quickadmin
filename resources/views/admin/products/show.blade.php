@@ -23,14 +23,6 @@
                             {{ $product->id }}
                         </td>
                     </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.product.fields.online') }}
-                        </th>
-                        <td>
-                            <input type="checkbox" disabled="disabled" {{ $product->online ? 'checked' : '' }}>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

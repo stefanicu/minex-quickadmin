@@ -21,19 +21,6 @@
                 <span class="help-block">{{ trans('cruds.industry.fields.online_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required">{{ trans('cruds.industry.fields.language') }}</label>
-                <select class="form-control {{ $errors->has('language') ? 'is-invalid' : '' }}" name="language" id="language" required>
-                    <option value disabled {{ old('language', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\Industry::LANGUAGE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('language', 'en') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('language'))
-                    <span class="text-danger">{{ $errors->first('language') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.industry.fields.language_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.industry.fields.name') }}</label>
                 <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
                 @if($errors->has('name'))

@@ -7,7 +7,7 @@ use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyCategoryRequest;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
-use App\Models\ApplicationTranslation;
+use App\Models\Application;
 use App\Models\Category;
 use App\Models\Product;
 use Gate;
@@ -25,11 +25,7 @@ class CategoriesController extends Controller
         abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Category::join('category_translations','categories.id','=','category_translations.category_id')
-                ->with(['product_image', 'applications'])
-                ->where('category_translations.locale','=',app()->getLocale())
-                ->select(sprintf('%s.*', (new Category)->table));
-
+            $query = Category::with(['product_image', 'applications'])->select(sprintf('%s.*', (new Category)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -88,7 +84,7 @@ class CategoriesController extends Controller
 
         $product_images = Product::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $applications = ApplicationTranslation::where('locale',app()->getLocale() )->orderBy('name','asc')->pluck('name', 'id');
+        $applications = Application::pluck('name', 'id');
 
         return view('admin.categories.create', compact('applications', 'product_images'));
     }
@@ -114,7 +110,7 @@ class CategoriesController extends Controller
 
         $product_images = Product::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $applications = ApplicationTranslation::where('locale',app()->getLocale() )->pluck('name', 'application_id');
+        $applications = Application::pluck('name', 'id');
 
         $category->load('product_image', 'applications');
 
