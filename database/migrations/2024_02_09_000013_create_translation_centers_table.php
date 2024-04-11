@@ -24,7 +24,7 @@ class CreateTranslationCentersTable extends Migration
 
             $table->string('name');
 
-            $table->unique(['name', 'locale']);
+            //$table->unique(['name', 'locale']);
         });
     }
 }

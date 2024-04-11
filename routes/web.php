@@ -66,7 +66,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Translation Center
     Route::delete('translation-centers/destroy', 'TranslationCenterController@massDestroy')->name('translation-centers.massDestroy');
-    Route::resource('translation-centers', 'TranslationCenterController');
+    Route::resource('translation-centers', 'TranslationCenterController', ['except' => ['create', 'store', 'show', 'destroy']]);
 
     // Categories
     Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');

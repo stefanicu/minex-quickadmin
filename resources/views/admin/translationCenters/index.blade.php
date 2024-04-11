@@ -1,14 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-@can('translation_center_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.translation-centers.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.translationCenter.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
+
 <div class="card">
     <div class="card-header">
         {{ trans('cruds.translationCenter.title_singular') }} {{ trans('global.list') }}
@@ -18,17 +10,12 @@
         <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-TranslationCenter">
             <thead>
                 <tr>
-                    <th width="10">
-
+                    <th>
+                        {{ trans('ID') }}
                     </th>
                     <th>
-                        {{ trans('cruds.translationCenter.fields.id') }}
+                        {{ trans('Name') }}
                     </th>
-
-                    <th>
-                        {{ trans('cruds.translationCenter.fields.name') }}
-                    </th>
-
                     <th>
                         &nbsp;
                     </th>
@@ -52,17 +39,16 @@
     processing: true,
     serverSide: true,
     retrieve: true,
+      paging: false,
     aaSorting: [],
     ajax: "{{ route('admin.translation-centers.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
-{ data: 'language', name: 'language' },
 { data: 'name', name: 'translation_center_translations.name' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 4, 'asc' ]],
+    order: [[ 0, 'asc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-TranslationCenter').DataTable(dtOverrideGlobals);
