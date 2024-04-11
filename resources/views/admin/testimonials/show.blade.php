@@ -33,14 +33,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.testimonial.fields.language') }}
-                        </th>
-                        <td>
-                            {{ App\Models\Testimonial::LANGUAGE_SELECT[$testimonial->language] ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.testimonial.fields.company') }}
                         </th>
                         <td>

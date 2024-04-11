@@ -248,6 +248,26 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 60,
+                'title' => 'fron_test_create',
+            ],
+            [
+                'id'    => 61,
+                'title' => 'fron_test_edit',
+            ],
+            [
+                'id'    => 62,
+                'title' => 'fron_test_show',
+            ],
+            [
+                'id'    => 63,
+                'title' => 'fron_test_delete',
+            ],
+            [
+                'id'    => 64,
+                'title' => 'fron_test_access',
+            ],
+            [
+                'id'    => 65,
                 'title' => 'profile_password_edit',
             ],
         ];

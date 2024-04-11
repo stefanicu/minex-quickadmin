@@ -108,11 +108,11 @@
     <script src="{{ asset('js/main.js') }}"></script>
     <script>
         $(function() {
-  {{--let copyButtonTrans = '{{ trans('global.datatables.copy') }}'--}}
-  {{--let csvButtonTrans = '{{ trans('global.datatables.csv') }}'--}}
-  {{--let excelButtonTrans = '{{ trans('global.datatables.excel') }}'--}}
-  {{--let pdfButtonTrans = '{{ trans('global.datatables.pdf') }}'--}}
-  {{--let printButtonTrans = '{{ trans('global.datatables.print') }}'--}}
+  let copyButtonTrans = '{{ trans('global.datatables.copy') }}'
+  let csvButtonTrans = '{{ trans('global.datatables.csv') }}'
+  let excelButtonTrans = '{{ trans('global.datatables.excel') }}'
+  let pdfButtonTrans = '{{ trans('global.datatables.pdf') }}'
+  let printButtonTrans = '{{ trans('global.datatables.print') }}'
   let colvisButtonTrans = '{{ trans('global.datatables.colvis') }}'
   let selectAllButtonTrans = '{{ trans('global.select_all') }}'
   let selectNoneButtonTrans = '{{ trans('global.deselect_all') }}'
@@ -130,7 +130,7 @@
     },
     columnDefs: [{
         orderable: false,
-        // className: 'select-checkbox',
+        className: 'select-checkbox',
         targets: 0
     }, {
         orderable: false,
@@ -146,75 +146,75 @@
     pageLength: 100,
     dom: 'lBfrtip<"actions">',
     buttons: [
-      // {
-      //   extend: 'selectAll',
-      //   className: 'btn-primary',
-      //   text: selectAllButtonTrans,
-      //   exportOptions: {
-      //     columns: ':visible'
-      //   },
-      //   action: function(e, dt) {
-      //     e.preventDefault()
-      //     dt.rows().deselect();
-      //     dt.rows({ search: 'applied' }).select();
-      //   }
-      // },
-      // {
-      //   extend: 'selectNone',
-      //   className: 'btn-primary',
-      //   text: selectNoneButtonTrans,
-      //   exportOptions: {
-      //     columns: ':visible'
-      //   }
-      // },
-      // {
-      //   extend: 'copy',
-      //   className: 'btn-default',
-      //   text: copyButtonTrans,
-      //   exportOptions: {
-      //     columns: ':visible'
-      //   }
-      // },
-      // {
-      //   extend: 'csv',
-      //   className: 'btn-default',
-      //   text: csvButtonTrans,
-      //   exportOptions: {
-      //     columns: ':visible'
-      //   }
-      // },
-      // {
-      //   extend: 'excel',
-      //   className: 'btn-default',
-      //   text: excelButtonTrans,
-      //   exportOptions: {
-      //     columns: ':visible'
-      //   }
-      // },
-      // {
-      //   extend: 'pdf',
-      //   className: 'btn-default',
-      //   text: pdfButtonTrans,
-      //   exportOptions: {
-      //     columns: ':visible'
-      //   }
-      // },
-      // {
-      //   extend: 'print',
-      //   className: 'btn-default',
-      //   text: printButtonTrans,
-      //   exportOptions: {
-      //     columns: ':visible'
-      //   }
-      // },
-      // {
-      //   extend: 'colvis',
-      //   className: 'btn-default',
-      //   text: colvisButtonTrans,
-      //   exportOptions: {
-      //     columns: ':visible'
-      //   }
-      // }
+      {
+        extend: 'selectAll',
+        className: 'btn-primary',
+        text: selectAllButtonTrans,
+        exportOptions: {
+          columns: ':visible'
+        },
+        action: function(e, dt) {
+          e.preventDefault()
+          dt.rows().deselect();
+          dt.rows({ search: 'applied' }).select();
+        }
+      },
+      {
+        extend: 'selectNone',
+        className: 'btn-primary',
+        text: selectNoneButtonTrans,
+        exportOptions: {
+          columns: ':visible'
+        }
+      },
+      {
+        extend: 'copy',
+        className: 'btn-default',
+        text: copyButtonTrans,
+        exportOptions: {
+          columns: ':visible'
+        }
+      },
+      {
+        extend: 'csv',
+        className: 'btn-default',
+        text: csvButtonTrans,
+        exportOptions: {
+          columns: ':visible'
+        }
+      },
+      {
+        extend: 'excel',
+        className: 'btn-default',
+        text: excelButtonTrans,
+        exportOptions: {
+          columns: ':visible'
+        }
+      },
+      {
+        extend: 'pdf',
+        className: 'btn-default',
+        text: pdfButtonTrans,
+        exportOptions: {
+          columns: ':visible'
+        }
+      },
+      {
+        extend: 'print',
+        className: 'btn-default',
+        text: printButtonTrans,
+        exportOptions: {
+          columns: ':visible'
+        }
+      },
+      {
+        extend: 'colvis',
+        className: 'btn-default',
+        text: colvisButtonTrans,
+        exportOptions: {
+          columns: ':visible'
+        }
+      }
     ]
   });
 
@@ -265,19 +265,19 @@
         }
 
     });
-    {{--function formatItem (item) {--}}
-    {{--    if (item.loading) {--}}
-    {{--        return '{{ trans('global.searching') }}...';--}}
-    {{--    }--}}
-    {{--    var markup = "<div class='searchable-link' href='" + item.url + "'>";--}}
-    {{--    markup += "<div class='searchable-title'>" + item.model + "</div>";--}}
-    {{--    $.each(item.fields, function(key, field) {--}}
-    {{--        markup += "<div class='searchable-fields'>" + item.fields_formated[field] + " : " + item[field] + "</div>";--}}
-    {{--    });--}}
-    {{--    markup += "</div>";--}}
+    function formatItem (item) {
+        if (item.loading) {
+            return '{{ trans('global.searching') }}...';
+        }
+        var markup = "<div class='searchable-link' href='" + item.url + "'>";
+        markup += "<div class='searchable-title'>" + item.model + "</div>";
+        $.each(item.fields, function(key, field) {
+            markup += "<div class='searchable-fields'>" + item.fields_formated[field] + " : " + item[field] + "</div>";
+        });
+        markup += "</div>";
 
-    {{--    return markup;--}}
-    {{--}--}}
+        return markup;
+    }
 
     function formatItemSelection (item) {
         if (!item.model) {

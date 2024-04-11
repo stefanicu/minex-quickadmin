@@ -37,6 +37,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('categories', 'CategoriesApiController', ['except' => ['show']]);
 
     // Front Page
-    Route::post('front_pages/media', 'FrontPageApiController@storeMedia')->name('front_pages.storeMedia');
-    Route::apiResource('front_pages', 'FrontPageApiController', ['except' => ['store', 'show', 'destroy']]);
+    Route::post('front-pages/media', 'FrontPageApiController@storeMedia')->name('front-pages.storeMedia');
+    Route::apiResource('front-pages', 'FrontPageApiController', ['except' => ['store', 'show', 'destroy']]);
+
+    // Fron Test
+    Route::apiResource('fron-tests', 'FronTestApiController');
 });

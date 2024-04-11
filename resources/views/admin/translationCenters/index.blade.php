@@ -24,11 +24,18 @@
                     <th>
                         {{ trans('cruds.translationCenter.fields.id') }}
                     </th>
-
+                    <th>
+                        {{ trans('cruds.translationCenter.fields.online') }}
+                    </th>
                     <th>
                         {{ trans('cruds.translationCenter.fields.name') }}
                     </th>
-
+                    <th>
+                        {{ trans('cruds.translationCenter.fields.slug') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.translationCenter.fields.section') }}
+                    </th>
                     <th>
                         &nbsp;
                     </th>
@@ -46,6 +53,35 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+@can('translation_center_delete')
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
+  let deleteButton = {
+    text: deleteButtonTrans,
+    url: "{{ route('admin.translation-centers.massDestroy') }}",
+    className: 'btn-danger',
+    action: function (e, dt, node, config) {
+      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
+          return entry.id
+      });
+
+      if (ids.length === 0) {
+        alert('{{ trans('global.datatables.zero_selected') }}')
+
+        return
+      }
+
+      if (confirm('{{ trans('global.areYouSure') }}')) {
+        $.ajax({
+          headers: {'x-csrf-token': _token},
+          method: 'POST',
+          url: config.url,
+          data: { ids: ids, _method: 'DELETE' }})
+          .done(function () { location.reload() })
+      }
+    }
+  }
+  dtButtons.push(deleteButton)
+@endcan
 
   let dtOverrideGlobals = {
     buttons: dtButtons,
@@ -57,12 +93,14 @@
     columns: [
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
-{ data: 'language', name: 'language' },
-{ data: 'name', name: 'translation_center_translations.name' },
+{ data: 'online', name: 'online' },
+{ data: 'name', name: 'name' },
+{ data: 'slug', name: 'slug' },
+{ data: 'section', name: 'section' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 4, 'asc' ]],
+    order: [[ 3, 'asc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-TranslationCenter').DataTable(dtOverrideGlobals);
@@ -70,7 +108,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-
+  
 });
 
 </script>

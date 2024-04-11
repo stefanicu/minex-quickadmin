@@ -17,22 +17,18 @@ class StoreBlogRequest extends FormRequest
     public function rules()
     {
         return [
-            'locale' => [
-                'required',
-            ],
             'name' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:blog_translations',
             ],
             'slug' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:blog_translations',
+                'unique:blogs',
             ],
             'content' => [
                 'required',

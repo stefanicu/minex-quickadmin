@@ -19,9 +19,7 @@ class TranslationCenterController extends Controller
         abort_if(Gate::denies('translation_center_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = TranslationCenter::join('translation_center_translations','translation_centers.id','=','translation_center_translations.translation_center_id')
-                ->where('translation_center_translations.locale','=',app()->getLocale())
-                ->select(sprintf('%s.*', (new TranslationCenter)->table));
+            $query = TranslationCenter::query()->select(sprintf('%s.*', (new TranslationCenter)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -47,9 +45,6 @@ class TranslationCenterController extends Controller
             });
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
-            });
-            $table->editColumn('language', function ($row) {
-                return $row->language ? TranslationCenter::LANGUAGE_SELECT[$row->language] : '';
             });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';

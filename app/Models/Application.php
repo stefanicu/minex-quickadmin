@@ -9,18 +9,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
-use Astrotomic\Translatable\Translatable;
 
-class Application extends Model implements HasMedia, TranslatableContract
+class Application extends Model implements HasMedia
 {
-    use SoftDeletes, InteractsWithMedia, HasFactory, Translatable;
+    use SoftDeletes, InteractsWithMedia, HasFactory;
 
     public $table = 'applications';
-    public $translatedAttributes = ['online','name','slug'];
 
     protected $appends = [
         'image',
+    ];
+
+    public static $searchable = [
+        'name',
+        'slug',
     ];
 
     protected $dates = [
@@ -31,6 +33,8 @@ class Application extends Model implements HasMedia, TranslatableContract
 
     protected $fillable = [
         'online',
+        'name',
+        'slug',
         'oldid',
         'oldimage',
         'created_at',
@@ -38,7 +42,7 @@ class Application extends Model implements HasMedia, TranslatableContract
         'deleted_at',
     ];
 
-    protected function serializeDate(DateTimeInterface $date): string
+    protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
     }
@@ -61,7 +65,7 @@ class Application extends Model implements HasMedia, TranslatableContract
         return $file;
     }
 
-    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function categories()
     {
         return $this->belongsToMany(Category::class);
     }

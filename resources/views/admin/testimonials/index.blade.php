@@ -28,9 +28,6 @@
                         {{ trans('cruds.testimonial.fields.online') }}
                     </th>
                     <th>
-                        {{ trans('cruds.testimonial.fields.language') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.testimonial.fields.company') }}
                     </th>
                     <th>
@@ -100,7 +97,6 @@
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'online', name: 'online' },
-{ data: 'language', name: 'language' },
 { data: 'company', name: 'company' },
 { data: 'name', name: 'name' },
 { data: 'job', name: 'job' },

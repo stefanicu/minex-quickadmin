@@ -6,7 +6,6 @@ use App\Models\Blog;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
-use Illuminate\Validation\Rule;
 
 class UpdateBlogRequest extends FormRequest
 {
@@ -18,26 +17,18 @@ class UpdateBlogRequest extends FormRequest
     public function rules()
     {
         return [
-            'locale' => [
-                'required',
-            ],
             'name' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                Rule::unique('blog_translations', 'name')
-                    ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('blog')->id,'blog_id')
             ],
             'slug' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                Rule::unique('blog_translations', 'slug')
-                    ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('blog')->id,'blog_id')
+                'unique:blogs,slug,' . request()->route('blog')->id,
             ],
             'content' => [
                 'required',

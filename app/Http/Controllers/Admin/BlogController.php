@@ -23,10 +23,7 @@ class BlogController extends Controller
         abort_if(Gate::denies('blog_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Blog::join('blog_translations','blogs.id','=','blog_translations.blog_id')
-                ->where('blog_translations.locale','=',app()->getLocale())
-                ->select(sprintf('%s.*', (new Blog)->table));
-
+            $query = Blog::query()->select(sprintf('%s.*', (new Blog)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
