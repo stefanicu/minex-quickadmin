@@ -10,13 +10,13 @@ SELECT * FROM (
 
 INSERT INTO minexq.translation_center_translations(locale, name, translation_center_id)
 SELECT * FROM (
-    SELECT 'ro'  AS locale, trim(a.nume) AS name, id as traslation_center_id
+    SELECT 'ro'  AS locale, trim(nume) AS name, id as traslation_center_id
     FROM minex_live.texte
         UNION
-    SELECT 'en'  AS locale, trim(a.nume1) AS name, id as traslation_center_id
+    SELECT 'en'  AS locale, trim(nume1) AS name, id as traslation_center_id
     FROM minex_live.texte
         UNION
-    SELECT 'bg' AS locale, trim(a.nume2) AS name, id as traslation_center_id
+    SELECT 'bg' AS locale, trim(nume2) AS name, id as traslation_center_id
     FROM minex_live.texte
 
 ) AS translation_center_translations;

@@ -69,20 +69,6 @@ class TranslationCenterController extends Controller
         return view('admin.translationCenters.index');
     }
 
-    public function create()
-    {
-        abort_if(Gate::denies('translation_center_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.translationCenters.create');
-    }
-
-    public function store(StoreTranslationCenterRequest $request)
-    {
-        $translationCenter = TranslationCenter::create($request->all());
-
-        return redirect()->route('admin.translation-centers.index');
-    }
-
     public function edit(TranslationCenter $translationCenter)
     {
         abort_if(Gate::denies('translation_center_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -95,32 +81,5 @@ class TranslationCenterController extends Controller
         $translationCenter->update($request->all());
 
         return redirect()->route('admin.translation-centers.index');
-    }
-
-    public function show(TranslationCenter $translationCenter)
-    {
-        abort_if(Gate::denies('translation_center_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.translationCenters.show', compact('translationCenter'));
-    }
-
-    public function destroy(TranslationCenter $translationCenter)
-    {
-        abort_if(Gate::denies('translation_center_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $translationCenter->delete();
-
-        return back();
-    }
-
-    public function massDestroy(MassDestroyTranslationCenterRequest $request)
-    {
-        $translationCenters = TranslationCenter::find(request('ids'));
-
-        foreach ($translationCenters as $translationCenter) {
-            $translationCenter->delete();
-        }
-
-        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

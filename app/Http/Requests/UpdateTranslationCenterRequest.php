@@ -18,7 +18,7 @@ class UpdateTranslationCenterRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => [
+            'locale' => [
                 'required',
             ],
             'name' => [
@@ -26,10 +26,9 @@ class UpdateTranslationCenterRequest extends FormRequest
                 'min:0',
                 'max:255',
                 'required',
-                'unique:translation_centers,name,' . request()->route('translation_center')->id,
                 Rule::unique('translation_center_translations', 'name')
                     ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('translation_centers')->id,'translation_center_id')
+                    ->ignore(request()->route('translation_center')->id,'translation_center_id')
             ]
         ];
     }

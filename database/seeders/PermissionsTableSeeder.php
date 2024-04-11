@@ -198,58 +198,71 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => 47,
                 'title' => 'testimonial_access',
             ],
+
+
+
             [
                 'id'    => 48,
-                'title' => 'translation_center_create',
-            ],
-            [
-                'id'    => 49,
                 'title' => 'translation_center_edit',
             ],
             [
-                'id'    => 50,
-                'title' => 'translation_center_show',
-            ],
-            [
-                'id'    => 51,
-                'title' => 'translation_center_delete',
-            ],
-            [
-                'id'    => 52,
+                'id'    => 49,
                 'title' => 'translation_center_access',
             ],
             [
-                'id'    => 53,
+                'id'    => 50,
                 'title' => 'gdpr_contact_access',
             ],
             [
-                'id'    => 54,
+                'id'    => 51,
                 'title' => 'category_create',
             ],
             [
-                'id'    => 55,
+                'id'    => 52,
                 'title' => 'category_edit',
             ],
             [
-                'id'    => 56,
+                'id'    => 53,
                 'title' => 'category_delete',
             ],
             [
-                'id'    => 57,
+                'id'    => 54,
                 'title' => 'category_access',
             ],
             [
-                'id'    => 58,
+                'id'    => 55,
                 'title' => 'front_page_edit',
             ],
             [
-                'id'    => 59,
+                'id'    => 56,
                 'title' => 'front_page_access',
             ],
             [
+                'id'    => 57,
+                'title' => 'fron_test_create',
+            ],
+            [
+                'id'    => 58,
+                'title' => 'fron_test_edit',
+            ],
+            [
+                'id'    => 59,
+                'title' => 'fron_test_show',
+            ],
+            [
                 'id'    => 60,
+                'title' => 'fron_test_delete',
+            ],
+            [
+                'id'    => 61,
+                'title' => 'fron_test_access',
+            ],
+            [
+                'id'    => 62,
                 'title' => 'profile_password_edit',
             ],
+
+
         ];
 
         Permission::insert($permissions);

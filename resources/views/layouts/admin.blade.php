@@ -129,11 +129,11 @@
       url: languages['{{ app()->getLocale() }}']
     },
     columnDefs: [{
-        orderable: false,
+        orderable: true,
         // className: 'select-checkbox',
         targets: 0
     }, {
-        orderable: false,
+        orderable: true,
         searchable: false,
         targets: -1
     }],
