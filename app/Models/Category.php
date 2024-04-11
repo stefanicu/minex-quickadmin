@@ -9,18 +9,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
-use Astrotomic\Translatable\Translatable;
 
-class Category extends Model implements HasMedia, TranslatableContract
+class Category extends Model implements HasMedia
 {
-    use SoftDeletes, InteractsWithMedia, HasFactory, Translatable;
+    use SoftDeletes, InteractsWithMedia, HasFactory;
 
     public $table = 'categories';
-    public $translatedAttributes = ['online','name','slug'];
 
     protected $appends = [
         'cover_photo',
+    ];
+
+    public static $searchable = [
+        'name',
+        'slug',
     ];
 
     protected $dates = [
@@ -31,6 +33,8 @@ class Category extends Model implements HasMedia, TranslatableContract
 
     protected $fillable = [
         'online',
+        'name',
+        'slug',
         'page_views',
         'product_image_id',
         'oldid',

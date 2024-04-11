@@ -1,6 +1,13 @@
 <?php
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::redirect('/', '/login');
+Route::get('/home', function () {
+    if (session('status')) {
+        return redirect()->route('admin.home')->with('status', session('status'));
+    }
+
+    return redirect()->route('admin.home');
+});
 
 Auth::routes(['register' => false]);
 
@@ -66,7 +73,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Translation Center
     Route::delete('translation-centers/destroy', 'TranslationCenterController@massDestroy')->name('translation-centers.massDestroy');
-    Route::resource('translation-centers', 'TranslationCenterController', ['except' => ['create', 'store', 'show', 'destroy']]);
+    Route::resource('translation-centers', 'TranslationCenterController');
 
     // Categories
     Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
@@ -75,9 +82,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('categories', 'CategoriesController', ['except' => ['show']]);
 
     // Front Page
-    Route::post('front_pages/media', 'FrontPageController@storeMedia')->name('front_pages.storeMedia');
-    Route::post('front_pages/ckmedia', 'FrontPageController@storeCKEditorImages')->name('front_pages.storeCKEditorImages');
-    Route::resource('front_pages', 'FrontPageController', ['except' => ['create', 'store', 'show', 'destroy']]);
+    Route::post('front-pages/media', 'FrontPageController@storeMedia')->name('front-pages.storeMedia');
+    Route::post('front-pages/ckmedia', 'FrontPageController@storeCKEditorImages')->name('front-pages.storeCKEditorImages');
+    Route::resource('front-pages', 'FrontPageController', ['except' => ['create', 'store', 'show', 'destroy']]);
+
+    // Fron Test
+    Route::delete('fron-tests/destroy', 'FronTestController@massDestroy')->name('fron-tests.massDestroy');
+    Route::resource('fron-tests', 'FronTestController');
 
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
 });

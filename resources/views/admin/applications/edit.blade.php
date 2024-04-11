@@ -10,18 +10,17 @@
         <form method="POST" action="{{ route("admin.applications.update", [$application->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
-{{--            <div class="form-group">--}}
-{{--                <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">--}}
-{{--                    <input type="hidden" name="online" value="0">--}}
-{{--                    <input class="form-check-input" type="checkbox" name="online" id="online" value="1" {{ $application->online || old('online', 0) === 1 ? 'checked' : '' }}>--}}
-{{--                    <label class="form-check-label" for="online">{{ trans('cruds.application.fields.online') }}</label>--}}
-{{--                </div>--}}
-{{--                @if($errors->has('online'))--}}
-{{--                    <span class="text-danger">{{ $errors->first('online') }}</span>--}}
-{{--                @endif--}}
-{{--                <span class="help-block">{{ trans('cruds.application.fields.online_helper') }}</span>--}}
-{{--            </div>--}}
-
+            <div class="form-group">
+                <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
+                    <input type="hidden" name="online" value="0">
+                    <input class="form-check-input" type="checkbox" name="online" id="online" value="1" {{ $application->online || old('online', 0) === 1 ? 'checked' : '' }}>
+                    <label class="form-check-label" for="online">{{ trans('cruds.application.fields.online') }}</label>
+                </div>
+                @if($errors->has('online'))
+                    <span class="text-danger">{{ $errors->first('online') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.application.fields.online_helper') }}</span>
+            </div>
             <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.application.fields.name') }}</label>
                 <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $application->name) }}" required>
@@ -64,7 +63,6 @@
                 <span class="help-block">{{ trans('cruds.application.fields.categories_helper') }}</span>
             </div>
             <div class="form-group">
-                <input type="hidden" name="locale" value="{{app()->getLocale()}}">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

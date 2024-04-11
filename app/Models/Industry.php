@@ -21,7 +21,6 @@ class Industry extends Model implements HasMedia
     ];
 
     public static $searchable = [
-        'language',
         'name',
         'slug',
     ];
@@ -32,15 +31,8 @@ class Industry extends Model implements HasMedia
         'deleted_at',
     ];
 
-    public const LANGUAGE_SELECT = [
-        'en' => 'English',
-        'ro' => 'Romanian',
-        'bg' => 'Bulgarian',
-    ];
-
     protected $fillable = [
         'online',
-        'language',
         'name',
         'slug',
         'oldid',

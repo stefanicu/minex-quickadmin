@@ -17,9 +17,6 @@ class UpdateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => [
-                'required',
-            ],
             'brand_id' => [
                 'required',
                 'integer',

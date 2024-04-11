@@ -22,19 +22,6 @@
                 <span class="help-block">{{ trans('cruds.testimonial.fields.online_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required">{{ trans('cruds.testimonial.fields.language') }}</label>
-                <select class="form-control {{ $errors->has('language') ? 'is-invalid' : '' }}" name="language" id="language" required>
-                    <option value disabled {{ old('language', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\Testimonial::LANGUAGE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('language', $testimonial->language) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('language'))
-                    <span class="text-danger">{{ $errors->first('language') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.testimonial.fields.language_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label class="required" for="company">{{ trans('cruds.testimonial.fields.company') }}</label>
                 <input class="form-control {{ $errors->has('company') ? 'is-invalid' : '' }}" type="text" name="company" id="company" value="{{ old('company', $testimonial->company) }}" required>
                 @if($errors->has('company'))

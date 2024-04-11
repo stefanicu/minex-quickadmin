@@ -17,9 +17,6 @@ class StoreIndustryRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => [
-                'required',
-            ],
             'name' => [
                 'string',
                 'min:0',
