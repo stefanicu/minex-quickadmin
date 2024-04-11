@@ -17,15 +17,12 @@ class StoreFrontPageRequest extends FormRequest
     public function rules()
     {
         return [
-            'locale' => [
-                'required',
-            ],
             'name' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:front_page_translations',
+                'unique:front_pages',
             ],
             'button' => [
                 'string',

@@ -34,9 +34,6 @@
                         {{ trans('cruds.reference.fields.online') }}
                     </th>
                     <th>
-                        {{ trans('cruds.reference.fields.language') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.reference.fields.name') }}
                     </th>
                     <th>
@@ -108,7 +105,6 @@
 { data: 'industries_online', name: 'industries.online' },
 { data: 'industries.name', name: 'industries.name' },
 { data: 'online', name: 'online' },
-{ data: 'language', name: 'language' },
 { data: 'name', name: 'name' },
 { data: 'slug', name: 'slug' },
 { data: 'photo_square', name: 'photo_square', sortable: false, searchable: false },

@@ -9,7 +9,7 @@
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.front_pages.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.front-pages.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -21,11 +21,6 @@
                         </th>
                         <td>
                             {{ $frontPage->id }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {{ App\Models\FrontPage::LANGUAGE_SELECT[$frontPage->language] ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -46,10 +41,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.frontPage.fields.second_text') }}
+                            {{ trans('cruds.frontPage.fields.seccond_text') }}
                         </th>
                         <td>
-                            {!! $frontPage->second_text !!}
+                            {!! $frontPage->seccond_text !!}
                         </td>
                     </tr>
                     <tr>
@@ -83,7 +78,7 @@
                 </tbody>
             </table>
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.front_pages.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.front-pages.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>

@@ -17,9 +17,6 @@ class UpdateTestimonialRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => [
-                'required',
-            ],
             'company' => [
                 'string',
                 'min:0',

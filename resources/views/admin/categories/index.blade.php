@@ -18,15 +18,15 @@
         <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Category">
             <thead>
                 <tr>
-{{--                    <th width="10">--}}
+                    <th width="10">
 
-{{--                    </th>--}}
+                    </th>
                     <th>
                         {{ trans('cruds.category.fields.id') }}
                     </th>
-{{--                    <th>--}}
-{{--                        {{ trans('cruds.category.fields.online') }}--}}
-{{--                    </th>--}}
+                    <th>
+                        {{ trans('cruds.category.fields.online') }}
+                    </th>
                     <th>
                         {{ trans('cruds.category.fields.name') }}
                     </th>
@@ -53,35 +53,35 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-{{--@can('category_delete')--}}
-{{--  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';--}}
-{{--  let deleteButton = {--}}
-{{--    text: deleteButtonTrans,--}}
-{{--    url: "{{ route('admin.categories.massDestroy') }}",--}}
-{{--    className: 'btn-danger',--}}
-{{--    action: function (e, dt, node, config) {--}}
-{{--      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {--}}
-{{--          return entry.id--}}
-{{--      });--}}
+@can('category_delete')
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
+  let deleteButton = {
+    text: deleteButtonTrans,
+    url: "{{ route('admin.categories.massDestroy') }}",
+    className: 'btn-danger',
+    action: function (e, dt, node, config) {
+      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
+          return entry.id
+      });
 
-{{--      if (ids.length === 0) {--}}
-{{--        alert('{{ trans('global.datatables.zero_selected') }}')--}}
+      if (ids.length === 0) {
+        alert('{{ trans('global.datatables.zero_selected') }}')
 
-{{--        return--}}
-{{--      }--}}
+        return
+      }
 
-{{--      if (confirm('{{ trans('global.areYouSure') }}')) {--}}
-{{--        $.ajax({--}}
-{{--          headers: {'x-csrf-token': _token},--}}
-{{--          method: 'POST',--}}
-{{--          url: config.url,--}}
-{{--          data: { ids: ids, _method: 'DELETE' }})--}}
-{{--          .done(function () { location.reload() })--}}
-{{--      }--}}
-{{--    }--}}
-{{--  }--}}
-{{--  dtButtons.push(deleteButton)--}}
-{{--@endcan--}}
+      if (confirm('{{ trans('global.areYouSure') }}')) {
+        $.ajax({
+          headers: {'x-csrf-token': _token},
+          method: 'POST',
+          url: config.url,
+          data: { ids: ids, _method: 'DELETE' }})
+          .done(function () { location.reload() })
+      }
+    }
+  }
+  dtButtons.push(deleteButton)
+@endcan
 
   let dtOverrideGlobals = {
     buttons: dtButtons,
@@ -91,16 +91,16 @@
     aaSorting: [],
     ajax: "{{ route('admin.categories.index') }}",
     columns: [
-        //{ data: 'placeholder', name: 'placeholder' },
-        { data: 'id', name: 'id' },
-        // { data: 'online', name: 'online' },
-        { data: 'name', name: 'category_translations.name' },
-        { data: 'page_views', name: 'page_views' },
-        { data: 'cover_photo', name: 'cover_photo', sortable: false, searchable: false },
-        { data: 'actions', name: '{{ trans('global.actions') }}' }
+      { data: 'placeholder', name: 'placeholder' },
+{ data: 'id', name: 'id' },
+{ data: 'online', name: 'online' },
+{ data: 'name', name: 'name' },
+{ data: 'page_views', name: 'page_views' },
+{ data: 'cover_photo', name: 'cover_photo', sortable: false, searchable: false },
+{ data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
-    orderCellsTop: false,
-    order: [[ 1, 'asc' ]],
+    orderCellsTop: true,
+    order: [[ 3, 'asc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-Category').DataTable(dtOverrideGlobals);
@@ -108,7 +108,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-
+  
 });
 
 </script>

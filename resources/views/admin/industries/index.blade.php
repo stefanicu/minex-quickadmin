@@ -28,9 +28,6 @@
                         {{ trans('cruds.industry.fields.online') }}
                     </th>
                     <th>
-                        {{ trans('cruds.industry.fields.language') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.industry.fields.name') }}
                     </th>
                     <th>
@@ -97,7 +94,6 @@
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'online', name: 'online' },
-{ data: 'language', name: 'language' },
 { data: 'name', name: 'name' },
 { data: 'slug', name: 'slug' },
 { data: 'photo', name: 'photo', sortable: false, searchable: false },

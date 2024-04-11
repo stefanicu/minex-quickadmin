@@ -18,15 +18,15 @@
         <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Brand">
             <thead>
                 <tr>
-{{--                    <th width="10">--}}
+                    <th width="10">
 
-{{--                    </th>--}}
+                    </th>
                     <th>
                         {{ trans('cruds.brand.fields.id') }}
                     </th>
-{{--                    <th>--}}
-{{--                        {{ trans('cruds.brand.fields.online') }}--}}
-{{--                    </th>--}}
+                    <th>
+                        {{ trans('cruds.brand.fields.online') }}
+                    </th>
                     <th>
                         {{ trans('cruds.brand.fields.name') }}
                     </th>
@@ -53,35 +53,35 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-{{--@can('brand_delete')--}}
-{{--  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';--}}
-{{--  let deleteButton = {--}}
-{{--    text: deleteButtonTrans,--}}
-{{--    url: "{{ route('admin.brands.massDestroy') }}",--}}
-{{--    className: 'btn-danger',--}}
-{{--    action: function (e, dt, node, config) {--}}
-{{--      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {--}}
-{{--          return entry.id--}}
-{{--      });--}}
+@can('brand_delete')
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
+  let deleteButton = {
+    text: deleteButtonTrans,
+    url: "{{ route('admin.brands.massDestroy') }}",
+    className: 'btn-danger',
+    action: function (e, dt, node, config) {
+      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
+          return entry.id
+      });
 
-{{--      if (ids.length === 0) {--}}
-{{--        alert('{{ trans('global.datatables.zero_selected') }}')--}}
+      if (ids.length === 0) {
+        alert('{{ trans('global.datatables.zero_selected') }}')
 
-{{--        return--}}
-{{--      }--}}
+        return
+      }
 
-{{--      if (confirm('{{ trans('global.areYouSure') }}')) {--}}
-{{--        $.ajax({--}}
-{{--          headers: {'x-csrf-token': _token},--}}
-{{--          method: 'POST',--}}
-{{--          url: config.url,--}}
-{{--          data: { ids: ids, _method: 'DELETE' }})--}}
-{{--          .done(function () { location.reload() })--}}
-{{--      }--}}
-{{--    }--}}
-{{--  }--}}
-{{--  dtButtons.push(deleteButton)--}}
-{{--@endcan--}}
+      if (confirm('{{ trans('global.areYouSure') }}')) {
+        $.ajax({
+          headers: {'x-csrf-token': _token},
+          method: 'POST',
+          url: config.url,
+          data: { ids: ids, _method: 'DELETE' }})
+          .done(function () { location.reload() })
+      }
+    }
+  }
+  dtButtons.push(deleteButton)
+@endcan
 
   let dtOverrideGlobals = {
     buttons: dtButtons,
@@ -91,16 +91,16 @@
     aaSorting: [],
     ajax: "{{ route('admin.brands.index') }}",
     columns: [
-      // { data: 'placeholder', name: 'placeholder' },
+      { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
-// { data: 'online', name: 'online' },
+{ data: 'online', name: 'online' },
 { data: 'name', name: 'name' },
 { data: 'slug', name: 'slug' },
 { data: 'photo', name: 'photo', sortable: false, searchable: false },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 1, 'asc' ]],
+    order: [[ 1, 'desc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-Brand').DataTable(dtOverrideGlobals);
@@ -108,7 +108,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-
+  
 });
 
 </script>

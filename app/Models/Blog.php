@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
-use Astrotomic\Translatable\Translatable;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,15 +10,20 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Blog extends Model implements HasMedia, TranslatableContract
+class Blog extends Model implements HasMedia
 {
-    use SoftDeletes, InteractsWithMedia, HasFactory, Translatable;
+    use SoftDeletes, InteractsWithMedia, HasFactory;
 
     public $table = 'blogs';
-    public $translatedAttributes = ['online','name','slug','content','image_text'];
 
     protected $appends = [
         'image',
+    ];
+
+    public static $searchable = [
+        'name',
+        'slug',
+        'content',
     ];
 
     protected $dates = [
@@ -31,9 +34,11 @@ class Blog extends Model implements HasMedia, TranslatableContract
 
     protected $fillable = [
         'online',
+        'name',
+        'slug',
+        'content',
         'oldid',
         'oldimage',
-        'oldarticletype',
         'created_at',
         'updated_at',
         'deleted_at',

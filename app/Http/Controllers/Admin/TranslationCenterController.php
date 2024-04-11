@@ -19,10 +19,7 @@ class TranslationCenterController extends Controller
         abort_if(Gate::denies('translation_center_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = TranslationCenter::join('translation_center_translations','translation_centers.id','=','translation_center_translations.translation_center_id')
-                ->where('translation_center_translations.locale','=',app()->getLocale())
-                ->select(sprintf('%s.*', (new TranslationCenter)->table));
-
+            $query = TranslationCenter::query()->select(sprintf('%s.*', (new TranslationCenter)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -46,12 +43,20 @@ class TranslationCenterController extends Controller
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
-
+            $table->editColumn('online', function ($row) {
+                return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
+            });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });
+            $table->editColumn('slug', function ($row) {
+                return $row->slug ? $row->slug : '';
+            });
+            $table->editColumn('section', function ($row) {
+                return $row->section ? TranslationCenter::SECTION_SELECT[$row->section] : '';
+            });
 
-            $table->rawColumns(['actions']);
+            $table->rawColumns(['actions', 'placeholder', 'online']);
 
             return $table->make(true);
         }
@@ -85,6 +90,13 @@ class TranslationCenterController extends Controller
         $translationCenter->update($request->all());
 
         return redirect()->route('admin.translation-centers.index');
+    }
+
+    public function show(TranslationCenter $translationCenter)
+    {
+        abort_if(Gate::denies('translation_center_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return view('admin.translationCenters.show', compact('translationCenter'));
     }
 
     public function destroy(TranslationCenter $translationCenter)
