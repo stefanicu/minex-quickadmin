@@ -23,8 +23,6 @@ class CreateTranslationCentersTable extends Migration
             $table->foreignId('translation_center_id')->references('id')->on('translation_centers')->onDelete('cascade');
 
             $table->string('name');
-
-            $table->unique(['name', 'locale']);
         });
     }
 }
