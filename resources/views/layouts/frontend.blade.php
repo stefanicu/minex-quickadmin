@@ -169,7 +169,7 @@ switch (app()->getLocale()) {
 
     <a name="totop" id="totop"></a>
     <div class="footer_visible">
-{{--        @include('partials.main_menu')--}}
+        @include('partials.main_menu')
 
         @yield('content')
 
@@ -184,7 +184,7 @@ switch (app()->getLocale()) {
 
     </div><!-- /#footer_visible -->
     <footer class="d-flex py-2 px-4 justify-content-between align-items-center">
-        <a class="navbar-brand" href="@php route('home') @endphp" title="Minex Group">
+        <a class="navbar-brand" href="{{ url('') }}" title="Minex Group">
             <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 139 100">
                 <path fill="#FFF" d="M117 91l7 9h-7l-4-5-6 5h-9l12-10-7-9h8l3 5 6-5h8l-11 10zm-84 9h8l5-19h-7l-6 19zm32-8l-6-11h-7l-5 19h6l4-11 6 11h7l5-19h-7l-3 11zm31 0l2-4H86l1-3h12l1-4H80l-5 19h21l1-4H83l2-4h11zM24 81l-8 12-1-12H6l-5 19h5l4-14 1 14h6l9-14-4 14h6l5-19h-9z"></path>
                 <path fill="#ced4da" d="M110 50h8l10-2-3-6h-3l-15-4h-1l-5 8v4z"></path>
