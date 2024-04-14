@@ -14,96 +14,95 @@
 
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('') }}">{{ trans('Home') }}</a></li>
+                <a class="nav-link" href="{{ url('') }}">{{ trans('Home') }}</a>
+            </li>
+
+           <li class="nav-item dropdown has-mega-menu">
+               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Solutions<b class="caret"></b></a>
+                <div class="dropdown-menu dropdown-menu--main">
+                    <div class="px-0 container-fluid">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <ul class="list-unstyled">
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 1</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 2</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 3</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 4</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 5</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 6</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 7</a></li>
+
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 21</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 22</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 23</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 24</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 25</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 26</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 27</a></li>
+
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 31</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 32</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 33</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 34</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 35</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 36</a></li>
+                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 37</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                @php
+//                                    $sqla = "SELECT id, nume{$lng} as nume, slug{$lng} as slug, online from aplicatii where del='0' and online>0 order by nume"; // select data from db
+//                                    $resa = $this->db->query($sqla)->result_array();
+//                                    $cnt = $this->db->query($sqla)->num_rows();
+//
+//                                    $i = 1;
+//                                    $t = 1;
+//                                    foreach ($resa as $mena) {
+//                                        echo '<li><a class="d-block my-2" href="' . {{ url('') }} . $aplicatie . '/' . $mena['slug'] . '">' .$mena['nume'] . '</a></li>';
+//                                        if ($i == 7) {
+//                                            $i = 0;
+//                                            if ($t < $cnt) {
+//                                                echo '</ul>
+//                                                    </div>
+//                                                    <div class="col-md-4">
+//                                                    <ul class="list-unstyled">';
+//                                            } else {
+//                                                echo '</ul>
+//                                                    </div>';
+//                                            }
+//                                        } else {
+//                                            if ($t == $cnt) {
+//                                                echo '</ul>
+//                                                    </div>';
+//                                            }
+//                                        }
+//                                        $i++;
+//                                        $t++;
+//                                    }
+                                @endphp
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           </li>
+
+
             @php
-                $lng = app()->getLocale();
-
-            $sql = "SELECT
-            nume{$lng} as nume,
-            type,
-            id,
-            slug{$lng} as slug,
-            online
-            FROM cms
-            WHERE del='0' and type in ('home','pagina','aplicatii','iqindustrial') order by online";
-                                                                                                                                                                                      //
-            $res = $this->db->query($sql)->result_array();
-            foreach ($res as $men) {
-                //print_r($men);
-                if ($men['type'] == 'aplicatii') {
-                    echo '<li class="nav-item dropdown has-mega-menu">
-						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">' . $men['nume'] . ' <b class="caret"></b></a>';
-                    echo '<div class="dropdown-menu dropdown-menu--main">
-						<div class="px-0 container-fluid">
-							<div class="container">
-								<div class="row">
-									<div class="col-md-4">
-										<ul class="list-unstyled">';
-
-
-                    $sqla = "SELECT id, nume{$lng} as nume, slug{$lng} as slug, online from aplicatii where del='0' and online>0 order by nume"; // select data from db
-                    $resa = $this->db->query($sqla)->result_array();
-                    $cnt = $this->db->query($sqla)->num_rows();
-
-                    $i = 1;
-                    $t = 1;
-                    foreach ($resa as $mena) {
-                        echo '<li><a class="d-block my-2" href="' . base_url() . $aplicatie . '/' . $mena['slug'] . '">' .$mena['nume'] . '</a></li>';
-                        if ($i == 7) {
-                            $i = 0;
-                            if ($t < $cnt) {
-                                echo '</ul>
-									</div>
-									<div class="col-md-4">
-									<ul class="list-unstyled">';
-                            } else {
-                                echo '</ul>
-									</div>';
-                            }
-                        } else {
-                            if ($t == $cnt) {
-                                echo '</ul>
-									</div>';
-                            }
-                        }
-                        $i++;
-                        $t++;
-                    }
-                    echo '</div></div></div></div>
-								</li>';
-
-                } elseif ($men['type'] == 'iqindustrial') {
-                    echo '<li class="nav-item dropdown has-mega-menu">
-						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">' . $men['nume'] . ' <b class="caret"></b></a>';
-                    echo '<div id="navbarDropdown" class="dropdown-menu dropdown-menu--normal">
-								<ul class="list-unstyled">';
-                    $sqlc = "SELECT id, nume{$lng} as nume, slug{$lng} as slug from iqcategorii where del='0' order by online"; // select data from db
-                    $resc = $this->db->query($sqlc)->result_array();
-                    foreach ($resc as $menc) {
-                        echo '<li><a class="d-block my-2 mx-4" href="' . base_url() . $iqindustrial . '/' . $menc['slug'] . '">' . $menc['nume'] . '</a></li>';
-                    }
-                    echo '</ul>
-						</li>';
-
-
-                } else {
-                    if ($men['type'] == 'home') {
-                        $link = base_url() . '#' . $men['slug'];
-                        if ($men['id'] == 1){
-                            $link = base_url() . '#contact';
-                        }
-                        if ($link == '#contact') {
-                            echo '<li class="contact-btn"><a class="nav-link" href="' . $link . '">' . $men['nume'] . '</a></li>';
-                        } else {
-                            echo '<li><a class="nav-link" href="' . $link . '">' . $men['nume'] . '</a></li>';
-                        }
-                    } else {
-                        echo '<li><a class="nav-link" href="' . base_url() . $men['slug'] . '">' . $men['nume'] . '</a></li>';
-                    }
-                }
-
-            }
-
+//                if ($men['type'] == 'home') {
+//                    $link = {{ url('') }} . '#' . $men['slug'];
+//                    if ($men['id'] == 1){
+//                        $link = {{ url('') }} . '#contact';
+//                    }
+//                    if ($link == '#contact') {
+//                        echo '<li class="contact-btn"><a class="nav-link" href="' . $link . '">' . $men['nume'] . '</a></li>';
+//                    } else {
+//                        echo '<li><a class="nav-link" href="' . $link . '">' . $men['nume'] . '</a></li>';
+//                    }
+//                } else {
+//                    echo '<li><a class="nav-link" href="' . {{ url('') }} . $men['slug'] . '">' . $men['nume'] . '</a></li>';
+//                }
             @endphp
         </ul>
 
@@ -120,20 +119,20 @@
         <?php //* ?>
         <ul class="navbar-nav bnbsNav ml-0 mr-0">
             <li class="nav-item dropdown has-mega-menu">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><?=$alt;?><b class="caret"></b></a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ app()->getLocale() }}<b class="caret"></b></a>
                 <div id="navbarDropdownLng" class="dropdown-menu dropdown-menu--normal">
                     <ul class="list-unstyled">
-                        <?php if ($this->session->userdata('lng') == 1) { ?>
-                        <li><a id="navRom" href="<?php echo base_url(); ?>admin/language/0" class="d-block px-4"><strong>RO</strong></a></li>
-                        <li><a id="navBlg" href="<?php echo base_url(); ?>admin/language/2" class="d-block px-4"><strong>BG</strong></a></li>
+                        <?php if ( app()->getLocale() == 'en') { ?>
+                        <li><a id="navRom" href="{{ url('') }}/admin/language/0" class="d-block px-4"><strong>RO</strong></a></li>
+                        <li><a id="navBlg" href="{{ url('') }}/admin/language/2" class="d-block px-4"><strong>BG</strong></a></li>
                         <?php }
-                        if ($this->session->userdata('lng') == 0) { ?>
-                        <li><a id="navEng" href="<?php echo base_url(); ?>admin/language/1" class="d-block px-4"><strong>EN</strong></a></li>
-                        <li><a id="navBlg" href="<?php echo base_url(); ?>admin/language/2" class="d-block px-4"><strong>BG</strong></a></li>
+                        if ( app()->getLocale() == 'ro') { ?>
+                        <li><a id="navEng" href="{{ url('') }}/admin/language/1" class="d-block px-4"><strong>EN</strong></a></li>
+                        <li><a id="navBlg" href="{{ url('') }}/admin/language/2" class="d-block px-4"><strong>BG</strong></a></li>
                         <?php }
-                        if ($this->session->userdata('lng') == 2) { ?>
-                        <li><a id="navRom" href="<?php echo base_url(); ?>admin/language/0" class="d-block px-4"><strong>RO</strong></a></li>
-                        <li><a id="navEng" href="<?php echo base_url(); ?>admin/language/1" class="d-block px-4"><strong>EN</strong></a></li>
+                        if ( app()->getLocale() == 'bg') { ?>
+                        <li><a id="navRom" href="{{ url('') }}/admin/language/0" class="d-block px-4"><strong>RO</strong></a></li>
+                        <li><a id="navEng" href="{{ url('') }}/admin/language/1" class="d-block px-4"><strong>EN</strong></a></li>
                         <?php } ?>
                     </ul>
                 </div>
