@@ -6,8 +6,8 @@ return [
     'primary_language'    => 'en',
     'available_languages' => [
         'en' => 'English',
-        'bg' => 'Bulgarian',
         'ro' => 'Romanian',
+        'bg' => 'Bulgarian',
     ],
 
 ];

@@ -102,65 +102,8 @@ $page = 'Acasa';
             })});
     </script>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.min.css') }}">
-    <link href="{{ asset('css/stefanicu.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/minex.css') }}" rel="stylesheet">
 </head>
-<?php
-
-switch (app()->getLocale()) {
-    case 'ro': // --- Romana ---
-        $aplicatie = 'aplicatie';
-        $iqindustrial = 'iqindustrial';
-
-        $form_nume = 'Te rugam sa introduci numele';
-        $form_nume1 = 'Numele trebuie sa contina cel putin 3 caractere';
-        $form_pren = 'Te rugam sa introduci prenumele';
-        $form_pren1 = 'Prenumele trebuie sa contina cel putin 3 caractere';
-        $form_email = 'Te rugam sa introduci un email valid';
-        $form_func = 'Te rugam sa introduci functia pe care o detineti';
-        $form_dom = 'Te rugam sa introduci domeniul in care activati';
-        $form_cumati = 'Va rugam sa ne spunti cum ati auzit de noi';
-        $form_mesaj = 'Va rugam sa introduceti un mesaj';
-        $home = 'Home';
-        $search = 'cauta...';
-
-        break;
-    case 'en': // --- Engleza ---
-        $aplicatie = 'application';
-        $iqindustrial = 'industrialiq';
-
-        $form_nume = 'Please enter your first name';
-        $form_nume1 = 'Your last first name must be at least 3 characters long';
-        $form_pren = 'Please provide your last name';
-        $form_pren1 = 'Your last last name must be at least 3 characters long';
-        $form_email = 'Please enter a valid email address';
-        $form_func = 'Please enter your job title';
-        $form_dom = 'Please enter your industry';
-        $form_cumati = 'Please tell us how did you hear about us';
-        $form_mesaj = 'Please enter a message';
-        $home = 'Home';
-        $search = 'search...';
-
-        break;
-    case 'bg': // --- bulgara ---
-        $aplicatie = 'application';
-        $iqindustrial = 'industrialiq';
-
-        $form_nume = 'Моля въведете собственото си име';
-        $form_nume1 = 'Последното ви име трябва да е с дължина най-малко 3 знака';
-        $form_pren = 'Моля, въведете фамилното си име';
-        $form_pren1 = 'Последното ви име трябва да е с дължина най-малко 3 знака';
-        $form_email = 'Моля, въведете валиден имейл адрес';
-        $form_func = 'Моля, въведете длъжност';
-        $form_dom = 'Моля, въведете индустрията си';
-        $form_cumati = 'Моля, кажете ни как чухте за нас';
-        $form_mesaj = 'Моля, въведете съобщение';
-        $home = 'Начало';
-        $search = 'търси...';
-
-        break;
-}
-
-?>
 <body class="">
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PM3K8LC"
@@ -168,7 +111,7 @@ switch (app()->getLocale()) {
     <!-- End Google Tag Manager (noscript) -->
 
     <a name="totop" id="totop"></a>
-    <div class="footer_visible">
+    <div class="main_minex">
         @include('partials.main_menu')
 
         @yield('content')
@@ -182,8 +125,9 @@ switch (app()->getLocale()) {
             </a>
         </div>
 
-    </div><!-- /#footer_visible -->
+    </div><!-- /#main_minex -->
     <footer class="d-flex py-2 px-4 justify-content-between align-items-center">
+
         <a class="navbar-brand" href="{{ url('') }}" title="Minex Group">
             <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 139 100">
                 <path fill="#FFF" d="M117 91l7 9h-7l-4-5-6 5h-9l12-10-7-9h8l3 5 6-5h8l-11 10zm-84 9h8l5-19h-7l-6 19zm32-8l-6-11h-7l-5 19h6l4-11 6 11h7l5-19h-7l-3 11zm31 0l2-4H86l1-3h12l1-4H80l-5 19h21l1-4H83l2-4h11zM24 81l-8 12-1-12H6l-5 19h5l4-14 1 14h6l9-14-4 14h6l5-19h-9z"></path>
@@ -195,8 +139,8 @@ switch (app()->getLocale()) {
                 <path fill="#FFF" d="M129 78H0v-6h129v6zM30 57c1 5 8 6 8 6l2-2-2-20s-4-2-8-1-7 4-7 4l4 8 2 2 2 1s-2 1-1 2zM20 28l2-12 17 13s-5-4-12-4c-5 0-7 3-7 3zm19-1L22 15l1-2 17 12-1 2zm1-4L24 12l1-6c5 0 14 2 18 5l-1 1h-1l-2 8 1 1v2zm2-2l1-8h4l-2 9-3-1zm1-11c-5-4-17-5-17-5s3-6 10-5c6 2 7 7 7 10zM30 61v2h-5l-6-1c1-1 1-2 3-1h8zm15 0l3 8H15s2-7 4-6c4 2 10 2 12 1 1-1 1-2 5 1 3 2 4 0 4 0l5-4zm27-17l-3-2h-5l-15-4-1 7h4l-1 3-3-2v3l-5 1v-4l3 2 2-10-3-1s-8-10-17-10-13 13-13 17l4 12c2 5 6 4 10 4v-5c-2 0-4-3-4-3l-3-9s1-3 7-5c5-1 10 2 10 2l3 22 13-11h2l1 1c1 2 4 0 4 0s1-1 5-1c3 1 2-2 2-2h2c2 0 2-2 2-2h8v-3h-9zm-6-2v1h-5v-1h5zm-5 6l-4 2h-2v-1a84 84 0 0 1 6-1zm6-1v-1l-13 2-1-1v-2l3-1h11v3z"></path>
             </svg>
         </a>
-        <ul class="list-inline my-0 mr-auto ml-4">
 
+        <ul class="list-inline my-0 mr-auto ml-4">
             <li class="list-inline-item">
                 <a href="https://www.linkedin.com/company/minex-group" aria-label="Linkedin Link">
                     <svg class="social-ico social-ico--linked-in" x="0px" y="0px" viewBox="0 0 100 100" xml:space="preserve">
@@ -230,16 +174,13 @@ switch (app()->getLocale()) {
                 </a>
             </li>
         </ul>
+
         <p class="text-right my-0 m-button">
-            <?php //echo $copy[0]['nume']; ?>
+            <a href="https://www.minexgroup.eu/gdpr">{{ trans('frontend.gdpr_compliance') }}</a><br>{{ trans('frontend.copyright') }}. {{ trans('frontend.all_rights_reserved') }}.
         </p>
+
     </footer>
 
-    <?php
-    // MINEX-v2 footer font scripts
-    //<link href="https://fonts.googleapis.com/css?family=Exo+2:400,700|Comfortaa:300,700&amp;subset=cyrillic" rel="stylesheet">
-
-    ?>
     <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/customBootstrap.min.js') }}"></script>
@@ -247,17 +188,12 @@ switch (app()->getLocale()) {
     <script src="{{ asset('js/lozad.min.js') }}"></script>
     <script src="{{ asset('js/static.min.js') }}"></script>
     <script src="{{ asset('js/hide-menu.js') }}"></script>
-    <script>$(".fixed--top").autoHidingNavbar(); <?php if ($page == "referinte") : ?>$(document).ready(() => { let url = location.href.replace(/\/$/, ""); if (location.hash) { const hash = url.split("#"); $('#myTab a[href="#'+hash[1]+'"]').tab("show"); url = location.href.replace(/\/#/, "#"); history.replaceState(null, null, url); setTimeout(() => { $(window).scrollTop(0); }, 400); } $('a[data-toggle="tab"]').on("click", function() { let newUrl; const hash = $(this).attr("href"); if(hash == "#home") { newUrl = url.split("#")[0]; } else { newUrl = url.split("#")[0] + hash; } newUrl += "/"; history.replaceState(null, null, newUrl); }); });
-        <?php endif;?></script>
-
-{{--    <?php if ($page == "produs") : ?>--}}
-
-{{--        <script src="<?=THEMEURL;?>assetsss/js/validate/jquery.validate.min.js"></script>--}}
-{{--        <script src="<?=THEMEURL;?>assetsss/js/validate/setprodus.validate.js"></script>--}}
-{{--        <script src="<?=THEMEURL;?>assetsss/js/countries.js"></script>--}}
-{{--        <script>populateCountries("tara", "jud");</script>--}}
-{{--    --}}
-{{--    <?php endif; ?>--}}
+    <script>
+        $(".fixed--top").autoHidingNavbar();
+        <?php if ($page == "referinte") : ?>
+            $(document).ready(() => { let url = location.href.replace(/\/$/, ""); if (location.hash) { const hash = url.split("#"); $('#myTab a[href="#'+hash[1]+'"]').tab("show"); url = location.href.replace(/\/#/, "#"); history.replaceState(null, null, url); setTimeout(() => { $(window).scrollTop(0); }, 400); } $('a[data-toggle="tab"]').on("click", function() { let newUrl; const hash = $(this).attr("href"); if(hash == "#home") { newUrl = url.split("#")[0]; } else { newUrl = url.split("#")[0] + hash; } newUrl += "/"; history.replaceState(null, null, newUrl); }); });
+        <?php endif;?>
+    </script>
 
     @yield('scripts')
     </body>

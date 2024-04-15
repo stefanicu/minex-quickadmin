@@ -8,106 +8,75 @@
             <path fill="#FFF" d="M59 55l-1-1s-2 0-2-2l-4-8s3-4 7-4c3-1 7 1 7 1l3 20-2 2s-7-1-9-6l1-2zm-3-30c7 0 11 4 11 4h1L50 16l-1 12s2-3 7-3zm13 0L52 13l-1 2 17 12 1-2zm0-4l-1-1 1-8h2v-1c-3-3-12-5-17-5l-2 6 17 11v-2zm5 1l1-9h-3l-2 8 4 1zM64 0c-6-1-10 5-10 5s12 1 17 5c0-3 0-8-7-10zM51 61c-2-1-3 0-3 1l5 1h6v-2h-8zm17 4s-1 2-4 0c-4-3-4-2-5-1s-7 1-11-1c-2-1-4 6-4 6h33l-4-8-5 4zm42-21v3h-8s0 2-2 2h-2s1 3-3 2l-5 1s-2 2-3 0l-1-1h-3L71 62l-3-22s-5-3-10-2c-6 2-8 5-8 5l4 9s1 3 3 3c0 3-1 4 1 5-4 0-8 1-10-4l-4-12c0-4 4-17 13-17s17 10 17 10l3 1-2 10-3-2v4l5-1v-3l2 2 1-3h-3l1-7 14 4s4-1 6 1l2 1h10zm-20-2v1h5v-1h-5zm0 5l-6 2v1h2l4-2v-1zm6 0v-3H85l-4 1 1 2 1 1 13-2v1z"></path>
             <path fill="#F7931E" d="M52 50h8l10-2-3-6h-3l-15-4h-1l-5 8v4z"></path>
             <path fill="#FFF" d="M129 78H0v-6h129v6zM30 57c1 5 8 6 8 6l2-2-2-20s-4-2-8-1-7 4-7 4l4 8 2 2 2 1s-2 1-1 2zM20 28l2-12 17 13s-5-4-12-4c-5 0-7 3-7 3zm19-1L22 15l1-2 17 12-1 2zm1-4L24 12l1-6c5 0 14 2 18 5l-1 1h-1l-2 8 1 1v2zm2-2l1-8h4l-2 9-3-1zm1-11c-5-4-17-5-17-5s3-6 10-5c6 2 7 7 7 10zM30 61v2h-5l-6-1c1-1 1-2 3-1h8zm15 0l3 8H15s2-7 4-6c4 2 10 2 12 1 1-1 1-2 5 1 3 2 4 0 4 0l5-4zm27-17l-3-2h-5l-15-4-1 7h4l-1 3-3-2v3l-5 1v-4l3 2 2-10-3-1s-8-10-17-10-13 13-13 17l4 12c2 5 6 4 10 4v-5c-2 0-4-3-4-3l-3-9s1-3 7-5c5-1 10 2 10 2l3 22 13-11h2l1 1c1 2 4 0 4 0s1-1 5-1c3 1 2-2 2-2h2c2 0 2-2 2-2h8v-3h-9zm-6-2v1h-5v-1h5zm-5 6l-4 2h-2v-1a84 84 0 0 1 6-1zm6-1v-1l-13 2-1-1v-2l3-1h11v3z"></path>
-        </svg></a>
+        </svg>
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
 
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('') }}">{{ trans('Home') }}</a>
+                <a class="nav-link" href="{{ url('') }}/">{{ trans('menu.home') }}</a>
             </li>
 
-           <li class="nav-item dropdown has-mega-menu">
-               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Solutions<b class="caret"></b></a>
+            <li class="nav-item dropdown has-mega-menu">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ trans('menu.solutions') }}<b class="caret"></b></a>
                 <div class="dropdown-menu dropdown-menu--main">
                     <div class="px-0 container-fluid">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-4">
                                     <ul class="list-unstyled">
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 1</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 2</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 3</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 4</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 5</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 6</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 7</a></li>
+                                        @php
+                                            $cnt = count($applications);
+                                            $row = ceil($cnt/3);
+                                            $i=1; $t=1;
+                                            @ray($applications->all());
 
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 21</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 22</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 23</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 24</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 25</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 26</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 27</a></li>
-
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 31</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 32</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 33</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 34</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 35</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 36</a></li>
-                                        <li><a class="d-block my-2" href="aplicatie/slug">Aplication 37</a></li>
-                                    </ul>
-                                </div>
-                                <div>
-                                @php
-//                                    $sqla = "SELECT id, nume{$lng} as nume, slug{$lng} as slug, online from aplicatii where del='0' and online>0 order by nume"; // select data from db
-//                                    $resa = $this->db->query($sqla)->result_array();
-//                                    $cnt = $this->db->query($sqla)->num_rows();
-//
-//                                    $i = 1;
-//                                    $t = 1;
-//                                    foreach ($resa as $mena) {
-//                                        echo '<li><a class="d-block my-2" href="' . {{ url('') }} . $aplicatie . '/' . $mena['slug'] . '">' .$mena['nume'] . '</a></li>';
-//                                        if ($i == 7) {
-//                                            $i = 0;
-//                                            if ($t < $cnt) {
-//                                                echo '</ul>
-//                                                    </div>
-//                                                    <div class="col-md-4">
-//                                                    <ul class="list-unstyled">';
-//                                            } else {
-//                                                echo '</ul>
-//                                                    </div>';
-//                                            }
-//                                        } else {
-//                                            if ($t == $cnt) {
-//                                                echo '</ul>
-//                                                    </div>';
-//                                            }
-//                                        }
-//                                        $i++;
-//                                        $t++;
-//                                    }
-                                @endphp
-                                </div>
+                                            foreach($applications as $application) {
+//                                                echo '<li><a class="d-block my-2">'.$application->name.',  '.$application->application_id.'-'.$application->oldid.', #'.$application->id.'</a></li>';
+                                                echo '<li><a class="d-block my-2" href="' . url('') . '/' . trans('menu_slug.solutions') . '/' . $application->slug . '/">' . $application->name . '</a></li>';
+                                                if ($i == $row) {
+                                                    $i = 0;
+                                                    if ($t < $cnt) {
+                                                        echo '</ul></div> <div class="col-md-4"><ul class="list-unstyled">';
+                                                    } else {
+                                                        echo '</ul></div>';
+                                                    }
+                                                } else {
+                                                    if ($t == $cnt) {
+                                                        echo '</ul></div>';
+                                                    }
+                                                }
+                                                $i++;$t++;
+                                            }
+                                        @endphp
+{{--                                    </ul>--}}
+{{--                                </div>--}}
                             </div>
                         </div>
                     </div>
                 </div>
-           </li>
+            </li>
 
-
-            @php
-//                if ($men['type'] == 'home') {
-//                    $link = {{ url('') }} . '#' . $men['slug'];
-//                    if ($men['id'] == 1){
-//                        $link = {{ url('') }} . '#contact';
-//                    }
-//                    if ($link == '#contact') {
-//                        echo '<li class="contact-btn"><a class="nav-link" href="' . $link . '">' . $men['nume'] . '</a></li>';
-//                    } else {
-//                        echo '<li><a class="nav-link" href="' . $link . '">' . $men['nume'] . '</a></li>';
-//                    }
-//                } else {
-//                    echo '<li><a class="nav-link" href="' . {{ url('') }} . $men['slug'] . '">' . $men['nume'] . '</a></li>';
-//                }
-            @endphp
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('') }}/{{ trans('menu_slug.brands') }}/">{{ trans('menu.brands') }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('') }}/{{ trans('menu_slug.references') }}/">{{ trans('menu.references') }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('') }}/{{ trans('menu_slug.testimonials') }}/">{{ trans('menu.testimonials') }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('') }}/{{ trans('menu_slug.blog') }}/">{{ trans('menu.blog') }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('') }}/#{{ trans('menu_slug.contact') }}">{{ trans('menu.contact') }}</a>
+            </li>
         </ul>
 
         <form class="form-inline form-inline__menu my-2 ml-auto searchbox" method="post">
-            <input type="search" placeholder="Search..." name="search" class="form-control searchbox-input"
+            <input type="search" placeholder="{{ trans('menu.search') }}..." name="search" class="form-control searchbox-input"
                    onkeyup="buttonUp();" required autocomplete="off">
 
             <button class="btn my-2 my-sm-0 searchbox-submit" type="submit" id="searchbox" aria-label="Search Box">
@@ -116,27 +85,23 @@
 				</svg>
             </button>
         </form>
-        <?php //* ?>
-        <ul class="navbar-nav bnbsNav ml-0 mr-0">
-            <li class="nav-item dropdown has-mega-menu">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ app()->getLocale() }}<b class="caret"></b></a>
-                <div id="navbarDropdownLng" class="dropdown-menu dropdown-menu--normal">
-                    <ul class="list-unstyled">
-                        <?php if ( app()->getLocale() == 'en') { ?>
-                        <li><a id="navRom" href="{{ url('') }}/admin/language/0" class="d-block px-4"><strong>RO</strong></a></li>
-                        <li><a id="navBlg" href="{{ url('') }}/admin/language/2" class="d-block px-4"><strong>BG</strong></a></li>
-                        <?php }
-                        if ( app()->getLocale() == 'ro') { ?>
-                        <li><a id="navEng" href="{{ url('') }}/admin/language/1" class="d-block px-4"><strong>EN</strong></a></li>
-                        <li><a id="navBlg" href="{{ url('') }}/admin/language/2" class="d-block px-4"><strong>BG</strong></a></li>
-                        <?php }
-                        if ( app()->getLocale() == 'bg') { ?>
-                        <li><a id="navRom" href="{{ url('') }}/admin/language/0" class="d-block px-4"><strong>RO</strong></a></li>
-                        <li><a id="navEng" href="{{ url('') }}/admin/language/1" class="d-block px-4"><strong>EN</strong></a></li>
-                        <?php } ?>
-                    </ul>
-                </div>
-            </li>
-        </ul>
+        @if(count(config('panel.available_languages', [])) > 1)
+            <ul class="navbar-nav bnbsNav ml-0 mr-0">
+                <li class="nav-item dropdown has-mega-menu">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                        {{ strtoupper(app()->getLocale()) }}
+                    </a><b class="caret"></b>
+                    <div id="navbarDropdownLng" class="dropdown-menu dropdown-menu--normal">
+                        <ul class="list-unstyled">
+                            @foreach(config('panel.available_languages') as $langLocale => $langName)
+                                @if($langLocale != app()->getLocale())
+                                    <li><a class="d-block px-4" href="{{ url()->current() }}?change_language={{ $langLocale }}"><strong>{{ strtoupper($langLocale) }}</strong></a></li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        @endif
     </div>
 </nav>

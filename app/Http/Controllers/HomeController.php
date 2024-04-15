@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
+use App\Models\ApplicationTranslation;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,9 +25,19 @@ class HomeController extends Controller
      */
     public function index()
     {
+        ray()->showQueries();
 
+        $applications = Application::leftJoin('application_translations','applications.id','=','application_translations.application_id' )
+            ->select('name','slug')
+            ->where('name','!=','')
+            ->where('locale','=',app()->getLocale())
+            ->where('applications.online','=',1)
+            ->where('application_translations.online','=',1)
+            ->orderBy('name','asc')
+            ->get();
 
+        ray()->stopShowingQueries();
 
-        return view('welcome');
+        return view('welcome', compact('applications'));
     }
 }

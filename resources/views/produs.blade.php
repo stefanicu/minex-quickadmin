@@ -1,7 +1,7 @@
 @extends('layouts.frontend')
 @section('content')
 
-@ray($applications)
+
 
 @endsection
 @section('scripts')

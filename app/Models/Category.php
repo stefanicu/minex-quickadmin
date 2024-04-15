@@ -71,10 +71,10 @@ class Category extends Model implements HasMedia, TranslatableContract
         return $file;
     }
 
-    public function product_image()
-    {
-        return $this->belongsTo(Product::class, 'product_image_id');
-    }
+//    public function product_image()
+//    {
+//        return $this->belongsToMany(Product::class);
+//    }
 
     public function applications()
     {

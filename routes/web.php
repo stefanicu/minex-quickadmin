@@ -2,6 +2,14 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 
+Route::get('/setlocale/{locale}', function (string $locale) {
+    if (! in_array($locale, ['en', 'ro', 'bg'])) {
+        abort(400);
+    }
+    app()->setLocale('ro');
+    return redirect()->back();
+});
+
 Auth::routes(['register' => false]);
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
