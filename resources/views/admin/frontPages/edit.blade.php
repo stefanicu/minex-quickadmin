@@ -19,14 +19,18 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.frontPage.fields.name_helper') }}</span>
             </div>
+            @if(!in_array($frontPage->id,[5]))
             <div class="form-group">
                 <label for="first_text">{{ trans('cruds.frontPage.fields.first_text') }}</label>
-                <textarea class="form-control {{ $errors->has('first_text') ? 'is-invalid' : '' }}" name="first_text" id="first_text">{{ old('first_text', $frontPage->first_text) }}</textarea>
+                <textarea class="form-control ckeditor {{ $errors->has('first_text') ? 'is-invalid' : '' }}" name="first_text" id="first_text">{{ old('first_text', $frontPage->first_text) }}</textarea>
                 @if($errors->has('first_text'))
                     <span class="text-danger">{{ $errors->first('first_text') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.frontPage.fields.first_text_helper') }}</span>
             </div>
+            @endif
+
+            @if(!in_array($frontPage->id,[3,5,7]))
             <div class="form-group">
                 <label for="second_text">{{ trans('cruds.frontPage.fields.second_text') }}</label>
                 <textarea class="form-control ckeditor {{ $errors->has('second_text') ? 'is-invalid' : '' }}" name="second_text" id="second_text">{!! old('second_text', $frontPage->second_text) !!}</textarea>
@@ -35,6 +39,9 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.frontPage.fields.second_text_helper') }}</span>
             </div>
+            @endif
+
+            @if(!in_array($frontPage->id,[1,5,6,7]))
             <div class="form-group">
                 <label for="quote">{{ trans('cruds.frontPage.fields.quote') }}</label>
                 <textarea class="form-control ckeditor {{ $errors->has('quote') ? 'is-invalid' : '' }}" name="quote" id="quote">{!! old('quote', $frontPage->quote) !!}</textarea>
@@ -43,6 +50,9 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.frontPage.fields.quote_helper') }}</span>
             </div>
+            @endif
+
+            @if(!in_array($frontPage->id,[1,3,6]))
             <div class="form-group">
                 <label for="button">{{ trans('cruds.frontPage.fields.button') }}</label>
                 <input class="form-control {{ $errors->has('button') ? 'is-invalid' : '' }}" type="text" name="button" id="button" value="{{ old('button', $frontPage->button) }}">
@@ -51,6 +61,9 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.frontPage.fields.button_helper') }}</span>
             </div>
+            @endif
+
+            @if(!in_array($frontPage->id,[1,5,7]))
             <div class="form-group">
                 <label for="image">{{ trans('cruds.frontPage.fields.image') }}</label>
                 <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}" id="image-dropzone">
@@ -59,7 +72,12 @@
                     <span class="text-danger">{{ $errors->first('image') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.frontPage.fields.image_helper') }}</span>
+
+                <img src="{{ asset('img/home/s' . $frontPage->id-1 . '/sm-min.jpg') }}" alt="{{ $frontPage->name }}">
             </div>
+
+            @endif
+
             <div class="form-group">
                 <input type="hidden" name="locale" value="{{app()->getLocale()}}">
                 <button class="btn btn-danger" type="submit">

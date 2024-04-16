@@ -41,12 +41,12 @@
             aaSorting: [],
             ajax: "{{ route('admin.front_pages.index') }}",
             columns: [
-                { data: 'id', name: 'id' },
+                { data: 'id', name: 'front_pages.id' },
                 { data: 'name', name: 'front_page_translations.name' },
                 { data: 'actions', name: '{{ trans('global.actions') }}' }
             ],
             orderCellsTop: true,
-            order: [[ 1, 'asc' ]],
+            order: [[ 0, 'asc' ]],
             pageLength: 25,
         };
         let table = $('.datatable-FrontPage').DataTable(dtOverrideGlobals);
