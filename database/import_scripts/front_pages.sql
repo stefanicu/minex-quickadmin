@@ -4,9 +4,12 @@ ALTER TABLE minexq.front_pages AUTO_INCREMENT = 1;
 
 INSERT INTO minexq.front_pages(id, oldid, oldimage)
 SELECT * FROM (
-    SELECT id, id AS oldid, img AS oldimage FROM minex_live.acasa WHERE del='0'
+    SELECT online as id, id AS oldid, img AS oldimage FROM minex_live.acasa WHERE del='0'
 ) AS front_pages;
 
+
+DELETE FROM minexq.front_page_translations;
+ALTER TABLE minexq.front_page_translations AUTO_INCREMENT = 1;
 INSERT INTO minexq.front_page_translations(locale, name, first_text, second_text, quote, button, front_page_id)
 SELECT * FROM (
     SELECT 'ro' AS locale, trim(nume) AS name, trim(text) AS first_text, trim(textb) AS second_text, trim(citat) AS quote, trim(buton) AS button, online AS front_page_id FROM minex_live.acasa WHERE del='0' and nume!=''
