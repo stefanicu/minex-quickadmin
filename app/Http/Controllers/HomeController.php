@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Application;
-use App\Models\ApplicationTranslation;
 use App\Models\FrontPage;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -36,16 +34,18 @@ class HomeController extends Controller
             ->orderBy('name','asc')
             ->get();
 
-        ray()->showQueries();
-
         $hero = FrontPage::leftJoin('front_page_translations','front_pages.id','=','front_page_translations.front_page_id' )
             ->select('name','first_text','second_text')
             ->where('locale','=',app()->getLocale())
             ->where('front_page_id','=',1)
-            ->firstOrFail();
+            ->first();
 
-        ray()->stopShowingQueries();
+        $integrated_solutions = FrontPage::leftJoin('front_page_translations','front_pages.id','=','front_page_translations.front_page_id' )
+            ->select('name','first_text','second_text','quote','button')
+            ->where('locale','=',app()->getLocale())
+            ->where('front_page_id','=',2)
+            ->first();
 
-        return view('welcome', compact('applications','hero'));
+        return view('welcome', compact('applications','hero', 'integrated_solutions'));
     }
 }
