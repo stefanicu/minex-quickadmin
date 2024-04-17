@@ -6,6 +6,7 @@ use App\Models\Industry;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 
 class UpdateIndustryRequest extends FormRequest
 {
@@ -17,7 +18,7 @@ class UpdateIndustryRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => [
+            'locale' => [
                 'required',
             ],
             'name' => [
@@ -25,14 +26,18 @@ class UpdateIndustryRequest extends FormRequest
                 'min:0',
                 'max:255',
                 'required',
-                'unique:industries,name,' . request()->route('industry')->id,
+                Rule::unique('industry_translations', 'name')
+                    ->where('locale', app()->getLocale())
+                    ->ignore(request()->route('industry')->id,'industry_id')
             ],
             'slug' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:industries,slug,' . request()->route('industry')->id,
+                Rule::unique('industry_translations', 'slug')
+                    ->where('locale', app()->getLocale())
+                    ->ignore(request()->route('industry')->id,'industry_id')
             ],
         ];
     }

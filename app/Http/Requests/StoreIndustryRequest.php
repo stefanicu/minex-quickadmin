@@ -17,7 +17,7 @@ class StoreIndustryRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => [
+            'locale' => [
                 'required',
             ],
             'name' => [
@@ -25,14 +25,14 @@ class StoreIndustryRequest extends FormRequest
                 'min:0',
                 'max:255',
                 'required',
-                'unique:industries',
+                'unique:industry_translations',
             ],
             'slug' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:industries',
+                'unique:industry_translations',
             ],
         ];
     }

@@ -23,7 +23,12 @@ class IndustriesController extends Controller
         abort_if(Gate::denies('industry_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Industry::query()->select(sprintf('%s.*', (new Industry)->table));
+            $query = Industry::join('industry_translations','industries.id','=','industry_translations.industry_id')
+                ->where('industry_translations.locale','=',app()->getLocale())
+                ->select(sprintf('%s.*', (new Industry)->table));
+
+
+
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');

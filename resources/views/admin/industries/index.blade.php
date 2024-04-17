@@ -18,23 +18,11 @@
         <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Industry">
             <thead>
                 <tr>
-                    <th width="10">
-
-                    </th>
                     <th>
                         {{ trans('cruds.industry.fields.id') }}
                     </th>
                     <th>
-                        {{ trans('cruds.industry.fields.online') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.industry.fields.language') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.industry.fields.name') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.industry.fields.slug') }}
                     </th>
                     <th>
                         {{ trans('cruds.industry.fields.photo') }}
@@ -56,35 +44,35 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('industry_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.industries.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
-          return entry.id
-      });
+{{--@can('industry_delete')--}}
+{{--  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';--}}
+{{--  let deleteButton = {--}}
+{{--    text: deleteButtonTrans,--}}
+{{--    url: "{{ route('admin.industries.massDestroy') }}",--}}
+{{--    className: 'btn-danger',--}}
+{{--    action: function (e, dt, node, config) {--}}
+{{--      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {--}}
+{{--          return entry.id--}}
+{{--      });--}}
 
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
+{{--      if (ids.length === 0) {--}}
+{{--        alert('{{ trans('global.datatables.zero_selected') }}')--}}
 
-        return
-      }
+{{--        return--}}
+{{--      }--}}
 
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
+{{--      if (confirm('{{ trans('global.areYouSure') }}')) {--}}
+{{--        $.ajax({--}}
+{{--          headers: {'x-csrf-token': _token},--}}
+{{--          method: 'POST',--}}
+{{--          url: config.url,--}}
+{{--          data: { ids: ids, _method: 'DELETE' }})--}}
+{{--          .done(function () { location.reload() })--}}
+{{--      }--}}
+{{--    }--}}
+{{--  }--}}
+{{--  dtButtons.push(deleteButton)--}}
+{{--@endcan--}}
 
   let dtOverrideGlobals = {
     buttons: dtButtons,
@@ -94,17 +82,16 @@
     aaSorting: [],
     ajax: "{{ route('admin.industries.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'online', name: 'online' },
-{ data: 'language', name: 'language' },
-{ data: 'name', name: 'name' },
-{ data: 'slug', name: 'slug' },
-{ data: 'photo', name: 'photo', sortable: false, searchable: false },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
+        // { data: 'placeholder', name: 'placeholder' },
+        { data: 'id', name: 'id' },
+        // { data: 'online', name: 'online' },
+        { data: 'name', name: 'industry_translations.name' },
+        // { data: 'slug', name: 'slug' },
+        { data: 'photo', name: 'photo', sortable: false, searchable: false },
+        { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 1, 'asc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-Industry').DataTable(dtOverrideGlobals);
@@ -112,7 +99,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 });
 
 </script>

@@ -9,21 +9,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Astrotomic\Translatable\Translatable;
 
-class Industry extends Model implements HasMedia
+class Industry extends Model implements HasMedia, TranslatableContract
 {
-    use SoftDeletes, InteractsWithMedia, HasFactory;
+    use SoftDeletes, InteractsWithMedia, HasFactory, Translatable;
 
     public $table = 'industries';
+    public $translatedAttributes = ['online','name','slug'];
 
     protected $appends = [
         'photo',
-    ];
-
-    public static $searchable = [
-        'language',
-        'name',
-        'slug',
     ];
 
     protected $dates = [
@@ -32,17 +29,8 @@ class Industry extends Model implements HasMedia
         'deleted_at',
     ];
 
-    public const LANGUAGE_SELECT = [
-        'en' => 'English',
-        'ro' => 'Romanian',
-        'bg' => 'Bulgarian',
-    ];
-
     protected $fillable = [
         'online',
-        'language',
-        'name',
-        'slug',
         'oldid',
         'oldimage',
         'created_at',
