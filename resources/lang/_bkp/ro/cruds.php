@@ -419,7 +419,7 @@ return [
             'name_helper'         => ' ',
             'first_text'          => 'First Text',
             'first_text_helper'   => ' ',
-            'second_text'        => 'Seccond Text',
+            'second_text'        => 'Second Text',
             'second_text_helper' => ' ',
             'quote'               => 'Quote',
             'quote_helper'        => ' ',
