@@ -108,3 +108,16 @@ span.translation_guide {
     padding-left: 13px;
     color: #aaa;
 }
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-treeview  {
+    font-size: small;
+    background-color: rgba(34, 34, 34, 0.35);
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-treeview>.nav-item>a>i.nav-icon  {
+    font-size: small;
+}
+
+.sidebar-dark-primary .nav-treeview>.nav-item>.nav-link {
+    padding: 5px 5px 5px 35px;
+}
