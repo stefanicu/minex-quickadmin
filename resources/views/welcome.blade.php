@@ -5,12 +5,15 @@
 
     <!-- Integrated Solutions Section -->
     @include('home.integrated_solutions')
-    
-<!--    --><?php //require('home/consultanta.php');?>
-<!--    --><?php //require('home/montaj.php');?>
-<!--    --><?php //require('home/referinte.php');?>
-<!--    --><?php //require('home/solutii_complete.php');?>
-<!--    --><?php //require('home/contact.php');?><!---->
+
+    <!-- Integrated Consulrancy -->
+    @include('home.consultancy')
+
+
+<?php //require('home/montaj.php');?>
+<?php //require('home/referinte.php');?>
+<?php //require('home/solutii_complete.php');?>
+<?php //require('home/contact.php');?>
 
 
 
