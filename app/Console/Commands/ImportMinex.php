@@ -54,8 +54,7 @@ class ImportMinex extends Command
         echo '
 
            --- not translatable imports ---
-        '
-        ;
+        ';
 
         DB::unprepared(file_get_contents('database/import_scripts/brands.sql'));
         echo '
@@ -72,6 +71,7 @@ class ImportMinex extends Command
             ==============================
             ====   IMPORT COMPLETED   ====
             ==============================
-                                                                                 ';
+
+        ';
     }
 }
