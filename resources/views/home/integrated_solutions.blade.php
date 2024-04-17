@@ -1,13 +1,13 @@
 <section id="internal-pg-nav1" class="container-fluid px-0 mx-0 section section__right section__primary pt-4 section2">
     <figure class="d-flex align-items-center section--figure">
-        <picture data-alt="s1">
-            <source data-srcset="{{ asset('/img/home/s1/xl-min.jpg') }}" media="(min-width: 1200px)">
-            <source data-srcset="{{ asset('/img/home/s1/lg-min.jpg') }}" media="(min-width: 992px)">
-            <source data-srcset="{{ asset('/img/home/s1/md-min.jpg') }}" media="(min-width: 576px)">
-            <source data-srcset="{{ asset('/img/home/s1/sm-min.jpg') }}" media="(max-width: 576px)">
-            <img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ asset('/img/home/s1/xl-min.jpg') }}" alt="s1" data-loaded="true">
+        <picture data-alt="s2">
+            <source data-srcset="{{ asset('/img/home/s2/xl-min.jpg') }}" media="(min-width: 1200px)">
+            <source data-srcset="{{ asset('/img/home/s2/lg-min.jpg') }}" media="(min-width: 992px)">
+            <source data-srcset="{{ asset('/img/home/s2/md-min.jpg') }}" media="(min-width: 576px)">
+            <source data-srcset="{{ asset('/img/home/s2/sm-min.jpg') }}" media="(max-width: 576px)">
+            <img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ asset('/img/home/s2/xl-min.jpg') }}" alt="s2" data-loaded="true">
             <noscript>
-                <img class="img-fluid lozad" src="{{ asset('/img/home/s1/xl-min.jpg') }}" alt="s1">
+                <img class="img-fluid lozad" src="{{ asset('/img/home/s2/xl-min.jpg') }}" alt="s2">
             </noscript>
         </picture>
     </figure>

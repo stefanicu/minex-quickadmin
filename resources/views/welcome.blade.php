@@ -6,11 +6,14 @@
     <!-- Integrated Solutions Section -->
     @include('home.integrated_solutions')
 
-    <!-- Integrated Consulrancy -->
+    <!-- Integrated Consultancy -->
     @include('home.consultancy')
 
+    <!-- Integrated Maintenance -->
+    @include('home.maintenance')
 
-<?php //require('home/montaj.php');?>
+
+
 <?php //require('home/referinte.php');?>
 <?php //require('home/solutii_complete.php');?>
 <?php //require('home/contact.php');?>

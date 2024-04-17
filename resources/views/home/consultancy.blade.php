@@ -1,13 +1,13 @@
 <section class="container-fluid mx-0 px-0 section section__left pt-4 section3">
 	<figure class="d-flex align-items-center section--figure">
-		<picture data-alt="s2">
+		<picture data-alt="s3">
 			<source data-srcset="{{ asset('/img/home/s3/xl-min.jpg') }}" media="(min-width: 1200px)">
-			<source data-srcset="{{ asset('/img/home/s3/xl-min.jpg') }}" media="(min-width: 992px)">
-			<source data-srcset="{{ asset('/img/home/s3/xl-min.jpg') }}" media="(min-width: 576px)">
-			<source data-srcset="{{ asset('/img/home/s3/xl-min.jpg') }}" media="(max-width: 576px)">
+			<source data-srcset="{{ asset('/img/home/s3/lg-min.jpg') }}" media="(min-width: 992px)">
+			<source data-srcset="{{ asset('/img/home/s3/md-min.jpg') }}" media="(min-width: 576px)">
+			<source data-srcset="{{ asset('/img/home/s3/sm-min.jpg') }}" media="(max-width: 576px)">
 			<img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ asset('/img/home/s3/xl-min.jpg') }}" alt="s2" data-loaded="true">
 			<noscript>
-				<img class="img-fluid lozad" src="{{ asset('/img/home/s3/xl-min.jpg') }}" alt="s2">
+				<img class="img-fluid lozad" src="{{ asset('/img/home/s3/xl-min.jpg') }}" alt="s3">
 			</noscript>
 		</picture>
 	</figure>
