@@ -28,9 +28,6 @@
                                 {{ trans('cruds.category.fields.online') }}
                             </th>
                             <th>
-                                {{ trans('cruds.category.fields.language') }}
-                            </th>
-                            <th>
                                 {{ trans('cruds.category.fields.name') }}
                             </th>
                             <th>
@@ -62,9 +59,6 @@
                                 <td>
                                     <span style="display:none">{{ $category->online ?? '' }}</span>
                                     <input type="checkbox" disabled="disabled" {{ $category->online ? 'checked' : '' }}>
-                                </td>
-                                <td>
-                                    {{ App\Models\Category::LANGUAGE_SELECT[$category->language] ?? '' }}
                                 </td>
                                 <td>
                                     {{ $category->name ?? '' }}
@@ -163,7 +157,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>
