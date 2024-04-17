@@ -50,7 +50,7 @@ class HomeController extends Controller
             ->select('name','first_text','quote')
             ->where('locale','=',app()->getLocale())
             ->where('front_page_id','=',3)
-        ->first();
+            ->first();
 
         return view('welcome', compact('applications','hero', 'integrated_solutions', 'consultancy'));
     }

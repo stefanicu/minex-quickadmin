@@ -29,13 +29,9 @@
 <section class="container-fluid py-4 ">
 	<div class="container my-2">
 		<div class="row">
-			<div class="col col-lg-5">
-				<?php //echo $text_consultanta; ?>
-			</div>
+			<div class="col col-lg-5">{!! $consultancy->first_text !!}</div>
 			<div class="col col-lg-7">
-				<blockquote class="blockquote-home blockquote__primary">
-				<?php //echo $citat_consultanta; ?>
-				</blockquote>
+				<blockquote class="blockquote-home blockquote__primary">{!! $consultancy->quote !!}</blockquote>
 				<img data-src="{{ asset('/img/home/s3/broken-nat-min.jpg') }}" class="img-fluid lozad lazy-fade" alt="PASSION IS EVERYTHING">
 			</div>
 		</div>
