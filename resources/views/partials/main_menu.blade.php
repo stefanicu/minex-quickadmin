@@ -30,7 +30,6 @@
                                             $cnt = count($applications);
                                             $row = ceil($cnt/3);
                                             $i=1; $t=1;
-                                            @ray($applications->all());
 
                                             foreach($applications as $application) {
 //                                                echo '<li><a class="d-block my-2">'.$application->name.',  '.$application->application_id.'-'.$application->oldid.', #'.$application->id.'</a></li>';
