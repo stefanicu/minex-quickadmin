@@ -1,13 +1,13 @@
 <section class="container-fluid px-0 mx-0 section section__right section__primary pt-4 section4">
 	<figure class="d-flex align-items-center section--figure">
 		<picture data-alt="s4">
-			<source data-srcset="{{ asset('/img/home/s4/map-xl.jpg') }}" media="(min-width: 1200px)">
-			<source data-srcset="{{ asset('/img/home/s4/map-lg.jpg') }}" media="(min-width: 992px)">
-			<source data-srcset="{{ asset('/img/home/s4/map-md.jpg') }}" media="(min-width: 576px)">
-			<source data-srcset="{{ asset('/img/home/s4/map-sm.jpg') }}" media="(max-width: 576px)">
-			<img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ asset('/img/home/s4/map-xl.jpg') }}" alt="s4" data-loaded="true">
+			<source data-srcset="{{ asset('/img/home/s4/xl-min.jpg') }}" media="(min-width: 1200px)">
+			<source data-srcset="{{ asset('/img/home/s4/lg-min.jpg') }}" media="(min-width: 992px)">
+			<source data-srcset="{{ asset('/img/home/s4/md-min.jpg') }}" media="(min-width: 576px)">
+			<source data-srcset="{{ asset('/img/home/s4/sm-min.jpg') }}" media="(max-width: 576px)">
+			<img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ asset('/img/home/s4/xl-min.jpg') }}" alt="s4" data-loaded="true">
 			<noscript>
-				<img class="img-fluid lozad" src="{{ asset('/img/home/s4/map-xl.jpg') }}" alt="s4">
+				<img class="img-fluid lozad" src="{{ asset('/img/home/s4/xl-min.jpg') }}" alt="s4">
 			</noscript>
 		</picture>
 	</figure>
