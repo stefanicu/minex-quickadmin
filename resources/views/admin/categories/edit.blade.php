@@ -54,18 +54,18 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.category.fields.cover_photo_helper') }}</span>
             </div>
-            <div class="form-group">
-                <label for="product_image_id">{{ trans('cruds.category.fields.product_image') }}</label>
-                <select class="form-control select2 {{ $errors->has('product_image') ? 'is-invalid' : '' }}" name="product_image_id" id="product_image_id">
-                    @foreach($product_images as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('product_image_id') ? old('product_image_id') : $category->product_image->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('product_image'))
-                    <span class="text-danger">{{ $errors->first('product_image') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.category.fields.product_image_helper') }}</span>
-            </div>
+{{--            <div class="form-group">--}}
+{{--                <label for="product_image_id">{{ trans('cruds.category.fields.product_image') }}</label>--}}
+{{--                <select class="form-control select2 {{ $errors->has('product_image') ? 'is-invalid' : '' }}" name="product_image_id" id="product_image_id">--}}
+{{--                    @foreach($product_images as $id => $entry)--}}
+{{--                        <option value="{{ $id }}" {{ (old('product_image_id') ? old('product_image_id') : $category->product_image->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>--}}
+{{--                    @endforeach--}}
+{{--                </select>--}}
+{{--                @if($errors->has('product_image'))--}}
+{{--                    <span class="text-danger">{{ $errors->first('product_image') }}</span>--}}
+{{--                @endif--}}
+{{--                <span class="help-block">{{ trans('cruds.category.fields.product_image_helper') }}</span>--}}
+{{--            </div>--}}
             <div class="form-group">
                 <label for="applications">{{ trans('cruds.category.fields.applications') }}</label>
                 <div style="padding-bottom: 4px">
