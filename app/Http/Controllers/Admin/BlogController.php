@@ -24,6 +24,7 @@ class BlogController extends Controller
 
         if ($request->ajax()) {
             $query = Blog::join('blog_translations','blogs.id','=','blog_translations.blog_id')
+                ->where('oldarticletype','!=','Page')
                 ->where('blog_translations.locale','=',app()->getLocale())
                 ->select(sprintf('%s.*', (new Blog)->table));
 
