@@ -12,6 +12,9 @@
     <!-- Integrated Maintenance -->
     @include('home.maintenance')
 
+    <!-- Integrated References -->
+    @include('home.references')
+
 
 
 <?php //require('home/referinte.php');?>
