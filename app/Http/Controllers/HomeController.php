@@ -58,8 +58,14 @@ class HomeController extends Controller
             ->where('front_page_id','=',4)
             ->first();
 
+        $references = FrontPage::leftJoin('front_page_translations','front_pages.id','=','front_page_translations.front_page_id' )
+            ->select('name', 'button')
+            ->where('locale','=',app()->getLocale())
+            ->where('front_page_id','=',5)
+            ->first();
 
 
-        return view('welcome', compact('applications','hero', 'integrated_solutions', 'consultancy', 'maintenance'));
+
+        return view('welcome', compact('applications','hero', 'integrated_solutions', 'consultancy', 'maintenance', 'references'));
     }
 }
