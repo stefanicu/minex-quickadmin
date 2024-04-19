@@ -39,7 +39,7 @@
 					?>
 				</ul>
 				<div class="text-center">
-					<a href="{{ url('') }}" class="btn btn-primary">{{ $references->button }}</a>
+					<a href="{{ url('') }}/references/" class="btn btn-primary">{{ $references->button }}</a>
 				</div>
 			</div>
 		</div>
