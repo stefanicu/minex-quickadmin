@@ -72,8 +72,6 @@ class ImportMinex extends Command
         echo '
         Contacts import data...................done';
 
-
-
         echo '
 
             ==============================
