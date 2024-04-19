@@ -58,19 +58,19 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('') }}/{{ trans('menu_slug.brands') }}/">{{ trans('menu.brands') }}</a>
+                <a class="nav-link" href="{{ url('') }}/brands/">{{ trans('menu.brands') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('') }}/{{ trans('menu_slug.references') }}/">{{ trans('menu.references') }}</a>
+                <a class="nav-link" href="{{ url('') }}/references/">{{ trans('menu.references') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('') }}/{{ trans('menu_slug.testimonials') }}/">{{ trans('menu.testimonials') }}</a>
+                <a class="nav-link" href="{{ url('') }}/testimonials/">{{ trans('menu.testimonials') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('') }}/{{ trans('menu_slug.blog') }}/">{{ trans('menu.blog') }}</a>
+                <a class="nav-link" href="{{ url('') }}/blog/">{{ trans('menu.blog') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('') }}/#{{ trans('menu_slug.contact') }}">{{ trans('menu.contact') }}</a>
+                <a class="nav-link" href="{{ url('') }}/#contact">{{ trans('menu.contact') }}</a>
             </li>
         </ul>
 
