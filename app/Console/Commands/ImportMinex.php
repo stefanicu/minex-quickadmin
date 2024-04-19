@@ -53,7 +53,11 @@ class ImportMinex extends Command
 
         DB::unprepared(file_get_contents('database/import_scripts/industries.sql'));
         echo '
-        Industries import data........done';
+        Industries import data.................done';
+
+        DB::unprepared(file_get_contents('database/import_scripts/references.sql'));
+        echo '
+        References import data.................done';
 
         echo '
 
@@ -66,7 +70,7 @@ class ImportMinex extends Command
 
         DB::unprepared(file_get_contents('database/import_scripts/contacts.sql'));
         echo '
-        Contacts import data.................done';
+        Contacts import data...................done';
 
 
 
@@ -75,6 +79,18 @@ class ImportMinex extends Command
             ==============================
             ====   IMPORT COMPLETED   ====
             ==============================
+
+        ';
+
+        DB::unprepared(file_get_contents('database/import_scripts/restore_media_bkp.sql'));
+        echo '
+        Restore Media from Back up.............done';
+
+        echo '
+
+            =====================================
+            ====   RESTORE MEDIA COMPLETED   ====
+            =====================================
 
         ';
     }
