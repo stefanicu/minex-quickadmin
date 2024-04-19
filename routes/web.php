@@ -88,6 +88,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
 });
+
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password
     if (file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php'))) {
@@ -97,3 +98,9 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
         Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
     }
 });
+
+Route::get('brands', 'BrandsController@index')->name('brands');
+Route::get('references', 'ReferencesController@index')->name('references');
+Route::get('testimonials', 'TestimonialsController@index')->name('testimonials');
+Route::get('blog', 'BlogController@index')->name('blog');
+Route::get('contact', 'ContactController@index')->name('contact');
