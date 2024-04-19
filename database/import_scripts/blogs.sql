@@ -51,13 +51,13 @@ SELECT * FROM (
 
         UNION
 
-    SELECT IF(online > 0, 1, 0) AS online, 'ro'  AS locale, trim(nume) AS name, trim(slug), content, img1 as oldimg1, img2 as oldimg2, img3 as oldimg3, if('img'='','Pagina','Noutati') as oldcategory, id+200 as blog_id
+    SELECT IF(online > 0, 1, 0) AS online, 'ro'  AS locale, trim(nume) AS name, trim(slug), content, img1 as oldimg1, img2 as oldimg2, img3 as oldimg3, if(img='','Pagina','Noutati') as oldcategory, id+200 as blog_id
     FROM minex_live.noutati WHERE del='0' and nume!=''
         UNION
-    SELECT IF(online > 0, 1, 0) AS online, 'en'  AS locale, trim(nume1) AS name, trim(slug1) AS slug, content1 as content, img11 as oldimg1, img21 as oldimg2, img31 as oldimg3, if('img'='','Page','News') as oldcategory, id+200 as blog_id
+    SELECT IF(online > 0, 1, 0) AS online, 'en'  AS locale, trim(nume1) AS name, trim(slug1) AS slug, content1 as content, img11 as oldimg1, img21 as oldimg2, img31 as oldimg3, if(img='','Page','News') as oldcategory, id+200 as blog_id
     FROM minex_live.noutati WHERE del='0' and nume1!=''
         UNION
-    SELECT IF(online > 0, 1, 0) AS online, 'bg' AS locale, trim(nume2) AS name, trim(slug2) AS slug, content2 as content, img12 as oldimg1, img22 as oldimg2, img32 as oldimg3, if('img'='','Страница', 'Новини') as oldcategory, id+200 as blog_id
+    SELECT IF(online > 0, 1, 0) AS online, 'bg' AS locale, trim(nume2) AS name, trim(slug2) AS slug, content2 as content, img12 as oldimg1, img22 as oldimg2, img32 as oldimg3, if(img='','Страница', 'Новини') as oldcategory, id+200 as blog_id
     FROM minex_live.noutati WHERE del='0' and nume2!=''
 
 ) AS blog_translations;
