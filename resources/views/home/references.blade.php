@@ -21,7 +21,7 @@
 					//foreach ($industrii as $indu) {
 					//	echo '<li class="py-3">
 					//		<a href="' . base_url() . $referinte_x . '#tab-a' . $indu['id_ind'] . '" class="d-flex flex-column text-center"><img data-src="' . HTTP_UPLOADS_PATH . 'images/' . $indu['img'] . '" alt="' . $indu['nume'] . '" class="row-icons--ico-img mx-auto lozad img-fluid"><p class="row-icons--desc px-2 mt-4 '.$wrap_russian.' ">' . $indu['nume'] . '</p></a></li>';
-					}
+					//}
 				?>
 			</ul>
 		</div>
