@@ -15,7 +15,7 @@
 		<div class="v-alighn px-4">
 			<h2 class="h3">{{ $maintenance->name }}</h2>
 			{!! $maintenance->first_text !!}<br>
-			<a href="{{ url('') }}/{{ trans('fronted.testimonials') }}" class="btn btn btn-light">{{ $maintenance->button }}</a>
+			<a href="{{ url('') }}/testimonials/" class="btn btn btn-light">{{ $maintenance->button }}</a>
 		</div>
 	</div>
 </section>
