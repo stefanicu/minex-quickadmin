@@ -17,7 +17,7 @@
 			<ul class="d-flex mx-auto list-unstyled justify-content-center flex-wrap row-icons">
 
 				<?php
-					if($lng == 2){ $wrap_russian = 'wrap_russian'; }else{ $wrap_russian = ''; }
+					//if($lng == 2){ $wrap_russian = 'wrap_russian'; }else{ $wrap_russian = ''; }
 					//foreach ($industrii as $indu) {
 					//	echo '<li class="py-3">
 					//		<a href="' . base_url() . $referinte_x . '#tab-a' . $indu['id_ind'] . '" class="d-flex flex-column text-center"><img data-src="' . HTTP_UPLOADS_PATH . 'images/' . $indu['img'] . '" alt="' . $indu['nume'] . '" class="row-icons--ico-img mx-auto lozad img-fluid"><p class="row-icons--desc px-2 mt-4 '.$wrap_russian.' ">' . $indu['nume'] . '</p></a></li>';
@@ -33,9 +33,9 @@
 			<div class="col">
 				<ul class="list-unstyled img-grid">
 				<?php
-					foreach ($referinte12 as $r12) {
+					//foreach ($referinte12 as $r12) {
 						//echo '<li class="img-grid--item px-4"><a href="' . base_url() . $referinta_x . '/' . $r12['slug'] . '" class="text-center d-flex flex-column"><img data-src="' . HTTP_UPLOADS_PATH . 'images/' . $r12['img'] . '" alt="" class="mx-auto img-fluid lozad img-hover"><p class="my-4">' . $r12['nume'] . '</p></a></li>';
-					}
+					//}
 					?>
 				</ul>
 				<div class="text-center">
