@@ -13,7 +13,7 @@
 	</figure>
 	<div class="section--content d-flex align-items-center">
 		<div class="v-alighn px-4">
-			<h2 class="h3"><?php //echo $nume_referinte; ?></h2>
+			<h2 class="h3">{{ $references->name }}</h2>
 			<ul class="d-flex mx-auto list-unstyled justify-content-center flex-wrap row-icons">
 
 				<?php
@@ -39,7 +39,7 @@
 					?>
 				</ul>
 				<div class="text-center">
-					<a href="<?php //echo base_url() . $referinte_x; ?>#tabFiltru1" class="btn btn-primary"><?php //echo $buton_referinte; ?></a>
+					<a href="{{ url('') }}" class="btn btn-primary">{{ $references->button }}</a>
 				</div>
 			</div>
 		</div>
