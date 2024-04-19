@@ -18,33 +18,19 @@
         <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Reference">
             <thead>
                 <tr>
-                    <th width="10">
+{{--                    <th width="10">--}}
 
-                    </th>
+{{--                    </th>--}}
                     <th>
                         {{ trans('cruds.reference.fields.id') }}
                     </th>
-                    <th>
-                        {{ trans('cruds.reference.fields.industries') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.industry.fields.name') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.reference.fields.online') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.reference.fields.language') }}
-                    </th>
+
                     <th>
                         {{ trans('cruds.reference.fields.name') }}
                     </th>
-                    <th>
-                        {{ trans('cruds.reference.fields.slug') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.reference.fields.photo_square') }}
-                    </th>
+{{--                    <th>--}}
+{{--                        {{ trans('cruds.reference.fields.photo_square') }}--}}
+{{--                    </th>--}}
                     <th>
                         {{ trans('cruds.reference.fields.photo_wide') }}
                     </th>
@@ -65,35 +51,35 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('reference_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.references.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
-          return entry.id
-      });
+{{--@can('reference_delete')--}}
+{{--  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';--}}
+{{--  let deleteButton = {--}}
+{{--    text: deleteButtonTrans,--}}
+{{--    url: "{{ route('admin.references.massDestroy') }}",--}}
+{{--    className: 'btn-danger',--}}
+{{--    action: function (e, dt, node, config) {--}}
+{{--      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {--}}
+{{--          return entry.id--}}
+{{--      });--}}
 
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
+{{--      if (ids.length === 0) {--}}
+{{--        alert('{{ trans('global.datatables.zero_selected') }}')--}}
 
-        return
-      }
+{{--        return--}}
+{{--      }--}}
 
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
+{{--      if (confirm('{{ trans('global.areYouSure') }}')) {--}}
+{{--        $.ajax({--}}
+{{--          headers: {'x-csrf-token': _token},--}}
+{{--          method: 'POST',--}}
+{{--          url: config.url,--}}
+{{--          data: { ids: ids, _method: 'DELETE' }})--}}
+{{--          .done(function () { location.reload() })--}}
+{{--      }--}}
+{{--    }--}}
+{{--  }--}}
+{{--  dtButtons.push(deleteButton)--}}
+{{--@endcan--}}
 
   let dtOverrideGlobals = {
     buttons: dtButtons,
@@ -103,20 +89,15 @@
     aaSorting: [],
     ajax: "{{ route('admin.references.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'industries_online', name: 'industries.online' },
-{ data: 'industries.name', name: 'industries.name' },
-{ data: 'online', name: 'online' },
-{ data: 'language', name: 'language' },
-{ data: 'name', name: 'name' },
-{ data: 'slug', name: 'slug' },
-{ data: 'photo_square', name: 'photo_square', sortable: false, searchable: false },
-{ data: 'photo_wide', name: 'photo_wide', sortable: false, searchable: false },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
+        // { data: 'placeholder', name: 'placeholder' },
+        { data: 'id', name: 'id' },
+        { data: 'name', name: 'reference_translations.name' },
+        // { data: 'photo_square', name: 'photo_square', sortable: false, searchable: false },
+        { data: 'photo_wide', name: 'photo_wide', sortable: false, searchable: false },
+        { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 1, 'asc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-Reference').DataTable(dtOverrideGlobals);
@@ -124,7 +105,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 });
 
 </script>

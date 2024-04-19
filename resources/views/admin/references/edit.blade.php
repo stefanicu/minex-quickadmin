@@ -10,42 +10,7 @@
         <form method="POST" action="{{ route("admin.references.update", [$reference->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
-            <div class="form-group">
-                <label for="industries_id">{{ trans('cruds.reference.fields.industries') }}</label>
-                <select class="form-control select2 {{ $errors->has('industries') ? 'is-invalid' : '' }}" name="industries_id" id="industries_id">
-                    @foreach($industries as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('industries_id') ? old('industries_id') : $reference->industries->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('industries'))
-                    <span class="text-danger">{{ $errors->first('industries') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.reference.fields.industries_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
-                    <input type="hidden" name="online" value="0">
-                    <input class="form-check-input" type="checkbox" name="online" id="online" value="1" {{ $reference->online || old('online', 0) === 1 ? 'checked' : '' }}>
-                    <label class="form-check-label" for="online">{{ trans('cruds.reference.fields.online') }}</label>
-                </div>
-                @if($errors->has('online'))
-                    <span class="text-danger">{{ $errors->first('online') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.reference.fields.online_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required">{{ trans('cruds.reference.fields.language') }}</label>
-                <select class="form-control {{ $errors->has('language') ? 'is-invalid' : '' }}" name="language" id="language" required>
-                    <option value disabled {{ old('language', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\Reference::LANGUAGE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('language', $reference->language) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('language'))
-                    <span class="text-danger">{{ $errors->first('language') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.reference.fields.language_helper') }}</span>
-            </div>
+
             <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.reference.fields.name') }}</label>
                 <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $reference->name) }}" required>
@@ -70,17 +35,10 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.reference.fields.content_helper') }}</span>
             </div>
+
+
             <div class="form-group">
-                <label class="required" for="photo_square">{{ trans('cruds.reference.fields.photo_square') }}</label>
-                <div class="needsclick dropzone {{ $errors->has('photo_square') ? 'is-invalid' : '' }}" id="photo_square-dropzone">
-                </div>
-                @if($errors->has('photo_square'))
-                    <span class="text-danger">{{ $errors->first('photo_square') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.reference.fields.photo_square_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="photo_wide">{{ trans('cruds.reference.fields.photo_wide') }}</label>
+                <label for="photo_wide">{{ trans('cruds.reference.fields.photo_wide') }}</label>
                 <div class="needsclick dropzone {{ $errors->has('photo_wide') ? 'is-invalid' : '' }}" id="photo_wide-dropzone">
                 </div>
                 @if($errors->has('photo_wide'))
@@ -89,10 +47,80 @@
                 <span class="help-block">{{ trans('cruds.reference.fields.photo_wide_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="text_img5">{{ trans('cruds.reference.fields.text_img5') }}</label>
+                <input class="form-control {{ $errors->has('text_img5') ? 'is-invalid' : '' }}" type="text" name="text_img5" id="text_img5" value="{{ old('text_img5', $reference->text_img5) }}">
+                @if($errors->has('text_img5'))
+                    <span class="text-danger">{{ $errors->first('text_img5') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.reference.fields.text_img5_helper') }}</span>
+            </div>
+
+            <div class="form-group">
+                <label for="photo_square">{{ trans('cruds.reference.fields.photo_square') }}</label>
+                <div class="needsclick dropzone {{ $errors->has('photo_square') ? 'is-invalid' : '' }}" id="photo_square-dropzone">
+                </div>
+                @if($errors->has('photo_square'))
+                    <span class="text-danger">{{ $errors->first('photo_square') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.reference.fields.photo_square_helper') }}</span>
+            </div>
+            <div class="row">
+                <div class="form-group col-3">
+                    <label for="text_img1">{{ trans('cruds.reference.fields.text_img1') }}</label>
+                    <input class="form-control {{ $errors->has('text_img1') ? 'is-invalid' : '' }}" type="text" name="text_img1" id="text_img1" value="{{ old('text_img1', $reference->text_img1) }}">
+                    @if($errors->has('text_img1'))
+                        <span class="text-danger">{{ $errors->first('text_img1') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.reference.fields.text_img2_helper') }}</span>
+                </div>
+                <div class="form-group col-3">
+                    <label  for="text_img2">{{ trans('cruds.reference.fields.text_img2') }}</label>
+                    <input class="form-control {{ $errors->has('text_img2') ? 'is-invalid' : '' }}" type="text" name="text_img2" id="text_img2" value="{{ old('text_img2', $reference->text_img2) }}">
+                    @if($errors->has('text_img2'))
+                        <span class="text-danger">{{ $errors->first('text_img2') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.reference.fields.text_img2_helper') }}</span>
+                </div>
+                <div class="form-group col-3">
+                    <label for="text_img3">{{ trans('cruds.reference.fields.text_img3') }}</label>
+                    <input class="form-control {{ $errors->has('text_img3') ? 'is-invalid' : '' }}" type="text" name="text_img3" id="text_img3" value="{{ old('text_img3', $reference->text_img3) }}">
+                    @if($errors->has('text_img3'))
+                        <span class="text-danger">{{ $errors->first('text_img3') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.reference.fields.text_img3_helper') }}</span>
+                </div>
+                <div class="form-group col-3">
+                    <label for="text_img4">{{ trans('cruds.reference.fields.text_img4') }}</label>
+                    <input class="form-control {{ $errors->has('text_img4') ? 'is-invalid' : '' }}" type="text" name="text_img4" id="text_img4" value="{{ old('text_img4', $reference->text_img4) }}">
+                    @if($errors->has('text_img4'))
+                        <span class="text-danger">{{ $errors->first('text_img4') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.reference.fields.text_img4_helper') }}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="industries_id">{{ trans('cruds.reference.fields.industry') }}</label>
+                <select class="form-control select2 {{ $errors->has('industries') ? 'is-invalid' : '' }}" name="industries_id" id="industries_id">
+
+                    @foreach($industries as $id => $entry)
+                        <option value="{{ $id }}" {{ (old('industries_id') ? old('industries_id') : $reference->industries->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+
+                </select>
+                @if($errors->has('industries'))
+                    <span class="text-danger">{{ $errors->first('industries') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.reference.fields.industries_helper') }}</span>
+            </div>
+
+            <div class="form-group">
+                <input type="hidden" name="locale" value="{{app()->getLocale()}}">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
             </div>
+
         </form>
     </div>
 </div>
@@ -172,6 +200,7 @@ Dropzone.options.photoSquareDropzone = {
     url: '{{ route('admin.references.storeMedia') }}',
     maxFilesize: 4, // MB
     acceptedFiles: '.jpeg,.jpg,.png,.gif',
+    maxFiles: 4,
     addRemoveLinks: true,
     headers: {
       'X-CSRF-TOKEN': "{{ csrf_token() }}"

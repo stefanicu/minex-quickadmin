@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Reference;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 
 class UpdateReferenceRequest extends FormRequest
 {
@@ -17,7 +16,7 @@ class UpdateReferenceRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => [
+            'locale' => [
                 'required',
             ],
             'name' => [
@@ -25,28 +24,19 @@ class UpdateReferenceRequest extends FormRequest
                 'min:0',
                 'max:255',
                 'required',
-                'unique:references,name,' . request()->route('reference')->id,
+                Rule::unique('reference_translations', 'name')
+                    ->where('locale', app()->getLocale())
+                    ->ignore(request()->route('reference')->id,'reference_id')
             ],
             'slug' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:references,slug,' . request()->route('reference')->id,
-            ],
-            'content' => [
-                'required',
-            ],
-            'photo_square' => [
-                'array',
-                'required',
-            ],
-            'photo_square.*' => [
-                'required',
-            ],
-            'photo_wide' => [
-                'required',
-            ],
+                Rule::unique('reference_translations', 'slug')
+                    ->where('locale', app()->getLocale())
+                    ->ignore(request()->route('reference')->id,'reference_id')
+            ]
         ];
     }
 }

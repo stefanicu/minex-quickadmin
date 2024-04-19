@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyReferenceRequest;
 use App\Http\Requests\StoreReferenceRequest;
 use App\Http\Requests\UpdateReferenceRequest;
 use App\Models\Industry;
+use App\Models\IndustryTranslation;
 use App\Models\Reference;
 use Gate;
 use Illuminate\Http\Request;
@@ -24,7 +25,15 @@ class ReferencesController extends Controller
         abort_if(Gate::denies('reference_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Reference::with(['industries'])->select(sprintf('%s.*', (new Reference)->table));
+
+
+            $query = Reference::with(['industries'])
+                ->join('reference_translations','references.id','=','reference_translations.reference_id')
+                ->where('reference_translations.locale','=',app()->getLocale())
+                ->select(sprintf('%s.*', (new Reference)->table));
+
+
+
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -102,7 +111,7 @@ class ReferencesController extends Controller
     {
         abort_if(Gate::denies('reference_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $industries = Industry::pluck('online', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $industries = IndustryTranslation::where('locale', '=', app()->getLocale())->orderBy('name')->pluck('name', 'industry_id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('admin.references.create', compact('industries'));
     }
@@ -130,7 +139,7 @@ class ReferencesController extends Controller
     {
         abort_if(Gate::denies('reference_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $industries = Industry::pluck('online', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $industries = IndustryTranslation::where('locale', '=', app()->getLocale())->orderBy('name')->pluck('name', 'industry_id')->prepend(trans('global.pleaseSelect'), '');
 
         $reference->load('industries');
 

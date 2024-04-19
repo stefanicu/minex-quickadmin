@@ -17,7 +17,7 @@ class StoreReferenceRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => [
+            'locale' => [
                 'required',
             ],
             'name' => [
@@ -25,28 +25,15 @@ class StoreReferenceRequest extends FormRequest
                 'min:0',
                 'max:255',
                 'required',
-                'unique:references',
+                'unique:reference_translations',
             ],
             'slug' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:references',
-            ],
-            'content' => [
-                'required',
-            ],
-            'photo_square' => [
-                'array',
-                'required',
-            ],
-            'photo_square.*' => [
-                'required',
-            ],
-            'photo_wide' => [
-                'required',
-            ],
+                'unique:reference_translations',
+            ]
         ];
     }
 }
