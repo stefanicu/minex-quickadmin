@@ -70,8 +70,14 @@ class HomeController extends Controller
         ->where('front_page_id','=',6)
         ->first();
 
+        $contact_us = FrontPage::leftJoin('front_page_translations','front_pages.id','=','front_page_translations.front_page_id' )
+        ->select('name','first_text','button')
+        ->where('locale','=',app()->getLocale())
+        ->where('front_page_id','=',6)
+        ->first();
 
 
-        return view('welcome', compact('applications','hero', 'integrated_solutions', 'consultancy', 'maintenance', 'references', 'about_us'));
+
+        return view('welcome', compact('applications','hero', 'integrated_solutions', 'consultancy', 'maintenance', 'references', 'about_us', 'contact_us'));
     }
 }
