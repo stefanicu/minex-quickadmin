@@ -18,11 +18,8 @@
     <!-- About Us Section -->
     @include('home.about_us')
 
-
-
-<?php //require('home/referinte.php');?>
-<?php //require('home/solutii_complete.php');?>
-<?php //require('home/contact.php');?>
+    <!-- Contact Us Section -->
+    @include('home.contact_us')
 
 
 
