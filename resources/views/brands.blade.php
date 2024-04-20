@@ -1,12 +1,13 @@
 @extends('layouts.frontend')
 @section('content')
 
-    <h1>BRANDS</h1>
-
-    <div class="row">
-        @foreach($brands as $slug=>$brand)
-            <div class="col-3"><a href="{{ $slug }}/">{{ $brand }}</a></div>
-        @endforeach
+    <div class="container">
+        <h1>BRANDS</h1>
+        <div class="row">
+            @foreach($brands as $slug=>$brand)
+                <div class="col-3"><a href="{{ $slug }}/">{{ $brand }}</a></div>
+            @endforeach
+        </div>
     </div>
 
 @endsection
