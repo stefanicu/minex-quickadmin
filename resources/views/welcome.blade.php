@@ -6,14 +6,17 @@
     <!-- Integrated Solutions Section -->
     @include('home.integrated_solutions')
 
-    <!-- Integrated Consultancy -->
+    <!-- Consultancy Section-->
     @include('home.consultancy')
 
-    <!-- Integrated Maintenance -->
+    <!-- Maintenance Section-->
     @include('home.maintenance')
 
-    <!-- Integrated References -->
+    <!-- References Section -->
     @include('home.references')
+
+    <!-- About Us Section -->
+    @include('home.about_us')
 
 
 

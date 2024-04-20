@@ -64,8 +64,14 @@ class HomeController extends Controller
             ->where('front_page_id','=',5)
             ->first();
 
+        $about_us = FrontPage::leftJoin('front_page_translations','front_pages.id','=','front_page_translations.front_page_id' )
+        ->select('name','first_text','second_text')
+        ->where('locale','=',app()->getLocale())
+        ->where('front_page_id','=',6)
+        ->first();
 
 
-        return view('welcome', compact('applications','hero', 'integrated_solutions', 'consultancy', 'maintenance', 'references'));
+
+        return view('welcome', compact('applications','hero', 'integrated_solutions', 'consultancy', 'maintenance', 'references', 'about_us'));
     }
 }
