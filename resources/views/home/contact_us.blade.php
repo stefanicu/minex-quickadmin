@@ -12,7 +12,7 @@
     <div class="row justify-content-center">
         <div class="col-12 col-lg-5">
             <form class="px-0 px-md-4" id="contactForm" autocomplete="off" action="{{ url('') }}/contact/'" method="post">
-                @include('../partials/form.php')
+                @include('.partials.form')
                 <div class="row">
                     <div class="col-xs-12 col-sm-12">
                         <div class="form-group captcha-error">
