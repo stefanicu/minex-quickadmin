@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class ImportMinex extends Command
@@ -26,39 +27,64 @@ class ImportMinex extends Command
      */
     public function handle()
     {
-        $minexq = env('DB_DATABASE');
-        $minex_live = env('DB_LIVE');
+        $minexq = Config::get('database.minexq');
+        $minex_live =  Config::get('database.minex_live');
 
         //DB::unprepared(file_get_contents('database/import_script.sql'));
-        DB::unprepared(file_get_contents('database/import_scripts/applications.sql'));
+
+        $applications = file_get_contents('database/import_scripts/applications.sql');
+        $applications = str_replace('$minexq', "$minexq", $applications);
+        $applications = str_replace('$minex_live', "$minex_live", $applications);
+        DB::unprepared($applications);
         echo '
         Applications import data...............done';
 
-        DB::unprepared(file_get_contents('database/import_scripts/categories.sql'));
+        $categories = file_get_contents('database/import_scripts/categories.sql');
+        $categories = str_replace('$minexq', "$minexq", $categories);
+        $categories = str_replace('$minex_live', "$minex_live", $categories);
+        DB::unprepared($categories);
         echo '
         Categories import data.................done';
 
-        DB::unprepared(file_get_contents('database/import_scripts/application_category.sql'));
+        $application_category = file_get_contents('database/import_scripts/application_category.sql');
+        $application_category = str_replace('$minexq', "$minexq", $application_category);
+        $application_category = str_replace('$minex_live', "$minex_live", $application_category);
+        DB::unprepared($application_category);
         echo '
         Application_Category import data.......done';
 
-        DB::unprepared(file_get_contents('database/import_scripts/front_pages.sql'));
+        $front_pages = file_get_contents('database/import_scripts/front_pages.sql');
+        $front_pages = str_replace('$minexq', "$minexq", $front_pages);
+        $front_pages = str_replace('$minex_live', "$minex_live", $front_pages);
+        DB::unprepared($front_pages);
         echo '
         FrontPages import data.................done';
 
-        DB::unprepared(file_get_contents('database/import_scripts/blogs.sql'));
+        $blogs = file_get_contents('database/import_scripts/blogs.sql');
+        $blogs = str_replace('$minexq', "$minexq", $blogs);
+        $blogs = str_replace('$minex_live', "$minex_live", $blogs);
+        DB::unprepared($blogs);
         echo '
         Blogs import data......................done';
 
-        DB::unprepared(file_get_contents('database/import_scripts/translation_centers.sql'));
+        $translation_centers = file_get_contents('database/import_scripts/translation_centers.sql');
+        $translation_centers = str_replace('$minexq', "$minexq", $translation_centers);
+        $translation_centers = str_replace('$minex_live', "$minex_live", $translation_centers);
+        DB::unprepared($translation_centers);
         echo '
         Translation Centers import data........done';
 
-        DB::unprepared(file_get_contents('database/import_scripts/industries.sql'));
+        $industries = file_get_contents('database/import_scripts/industries.sql');
+        $industries = str_replace('$minexq', "$minexq", $industries);
+        $industries = str_replace('$minex_live', "$minex_live", $industries);
+        DB::unprepared($industries);
         echo '
         Industries import data.................done';
 
-        DB::unprepared(file_get_contents('database/import_scripts/references.sql'));
+        $references = file_get_contents('database/import_scripts/references.sql');
+        $references = str_replace('$minexq', "$minexq", $references);
+        $references = str_replace('$minex_live', "$minex_live", $references);
+        DB::unprepared($references);
         echo '
         References import data.................done';
 
@@ -67,11 +93,17 @@ class ImportMinex extends Command
            --- not translatable imports ---
         ';
 
-        DB::unprepared(file_get_contents('database/import_scripts/brands.sql'));
+        $brands = file_get_contents('database/import_scripts/brands.sql');
+        $brands = str_replace('$minexq', "$minexq", $brands);
+        $brands = str_replace('$minex_live', "$minex_live", $brands);
+        DB::unprepared($brands);
         echo '
         Brands import data.....................done';
 
-        DB::unprepared(file_get_contents('database/import_scripts/contacts.sql'));
+        $contacts = file_get_contents('database/import_scripts/contacts.sql');
+        $contacts = str_replace('$minexq', "$minexq", $contacts);
+        $contacts = str_replace('$minex_live', "$minex_live", $contacts);
+        DB::unprepared($contacts);
         echo '
         Contacts import data...................done';
 
@@ -83,7 +115,10 @@ class ImportMinex extends Command
 
         ';
 
-        DB::unprepared(file_get_contents('database/import_scripts/restore_media_bkp.sql'));
+        $restore_media_bkp = file_get_contents('database/import_scripts/restore_media_bkp.sql');
+        $restore_media_bkp = str_replace('$minexq', "$minexq", $restore_media_bkp);
+        $restore_media_bkp = str_replace('$minex_live', "$minex_live", $restore_media_bkp);
+        DB::unprepared($restore_media_bkp);
         echo '
         Restore Media from Back up.............done';
 
