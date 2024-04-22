@@ -20,7 +20,7 @@
 
     <!-- Contact Us Section -->
     @include('home.contact_us')
-    
+
 @endsection
 @section('scripts')
     @parent
