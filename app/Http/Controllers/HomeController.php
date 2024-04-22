@@ -75,9 +75,7 @@ class HomeController extends Controller
         ->where('locale','=',app()->getLocale())
         ->where('front_page_id','=',7)
         ->first();
-
-
-
+        
         return view('welcome', compact('applications','hero', 'integrated_solutions', 'consultancy', 'maintenance', 'references', 'about_us', 'contact_us'));
     }
 }
