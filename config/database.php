@@ -17,6 +17,9 @@ return [
 
     'default' => env('DB_CONNECTION', 'mysql'),
 
+    'minexq' => env('DB_DATABASE', 'minexq'),
+    'minex_live' => env('DB_LIVE', 'minex_live'),
+
     /*
     |--------------------------------------------------------------------------
     | Database Connections
