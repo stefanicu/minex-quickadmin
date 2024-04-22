@@ -10,6 +10,21 @@ return [
     'dom'       => 'Te rugam sa introduci domeniul in care activezi',
     'cumati'    => 'Te rugam sa ne spuni cum ai auzit de noi',
     'mesaj'     => 'Te rugam sa introduci un mesaj',
+
+    'field_name'        => 'Nume',
+    'field_surname'     => 'Prenume',
+    'field_company'     => 'Companie',
+    'field_job'         => 'Functie',
+    'field_industry'    => 'Sector de activitate',
+    'field_email'       => 'Email',
+    'field_district'    => 'Tara',
+    'field_county'      => 'Judet',
+    'field_city'        => 'Localitate',
+    'field_phone'       => 'Telefon',
+    'field_how_about'   => 'Cum ati aflat despre noi',
+    'field_messages'    => 'Detalii',
+    'field_checkbox'    => 'Vreau sa primesc newsletter despre produse, serviciile si noutatile Minex',
+
 ];
 
 

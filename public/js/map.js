@@ -19,7 +19,7 @@ function initialize()
     ];
 
     var myLatLng = {lat: 44.369208, lng: 26.137183};
-    var myIcon = new google.maps.MarkerImage('/assets/images/map-marker.png', null, null, null, new google.maps.Size(70, 70));
+    var myIcon = new google.maps.MarkerImage('/img/home/s7/map-marker.png', null, null, null, new google.maps.Size(70, 70));
 
 // Create a new StyledMapType object, passing it the array of styles,
 // as well as the name to be displayed on the map type control.
@@ -191,7 +191,7 @@ function initialize()
                 '<a href="https://maps.google.com/?cid=14164686946558620302" target="_blank">View in Google Maps</a> </p>',59.17497219999999,10.213671100000056,38]
     ];
 
-    var refIcon = new google.maps.MarkerImage('assets/images/map-marker.png', null, null, null, new google.maps.Size(25, 25));
+    var refIcon = new google.maps.MarkerImage('/img/home/s7/map-marker.png', null, null, null, new google.maps.Size(25, 25));
 
     var mapref = new google.maps.Map(document.getElementById("mapref"), {
         zoom: 4,
