@@ -26,6 +26,9 @@ class ImportMinex extends Command
      */
     public function handle()
     {
+        $minexq = env('DB_DATABASE');
+        $minex_live = env('DB_LIVE');
+
         //DB::unprepared(file_get_contents('database/import_script.sql'));
         DB::unprepared(file_get_contents('database/import_scripts/applications.sql'));
         echo '
