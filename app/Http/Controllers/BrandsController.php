@@ -9,16 +9,8 @@ class BrandsController extends Controller
 {
     public function index()
     {
-        $applications = Application::leftJoin('application_translations','applications.id','=','application_translations.application_id' )
-            ->select('name','slug')
-            ->where('name','!=','')
-            ->where('locale','=',app()->getLocale())
-            ->where('applications.online','=',1)
-            ->where('application_translations.online','=',1)
-            ->orderBy('name','asc')
-            ->get();
-
-        $brands = Brand::pluck('name','slug')->all();
+        $applications = Application::all();
+        $brands = Brand::select('id','name','slug')->where('online','=',1)->orderBy('name')->get();
 
         return view('brands', compact('applications','brands'));
     }
