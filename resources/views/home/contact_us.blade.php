@@ -11,7 +11,7 @@
 @else
     <div class="row justify-content-center">
         <div class="col-12 col-lg-5">
-            <form class="px-0 px-md-4" id="contactForm" autocomplete="off" action="{{ url('') }}/contact/'" method="post">
+            <form class="px-0 px-md-4" id="contactForm" autocomplete="off" action="{{ url('') }}/contact/" method="post" autocomplete="off">
 
                 @include('.partials.form')
 
