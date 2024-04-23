@@ -9,12 +9,12 @@ use Illuminate\Http\Response;
 
 class StoreContactRequest extends FormRequest
 {
-    public function authorize()
-    {
-        return Gate::allows('contact_create');
-    }
+    public mixed $name;
 
-    public function rules()
+    /**
+     * @return array[]
+     */
+    public function rules(): array
     {
         return [
             'name' => [
@@ -93,7 +93,7 @@ class StoreContactRequest extends FormRequest
             'product' => [
                 'nullable',
                 'integer',
-                'min:-2147483648',
+                'min:0',
                 'max:2147483647',
             ],
         ];
