@@ -18,7 +18,7 @@ return [
     'field_job'         => 'Заемана длъжност',
     'field_industry'    => 'Промишленост',
     'field_email'       => 'Електронна поща',
-    'field_district'    => 'Държава',
+    'field_country'    => 'Държава',
     'field_county'      => 'Окръг',
     'field_city'        => 'Град',
     'field_phone'       => 'Телефон',
