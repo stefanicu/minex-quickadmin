@@ -11,7 +11,7 @@
 <div class="form-row">
 	<div class="col-12 col-md-6 pb-3">
 		<label class="form-label" for="company">{{ trans('form.field_company') }}</label>
-		<input class="form-control" type="text" id="company" name="company" placeholder="{{ trans('form.field_company') }}">
+		<input class="form-control" type="text" id="company" name="company" placeholder="{{ trans('form.field_company') }}" autocomplete="off">
 	</div>
 	<div class="col-12 col-md-6 pb-3">
 		<label class="form-label" for="job">{{ trans('form.field_job') }}</label>
@@ -30,9 +30,9 @@
 </div>
 <div class="form-row">
 	<div class="col-12 col-md-6 pb-3">
-		<label class="form-label" for="district">{{ trans('form.field_district') }}</label>
-		<select class="form-control" id="district" name="district" required>
-			<option value="--" disabled selected>{{ trans('form.field_district') }}</option>
+		<label class="form-label" for="country">{{ trans('form.field_country') }}</label>
+		<select class="form-control" id="country" name="country" required>
+			<option value="--" disabled selected>{{ trans('form.field_country') }}</option>
 		</select>
 	</div>
 	<div class="col-12 col-md-6 pb-3">
@@ -49,7 +49,7 @@
 	</div>
 	<div class="col-12 col-md-6 pb-3">
 		<label class="form-label" for="phone">{{ trans('form.field_phone') }}</label>
-		<input class="form-control" type="text" id="phone" name="phone" placeholder="{{ trans('form.field_phone') }}">
+		<input class="form-control" type="text" id="phone" name="phone" placeholder="{{ trans('form.field_phone') }}" autocomplete="off">
 	</div>
 </div>
 
