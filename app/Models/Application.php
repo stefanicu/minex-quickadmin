@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\ApplicationScope;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -37,6 +39,19 @@ class Application extends Model implements HasMedia, TranslatableContract
         'updated_at',
         'deleted_at',
     ];
+
+    protected static  function booted(): void
+    {
+        static::addGlobalScope(new ApplicationScope,function (Builder $builder) {
+            $builder->leftJoin('application_translations','applications.id','=','application_translations.application_id' )
+                ->select('name','slug')
+                ->where('name','!=','')
+                ->where('locale','=',app()->getLocale())
+                ->where('applications.online','=',1)
+                ->where('application_translations.online','=',1)
+                ->orderBy('name','asc');
+        });
+    }
 
     protected function serializeDate(DateTimeInterface $date): string
     {
