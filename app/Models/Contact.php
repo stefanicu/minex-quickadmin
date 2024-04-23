@@ -32,6 +32,8 @@ class Contact extends Model
         'country',
         'county',
         'city',
+        'product',
+        'ip',
     ];
 
     protected $fillable = [
@@ -49,6 +51,7 @@ class Contact extends Model
         'city',
         'checkbox',
         'product',
+        'ip',
         'created_at',
         'updated_at',
         'deleted_at',
