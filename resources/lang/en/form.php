@@ -17,7 +17,7 @@ return [
     'field_job'         => 'Job Title',
     'field_industry'    => 'Industry',
     'field_email'       => 'Email',
-    'field_district'    => 'Country',
+    'field_country'     => 'Country',
     'field_county'      => 'County',
     'field_city'        => 'City',
     'field_phone'       => 'Phone',
