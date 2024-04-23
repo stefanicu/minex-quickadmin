@@ -17,7 +17,7 @@ return [
     'field_job'         => 'Functie',
     'field_industry'    => 'Sector de activitate',
     'field_email'       => 'Email',
-    'field_district'    => 'Tara',
+    'field_country'     => 'Tara',
     'field_county'      => 'Judet',
     'field_city'        => 'Localitate',
     'field_phone'       => 'Telefon',
