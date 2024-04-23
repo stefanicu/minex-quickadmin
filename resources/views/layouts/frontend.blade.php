@@ -167,7 +167,7 @@ $page = '';
 
     </footer>
 
-    <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/customBootstrap.min.js') }}"></script>
     <script src="{{ asset('js/jquery.bxslider.min.js') }}"></script>
