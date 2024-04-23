@@ -19,6 +19,7 @@
                     <div class="col-xs-12 col-sm-12">
                         <div class="form-group captcha-error">
 
+                            <input type="hidden" id="district" name="district" value="">
                             <input type="hidden" id="ip" name="ip" value="<?=$_SERVER['REMOTE_ADDR']; ?>">
 
                             @if(app()->isProduction())
