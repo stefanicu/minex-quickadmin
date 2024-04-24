@@ -13,7 +13,9 @@ Route::get('/setlocale/{locale}', function (string $locale) {
 Auth::routes(['register' => false]);
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
-    Route::get('/', 'HomeController@index')->name('home');
+
+    Route::get('/', 'HomeController@index')->name('home.index');
+
     // Permissions
     Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
     Route::resource('permissions', 'PermissionsController');
@@ -99,8 +101,13 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
     }
 });
 
-Route::get('brands', 'BrandsController@index')->name('brands');
-Route::get('references', 'ReferencesController@index')->name('references');
-Route::get('testimonials', 'TestimonialsController@index')->name('testimonials');
-Route::get('blog', 'BlogController@index')->name('blog');
-Route::get('contact', 'ContactController@index')->name('contact');
+Route::get('/', 'HomeController@index')->name('home.index');
+Route::get('brands', 'BrandsController@index')->name('brands.index');
+Route::get('references', 'ReferencesController@index')->name('references.index');
+Route::get('testimonials', 'TestimonialsController@index')->name('testimonials.index');
+Route::get('blog', 'BlogController@index')->name('blog.index');
+
+Route::post('contact', 'ContactController@index')->name('contact.index');
+
+
+Route::get('gdpr', 'GdprController@index')->name('gdpr.index');
