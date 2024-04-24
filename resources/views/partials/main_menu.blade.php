@@ -27,27 +27,27 @@
                                 <div class="col-md-4">
                                     <ul class="list-unstyled">
                                         @php
-                                            $cnt = count($applications);
-                                            $row = ceil($cnt/3);
-                                            $i=1; $t=1;
+                                        $cnt = count($applications);
+                                        $row = ceil($cnt/3);
+                                        $i=1; $t=1;
 
-                                            foreach($applications as $application) {
+                                        foreach($applications as $application) {
 //                                                echo '<li><a class="d-block my-2">'.$application->name.',  '.$application->application_id.'-'.$application->oldid.', #'.$application->id.'</a></li>';
-                                                echo '<li><a class="d-block my-2" href="' . url('') . '/' . trans('menu_slug.solutions') . '/' . $application->slug . '/">' . $application->name . '</a></li>';
-                                                if ($i == $row) {
-                                                    $i = 0;
-                                                    if ($t < $cnt) {
-                                                        echo '</ul></div> <div class="col-md-4"><ul class="list-unstyled">';
-                                                    } else {
-                                                        echo '</ul></div>';
-                                                    }
+                                            echo '<li><a class="d-block my-2" href="' . url('') . '/' . trans('menu_slug.solutions') . '/' . $application->slug . '/">' . $application->name . '</a></li>';
+                                            if ($i == $row) {
+                                                $i = 0;
+                                                if ($t < $cnt) {
+                                                    echo '</ul></div> <div class="col-md-4"><ul class="list-unstyled">';
                                                 } else {
-                                                    if ($t == $cnt) {
-                                                        echo '</ul></div>';
-                                                    }
+                                                    echo '</ul></div>';
                                                 }
-                                                $i++;$t++;
+                                            } else {
+                                                if ($t == $cnt) {
+                                                    echo '</ul></div>';
+                                                }
                                             }
+                                            $i++;$t++;
+                                        }
                                         @endphp
 {{--                                    </ul>--}}
 {{--                                </div>--}}
