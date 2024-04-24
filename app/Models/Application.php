@@ -40,16 +40,10 @@ class Application extends Model implements HasMedia, TranslatableContract
         'deleted_at',
     ];
 
-    protected static  function booted(): void
+    protected static function booted(): void
     {
         static::addGlobalScope(new ApplicationScope,function (Builder $builder) {
-            $builder->leftJoin('application_translations','applications.id','=','application_translations.application_id' )
-                ->select('name','slug')
-                ->where('name','!=','')
-                ->where('locale','=',app()->getLocale())
-                ->where('applications.online','=',1)
-                ->where('application_translations.online','=',1)
-                ->orderBy('name','asc');
+            $builder->all();
         });
     }
 
