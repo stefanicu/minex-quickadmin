@@ -45,7 +45,7 @@
 <div class="form-row">
 	<div class="col-12 col-md-6 pb-3">
 		<label class="form-label" for="city">{{ trans('form.field_city') }}address</label>
-		<input class="form-control" type="text" id="city" name="city" placeholder="{{ trans('form.field_city') }}">
+		<input class="form-control" type="text" id="city" name="city" placeholder="{{ trans('form.field_city') }}" autocomplete="off">
 	</div>
 	<div class="col-12 col-md-6 pb-3">
 		<label class="form-label" for="phone">{{ trans('form.field_phone') }}</label>
@@ -57,7 +57,6 @@
 	<div class="col">
 		<label class="form-label" for="how_about">{{ trans('form.field_how_about') }}</label>
 		<input class="form-control" type="text" id="how_about" name="how_about" placeholder="{{ trans('form.field_how_about') }}" autocomplete="off">
-		<input class="form-control" type="hidden" id="district" name="district" autocomplete="off">
 	</div>
 </div>
 
