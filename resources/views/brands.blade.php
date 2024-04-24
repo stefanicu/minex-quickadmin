@@ -4,8 +4,8 @@
     <div class="container">
         <h1>BRANDS</h1>
         <div class="row">
-            @foreach($brands as $slug=>$brand)
-                <div class="col-3"><a href="{{ $slug }}/">{{ $brand }}</a></div>
+            @foreach($brands as $brand)
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3"><a href="{{ $brand->slug }}/">{{ $brand->name }}</a></div>
             @endforeach
         </div>
     </div>
