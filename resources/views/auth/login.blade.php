@@ -3,7 +3,7 @@
 <div class="login-box">
     <div class="login-logo">
         <div class="login-logo">
-            <a href="{{ route('home') }}">
+            <a href="{{ route('home.index') }}">
                 {{ trans('panel.site_title') }}
             </a>
         </div>
