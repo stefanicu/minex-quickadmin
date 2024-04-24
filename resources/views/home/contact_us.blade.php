@@ -6,13 +6,13 @@
         </div>
     </div>
 
-@if(isset($_GET['ct']) && $_GET['ct'] == 1)
+@if(session('success'))
     <div class="multumim-center">{{ trans('frontend.contact_thank_you') }}</div>
 @else
     <div class="row justify-content-center">
         <div class="col-12 col-lg-5">
             <form class="px-0 px-md-4" id="contactForm" autocomplete="off" action="{{ url('') }}/contact/" method="post" autocomplete="off">
-
+                @csrf
                 @include('.partials.form')
 
                 <div class="row">
@@ -25,6 +25,14 @@
                             @if(app()->isProduction())
                                 <input type="hidden" class="hiddenRecaptcha form-control" name="hiddenRecaptcha" id="hiddenRecaptcha">
                                 <div class="g-recaptcha" data-sitekey="6Lc-mScTAAAAAIoo8LHTWRuJhPUXdDFJoGV4ptBg"></div>
+                            @endif
+
+                            @foreach($errors as $error)
+                                {{$error}}
+                            @endforeach
+
+                            @if (session('error'))
+                                <div class="alert alert-danger">{{ session('error') }}</div>
                             @endif
                         </div>
                     </div>
