@@ -36,7 +36,7 @@ $page = '';
     <title>Minex Group <?php echo $datanume; ?></title>
     <meta name="description" content="<?=$meta_description;?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="img/favicon.png">
+    <link rel="shortcut icon" href="{{ url('') }}/img/favicon.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
     <!--link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"-->
@@ -162,7 +162,7 @@ $page = '';
         </ul>
 
         <p class="text-right my-0 m-button">
-            <a href="https://www.minexgroup.eu/gdpr">{{ trans('frontend.gdpr_compliance') }}</a><br>{{ trans('frontend.copyright') }}. {{ trans('frontend.all_rights_reserved') }}.
+            <a href="{{ url('') }}/gdpr/">{{ trans('frontend.gdpr_compliance') }}</a><br>{{ trans('frontend.copyright') }}. {{ trans('frontend.all_rights_reserved') }}.
         </p>
 
     </footer>
