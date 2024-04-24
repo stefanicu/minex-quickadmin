@@ -11,11 +11,11 @@ $(document).ready(function () {
     $("#contactForm").validate({
         ignore: [],
         rules: {
-            nume: {
+            name: {
                 required: true,
                 minlength: 3
             },
-            pren: {
+            surname: {
                 required: true,
                 minlength: 3
             },
@@ -23,28 +23,28 @@ $(document).ready(function () {
                 required: true,
                 email: true
             },
-            tel: {
+            phone: {
                 required: true,
                 minlength: 3
             },
-            tara: {
+            country: {
                 required: true
             },
-            jud: {
+            county: {
                 required: true
             },
-            func: {
+            job: {
                 required: true
             },
-            dom: {
+            industry: {
                 required: true
             },
-            cumati: {
+            how_about: {
                 required: true
             },
-            mesaj: {
+            message: {
                 required: true
-            }, 
+            },
             hiddenRecaptcha: {
                 required: function () {
                     console.log('CaptchaContact');
@@ -57,34 +57,34 @@ $(document).ready(function () {
             }
         },
         messages: {
-            nume: {
+            name: {
                 required: "Please enter your first name",
                 minlength: "Your first name must be at least 3 characters long"
             },
-            pren: {
+            surname: {
                 required: "Please provide your last name",
                 minlength: "Your last name must be at least 3 characters long"
             },
             email: "Please enter a valid email address",
-            tel: {
+            phone: {
                 required: "Please enter your phone number (ex: 0123456789)"
             },
-            tara: {
+            country: {
                 required: "Please provide your country"
             },
-            jud: {
+            county: {
                 required: "Please enter your county"
             },
-            func: {
+            job: {
                 required: "Please enter your job title"
             },
-            dom: {
+            industry: {
                 required: "Please enter your industry"
             },
-            cumati: {
+            how_about: {
                 required: "Please tell us how did you hear about us"
             },
-            mesaj: {
+            message: {
                 required: "Please enter a message"
             },
             hiddenRecaptcha: {
