@@ -63,20 +63,20 @@
                 <span class="help-block">{{ trans('cruds.product.fields.slug_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="applicaitons">{{ trans('cruds.product.fields.applicaitons') }}</label>
+                <label for="applications">{{ trans('cruds.product.fields.applications') }}</label>
                 <div style="padding-bottom: 4px">
                     <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
                     <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
                 </div>
-                <select class="form-control select2 {{ $errors->has('applicaitons') ? 'is-invalid' : '' }}" name="applicaitons[]" id="applicaitons" multiple>
-                    @foreach($applicaitons as $id => $applicaiton)
-                        <option value="{{ $id }}" {{ (in_array($id, old('applicaitons', [])) || $product->applicaitons->contains($id)) ? 'selected' : '' }}>{{ $applicaiton }}</option>
+                <select class="form-control select2 {{ $errors->has('applications') ? 'is-invalid' : '' }}" name="applications[]" id="applications" multiple>
+                    @foreach($applications as $id => $applicaiton)
+                        <option value="{{ $id }}" {{ (in_array($id, old('applications', [])) || $product->applications->contains($id)) ? 'selected' : '' }}>{{ $applicaiton }}</option>
                     @endforeach
                 </select>
-                @if($errors->has('applicaitons'))
-                    <span class="text-danger">{{ $errors->first('applicaitons') }}</span>
+                @if($errors->has('applications'))
+                    <span class="text-danger">{{ $errors->first('applications') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.product.fields.applicaitons_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.product.fields.applications_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="categories">{{ trans('cruds.product.fields.categories') }}</label>

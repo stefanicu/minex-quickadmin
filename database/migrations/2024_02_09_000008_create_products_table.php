@@ -11,17 +11,30 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('online')->default(0)->nullable();
-            $table->string('language')->nullable();
-            $table->string('name')->unique();
-            $table->string('slug')->nullable()->unique();
-            $table->longText('description')->nullable();
-            $table->longText('specifications')->nullable();
-            $table->longText('advantages')->nullable();
-            $table->longText('usage')->nullable();
             $table->integer('oldid')->nullable();
             $table->string('oldimage')->nullable();
             $table->timestamps();
             $table->softDeletes();
+        });
+
+        Schema::create('product_translations', function (Blueprint $table) {
+            $table->bigIncrements('id');
+
+            $table->string('locale');
+
+            $table->foreignId('product_id')->references('id')->on('products')->onDelete('cascade');
+
+            $table->boolean('online')->default(0)->nullable();
+            $table->string('name');
+            $table->string('slug')->nullable();
+            $table->longText('description')->nullable();
+            $table->longText('specifications')->nullable();
+            $table->longText('advantages')->nullable();
+            $table->longText('usages')->nullable();
+            $table->longText('accessories')->nullable();
+
+            $table->unique(['name', 'locale']);
+            $table->unique(['slug', 'locale']);
         });
     }
 }

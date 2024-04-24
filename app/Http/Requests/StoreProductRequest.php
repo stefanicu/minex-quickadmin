@@ -17,7 +17,7 @@ class StoreProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => [
+            'locale' => [
                 'required',
             ],
             'brand_id' => [
@@ -29,19 +29,19 @@ class StoreProductRequest extends FormRequest
                 'min:0',
                 'max:255',
                 'required',
-                'unique:products',
+                'unique:product_translations',
             ],
             'slug' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:products',
+                'unique:product_translations',
             ],
-            'applicaitons.*' => [
+            'applications.*' => [
                 'integer',
             ],
-            'applicaitons' => [
+            'applications' => [
                 'array',
             ],
             'categories.*' => [

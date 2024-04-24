@@ -26,33 +26,9 @@ class Product extends Model implements HasMedia
         'deleted_at',
     ];
 
-    public const LANGUAGE_SELECT = [
-        'en' => 'English',
-        'ro' => 'Romanian',
-        'bg' => 'Bulgarian',
-    ];
-
-    public static $searchable = [
-        'language',
-        'name',
-        'slug',
-        'description',
-        'photo',
-        'specifications',
-        'advantages',
-        'usage',
-    ];
-
     protected $fillable = [
         'online',
-        'language',
         'brand_id',
-        'name',
-        'slug',
-        'description',
-        'specifications',
-        'advantages',
-        'usage',
         'oldid',
         'oldimage',
         'created_at',
@@ -76,7 +52,7 @@ class Product extends Model implements HasMedia
         return $this->belongsTo(Brand::class, 'brand_id');
     }
 
-    public function applicaitons()
+    public function applications()
     {
         return $this->belongsToMany(Application::class);
     }

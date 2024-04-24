@@ -20,13 +20,13 @@ class ProductsApiController extends Controller
     {
         abort_if(Gate::denies('product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new ProductResource(Product::with(['brand', 'applicaitons', 'categories', 'references'])->get());
+        return new ProductResource(Product::with(['brand', 'applications', 'categories', 'references'])->get());
     }
 
     public function store(StoreProductRequest $request)
     {
         $product = Product::create($request->all());
-        $product->applicaitons()->sync($request->input('applicaitons', []));
+        $product->applications()->sync($request->input('applications', []));
         $product->categories()->sync($request->input('categories', []));
         $product->references()->sync($request->input('references', []));
         foreach ($request->input('photo', []) as $file) {
@@ -41,7 +41,7 @@ class ProductsApiController extends Controller
     public function update(UpdateProductRequest $request, Product $product)
     {
         $product->update($request->all());
-        $product->applicaitons()->sync($request->input('applicaitons', []));
+        $product->applications()->sync($request->input('applications', []));
         $product->categories()->sync($request->input('categories', []));
         $product->references()->sync($request->input('references', []));
         if (count($product->photo) > 0) {

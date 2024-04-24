@@ -37,7 +37,7 @@
                                 {{ trans('cruds.product.fields.name') }}
                             </th>
                             <th>
-                                {{ trans('cruds.product.fields.applicaitons') }}
+                                {{ trans('cruds.product.fields.applications') }}
                             </th>
                             <th>
                                 {{ trans('cruds.product.fields.categories') }}
@@ -73,7 +73,7 @@
                                     {{ $product->name ?? '' }}
                                 </td>
                                 <td>
-                                    @foreach($product->applicaitons as $key => $item)
+                                    @foreach($product->applications as $key => $item)
                                         <span class="badge badge-info">{{ $item->name }}</span>
                                     @endforeach
                                 </td>
@@ -160,7 +160,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

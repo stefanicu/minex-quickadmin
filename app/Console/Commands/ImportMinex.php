@@ -95,11 +95,6 @@ class ImportMinex extends Command
         echo '
         Testimonials import data...............done';
 
-        echo '
-
-           --- not translatable imports ---
-        ';
-
         $brands = file_get_contents('database/import_scripts/brands.sql');
         $brands = str_replace('$minexq', "$minexq", $brands);
         $brands = str_replace('$minex_live', "$minex_live", $brands);
@@ -113,6 +108,13 @@ class ImportMinex extends Command
         DB::unprepared($contacts);
         echo '
         Contacts import data...................done';
+
+        $products = file_get_contents('database/import_scripts/products.sql');
+        $products = str_replace('$minexq', "$minexq", $products);
+        $products = str_replace('$minex_live', "$minex_live", $products);
+        DB::unprepared($products);
+        echo '
+        PRODUCTS import data...................done';
 
         echo '
 

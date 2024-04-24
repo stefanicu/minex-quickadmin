@@ -37,7 +37,7 @@
                         {{ trans('cruds.product.fields.name') }}
                     </th>
                     <th>
-                        {{ trans('cruds.product.fields.applicaitons') }}
+                        {{ trans('cruds.product.fields.applications') }}
                     </th>
                     <th>
                         {{ trans('cruds.product.fields.categories') }}
@@ -104,9 +104,9 @@
 { data: 'id', name: 'id' },
 { data: 'online', name: 'online' },
 { data: 'brand_name', name: 'brand.name' },
-{ data: 'brand.slug', name: 'brand.slug' },
-{ data: 'name', name: 'name' },
-{ data: 'applicaitons', name: 'applicaitons.name' },
+{ data: 'product_translations.slug', name: 'product_translations.slug' },
+{ data: 'name', name: 'product_translations.name' },
+{ data: 'applications', name: 'applications.name' },
 { data: 'categories', name: 'categories.name' },
 { data: 'photo', name: 'photo', sortable: false, searchable: false },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
@@ -120,7 +120,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 });
 
 </script>

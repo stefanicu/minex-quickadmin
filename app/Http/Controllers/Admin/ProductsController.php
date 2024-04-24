@@ -27,7 +27,10 @@ class ProductsController extends Controller
         abort_if(Gate::denies('product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Product::with(['brand', 'applicaitons', 'categories', 'references'])->select(sprintf('%s.*', (new Product)->table));
+            $query = Product::join('product_translations','products.id','=','product_translations.product_id')
+                ->with(['brand', 'applications', 'categories', 'references'])
+                ->select(sprintf('%s.*', (new Product)->table));
+
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -64,9 +67,9 @@ class ProductsController extends Controller
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });
-            $table->editColumn('applicaitons', function ($row) {
+            $table->editColumn('applications', function ($row) {
                 $labels = [];
-                foreach ($row->applicaitons as $applicaiton) {
+                foreach ($row->applications as $applicaiton) {
                     $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $applicaiton->name);
                 }
 
@@ -92,7 +95,7 @@ class ProductsController extends Controller
                 return implode(' ', $links);
             });
 
-            $table->rawColumns(['actions', 'placeholder', 'online', 'brand', 'applicaitons', 'categories', 'photo']);
+            $table->rawColumns(['actions', 'placeholder', 'online', 'brand', 'applications', 'categories', 'photo']);
 
             return $table->make(true);
         }
@@ -106,19 +109,19 @@ class ProductsController extends Controller
 
         $brands = Brand::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $applicaitons = Application::pluck('name', 'id');
+        $applications = Application::pluck('name', 'id');
 
         $categories = Category::pluck('name', 'id');
 
         $references = Reference::pluck('online', 'id');
 
-        return view('admin.products.create', compact('applicaitons', 'brands', 'categories', 'references'));
+        return view('admin.products.create', compact('applications', 'brands', 'categories', 'references'));
     }
 
     public function store(StoreProductRequest $request)
     {
         $product = Product::create($request->all());
-        $product->applicaitons()->sync($request->input('applicaitons', []));
+        $product->applications()->sync($request->input('applications', []));
         $product->categories()->sync($request->input('categories', []));
         $product->references()->sync($request->input('references', []));
         foreach ($request->input('photo', []) as $file) {
@@ -138,21 +141,21 @@ class ProductsController extends Controller
 
         $brands = Brand::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $applicaitons = Application::pluck('name', 'id');
+        $applications = Application::pluck('name', 'id');
 
         $categories = Category::pluck('name', 'id');
 
         $references = Reference::pluck('online', 'id');
 
-        $product->load('brand', 'applicaitons', 'categories', 'references');
+        $product->load('brand', 'applications', 'categories', 'references');
 
-        return view('admin.products.edit', compact('applicaitons', 'brands', 'categories', 'product', 'references'));
+        return view('admin.products.edit', compact('applications', 'brands', 'categories', 'product', 'references'));
     }
 
     public function update(UpdateProductRequest $request, Product $product)
     {
         $product->update($request->all());
-        $product->applicaitons()->sync($request->input('applicaitons', []));
+        $product->applications()->sync($request->input('applications', []));
         $product->categories()->sync($request->input('categories', []));
         $product->references()->sync($request->input('references', []));
         if (count($product->photo) > 0) {

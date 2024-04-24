@@ -189,8 +189,8 @@ return [
             'oldid_helper'          => ' ',
             'oldimage'              => 'Oldimage',
             'oldimage_helper'       => ' ',
-            'applicaitons'          => 'Applicaitons',
-            'applicaitons_helper'   => ' ',
+            'applications'          => 'Applications',
+            'applications_helper'   => ' ',
         ],
     ],
     'reference' => [

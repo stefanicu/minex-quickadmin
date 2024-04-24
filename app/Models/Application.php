@@ -40,12 +40,12 @@ class Application extends Model implements HasMedia, TranslatableContract
         'deleted_at',
     ];
 
-    protected static function booted(): void
-    {
-        static::addGlobalScope(new ApplicationScope,function (Builder $builder) {
-            $builder->all();
-        });
-    }
+//    protected static function booted(): void
+//    {
+//        static::addGlobalScope(new ApplicationScope,function (Builder $builder) {
+//            $builder->all();
+//        });
+//    }
 
     protected function serializeDate(DateTimeInterface $date): string
     {
