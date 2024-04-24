@@ -88,6 +88,13 @@ class ImportMinex extends Command
         echo '
         References import data.................done';
 
+        $testimonials = file_get_contents('database/import_scripts/testimonials.sql');
+        $testimonials = str_replace('$minexq', "$minexq", $testimonials);
+        $testimonials = str_replace('$minex_live', "$minex_live", $testimonials);
+        DB::unprepared($testimonials);
+        echo '
+        Testimonials import data...............done';
+
         echo '
 
            --- not translatable imports ---

@@ -23,7 +23,10 @@ class TestimonialsController extends Controller
         abort_if(Gate::denies('testimonial_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Testimonial::query()->select(sprintf('%s.*', (new Testimonial)->table));
+            $query = Testimonial::join('testimonial_translations','testimonials.id','=','testimonial_translations.testimonial_id')
+                ->where('testimonial_translations.locale','=',app()->getLocale())
+                ->select(sprintf('%s.*', (new Testimonial)->table));
+
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');

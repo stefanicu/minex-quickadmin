@@ -17,7 +17,7 @@ class StoreTestimonialRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => [
+            'locale' => [
                 'required',
             ],
             'company' => [
@@ -40,14 +40,7 @@ class StoreTestimonialRequest extends FormRequest
                 'min:0',
                 'max:255',
                 'required',
-            ],
-            'logo' => [
-                'array',
-                'required',
-            ],
-            'logo.*' => [
-                'required',
-            ],
+            ]
         ];
     }
 }

@@ -10,30 +10,6 @@
         <form method="POST" action="{{ route("admin.testimonials.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
-                    <input type="hidden" name="online" value="0">
-                    <input class="form-check-input" type="checkbox" name="online" id="online" value="1" {{ old('online', 0) == 1 || old('online') === null ? 'checked' : '' }}>
-                    <label class="form-check-label" for="online">{{ trans('cruds.testimonial.fields.online') }}</label>
-                </div>
-                @if($errors->has('online'))
-                    <span class="text-danger">{{ $errors->first('online') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.testimonial.fields.online_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required">{{ trans('cruds.testimonial.fields.language') }}</label>
-                <select class="form-control {{ $errors->has('language') ? 'is-invalid' : '' }}" name="language" id="language" required>
-                    <option value disabled {{ old('language', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\Testimonial::LANGUAGE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('language', 'en') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('language'))
-                    <span class="text-danger">{{ $errors->first('language') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.testimonial.fields.language_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label class="required" for="company">{{ trans('cruds.testimonial.fields.company') }}</label>
                 <input class="form-control {{ $errors->has('company') ? 'is-invalid' : '' }}" type="text" name="company" id="company" value="{{ old('company', '') }}" required>
                 @if($errors->has('company'))
@@ -75,6 +51,7 @@
                 <span class="help-block">{{ trans('cruds.testimonial.fields.logo_helper') }}</span>
             </div>
             <div class="form-group">
+                <input type="hidden" name="locale" value="{{app()->getLocale()}}">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

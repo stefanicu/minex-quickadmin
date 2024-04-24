@@ -18,17 +18,8 @@
         <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Testimonial">
             <thead>
                 <tr>
-                    <th width="10">
-
-                    </th>
                     <th>
                         {{ trans('cruds.testimonial.fields.id') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.testimonial.fields.online') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.testimonial.fields.language') }}
                     </th>
                     <th>
                         {{ trans('cruds.testimonial.fields.company') }}
@@ -59,35 +50,35 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('testimonial_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.testimonials.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
-          return entry.id
-      });
+{{--@can('testimonial_delete')--}}
+{{--  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';--}}
+{{--  let deleteButton = {--}}
+{{--    text: deleteButtonTrans,--}}
+{{--    url: "{{ route('admin.testimonials.massDestroy') }}",--}}
+{{--    className: 'btn-danger',--}}
+{{--    action: function (e, dt, node, config) {--}}
+{{--      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {--}}
+{{--          return entry.id--}}
+{{--      });--}}
 
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
+{{--      if (ids.length === 0) {--}}
+{{--        alert('{{ trans('global.datatables.zero_selected') }}')--}}
 
-        return
-      }
+{{--        return--}}
+{{--      }--}}
 
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
+{{--      if (confirm('{{ trans('global.areYouSure') }}')) {--}}
+{{--        $.ajax({--}}
+{{--          headers: {'x-csrf-token': _token},--}}
+{{--          method: 'POST',--}}
+{{--          url: config.url,--}}
+{{--          data: { ids: ids, _method: 'DELETE' }})--}}
+{{--          .done(function () { location.reload() })--}}
+{{--      }--}}
+{{--    }--}}
+{{--  }--}}
+{{--  dtButtons.push(deleteButton)--}}
+{{--@endcan--}}
 
   let dtOverrideGlobals = {
     buttons: dtButtons,
@@ -97,10 +88,7 @@
     aaSorting: [],
     ajax: "{{ route('admin.testimonials.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
-{ data: 'online', name: 'online' },
-{ data: 'language', name: 'language' },
 { data: 'company', name: 'company' },
 { data: 'name', name: 'name' },
 { data: 'job', name: 'job' },
@@ -108,7 +96,7 @@
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 1, 'asc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-Testimonial').DataTable(dtOverrideGlobals);
@@ -116,7 +104,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 });
 
 </script>

@@ -9,12 +9,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Astrotomic\Translatable\Translatable;
 
-class Testimonial extends Model implements HasMedia
+class Testimonial extends Model implements HasMedia, TranslatableContract
 {
-    use SoftDeletes, InteractsWithMedia, HasFactory;
+    use SoftDeletes, InteractsWithMedia, HasFactory, Translatable;
 
     public $table = 'testimonials';
+    public $translatedAttributes = ['online','company','content','name','job'];
 
     protected $appends = [
         'logo',
@@ -26,27 +29,9 @@ class Testimonial extends Model implements HasMedia
         'deleted_at',
     ];
 
-    public static $searchable = [
-        'language',
-        'company',
-        'content',
-        'name',
-        'job',
-    ];
-
-    public const LANGUAGE_SELECT = [
-        'en' => 'English',
-        'ro' => 'Romanian',
-        'bg' => 'Bulgarian',
-    ];
-
     protected $fillable = [
         'online',
         'language',
-        'company',
-        'content',
-        'name',
-        'job',
         'oldid',
         'oldimage',
         'created_at',

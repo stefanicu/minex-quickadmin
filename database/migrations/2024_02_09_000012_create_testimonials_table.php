@@ -11,15 +11,24 @@ class CreateTestimonialsTable extends Migration
         Schema::create('testimonials', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('online')->default(0)->nullable();
-            $table->string('language');
-            $table->string('company');
-            $table->longText('content');
-            $table->string('name');
-            $table->string('job');
             $table->integer('oldid')->nullable();
             $table->string('oldimage')->nullable();
             $table->timestamps();
             $table->softDeletes();
+        });
+
+        Schema::create('testimonial_translations', function (Blueprint $table) {
+            $table->bigIncrements('id');
+
+            $table->string('locale');
+
+            $table->foreignId('testimonial_id')->references('id')->on('testimonials')->onDelete('cascade');
+
+            $table->boolean('online')->default(0)->nullable();
+            $table->string('company');
+            $table->longText('content');
+            $table->string('name');
+            $table->string('job');
         });
     }
 }
