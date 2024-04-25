@@ -1,7 +1,14 @@
 @extends('layouts.frontend')
 @section('content')
 
-    <h1>TESTIMONIALS</h1>
+    <div class="container">
+        <h1 class="py-4">TESTIMONIALS</h1>
+        <div class="row">
+            @foreach($testimonials as $testimonial)
+                <div class="col-sm-12 col-md-6 col-lg-4 py-4">{{ $testimonial->company }}</div>
+            @endforeach
+        </div>
+    </div>
 
 @endsection
 @section('scripts')
