@@ -1,7 +1,15 @@
 @extends('layouts.frontend')
 @section('content')
 
-    <h1>BLOG</h1>
+    <div class="container">
+        <h1 class="py-4">BLOG</h1>
+        <div class="row">
+            @foreach($blogs as $blog)
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 py-2"><a href="{{ $blog->slug }}/">{{ $blog->name }}</a><br>
+                    {{ Carbon\Carbon::parse($blog->created_at)->format('d.m.Y') }}</div>
+            @endforeach
+        </div>
+    </div>
 
 @endsection
 @section('scripts')
