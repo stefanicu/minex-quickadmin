@@ -1,7 +1,14 @@
 @extends('layouts.frontend')
 @section('content')
 
-    <h1>REFERENCES</h1>
+    <div class="container">
+        <h1 class="py-4">REFERENCES</h1>
+        <div class="row">
+            @foreach($references as $reference)
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3"><a href="{{ $reference->slug }}/">{{ $reference->name }}</a></div>
+            @endforeach
+        </div>
+    </div>
 
 @endsection
 @section('scripts')
