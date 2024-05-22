@@ -14,6 +14,7 @@ use App\Models\Product;
 use App\Models\Reference;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
@@ -27,11 +28,24 @@ class ProductsController extends Controller
         abort_if(Gate::denies('product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Product::join('product_translations','products.id','=','product_translations.product_id')
+
+
+            DB::enableQueryLog();
+
+            ray()->showQueries();
+
+            $query = Product::leftJoin('product_translations','products.id','=','product_translations.product_id')
+                ->where('product_translations.locale','=',app()->getLocale())
                 ->with(['brand', 'applications', 'categories', 'references'])
-                ->select(sprintf('%s.*', (new Product)->table));
+                ->select(sprintf('%s.*', (new Product)->table),'product_translations.name')
+            ;
+            ray('$query',$query->toRawSql())->red();
+
+            ray()->stopShowingQueries();
 
             $table = Datatables::of($query);
+
+
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');

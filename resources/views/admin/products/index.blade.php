@@ -30,9 +30,9 @@
                     <th>
                         {{ trans('cruds.product.fields.brand') }}
                     </th>
-                    <th>
-                        {{ trans('cruds.brand.fields.slug') }}
-                    </th>
+{{--                    <th>--}}
+{{--                        {{ trans('cruds.brand.fields.slug') }}--}}
+{{--                    </th>--}}
                     <th>
                         {{ trans('cruds.product.fields.name') }}
                     </th>
@@ -104,10 +104,10 @@
 { data: 'id', name: 'id' },
 { data: 'online', name: 'online' },
 { data: 'brand_name', name: 'brand.name' },
-{ data: 'product_translations.slug', name: 'product_translations.slug' },
+// { data: 'product_translations.slug', name: 'product_translations.slug' },
 { data: 'name', name: 'product_translations.name' },
-{ data: 'applications', name: 'applications.name' },
-{ data: 'categories', name: 'categories.name' },
+{ data: 'applications', name: 'name' },
+{ data: 'categories', name: 'id' },
 { data: 'photo', name: 'photo', sortable: false, searchable: false },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
