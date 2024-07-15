@@ -21,19 +21,7 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.product.fields.online_helper') }}</span>
             </div>
-            <div class="form-group">
-                <label class="required">{{ trans('cruds.product.fields.language') }}</label>
-                <select class="form-control {{ $errors->has('language') ? 'is-invalid' : '' }}" name="language" id="language" required>
-                    <option value disabled {{ old('language', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\Models\Product::LANGUAGE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('language', $product->language) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('language'))
-                    <span class="text-danger">{{ $errors->first('language') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.product.fields.language_helper') }}</span>
-            </div>
+
             <div class="form-group">
                 <label class="required" for="brand_id">{{ trans('cruds.product.fields.brand') }}</label>
                 <select class="form-control select2 {{ $errors->has('brand') ? 'is-invalid' : '' }}" name="brand_id" id="brand_id" required>
@@ -152,6 +140,7 @@
                 <span class="help-block">{{ trans('cruds.product.fields.references_helper') }}</span>
             </div>
             <div class="form-group">
+                <input type="hidden" name="locale" value="{{app()->getLocale()}}">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
