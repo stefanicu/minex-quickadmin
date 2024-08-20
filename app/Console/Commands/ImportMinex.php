@@ -116,6 +116,20 @@ class ImportMinex extends Command
         echo '
         PRODUCTS import data...................done';
 
+//        $application_product = file_get_contents('database/import_scripts/application_product.sql');
+//        $application_product = str_replace('$minexq', "$minexq", $application_product);
+//        $application_product = str_replace('$minex_live', "$minex_live", $application_product);
+//        DB::unprepared($application_product);
+//        echo '
+//        Application_Product import data.......done';
+
+        $category_product = file_get_contents('database/import_scripts/category_product.sql');
+        $category_product = str_replace('$minexq', "$minexq", $category_product);
+        $category_product = str_replace('$minex_live', "$minex_live", $category_product);
+        DB::unprepared($category_product);
+        echo '
+        Category_Product import data...........done';
+
         echo '
 
             ==============================
