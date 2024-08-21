@@ -8,8 +8,10 @@ use App\Http\Requests\MassDestroyProductRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Application;
+use App\Models\ApplicationTranslation;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\CategoryTranslation;
 use App\Models\Product;
 use App\Models\Reference;
 use Gate;
@@ -29,7 +31,6 @@ class ProductsController extends Controller
 
         if ($request->ajax()) {
 
-
             DB::enableQueryLog();
 
             ray()->showQueries();
@@ -37,8 +38,9 @@ class ProductsController extends Controller
             $query = Product::leftJoin('product_translations','products.id','=','product_translations.product_id')
                 ->where('product_translations.locale','=',app()->getLocale())
                 ->with(['brand', 'applications', 'categories', 'references'])
-                ->select(sprintf('%s.*', (new Product)->table),'product_translations.name')
+                ->select(sprintf('%s.*', (new Product)->table),'product_translations.name as name','product_translations.slug as slug')
             ;
+
             ray('$query',$query->toRawSql())->red();
 
             ray()->stopShowingQueries();
@@ -153,11 +155,11 @@ class ProductsController extends Controller
     {
         abort_if(Gate::denies('product_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $brands = Brand::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $brands = Brand::orderBy('name','asc')->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $applications = Application::pluck('name', 'id');
+        $applications = ApplicationTranslation::where('locale',app()->getLocale() )->orderBy('name','asc')->pluck('name', 'application_id');
 
-        $categories = Category::pluck('name', 'id');
+        $categories = CategoryTranslation::where('locale',app()->getLocale() )->orderBy('name','asc')->pluck('name', 'category_id');
 
         $references = Reference::pluck('online', 'id');
 
