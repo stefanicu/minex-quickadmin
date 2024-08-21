@@ -112,7 +112,8 @@ class CategoriesController extends Controller
     {
         abort_if(Gate::denies('category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $product_images = Product::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $product_images = Product::leftJoin('product_translations','products.id','=','product_translations.product_id')
+            ->where('product_translations.locale','=',app()->getLocale())->pluck('name', 'products.id')->prepend(trans('global.pleaseSelect'), '');
 
         $applications = ApplicationTranslation::where('locale',app()->getLocale() )->pluck('name', 'application_id');
 
