@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Application;
 use App\Models\FrontPage;
+use App\Models\Industry;
 
 class HomeController extends Controller
 {
@@ -22,6 +23,13 @@ class HomeController extends Controller
             ->where('locale','=',app()->getLocale())
             ->where('front_page_id','=',2)
             ->first();
+
+        $industries = Industry::leftJoin('industry_translations','industries.id','=','industry_translations.industry_id' )
+            ->select('industries.id','industries.online','name','slug')
+            ->where('locale','=',app()->getLocale())
+            ->whereIn('industries.id',array(2,12,4,6))
+            ->orderByRaw('FIELD(industries.id,2,12,4,6)')
+            ->get();
 
         $consultancy = FrontPage::leftJoin('front_page_translations','front_pages.id','=','front_page_translations.front_page_id' )
             ->select('name','first_text','quote')
@@ -53,6 +61,6 @@ class HomeController extends Controller
             ->where('front_page_id','=',7)
             ->first();
 
-        return view('welcome', compact( 'applications','hero', 'integrated_solutions', 'consultancy', 'maintenance', 'references', 'about_us', 'contact_us'));
+        return view('welcome', compact( 'applications','hero', 'integrated_solutions', 'industries', 'consultancy', 'maintenance', 'references', 'about_us', 'contact_us'));
     }
 }
