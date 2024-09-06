@@ -30,7 +30,6 @@ class ImportMinex extends Command
         $minexq = Config::get('database.minexq');
         $minex_live =  Config::get('database.minex_live');
 
-        //DB::unprepared(file_get_contents('database/import_script.sql'));
 
         $applications = file_get_contents('database/import_scripts/applications.sql');
         $applications = str_replace('$minexq', "$minexq", $applications);
@@ -130,26 +129,19 @@ class ImportMinex extends Command
         echo '
         Category_Product import data...........done';
 
-        echo '
-
-            ==============================
-            ====   IMPORT COMPLETED   ====
-            ==============================
-
-        ';
 
         $restore_media_bkp = file_get_contents('database/import_scripts/restore_media_bkp.sql');
         $restore_media_bkp = str_replace('$minexq', "$minexq", $restore_media_bkp);
         $restore_media_bkp = str_replace('$minex_live', "$minex_live", $restore_media_bkp);
         DB::unprepared($restore_media_bkp);
         echo '
+        --
         Restore Media from Back up.............done';
+
 
         echo '
 
-            =====================================
-            ====   RESTORE MEDIA COMPLETED   ====
-            =====================================
+        ========================  IMPORT COMPLETED!
 
         ';
     }
