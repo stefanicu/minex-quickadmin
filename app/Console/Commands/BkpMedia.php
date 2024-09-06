@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class BkpMedia extends Command
@@ -26,17 +27,15 @@ class BkpMedia extends Command
      */
     public function handle()
     {
-        //DB::unprepared(file_get_contents('database/import_script.sql'));
-        DB::unprepared(file_get_contents('database/import_scripts/bkp_media.sql'));
+        $minexq = Config::get('database.minexq');
+        $minex_live =  Config::get('database.minex_live');
+
+        $bkp_media = file_get_contents('database/import_scripts/bkp_media.sql');
+        $bkp_media = str_replace('$minexq', "$minexq", $bkp_media);
+        $bkp_media = str_replace('$minex_live', "$minex_live", $bkp_media);
+        DB::unprepared($bkp_media);
         echo '
-        Baking up media files...............done';
-
-        echo '
-
-            ==================================
-            ====   BACK UP IS COMPLETED   ====
-            ==================================
-
-        ';
+        Baking up media files..................done
+        --';
     }
 }
