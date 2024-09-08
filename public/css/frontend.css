@@ -1,0 +1,6 @@
+.svg_white {
+    filter:invert(1);
+}
+.svg_gray {
+    filter:invert(.6);
+}
