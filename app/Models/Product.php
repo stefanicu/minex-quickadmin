@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Application;
+use App\Models\Brand;
+use App\Models\Category;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use DateTimeInterface;
