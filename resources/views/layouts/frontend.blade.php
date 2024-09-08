@@ -89,6 +89,7 @@ $page = '';
     </script>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.min.css') }}">
     <link href="{{ asset('css/minex.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/frontend.css') }}" rel="stylesheet">
 </head>
 <body class="">
     <!-- Google Tag Manager (noscript) -->
