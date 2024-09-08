@@ -14,16 +14,23 @@
 	<div class="section--content d-flex align-items-center">
 		<div class="v-alighn px-4">
 			<h2 class="h3">{{ $references->name }}</h2>
-			<ul class="d-flex mx-auto list-unstyled justify-content-center flex-wrap row-icons">
-
-				<?php
-					//if($lng == 2){ $wrap_russian = 'wrap_russian'; }else{ $wrap_russian = ''; }
-					//foreach ($industrii as $indu) {
-					//	echo '<li class="py-3">
-					//		<a href="' . base_url() . $referinte_x . '#tab-a' . $indu['id_ind'] . '" class="d-flex flex-column text-center"><img data-src="' . HTTP_UPLOADS_PATH . 'images/' . $indu['img'] . '" alt="' . $indu['nume'] . '" class="row-icons--ico-img mx-auto lozad img-fluid"><p class="row-icons--desc px-2 mt-4 '.$wrap_russian.' ">' . $indu['nume'] . '</p></a></li>';
-					//}
-				?>
-			</ul>
+            <ul class="d-flex mx-auto list-unstyled justify-content-center flex-wrap row-icons">
+                <?php
+                //dd($industries);
+                if(app()->getLocale() == 'bg'){ $wrap_russian = 'wrap_russian'; }else{ $wrap_russian = ''; }
+                foreach ($industries as $ind) {
+                    $image_url = '';
+                    if($ind->getPhotoAttribute())
+                        $image_url = $ind->getPhotoAttribute()->getUrl();
+                    echo "<li class='py-3'>
+                          <a href='referinte#tab-a" . $ind['industry_id'] . "' class='d-flex flex-column text-center'>
+                              <img data-src='" .  $image_url . "' alt='" . $ind['name'] . "' class='svg_gray row-icons--ico-img mx-auto lozad img-fluid'>
+                              <p class='row-icons--desc px-2 mt-4 $wrap_russian'>" . $ind['name'] . "</p>
+                          </a>
+                      </li>";
+                }
+                ?>
+            </ul>
 		</div>
 	</div>
 </section>
