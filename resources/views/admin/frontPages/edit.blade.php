@@ -71,9 +71,9 @@
                 @if($errors->has('image'))
                     <span class="text-danger">{{ $errors->first('image') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.frontPage.fields.image_helper') }}</span>
+                <p><span class="help-block">{{ trans('cruds.frontPage.fields.image_helper') }}</span></p>
 
-                <img src="{{ asset('img/home/s' . $frontPage->id-1 . '/sm-min.jpg') }}" alt="{{ $frontPage->name }}">
+                <img src="{{ asset('img/home/s' . $frontPage->id . '/sm-min.jpg') }}" alt="{{ $frontPage->name }}">
             </div>
 
             @endif
