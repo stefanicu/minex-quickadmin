@@ -66,16 +66,16 @@
     Dropzone.options.photoDropzone = {
     url: '{{ route('admin.industries.storeMedia') }}',
     maxFilesize: 2, // MB
-    acceptedFiles: '.jpeg,.jpg,.png,.gif',
+    acceptedFiles: '.svg,jpeg,.jpg,.png,.gif',
     maxFiles: 1,
     addRemoveLinks: true,
     headers: {
       'X-CSRF-TOKEN': "{{ csrf_token() }}"
     },
     params: {
-      size: 2,
-      width: 300,
-      height: 300
+      size: 1,
+      width: 80,
+      height: 80
     },
     success: function (file, response) {
       $('form').find('input[name="photo"]').remove()
