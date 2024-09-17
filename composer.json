@@ -15,7 +15,6 @@
         "laravel/tinker": "^2.8",
         "laraveldaily/laravel-charts": "^0.1.29",
         "spatie/laravel-medialibrary": "^10.7",
-        "spatie/laravel-ray": "^1.36",
         "yajra/laravel-datatables-oracle": "^10.3"
     },
     "require-dev": {
