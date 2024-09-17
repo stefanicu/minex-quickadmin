@@ -107,9 +107,9 @@ Route::post('contact', 'ContactController@index')->name('contact.index');
 Route::get('blog', 'BlogController@index')->name('blog.index');
 
 # romanian routes
-Route::get('parteneri', 'BrandsController@index')->name('brands.index');
-Route::get('referinte', 'ReferencesController@index')->name('references.index');
-Route::get('testimoniale', 'TestimonialsController@index')->name('testimonials.index');
+Route::get('parteneri', 'BrandsController@index')->name('brands.index.ro');
+Route::get('referinte', 'ReferencesController@index')->name('references.index.ro');
+Route::get('testimoniale', 'TestimonialsController@index')->name('testimonials.index.ro');
 
 # english and bulgarian routes
 Route::get('partners', 'BrandsController@index')->name('brands.index');
