@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'home'   => 'Acasa',
+    'home'   => 'Home',
     'solutions' => 'Solutii',
     'brands' => 'Branduri',
     'references' => 'Referinte',
