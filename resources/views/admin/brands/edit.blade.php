@@ -10,17 +10,17 @@
         <form method="POST" action="{{ route("admin.brands.update", [$brand->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
-{{--            <div class="form-group">--}}
-{{--                <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">--}}
-{{--                    <input type="hidden" name="online" value="0">--}}
-{{--                    <input class="form-check-input" type="checkbox" name="online" id="online" value="1" {{ $brand->online || old('online', 0) === 1 ? 'checked' : '' }}>--}}
-{{--                    <label class="form-check-label" for="online">{{ trans('cruds.brand.fields.online') }}</label>--}}
-{{--                </div>--}}
-{{--                @if($errors->has('online'))--}}
-{{--                    <span class="text-danger">{{ $errors->first('online') }}</span>--}}
-{{--                @endif--}}
-{{--                <span class="help-block">{{ trans('cruds.brand.fields.online_helper') }}</span>--}}
-{{--            </div>--}}
+            <div class="form-group">
+                <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
+                    <input type="hidden" name="online" value="0">
+                    <input class="form-check-input" type="checkbox" name="online" id="online" value="1" {{ $brand->online || old('online', 0) === 1 ? 'checked' : '' }}>
+                    <label class="form-check-label" for="online">{{ trans('cruds.brand.fields.online') }}</label>
+                </div>
+                @if($errors->has('online'))
+                    <span class="text-danger">{{ $errors->first('online') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.brand.fields.online_helper') }}</span>
+            </div>
             <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.brand.fields.name') }}</label>
                 <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $brand->name) }}" required>
@@ -72,8 +72,8 @@
     },
     params: {
       size: 2,
-      width: 360,
-      height: 240
+      width: 343,
+      height: 228
     },
     success: function (file, response) {
       $('form').find('input[name="photo"]').remove()
