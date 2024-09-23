@@ -24,9 +24,9 @@
                     <th>
                         {{ trans('cruds.brand.fields.id') }}
                     </th>
-{{--                    <th>--}}
-{{--                        {{ trans('cruds.brand.fields.online') }}--}}
-{{--                    </th>--}}
+                    <th>
+                        {{ trans('cruds.brand.fields.online') }}
+                    </th>
                     <th>
                         {{ trans('cruds.brand.fields.name') }}
                     </th>
@@ -93,7 +93,7 @@
     columns: [
       // { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
-// { data: 'online', name: 'online' },
+{ data: 'online', name: 'online' },
 { data: 'name', name: 'name' },
 { data: 'slug', name: 'slug' },
 { data: 'photo', name: 'photo', sortable: false, searchable: false },
