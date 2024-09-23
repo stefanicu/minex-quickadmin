@@ -1,12 +1,58 @@
 @extends('layouts.frontend')
 @section('content')
 
+    <div class="container-fluid cover p-0">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/">{{ trans('menu.home') }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ trans('menu.brands') }}</li>
+            </ol>
+        </nav>
+
+        <figure class="d-flex align-items-center section--figure">
+            <picture data-alt="Branduri">
+                <source data-srcset="{{ asset('/img/headers/testimoniale-xl.jpg') }}" media="(min-width: 1200px)">
+                <source data-srcset="{{ asset('/img/headers/testimoniale-lg.jpg') }}" media="(min-width: 992px)">
+                <source data-srcset="{{ asset('/img/headers/testimoniale-md.jpg') }}" media="(min-width: 576px)">
+                <source data-srcset="{{ asset('/img/headers/testimoniale-sm.jpg') }}" media="(max-width: 576px)">
+                <img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ asset('/img/headers/testimoniale-xl.jpg') }}" alt="Branduri" data-loaded="true">
+                <noscript>
+                    <img class="img-fluid lozad" src="{{ asset('/img/headers/testimoniale-xl.jpg') }}" alt="Branduri">
+                </noscript>
+            </picture>
+        </figure>
+    </div>
+
     <div class="container">
-        <h1 class="py-4">BRANDS</h1>
         <div class="row">
-            @foreach($brands as $brand)
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 py-2"><a href="{{ $brand->slug }}/">{{ $brand->name }}</a></div>
-            @endforeach
+            <div class="col-12">
+                <h1 class="h2">{{ trans('menu.brands') }}</h1>
+                <hr>
+                <ul class="list-unstyled row justify-content-md main-row--grid">
+
+                    @foreach($brands as $brand)
+                        @php
+                            $image_url = '';
+                        @endphp
+                        @if($brand->getPhotoAttribute())
+                            @php
+                                $image_url = $brand->getPhotoAttribute()->getUrl()
+                            @endphp
+                        @endif
+                        <li class="col-6 col-md-4 text-center">
+                            <a href="{{ url('') }}/{{ trans('pages_slugs.brand') }}/{{ $brand->slug }}">
+                                <figure class="brand_image">
+                                    <img
+                                        srcset="{{ $image_url }}"
+                                        alt="{{ $brand->name }}"
+                                        title="{{ $brand->name }}"
+                                        class="img-hover lozad img-fluid lazy-fade">
+                                </figure>
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
         </div>
     </div>
 
