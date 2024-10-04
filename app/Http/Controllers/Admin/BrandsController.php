@@ -59,7 +59,7 @@ class BrandsController extends Controller
             $table->editColumn('photo', function ($row) {
                 if ($photo = $row->photo) {
                     return sprintf(
-                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+                        '<a href="%s" target="_blank"><img src="%s" width="auto" height="50px"></a>',
                         $photo->url,
                         $photo->thumbnail
                     );
