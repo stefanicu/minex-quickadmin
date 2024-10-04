@@ -46,7 +46,7 @@ class Industry extends Model implements HasMedia, TranslatableContract
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')->fit('crop', 50, 50);
-        $this->addMediaConversion('preview')->fit('crop', 120, 120);
+        $this->addMediaConversion('preview')->fit('crop', 60, 60);
     }
 
     public function industriesReferences()
