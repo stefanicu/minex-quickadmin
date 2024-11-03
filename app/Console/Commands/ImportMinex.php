@@ -30,6 +30,19 @@ class ImportMinex extends Command
         $minexq = Config::get('database.minexq');
         $minex_live =  Config::get('database.minex_live');
 
+        $brands = file_get_contents('database/import_scripts/brands.sql');
+        $brands = str_replace('$minexq', "$minexq", $brands);
+        $brands = str_replace('$minex_live', "$minex_live", $brands);
+        DB::unprepared($brands);
+        echo '
+        Brands import data.....................done';
+
+        $products = file_get_contents('database/import_scripts/products.sql');
+        $products = str_replace('$minexq', "$minexq", $products);
+        $products = str_replace('$minex_live', "$minex_live", $products);
+        DB::unprepared($products);
+        echo '
+        PRODUCTS import data...................done';
 
         $applications = file_get_contents('database/import_scripts/applications.sql');
         $applications = str_replace('$minexq', "$minexq", $applications);
@@ -37,6 +50,13 @@ class ImportMinex extends Command
         DB::unprepared($applications);
         echo '
         Applications import data...............done';
+
+        $application_product = file_get_contents('database/import_scripts/application_product.sql');
+        $application_product = str_replace('$minexq', "$minexq", $application_product);
+        $application_product = str_replace('$minex_live', "$minex_live", $application_product);
+        DB::unprepared($application_product);
+        echo '
+        Application_Product import data........done';
 
         $categories = file_get_contents('database/import_scripts/categories.sql');
         $categories = str_replace('$minexq', "$minexq", $categories);
@@ -94,33 +114,12 @@ class ImportMinex extends Command
         echo '
         Testimonials import data...............done';
 
-        $brands = file_get_contents('database/import_scripts/brands.sql');
-        $brands = str_replace('$minexq', "$minexq", $brands);
-        $brands = str_replace('$minex_live', "$minex_live", $brands);
-        DB::unprepared($brands);
-        echo '
-        Brands import data.....................done';
-
         $contacts = file_get_contents('database/import_scripts/contacts.sql');
         $contacts = str_replace('$minexq', "$minexq", $contacts);
         $contacts = str_replace('$minex_live', "$minex_live", $contacts);
         DB::unprepared($contacts);
         echo '
         Contacts import data...................done';
-
-        $products = file_get_contents('database/import_scripts/products.sql');
-        $products = str_replace('$minexq', "$minexq", $products);
-        $products = str_replace('$minex_live', "$minex_live", $products);
-        DB::unprepared($products);
-        echo '
-        PRODUCTS import data...................done';
-
-//        $application_product = file_get_contents('database/import_scripts/application_product.sql');
-//        $application_product = str_replace('$minexq', "$minexq", $application_product);
-//        $application_product = str_replace('$minex_live', "$minex_live", $application_product);
-//        DB::unprepared($application_product);
-//        echo '
-//        Application_Product import data.......done';
 
         $category_product = file_get_contents('database/import_scripts/category_product.sql');
         $category_product = str_replace('$minexq', "$minexq", $category_product);
@@ -129,11 +128,19 @@ class ImportMinex extends Command
         echo '
         Category_Product import data...........done';
 
+        $product_reference = file_get_contents('database/import_scripts/product_reference.sql');
+        $product_reference = str_replace('$minexq', "$minexq", $product_reference);
+        $product_reference = str_replace('$minex_live', "$minex_live", $product_reference);
+        DB::unprepared($product_reference);
+        echo '
+        Category_Product import data...........done';
+
 
         $restore_media_bkp = file_get_contents('database/import_scripts/restore_media_bkp.sql');
         $restore_media_bkp = str_replace('$minexq', "$minexq", $restore_media_bkp);
         $restore_media_bkp = str_replace('$minex_live', "$minex_live", $restore_media_bkp);
         DB::unprepared($restore_media_bkp);
+
         echo '
         --
         Restore Media from Back up.............done';
