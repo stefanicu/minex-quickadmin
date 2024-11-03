@@ -24,6 +24,7 @@ class BrandsController extends Controller
 
         if ($request->ajax()) {
             $query = Brand::query()->select(sprintf('%s.*', (new Brand)->table));
+
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -107,7 +108,12 @@ class BrandsController extends Controller
 
     public function update(UpdateBrandRequest $request, Brand $brand)
     {
-        $brand->update($request->all());
+        $brand->translate( app()->getLocale() )->online = $request->input('online');
+        $brand->name = $request->input('name');
+        $brand->slug = $request->input('slug');
+        $brand->update();
+
+        // $brand->update('ro' =>[ 'online' => $request->input('online') ]);
 
         if ($request->input('photo', false)) {
             if (! $brand->photo || $request->input('photo') !== $brand->photo->file_name) {
