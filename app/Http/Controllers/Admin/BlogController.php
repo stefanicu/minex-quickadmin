@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyBlogRequest;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Models\Blog;
+use App\Models\BlogTranslation;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -103,6 +104,15 @@ class BlogController extends Controller
     {
         abort_if(Gate::denies('blog_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $images = Media::where('model_id', $blog->id)
+            ->where('model_type', Blog::class)
+            ->get();
+
+        if(count($images) == 0) {
+            if (file_exists(public_path().asset('uploads/images/'.$blog->oldimage))) {
+                $blog->addMediaFromUrl(url('').asset('uploads/images/'.$blog->oldimage))->toMediaCollection('image');
+            }
+        }
         return view('admin.blogs.edit', compact('blog'));
     }
 
