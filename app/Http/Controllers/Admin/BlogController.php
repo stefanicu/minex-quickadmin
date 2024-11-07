@@ -61,7 +61,7 @@ class BlogController extends Controller
             $table->editColumn('image', function ($row) {
                 if ($photo = $row->image) {
                     return sprintf(
-                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+                        '<a href="%s" target="_blank"><img src="%s" width="auto" height="50px"></a>',
                         $photo->url,
                         $photo->thumbnail
                     );
