@@ -65,7 +65,7 @@ class CategoriesController extends Controller
             $table->editColumn('cover_photo', function ($row) {
                 if ($photo = $row->cover_photo) {
                     return sprintf(
-                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+                        '<a href="%s" target="_blank"><img src="%s" width="auto" height="50px"></a>',
                         $photo->url,
                         $photo->thumbnail
                     );
@@ -86,7 +86,7 @@ class CategoriesController extends Controller
     {
         abort_if(Gate::denies('category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $product_images = Product::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $product_images = null;
 
         $applications = ApplicationTranslation::where('locale',app()->getLocale() )->orderBy('name','asc')->pluck('name', 'id');
 
@@ -121,7 +121,7 @@ class CategoriesController extends Controller
 
         $applications = ApplicationTranslation::where('locale',app()->getLocale() )->pluck('name', 'application_id');
 
-        $category->load('product_image', 'applications');
+        //$category->load('product_image', 'applications');
 
         return view('admin.categories.edit', compact('applications', 'category', 'product_images'));
     }
@@ -129,6 +129,7 @@ class CategoriesController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $category->update($request->all());
+
         $category->applications()->sync($request->input('applications', []));
         if ($request->input('cover_photo', false)) {
             if (! $category->cover_photo || $request->input('cover_photo') !== $category->cover_photo->file_name) {
