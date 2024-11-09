@@ -104,18 +104,37 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
 # all languages routes
 Route::get('/', 'HomeController@index')->name('home.index');
 Route::post('contact', 'ContactController@index')->name('contact.index');
-Route::get('blog', 'BlogController@index')->name('blog.index');
+Route::get('blog', 'BlogController@index')->name('blogs.index');
+Route::get('blog/{slug}/', 'BlogController@index')->name('blog.index');
+Route::get('gdpr', 'GdprController@index')->name('gdpr.index');
+
 
 # romanian routes
 Route::get('parteneri', 'BrandsController@index')->name('brands.index.ro');
+Route::get('partener/{slug}/', 'BrandController@index')->name('brand.index.ro');
+
+Route::get('produs/{slug}/', 'ProductController@index')->name('product.index.ro');
+
 Route::get('referinte', 'ReferencesController@index')->name('references.index.ro');
+Route::get('referinta/{slug}/', 'ReferenceController@index')->name('reference.index.ro');
+
+Route::get('categorii/{slug}/', 'CategoriesController@index')->name('categories.index.ro');
+Route::get('categorie/{slug}/{id}', 'CategoryController@index')->name('category.index.ro');
+
 Route::get('testimoniale', 'TestimonialsController@index')->name('testimonials.index.ro');
+
+
 
 # english and bulgarian routes
 Route::get('partners', 'BrandsController@index')->name('brands.index');
+Route::get('partner/{slug}/', 'BrandController@index')->name('brand.index');
+
+Route::get('product/{slug}/', 'ProductController@index')->name('product.index');
+
 Route::get('references', 'ReferencesController@index')->name('references.index');
+Route::get('reference/{slug}/', 'ReferenceController@index')->name('reference.index');
+
+Route::get('categories/{slug}/', 'CategoriesController@index')->name('categories.index');
+Route::get('category/{slug}/{id}', 'CategoryController@index')->name('category.index');
+
 Route::get('testimonials', 'TestimonialsController@index')->name('testimonials.index');
-
-
-
-Route::get('gdpr', 'GdprController@index')->name('gdpr.index');
