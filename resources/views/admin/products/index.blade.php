@@ -36,9 +36,9 @@
                     <th>
                         {{ trans('cruds.product.fields.name') }}
                     </th>
-                    <th>
-                        {{ trans('cruds.product.fields.applications') }}
-                    </th>
+{{--                    <th>--}}
+{{--                        {{ trans('cruds.product.fields.applications') }}--}}
+{{--                    </th>--}}
                     <th>
                         {{ trans('cruds.product.fields.categories') }}
                     </th>
@@ -110,7 +110,7 @@
         { data: 'brand_name', name: 'brand.name' },
         // { data: 'product_translations.slug', name: 'product_translations.slug' },
         { data: 'name', name: 'product_translations.name' },
-        { data: 'applications', name: 'application_translations.name', sortable: false },
+        // { data: 'applications', name: 'application_translations.name', sortable: false },
         { data: 'categories', name: 'category_translations.name', sortable: false },
         // { data: 'photo', name: 'photo', sortable: false, searchable: false },
         { data: 'actions', name: '{{ trans('global.actions') }}', class: 'text-nowrap text-center', sortable: false, searchable: false  }

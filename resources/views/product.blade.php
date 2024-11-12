@@ -10,15 +10,24 @@
             </ol>
         </nav>
 
+
+        @php
+            if($category->getCoverPhotoAttribute()){
+                $cover_image_url = $category->getCoverPhotoAttribute()->getUrl();
+            }else{
+                $cover_image_url = asset('/img/headers/aplicatie-xl.jpg');
+            }
+        @endphp
+
         <figure class="d-flex align-items-center section--figure">
             <picture data-alt="Branduri">
-                <source data-srcset="{{ asset('/img/headers/aplicatie-xl.jpg') }}" media="(min-width: 1200px)">
-                <source data-srcset="{{ asset('/img/headers/aplicatie-lg.jpg') }}" media="(min-width: 992px)">
-                <source data-srcset="{{ asset('/img/headers/aplicatie-md.jpg') }}" media="(min-width: 576px)">
-                <source data-srcset="{{ asset('/img/headers/aplicatie-sm.jpg') }}" media="(max-width: 576px)">
-                <img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ asset('/img/headers/aplicatie-xl.jpg') }}" alt="{{ trans('pages.product') }}" data-loaded="true">
+{{--                <source data-srcset="{{ asset('/img/headers/aplicatie-xl.jpg') }}" media="(min-width: 1200px)">--}}
+{{--                <source data-srcset="{{ asset('/img/headers/aplicatie-lg.jpg') }}" media="(min-width: 992px)">--}}
+{{--                <source data-srcset="{{ asset('/img/headers/aplicatie-md.jpg') }}" media="(min-width: 576px)">--}}
+{{--                <source data-srcset="{{ asset('/img/headers/aplicatie-sm.jpg') }}" media="(max-width: 576px)">--}}
+                <img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ $cover_image_url }}" alt="{{ trans('pages.product') }}" data-loaded="true">
                 <noscript>
-                    <img class="img-fluid lozad" src="{{ asset('/img/headers/aplicatie-xl.jpg') }}" alt="{{ trans('pages.product') }}">
+                    <img class="img-fluid lozad" src="{{ $cover_image_url }}" alt="{{ trans('pages.product') }}">
                 </noscript>
             </picture>
         </figure>

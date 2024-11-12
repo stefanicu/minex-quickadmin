@@ -48,7 +48,11 @@ class ProductController extends Controller
 
         $referrer = $request->headers->get('referer');
 
-        if(session()->has('application_id') && !str_contains($referrer, 'search?search') && $referrer !== null )
+        if(session()->has('application_id') &&
+            !str_contains($referrer, 'search?search') &&
+            !str_contains($referrer, 'partner') &&
+            !str_contains($referrer, 'parteneri') &&
+            $referrer !== null )
         {
             $application = Application::where('id',session('application_id'))->with('translations')->first();
         }
@@ -60,7 +64,11 @@ class ProductController extends Controller
                 ->first();
         }
 
-        if(session()->has('category_id') && !str_contains($referrer, 'search?search') && $referrer !== null)
+        if(session()->has('category_id') &&
+            !str_contains($referrer, 'search?search') &&
+            !str_contains($referrer, 'partner') &&
+            !str_contains($referrer, 'parteneri') &&
+            $referrer !== null)
         {
             $category = Category::where('id',session('category_id'))->with('translations')->first();
         }
@@ -79,6 +87,7 @@ class ProductController extends Controller
             });
         })
             ->with('translations') // Load translations for each application
+            ->orderByTranslation('name')
             ->withCount('products') // Adds a `products_count` attribute to each category
             ->get();
 

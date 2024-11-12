@@ -32,59 +32,66 @@ class ProductsController extends Controller
 
         if ($request->ajax()) {
 
-            $query = Product::with([
-                'brand.translations',
-                'applications.translations', // Eager load translations for applications
-                'categories.translations',
-                'translations',
-                'media',
-                'applications.media',
-                'categories.media',
-                'brand.media'
-            ])
-                ->leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
-                ->leftJoin('application_product', 'products.id', '=', 'application_product.product_id') // Many-to-many pivot table for applications
-                ->leftJoin('applications', 'applications.id', '=', 'application_product.application_id') // Join the applications table
-                ->leftJoin('application_translations', 'applications.id', '=', 'application_translations.application_id') // Join the application_translations table
-                ->leftJoin('category_product', 'products.id', '=', 'category_product.product_id') // Many-to-many pivot table for categories
-                ->leftJoin('categories', 'categories.id', '=', 'category_product.category_id') // Join the categories table
-                ->leftJoin('category_translations', 'categories.id', '=', 'category_translations.category_id') // Join category_translations
-                ->where('product_translations.locale', app()->getLocale())
-                ->where('application_translations.locale', app()->getLocale())
-                ->where('category_translations.locale', app()->getLocale())
-                ->select(
-                    sprintf('%s.*', (new Product)->table),
-                    'product_translations.name as product_name',
-                    DB::raw("GROUP_CONCAT(DISTINCT application_translations.name SEPARATOR ', ') as application_names"),
-                    DB::raw("GROUP_CONCAT(DISTINCT category_translations.name SEPARATOR ', ') as category_names")
-                )
-                ->groupBy('products.id', 'products.brand_id', 'product_translations.name');
+//            $query = Product::with([
+//                'brand.translations',
+//                'applications.translations', // Eager load translations for applications
+//                'categories.translations',
+//                'translations',
+//                'media',
+//                'applications.media',
+//                'categories.media',
+//                'brand.media'
+//            ])
 
-//                foreach ($query->get() as $product) {
-//                    $main_photo = Media::where('model_id', $product->id)
-//                        ->where('model_type', Product::class)
-//                        ->get();
-//
-//                    if(count($main_photo) === 0) {
-//                        if (file_exists(public_path().asset('uploads/produse/'.$product->oldimage))) {
-//                            $product->addMediaFromUrl(
-//                                url('').asset('uploads/produse/'.$product->oldimage)
-//                            )->toMediaCollection('main_photo');
-//                        }
-//                    }
-//
-//                    if(count($main_photo) === 1) {
-//                        if($product->oldmoreimages) {
-//                            foreach (explode(',',$product->oldmoreimages) as $photo) {
-//                                if (file_exists(public_path().asset('uploads/produse/'.$photo))) {
-//                                    $product->addMediaFromUrl(
-//                                        url('').asset('uploads/produse/'.$photo)
-//                                    )->toMediaCollection('photo');
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
+            $currentLocale = app()->getLocale();
+
+            $query = Product::with('brand')
+                ->leftJoin('product_translations', function($join) use ($currentLocale) {
+                    $join->on('products.id', '=', 'product_translations.product_id')
+                        ->where('product_translations.locale', $currentLocale);
+                })
+                ->leftJoin('category_product', 'products.id', '=', 'category_product.product_id')
+                ->leftJoin('categories', 'categories.id', '=', 'category_product.category_id')
+                ->leftJoin('category_translations', function($join) use ($currentLocale) {
+                    $join->on('categories.id', '=', 'category_translations.category_id')
+                        ->where('category_translations.locale', $currentLocale);
+                })
+                ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
+                ->select(
+                    'products.id',
+                    'products.oldimage',
+                    'products.oldmoreimages',
+                    'product_translations.name',
+                    'brands.name as brand_name',
+                    DB::raw("GROUP_CONCAT(DISTINCT category_translations.name ORDER BY category_translations.name ASC SEPARATOR ', ') as category_names")
+                )
+                ->groupBy('products.id','products.oldimage','products.oldmoreimages','product_translations.name','brands.name');
+
+                foreach ($query->get() as $product) {
+                    $main_photo = Media::where('model_id', $product->id)
+                        ->where('model_type', Product::class)
+                        ->get();
+
+                    if(count($main_photo) === 0) {
+                        if (file_exists(public_path().asset('uploads/produse/'.$product->oldimage))) {
+                            $product->addMediaFromUrl(
+                                url('').asset('uploads/produse/'.$product->oldimage)
+                            )->toMediaCollection('main_photo');
+                        }
+                    }
+
+                    if(count($main_photo) === 1) {
+                        if($product->oldmoreimages) {
+                            foreach (explode(',',$product->oldmoreimages) as $photo) {
+                                if (file_exists(public_path().asset('uploads/produse/'.$photo))) {
+                                    $product->addMediaFromUrl(
+                                        url('').asset('uploads/produse/'.$photo)
+                                    )->toMediaCollection('photo');
+                                }
+                            }
+                        }
+                    }
+                }
 
             $table = Datatables::of($query);
 

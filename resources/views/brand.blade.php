@@ -33,29 +33,28 @@
                     @if( count($products) == 0 )
                         <span class="">{{ trans('pages.no_products') }}</span>
                     @else
-                        <ul class="list-unstyled row justify-content-start assets-row main-row-prod main-row--grid">
-                            @foreach ($products as $product)
-
-                                <li class="col-6 col-sm-4">
-                                    <a href="{{ url('') }}/{{ trans('pages_slugs.product') }}/{{ $product->slug }}" alt="{{ $product->name }}" class="d-flex flex-column">
-                                        <figure class="w-100">
-                                            @if($product && $product->getPhotoAttribute()->all() !== null && $product->getPhotoAttribute()->count()>0)
+                    <ul id="grid3_borders" class="list-unstyled row justify-content-start assets-row main-row-prod main-row--grid">
+                        @foreach($products as $product)
+                            @if($product->translateOrDefault(app()->getLocale()))
+                                <li class="col-12 col-md-6 col-lg-4 d-flex align-items-center list-group-item py-3">
+                                    <a href="{{ route('product.index',[ 'slug' => $product->translateOrDefault(app()->getLocale())->slug ]) }}" class="d-flex flex-column w-100 h-100">
+                                        @if($product->getMainPhotoAttribute() !== null)
+                                            <figure class="mx-auto">
                                                 <img
-                                                    srcset="{{ $product->getPhotoAttribute()->all()[0]->getUrl() }}"
+                                                    srcset="{{ $product->getMainPhotoAttribute()->getUrl() }}"
                                                     alt="{{ $product->name }}"
                                                     title="{{ $product->name }}"
-                                                    width="400" height="400"
-                                                    class="img-hover lozad img-fluid lazy-fade mx-auto">
-                                            @else
-                                                <div class="w-100 p-3 my-3 text-center" style="background-color:#eee; height: 200px; color:#777;">NO IMAGE</div>
-                                            @endif
-                                            <p class="h5 assets-title row-icons--desc mt-4">{{ $product->name }}</p>
-                                        </figure>
+                                                    class="img-hover lozad img-fluid lazy-fade">
+                                            </figure>
+                                        @else
+                                            <div class="product_image_default">No image</div>
+                                        @endif
+                                        <p class="h5 assets-title row-icons--desc mt-4">{{ $product->name }}</p>
                                     </a>
                                 </li>
-
-                            @endforeach
-                        </ul>
+                            @endif
+                        @endforeach
+                    </ul>
                 @endif
                 </div>
                 <div class="col-12 col-md-4 pb-3">
