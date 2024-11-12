@@ -23,9 +23,26 @@ class TestimonialsController extends Controller
         abort_if(Gate::denies('testimonial_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Testimonial::join('testimonial_translations','testimonials.id','=','testimonial_translations.testimonial_id')
+            $query = Testimonial::with(['media','translations'])
+                ->join('testimonial_translations','testimonials.id','=','testimonial_translations.testimonial_id')
                 ->where('testimonial_translations.locale','=',app()->getLocale())
                 ->select(sprintf('%s.*', (new Testimonial)->table));
+
+            foreach ($query->get() as $testimonial) {
+                $logo = Media::where('model_id', $testimonial->id)
+                    ->where('model_type', Testimonial::class)
+                    ->get();
+
+                if(count($logo) == 0) {
+                    if (file_exists(public_path().asset('uploads/testimoniale/'.$testimonial->oldimage))) {
+                        $testimonial->addMediaFromUrl(
+                            url('').asset('uploads/testimoniale/'.$testimonial->oldimage)
+                        )->toMediaCollection('logo');
+                    }
+                }
+            }
+
+
 
             $table = Datatables::of($query);
 
@@ -53,9 +70,9 @@ class TestimonialsController extends Controller
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
             });
-            $table->editColumn('language', function ($row) {
-                return $row->language ? Testimonial::LANGUAGE_SELECT[$row->language] : '';
-            });
+//            $table->editColumn('language', function ($row) {
+//                return $row->language ? Testimonial::LANGUAGE_SELECT[$row->language] : '';
+//            });
             $table->editColumn('company', function ($row) {
                 return $row->company ? $row->company : '';
             });
@@ -66,15 +83,15 @@ class TestimonialsController extends Controller
                 return $row->job ? $row->job : '';
             });
             $table->editColumn('logo', function ($row) {
-                if (! $row->logo) {
-                    return '';
-                }
-                $links = [];
-                foreach ($row->logo as $media) {
-                    $links[] = '<a href="' . $media->getUrl() . '" target="_blank"><img src="' . $media->getUrl('thumb') . '" width="50px" height="50px"></a>';
+                if ($photo = $row->logo) {
+                    return sprintf(
+                        '<a href="%s" target="_blank"><img src="%s" width="auto" height="50px"></a>',
+                        $photo->url,
+                        $photo->thumbnail
+                    );
                 }
 
-                return implode(' ', $links);
+                return '';
             });
 
             $table->rawColumns(['actions', 'placeholder', 'online', 'logo']);
@@ -96,8 +113,8 @@ class TestimonialsController extends Controller
     {
         $testimonial = Testimonial::create($request->all());
 
-        foreach ($request->input('logo', []) as $file) {
-            $testimonial->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('logo');
+        if ($request->input('logo', false)) {
+            $testimonial->addMedia(storage_path('tmp/uploads/' . basename($request->input('logo'))))->toMediaCollection('logo');
         }
 
         if ($media = $request->input('ck-media', false)) {
@@ -111,6 +128,18 @@ class TestimonialsController extends Controller
     {
         abort_if(Gate::denies('testimonial_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+//        $logo = Media::where('model_id', $testimonial->id)
+//            ->where('model_type', Testimonial::class)
+//            ->get();
+//
+//        if(count($logo) == 0) {
+//            if (file_exists(public_path().asset('uploads/testimoniale/'.$testimonial->oldimage))) {
+//                $testimonial->addMediaFromUrl(
+//                    url('').asset('uploads/testimoniale/'.$testimonial->oldimage)
+//                )->toMediaCollection('logo');
+//            }
+//        }
+
         return view('admin.testimonials.edit', compact('testimonial'));
     }
 
@@ -118,18 +147,15 @@ class TestimonialsController extends Controller
     {
         $testimonial->update($request->all());
 
-        if (count($testimonial->logo) > 0) {
-            foreach ($testimonial->logo as $media) {
-                if (! in_array($media->file_name, $request->input('logo', []))) {
-                    $media->delete();
+        if ($request->input('logo', false)) {
+            if (! $testimonial->logo || $request->input('logo') !== $testimonial->logo->file_name) {
+                if ($testimonial->logo) {
+                    $testimonial->logo->delete();
                 }
+                $testimonial->addMedia(storage_path('tmp/uploads/' . basename($request->input('logo'))))->toMediaCollection('logo');
             }
-        }
-        $media = $testimonial->logo->pluck('file_name')->toArray();
-        foreach ($request->input('logo', []) as $file) {
-            if (count($media) === 0 || ! in_array($file, $media)) {
-                $testimonial->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('logo');
-            }
+        } elseif ($testimonial->logo) {
+            $testimonial->logo->delete();
         }
 
         return redirect()->route('admin.testimonials.index');
