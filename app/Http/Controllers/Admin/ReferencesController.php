@@ -27,12 +27,46 @@ class ReferencesController extends Controller
         if ($request->ajax()) {
 
 
-            $query = Reference::with(['industries'])
+            $query = Reference::with(['translations','media'])
                 ->join('reference_translations','references.id','=','reference_translations.reference_id')
                 ->where('reference_translations.locale','=',app()->getLocale())
                 ->select(sprintf('%s.*', (new Reference)->table));
 
+            foreach ($query->get() as $reference) {
 
+                $images = Media::where('model_id', $reference->id)
+                    ->where('model_type', Reference::class)
+                    ->get();
+
+                if(count($images)<=1) {
+                    if (file_exists(public_path().asset('uploads/images/'.$reference->oldimage_1))) {
+                        $reference->addMediaFromUrl(url('').asset('uploads/images/'.$reference->oldimage_1))->toMediaCollection(
+                            'photo_wide'
+                        );
+                    }
+
+                    if (file_exists(public_path().asset('uploads/images/'.$reference->oldimage_2))) {
+                        $reference->addMediaFromUrl(url('').asset('uploads/images/'.$reference->oldimage_2))->toMediaCollection(
+                            'photo_square'
+                        );
+                    }
+                    if (file_exists(public_path().asset('uploads/images/'.$reference->oldimage_3))) {
+                        $reference->addMediaFromUrl(url('').asset('uploads/images/'.$reference->oldimage_3))->toMediaCollection(
+                            'photo_square'
+                        );
+                    }
+                    if (file_exists(public_path().asset('uploads/images/'.$reference->oldimage_4))) {
+                        $reference->addMediaFromUrl(url('').asset('uploads/images/'.$reference->oldimage_4))->toMediaCollection(
+                            'photo_square'
+                        );
+                    }
+                    if (file_exists(public_path().asset('uploads/images/'.$reference->oldimage_5))) {
+                        $reference->addMediaFromUrl(url('').asset('uploads/images/'.$reference->oldimage_5))->toMediaCollection(
+                            'photo_square'
+                        );
+                    }
+                }
+            }
 
             $table = Datatables::of($query);
 
@@ -57,19 +91,19 @@ class ReferencesController extends Controller
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
-            $table->addColumn('industries_online', function ($row) {
-                return $row->industries ? $row->industries->online : '';
-            });
-
-            $table->editColumn('industries.name', function ($row) {
-                return $row->industries ? (is_string($row->industries) ? $row->industries : $row->industries->name) : '';
-            });
+//            $table->addColumn('industries_online', function ($row) {
+//                return $row->industries ? $row->industries->online : '';
+//            });
+//
+//            $table->editColumn('industries.name', function ($row) {
+//                return $row->industries ? (is_string($row->industries) ? $row->industries : $row->industries->name) : '';
+//            });
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
             });
-            $table->editColumn('language', function ($row) {
-                return $row->language ? Reference::LANGUAGE_SELECT[$row->language] : '';
-            });
+//            $table->editColumn('language', function ($row) {
+//                return $row->language ? Reference::LANGUAGE_SELECT[$row->language] : '';
+//            });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });
@@ -90,7 +124,7 @@ class ReferencesController extends Controller
             $table->editColumn('photo_wide', function ($row) {
                 if ($photo = $row->photo_wide) {
                     return sprintf(
-                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+                        '<a href="%s" target="_blank"><img src="%s" width="auto" height="50px"></a>',
                         $photo->url,
                         $photo->thumbnail
                     );
@@ -142,6 +176,41 @@ class ReferencesController extends Controller
         $industries = IndustryTranslation::where('locale', '=', app()->getLocale())->orderBy('name')->pluck('name', 'industry_id')->prepend(trans('global.pleaseSelect'), '');
 
         $reference->load('industries');
+
+
+//        $images = Media::where('model_id', $reference->id)
+//            ->where('model_type', Reference::class)
+//            ->get();
+
+//        if(count($images)<=1) {
+//            if (file_exists(public_path().asset('uploads/images/'.$reference->oldimage_1))) {
+//                $reference->addMediaFromUrl(url('').asset('uploads/images/'.$reference->oldimage_1))->toMediaCollection(
+//                    'photo_wide'
+//                );
+//            }
+//
+//            if (file_exists(public_path().asset('uploads/images/'.$reference->oldimage_2))) {
+//                $reference->addMediaFromUrl(url('').asset('uploads/images/'.$reference->oldimage_2))->toMediaCollection(
+//                    'photo_square'
+//                );
+//            }
+//            if (file_exists(public_path().asset('uploads/images/'.$reference->oldimage_3))) {
+//                $reference->addMediaFromUrl(url('').asset('uploads/images/'.$reference->oldimage_3))->toMediaCollection(
+//                    'photo_square'
+//                );
+//            }
+//            if (file_exists(public_path().asset('uploads/images/'.$reference->oldimage_4))) {
+//                $reference->addMediaFromUrl(url('').asset('uploads/images/'.$reference->oldimage_4))->toMediaCollection(
+//                    'photo_square'
+//                );
+//            }
+//            if (file_exists(public_path().asset('uploads/images/'.$reference->oldimage_5))) {
+//                $reference->addMediaFromUrl(url('').asset('uploads/images/'.$reference->oldimage_5))->toMediaCollection(
+//                    'photo_square'
+//                );
+//            }
+//        }
+
 
         return view('admin.references.edit', compact('industries', 'reference'));
     }
