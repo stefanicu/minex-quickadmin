@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Application;
-use App\Models\Brand;
-use App\Models\Category;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use DateTimeInterface;
@@ -20,10 +17,17 @@ class Product extends Model implements HasMedia, TranslatableContract
     use SoftDeletes, InteractsWithMedia, HasFactory, Translatable;
 
     public $table = 'products';
-    public $translatedAttributes = ['online','name','slug','description','specifications','advantages','usages','accesories'];
+
+    public $translatedAttributes = ['online','name','slug','description','specifications','advantages','usages','accessories'];
+
+    protected $indexes = [
+        'name',
+        'online',
+    ];
 
     protected $appends = [
         'photo',
+        'main_photo',
     ];
 
     protected $dates = [
@@ -58,14 +62,19 @@ class Product extends Model implements HasMedia, TranslatableContract
         return $this->belongsTo(Brand::class, 'brand_id');
     }
 
-    public function applications()
-    {
-        return $this->belongsToMany(Application::class);
-    }
-
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'category_product', 'product_id', 'category_id');
+    }
+
+    public function applications()
+    {
+        return $this->belongsToMany(Application::class, 'application_product', 'product_id', 'application_id');
+    }
+
+    public function Productfiles()
+    {
+        return $this->hasMany(Productfile::class, 'product_id', 'id');
     }
 
     public function getPhotoAttribute()
@@ -80,8 +89,32 @@ class Product extends Model implements HasMedia, TranslatableContract
         return $files;
     }
 
+    public function getFirstPhotoAttribute()
+    {
+        $file = $this->getMedia('photo')->first();
+        if ($file) {
+            $file->url       = $file->getUrl();
+            $file->thumbnail = $file->getUrl('thumb');
+            $file->preview   = $file->getUrl('preview');
+        }
+
+        return $file;
+    }
+
+    public function getMainPhotoAttribute()
+    {
+        $file = $this->getMedia('main_photo')->last();
+        if ($file) {
+            $file->url       = $file->getUrl();
+            $file->thumbnail = $file->getUrl('thumb');
+            $file->preview   = $file->getUrl('preview');
+        }
+
+        return $file;
+    }
+
     public function references()
     {
-        return $this->belongsToMany(Reference::class);
+        return $this->belongsToMany(Reference::class,'product_reference','product_id','reference_id');
     }
 }

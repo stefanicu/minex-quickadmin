@@ -1,0 +1,11 @@
+
+.product_slider {
+    min-width: 210px;
+    min-height: 210px;
+    width: 210px;
+    height: 210px;
+    background-color: #eee;
+    text-align: center;
+    padding: 10px;
+    color: #000;
+}

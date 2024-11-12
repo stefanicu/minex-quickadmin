@@ -11,8 +11,10 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('online')->default(0)->nullable();
+            $table->unsignedBigInteger('brand_id')->nullable();
             $table->integer('oldid')->nullable();
             $table->string('oldimage')->nullable();
+            $table->text('oldmoreimages')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

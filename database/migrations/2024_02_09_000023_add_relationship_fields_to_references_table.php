@@ -9,8 +9,10 @@ class AddRelationshipFieldsToReferencesTable extends Migration
     public function up()
     {
         Schema::table('references', function (Blueprint $table) {
-            $table->unsignedBigInteger('industries_id')->nullable();
-            $table->foreign('industries_id', 'industries_fk_9446971')->references('id')->on('industries');
+            $table->foreign('industries_id', 'industries_fk_9446971')
+                ->references('id')
+                ->on('industries')
+                ->onDelete('set null'); // Optional: set to null on delete if desired
         });
     }
 }

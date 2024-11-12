@@ -21,32 +21,39 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.brand.fields.online_helper') }}</span>
             </div>
-            <div class="form-group">
-                <label class="required" for="name">{{ trans('cruds.brand.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $brand->name) }}" required>
-                @if($errors->has('name'))
-                    <span class="text-danger">{{ $errors->first('name') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.brand.fields.name_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="slug">{{ trans('cruds.brand.fields.slug') }}</label>
-                <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', $brand->slug) }}" required>
-                @if($errors->has('slug'))
-                    <span class="text-danger">{{ $errors->first('slug') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.brand.fields.slug_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="photo">{{ trans('cruds.brand.fields.photo') }}</label>
-                <div class="needsclick dropzone {{ $errors->has('photo') ? 'is-invalid' : '' }}" id="photo-dropzone">
+
+            <div class="row">
+                <div class="form-group col-6">
+                    <label class="required" for="name">{{ trans('cruds.brand.fields.name') }}</label>
+                    <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $brand->name) }}" required>
+                    @if($errors->has('name'))
+                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.brand.fields.name_helper') }}</span>
                 </div>
-                @if($errors->has('photo'))
-                    <span class="text-danger">{{ $errors->first('photo') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.brand.fields.photo_helper') }}</span>
+                <div class="form-group col-6">
+                    <label class="required" for="slug">{{ trans('cruds.brand.fields.slug') }}</label>
+                    <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', $brand->slug) }}" required>
+                    @if($errors->has('slug'))
+                        <span class="text-danger">{{ $errors->first('slug') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.brand.fields.slug_helper') }}</span>
+                </div>
             </div>
-            <div class="form-group">
+
+            <div class="row align-items-center">
+                <div class="form-group col-3 align-items-center">
+                    <label class="required" for="photo">{{ trans('cruds.brand.fields.photo') }}</label>
+                    <div class="needsclick dropzone {{ $errors->has('photo') ? 'is-invalid' : '' }} w-max text-center" id="photo-dropzone">
+                    </div>
+                    @if($errors->has('photo'))
+                        <span class="text-danger">{{ $errors->first('photo') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.brand.fields.photo_helper') }}</span>
+                </div>
+            </div>
+
+            <div class="form-group col-3">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

@@ -19,7 +19,7 @@
             </li>
 
             <li class="nav-item dropdown has-mega-menu">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ trans('menu.solutions') }}<b class="caret"></b></a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ trans('menu.products') }}<b class="caret"></b></a>
                 <div class="dropdown-menu dropdown-menu--main">
                     <div class="px-0 container-fluid">
                         <div class="container">
@@ -33,7 +33,7 @@
 
                                         foreach($applications as $application) {
 //                                                echo '<li><a class="d-block my-2">'.$application->name.',  '.$application->application_id.'-'.$application->oldid.', #'.$application->id.'</a></li>';
-                                            echo '<li><a class="d-block my-2" href="' . url('') . '/' . trans('menu_slug.solutions') . '/' . $application->slug . '/">' . $application->name . '</a></li>';
+                                            echo '<li><a class="d-block my-2" href="' . url('') . '/' . trans('pages_slugs.categories') . '/' . $application->slug . '/">' . $application->name . '</a></li>';
                                             if ($i == $row) {
                                                 $i = 0;
                                                 if ($t < $cnt) {
@@ -74,7 +74,7 @@
             </li>
         </ul>
 
-        <form class="form-inline form-inline__menu my-2 ml-auto searchbox" method="post">
+        <form class="form-inline form-inline__menu my-2 ml-auto searchbox" method="get" action="{{ route('search.index') }}">
             <input type="search" placeholder="{{ trans('menu.search') }}..." name="search" class="form-control searchbox-input"
                    onkeyup="buttonUp();" required autocomplete="off">
 

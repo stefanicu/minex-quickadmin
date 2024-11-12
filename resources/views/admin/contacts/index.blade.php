@@ -55,9 +55,9 @@
 {{--                    <th>--}}
 {{--                        {{ trans('cruds.contact.fields.checkbox') }}--}}
 {{--                    </th>--}}
-{{--                    <th>--}}
-{{--                        {{ trans('cruds.contact.fields.product') }}--}}
-{{--                    </th>--}}
+                    <th>
+                        {{ trans('cruds.contact.fields.product') }}
+                    </th>
                         <th>
                             {{ trans('cruds.contact.fields.created_at') }}
                         </th>
@@ -110,6 +110,7 @@
 
   let dtOverrideGlobals = {
     buttons: dtButtons,
+      stateSave: true,
     processing: true,
     serverSide: true,
     retrieve: true,
@@ -131,12 +132,12 @@
 // { data: 'county', name: 'county' },
 // { data: 'city', name: 'city' },
 // { data: 'checkbox', name: 'checkbox' },
-// { data: 'product', name: 'product' },
+{ data: 'product', name: 'product' },
 { data: 'created_at', name: 'created_at' },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
+{ data: 'actions', name: '{{ trans('global.actions') }}', class: 'text-nowrap text-center', sortable: false, searchable: false  }
     ],
     orderCellsTop: true,
-    order: [[ 7, 'desc' ]],
+    order: [[ 8, 'desc' ]],
     pageLength: 25,
   };
   let table = $('.datatable-Contact').DataTable(dtOverrideGlobals);

@@ -10,7 +10,7 @@ SELECT * FROM (
     SELECT id_cat, id_pro FROM $minex_live.cat_pro WHERE 1 GROUP BY id_cat, id_pro
 ) AS cat_pro;
 
-DELETE FROM $minexq.application_product;
+DELETE FROM $minexq.category_product;
 INSERT INTO $minexq.category_product(category_id,product_id)
 SELECT * FROM (
     SELECT a.id AS category_id, c.id AS product_id FROM $minexq.cat_pro ac

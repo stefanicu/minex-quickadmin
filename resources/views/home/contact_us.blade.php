@@ -1,8 +1,7 @@
 <section class="container-fluid section--contact py-4 section3">
     <div class="row justify-content-center">
-        <div class="col-10">
+        <div id="contact" class="col-10">
             <h2 class="h1 px-0 px-md-4">{{ $contact_us->name }}</h2>
-            <a name="contact" id="contact"></a>
         </div>
     </div>
 
@@ -20,7 +19,7 @@
                         <div class="form-group captcha-error">
 
                             <input type="hidden" id="district" name="district" value="">
-                            <input type="hidden" id="ip" name="ip" value="<?=$_SERVER['REMOTE_ADDR']; ?>">
+                            <input type="hidden" id="ip" name="ip" value="{{ request()->ip() }}">
 
                             @if(app()->isProduction())
                                 <input type="hidden" class="hiddenRecaptcha form-control" name="hiddenRecaptcha" id="hiddenRecaptcha">

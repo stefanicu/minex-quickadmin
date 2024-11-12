@@ -18,5 +18,15 @@ class CreateBrandsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::create('brand_translations', function (Blueprint $table) {
+            $table->bigIncrements('id');
+
+            $table->string('locale')->index();
+
+            $table->foreignId('brand_id')->references('id')->on('brands')->onDelete('cascade');
+
+            $table->boolean('online')->default(0)->nullable();
+        });
     }
 }

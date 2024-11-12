@@ -127,14 +127,31 @@
                             {{ $contact->checkbox }}
                         </td>
                     </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.contact.fields.product') }}
-                        </th>
-                        <td>
-                            {{ $contact->product }}
-                        </td>
-                    </tr>
+                    @if($product)
+                        <tr>
+                            <th>
+                                {{ trans('cruds.contact.fields.product') }}
+                            </th>
+                            <td>
+                                {{ $product->id }}: <a href="{{ url('') }}/{{ trans('pages_slug.product') }}/{{ $product->slug }}" target="_blank">{{ $product->name }}</a>
+                            </td>
+                        </tr>
+                        @if($product->getMainPhotoAttribute())
+                            <tr>
+                                <td colspan="2">
+                                    <a href="{{ url('') }}/{{ trans('pages_slugs.product') }}/{{ $product->slug }}" target="_blank">
+                                        <img srcset="{{ $product->getMainPhotoAttribute()->getUrl('preview') }}" class="mx-auto lozad img-fluid" alt="No Image">
+                                    </a>
+                                </td>
+                            </tr>
+                        @endif
+                    @else
+                        <tr>
+                            <td colspan="2">
+                                HOME PAGE
+                            </td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
             <div class="form-group">

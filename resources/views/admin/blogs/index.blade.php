@@ -31,6 +31,9 @@
                         {{ trans('cruds.blog.fields.name') }}
                     </th>
                     <th>
+                        {{ trans('cruds.blog.fields.image') }}
+                    </th>
+                    <th>
                         {{ trans('Date') }}
                     </th>
                     <th>
@@ -81,23 +84,25 @@
 {{--@endcan--}}
 
   let dtOverrideGlobals = {
-    buttons: dtButtons,
-    processing: true,
-    serverSide: true,
-    retrieve: true,
-    aaSorting: [],
-    ajax: "{{ route('admin.blogs.index') }}",
-    columns: [
-        // { data: 'placeholder', name: 'placeholder' },
-        { data: 'id', name: 'id' },
-        // { data: 'online', name: 'online' },
-        { data: 'name', name: 'blog_translations.name' },
-        { data: 'created_at', name: 'created_at' },
-        { data: 'actions', name: '{{ trans('global.actions') }}' }
-    ],
-    orderCellsTop: true,
-    order: [[ 2, 'desc' ]],
-    pageLength: 25,
+      buttons: dtButtons,
+      stateSave: true,
+      processing: true,
+      serverSide: true,
+      retrieve: true,
+      aaSorting: [],
+      ajax: "{{ route('admin.blogs.index') }}",
+      columns: [
+          // { data: 'placeholder', name: 'placeholder' },
+          { data: 'id', name: 'id' },
+          // { data: 'online', name: 'online' },
+          { data: 'name', name: 'blog_translations.name' },
+          { data: 'image', name: 'image', sortable: false, searchable: false },
+          { data: 'created_at', name: 'created_at' },
+          { data: 'actions', name: '{{ trans('global.actions') }}', class: 'text-nowrap text-center', sortable: false, searchable: false  }
+      ],
+      orderCellsTop: true,
+      order: [[ 3, 'desc' ]],
+      pageLength: 25,
   };
   let table = $('.datatable-Blog').DataTable(dtOverrideGlobals);
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){

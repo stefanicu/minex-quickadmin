@@ -46,32 +46,27 @@ option {
 }
 
 .multumim-center{
-  padding: 3rem;
-  font-weight: bold;
-  text-align: center;
-  background-color: #ffffffad;
+    padding: 6rem;
+    font-size: x-large;
+    color: green;
+    font-weight: bold;
+    text-align: center;
+    margin: 25px 0;
+    background-color: #eeeeeead;
+    border-radius: .25rem;
 }
 
-.error{
+.form_errors{
   background-color: #ffd1d1ad;
-  display: block;
-  width: 100%;
-  padding: 0 .75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  background-clip: padding-box;
+  padding: 2rem .75rem;
   border-radius: .25rem;
+}
+.form_errors ul {
+    margin: 0;
 }
 
 .captcha-error {
   width: 304px;
-}
-
-#contact {
-  margin-top: -100px;
-  margin-bottom: 100px;
-  display: block;
-  height: 0;
 }
 
 .navbar--minex .navbar-nav .nav-link {

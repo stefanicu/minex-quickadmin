@@ -9,8 +9,10 @@ class AddRelationshipFieldsToCategoriesTable extends Migration
     public function up()
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->unsignedBigInteger('product_image_id')->nullable();
-            $table->foreign('product_image_id', 'product_image_fk_9252551')->references('id')->on('products');
+            $table->foreign('product_image_id', 'product_image_fk_9252551')
+                ->references('id')
+                ->on('products')
+                ->onDelete('set null'); // Optional: set to null on delete if desired
         });
     }
 }

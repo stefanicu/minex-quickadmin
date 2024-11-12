@@ -40,7 +40,7 @@ table.dataTable thead th {
 
 .select2 {
     max-width: 100%;
-    width: 100%;
+    min-width: 100%;
 }
 
 table.dataTable thead .sorting,
@@ -124,4 +124,70 @@ span.translation_guide {
 
 .label-info {
     padding: 0 3px;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    font-weight: bold;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+
+.nav-tabs>li>a {
+    padding: 4px 10px;
+    font-weight: bold;
+}
+
+.dropzone .dz-preview .dz-image {
+    width: auto;
+    height: auto;
+}
+
+.ck-content .image>img {
+    max-width: 40lvw !important;
+}
+
+.opacity50 {
+    opacity: 0.5;
+}
+
+.red_row {
+    color: #454545;
+    background-color: #fbdce3 !important;
+}
+
+.product_image_default {
+    max-width: 223px;
+    max-height: 223px;
+    width: 100%;
+    height: auto;
+    background-color: #eee;
+    text-align: center;
+    margin: 0;
+    padding: 100px 40px;
+    color: #000;
+}
+
+.dropzone .dz-preview .dz-error-message {
+    top: 150px !important;
+}
+
+.dropzone .dz-preview .dz-image img {
+    height: 120px !important;
+    width: auto;
+}
+
+ul.pagination li.active {
+    font-weight: bold;
+}
+
+ul.pagination li.active a {
+    background-color: #eee;
+    color: #000;
+}
+
+.dropzone.dz-clickable {
+    text-align: center;
+    min-height: 220px;
 }

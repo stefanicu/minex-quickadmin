@@ -18,14 +18,14 @@
         <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Brand">
             <thead>
                 <tr>
+                    <th>
+                        {{ trans('cruds.brand.fields.online') }}
+                    </th>
 {{--                    <th width="10">--}}
 
 {{--                    </th>--}}
                     <th>
                         {{ trans('cruds.brand.fields.id') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.brand.fields.online') }}
                     </th>
                     <th>
                         {{ trans('cruds.brand.fields.name') }}
@@ -83,26 +83,39 @@
 {{--  dtButtons.push(deleteButton)--}}
 {{--@endcan--}}
 
-  let dtOverrideGlobals = {
-    buttons: dtButtons,
-    processing: true,
-    serverSide: true,
-    retrieve: true,
-    aaSorting: [],
-    ajax: "{{ route('admin.brands.index') }}",
-    columns: [
-      // { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'online', name: 'online' },
-{ data: 'name', name: 'name' },
-{ data: 'slug', name: 'slug' },
-{ data: 'photo', name: 'photo', sortable: false, searchable: false },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
-    ],
-    orderCellsTop: true,
-    order: [[ 1, 'asc' ]],
-    pageLength: 25,
-  };
+    let dtOverrideGlobals = {
+        "createdRow": function (row, data, dataIndex) {
+            data['translations'].forEach(
+                function(element) {
+                    if( element['locale'] == '<?= app()->getLocale() ?>' ){
+                        if (element['online'] == 0) {
+                            $(row).addClass('red_row')
+                        }
+                    }
+                }
+            )
+        },
+
+        buttons: dtButtons,
+        stateSave: true,
+        processing: true,
+        serverSide: true,
+        retrieve: true,
+        aaSorting: [],
+        ajax: "{{ route('admin.brands.index') }}",
+        columns: [
+          // { data: 'placeholder', name: 'placeholder' },
+            { data: 'online', name: 'online', sortable: false, searchable: false },
+            { data: 'id', name: 'id' },
+            { data: 'name', name: 'name' },
+            { data: 'slug', name: 'slug' },
+            { data: 'photo', name: 'photo', sortable: false, searchable: false, class: 'text-center' },
+            { data: 'actions', name: '{{ trans('global.actions') }}', class: 'text-nowrap text-center', sortable: false, searchable: false }
+        ],
+        orderCellsTop: true,
+        order: [[ 2, 'asc' ]],
+        pageLength: 25,
+    };
   let table = $('.datatable-Brand').DataTable(dtOverrideGlobals);
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()

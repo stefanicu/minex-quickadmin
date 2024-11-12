@@ -30,10 +30,7 @@ class StoreBrandRequest extends FormRequest
                 'max:255',
                 'required',
                 'unique:brands',
-            ],
-            'photo' => [
-                'required',
-            ],
+            ]
         ];
     }
 }

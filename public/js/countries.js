@@ -272,7 +272,13 @@ function populateStates(countryElementId, stateElementId) {
     var state_arr = s_a[selectedCountryIndex].split("|");
 
     for (var i = 0; i < state_arr.length; i++) {
-        stateElement.options[stateElement.length] = new Option(state_arr[i], state_arr[i]);
+        var option = new Option(state_arr[i], state_arr[i]);
+        stateElement.options[stateElement.length] = option;
+
+        // Check if the option's value matches the old value and set it as selected
+        if (option.value === selectedState) {
+            option.selected = true;
+        }
     }
 }
 
@@ -283,9 +289,15 @@ function populateCountries(countryElementId, stateElementId) {
     //countryElement.options[0] = Option('Select', '');
     countryElement.selectedIndex = 0;
     for (var i = 0; i < country_arr.length; i++) {
-        countryElement.options[countryElement.length] = new Option(country_arr[i], country_arr[i]);
-    }
+        var option = new Option(country_arr[i], country_arr[i]);
+        countryElement.options[countryElement.length] = option;
 
+        // Check if the country matches the selected one and set it as selected
+        if (option.value === selectedCountry) {
+            option.selected = true;
+            populateStates(countryElementId, stateElementId);
+        }
+    }
     // Assigned all countries. Now assign event listener for the states.
 
     if (stateElementId) {

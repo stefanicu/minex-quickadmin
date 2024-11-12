@@ -8,6 +8,7 @@ use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -46,8 +47,11 @@ class Blog extends Model implements HasMedia, TranslatableContract
 
     public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion('thumb')->fit('crop', 50, 50);
-        $this->addMediaConversion('preview')->fit('crop', 120, 120);
+        $this->addMediaConversion('thumb')->width( 75);
+        $this->addMediaConversion('preview')->width( 288);
+        $this->addMediaConversion('thumb_webp')->width( 75)->format(Manipulations::FORMAT_WEBP);
+        $this->addMediaConversion('preview_webp')->width( 288)->format(Manipulations::FORMAT_WEBP);
+        $this->addMediaConversion('original_webp')->format(Manipulations::FORMAT_WEBP);
     }
 
     public function getImageAttribute()

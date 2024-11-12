@@ -6,6 +6,7 @@ use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -18,6 +19,11 @@ class Category extends Model implements HasMedia, TranslatableContract
 
     public $table = 'categories';
     public $translatedAttributes = ['online','name','slug'];
+
+    protected $indexes = [
+        'name',
+        'online',
+    ];
 
     protected $appends = [
         'cover_photo',
@@ -50,11 +56,21 @@ class Category extends Model implements HasMedia, TranslatableContract
 
     public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion('thumb')->fit('crop', 50, 50);
-        $this->addMediaConversion('preview')->fit('crop', 120, 120);
+        $this->addMediaConversion('thumb')->width( 100);
+        $this->addMediaConversion('preview')->width( 432);
+
+        $this->addMediaConversion('xl')->fit( 'crop',1920,540);
+//        $this->addMediaConversion('lg')->fit( 'crop',1366,400);
+//        $this->addMediaConversion('md')->fit( 'crop',768,400);
+//        $this->addMediaConversion('sm')->fit('crop', 425,200);
+
+        $this->addMediaConversion('xl_webp')->fit( 'crop',1920,540)->format(Manipulations::FORMAT_WEBP);
+//        $this->addMediaConversion('lg_webp')->fit( 'crop',1366,400)->format(Manipulations::FORMAT_WEBP);
+//        $this->addMediaConversion('md_webp')->fit( 'crop',768,400)->format(Manipulations::FORMAT_WEBP);
+//        $this->addMediaConversion('sm_webp')->fit('crop', 425,200)->format(Manipulations::FORMAT_WEBP);
     }
 
-    public function categoriesProducts()
+    public function products()
     {
         return $this->belongsToMany(Product::class);
     }
@@ -71,9 +87,9 @@ class Category extends Model implements HasMedia, TranslatableContract
         return $file;
     }
 
-    public function product_image()
+    public function product_main_image()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsTo(Product::class,'product_image_id','id');
     }
 
     public function applications()

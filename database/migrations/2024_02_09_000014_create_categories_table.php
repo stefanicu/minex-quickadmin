@@ -13,6 +13,7 @@ class CreateCategoriesTable extends Migration
             $table->boolean('online')->default(0)->nullable();
 
             $table->integer('page_views')->nullable();
+            $table->unsignedBigInteger('product_image_id')->nullable();
             $table->integer('oldid')->nullable();
             $table->string('oldimage')->nullable();
             $table->integer('oldgroupid')->nullable();

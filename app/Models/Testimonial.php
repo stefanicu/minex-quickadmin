@@ -46,19 +46,20 @@ class Testimonial extends Model implements HasMedia, TranslatableContract
 
     public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion('thumb')->fit('crop', 50, 50);
-        $this->addMediaConversion('preview')->fit('crop', 120, 120);
+        $this->addMediaConversion('thumb')->height( 50);
+        $this->addMediaConversion('preview')->height( 120);
     }
 
     public function getLogoAttribute()
     {
-        $files = $this->getMedia('logo');
-        $files->each(function ($item) {
-            $item->url       = $item->getUrl();
-            $item->thumbnail = $item->getUrl('thumb');
-            $item->preview   = $item->getUrl('preview');
-        });
+            $file = $this->getMedia('logo')->last();
+            if ($file) {
+                $file->url       = $file->getUrl();
+                $file->thumbnail = $file->getUrl('thumb');
+                $file->preview   = $file->getUrl('preview');
+            }
 
-        return $files;
+            return $file;
+
     }
 }

@@ -30,10 +30,7 @@ class UpdateBrandRequest extends FormRequest
                 'max:255',
                 'required',
                 'unique:brands,slug,' . request()->route('brand')->id,
-            ],
-            'photo' => [
-                'required',
-            ],
+            ]
         ];
     }
 }

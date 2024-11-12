@@ -7,7 +7,9 @@ CREATE TABLE $minexq.apl_pro (
 
 INSERT INTO $minexq.apl_pro(id_apl,id_pro)
 SELECT * FROM (
-    SELECT id_apl, id_pro FROM $minex_live.apl_ind_pro WHERE 1 GROUP BY id_apl, id_pro
+    SELECT apl_ind_cat.id_apl, cat_pro.id_pro FROM $minex_live.cat_pro
+        INNER JOIN $minex_live.apl_ind_cat on cat_pro.id_cat = apl_ind_cat.id_cat
+        GROUP BY apl_ind_cat.id_apl, cat_pro.id_pro
 ) AS apl_pro;
 
 DELETE FROM $minexq.application_product;

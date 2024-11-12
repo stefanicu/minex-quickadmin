@@ -6,7 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductTranslation extends Model
 {
+    protected $table = 'product_translations';
+
     public $timestamps = false;
+
+    protected $indexes = [
+        'product_id',
+        'name',
+        'online',
+    ];
+
     protected $fillable = [
         'online',
         'name',

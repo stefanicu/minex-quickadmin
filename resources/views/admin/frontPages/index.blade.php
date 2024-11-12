@@ -35,6 +35,7 @@
         let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
         let dtOverrideGlobals = {
             buttons: dtButtons,
+            stateSave: true,
             processing: true,
             serverSide: true,
             retrieve: true,
@@ -43,7 +44,7 @@
             columns: [
                 { data: 'id', name: 'front_pages.id' },
                 { data: 'name', name: 'front_page_translations.name' },
-                { data: 'actions', name: '{{ trans('global.actions') }}' }
+                { data: 'actions', name: '{{ trans('global.actions') }}', class: 'text-nowrap text-center', sortable: false, searchable: false  }
             ],
             orderCellsTop: true,
             order: [[ 0, 'asc' ]],

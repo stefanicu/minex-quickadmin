@@ -17,7 +17,13 @@ class Application extends Model implements HasMedia, TranslatableContract
     use SoftDeletes, InteractsWithMedia, HasFactory, Translatable;
 
     public $table = 'applications';
+
     public $translatedAttributes = ['online','name','slug'];
+
+    protected $indexes = [
+        'name',
+        'online',
+    ];
 
     protected $appends = [
         'image',
@@ -71,5 +77,10 @@ class Application extends Model implements HasMedia, TranslatableContract
     public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Category::class);
+    }
+
+    public function products(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Product::class);
     }
 }

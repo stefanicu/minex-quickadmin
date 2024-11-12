@@ -93,12 +93,10 @@ $page = '';
 </head>
 <body class="">
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PM3K8LC"
-                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PM3K8LC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    <a name="totop" id="totop"></a>
-    <div class="main_minex">
+    <div id="totop" class="main_minex">
         @include('partials.main_menu')
 
         @yield('content')

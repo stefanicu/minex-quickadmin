@@ -1,0 +1,102 @@
+@extends('layouts.frontend')
+@section('content')
+    <div class="container-fluid cover p-0">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/">{{ trans('menu.home') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('') }}/{{ trans('pages_slugs.references') }}/">{{ trans('pages.references') }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ $reference->name }}</li>
+            </ol>
+        </nav>
+
+        <figure class="d-flex align-items-center section--figure">
+            <picture data-alt="Branduri">
+                <source data-srcset="{{ asset('/img/headers/aplicatie-xl.jpg') }}" media="(min-width: 1200px)">
+                <source data-srcset="{{ asset('/img/headers/aplicatie-lg.jpg') }}" media="(min-width: 992px)">
+                <source data-srcset="{{ asset('/img/headers/aplicatie-md.jpg') }}" media="(min-width: 576px)">
+                <source data-srcset="{{ asset('/img/headers/aplicatie-sm.jpg') }}" media="(max-width: 576px)">
+                <img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ asset('/img/headers/aplicatie-xl.jpg') }}" alt="{{ trans('pages.references') }}" data-loaded="true">
+                <noscript>
+                    <img class="img-fluid lozad" src="{{ asset('/img/headers/aplicatie-xl.jpg') }}" alt="{{ trans('pages.references') }}">
+                </noscript>
+            </picture>
+        </figure>
+
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <h1 class="h2">{{ $reference->name }}</h1>
+                <hr>
+                {!! $reference->content !!}
+            </div>
+            <div class="col-12 col-md-4">
+                <h2 class="h3">{{ trans('pages.other_references') }}</h2>
+                <div class="list-group references--other">
+                    @foreach($references as $ref)
+                        <a href="{{ url('') }}/{{ trans('pages_slugs.reference') }}/{{ $ref->slug }}" class="list-group-item d-flex justify-content-between align-items-center">{{ $ref->name }}</a>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="container">
+        <div class="row news mb-4">
+            @if($reference->getPhotoSquareAttribute() !== null && $reference->getPhotoSquareAttribute()->count()>0)
+                @foreach($reference->getPhotoSquareAttribute() as $image)
+                    @if($loop->iteration == 1 && $reference->getPhotoWideAttribute() !== null && $reference->getPhotoWideAttribute()->count()>0)
+                        <article class="news--item news--item__big">
+                            <img
+                                srcset="{{ $reference->getPhotoWideAttribute()->getUrl() }}"
+                                alt="{{ $reference->name }} image wide"
+                                class="lozad lazy-fade">
+                        </article>
+                    @endif
+                    <article class="news--item news--item__small">
+                        <img
+                            srcset="{{ $image->getUrl() }}"
+                            alt="{{ $reference->name }} image {{ $loop->iteration }}"
+                            class="lozad lazy-fade">
+                    </article>
+                @endforeach
+            @endif
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-8">
+                @if($products->count()>0)
+                    <h4>{{ trans('pages.products') }}</h4>
+                    <div class="bxslider-related mx-auto">
+                        @foreach ($products as $product)
+                            <div>
+                                <a href="{{ url('') }}/{{ trans('pages_slugs.product') }}/{{ $product->slug }}" class="bwWrapper">
+                                    @if(!empty($product->getPhotoAttribute()->all()))
+                                        <img
+                                            srcset="{{ $product->getPhotoAttribute()[0]->getUrl() }}"
+                                            alt="{{ $product->name }}"
+                                            class="mx-auto img-fluid img-hover">
+                                    @else
+                                        <div class="product_default_image">No image</div>
+                                    @endif
+                                    <p class="h5 assets-title row-icons--desc mt-4">{{ $product->name }}</p>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+
+@endsection
+@section('scripts')
+    @parent
+    <script>
+        $(document).ready(function(){$(function(){$('.bxslider').bxSlider({mode:'fade',slideWidth:400});});
+            $(function(){$('.bxslider-related').bxSlider({minSlides:3,maxSlides:6,slideWidth:250,slideMargin:50,pager:false});});});
+        $(function(){$('.bxslider-img').bxSlider({mode:'fade',slideWidth:800,pager:false,controls:true});});
+    </script>
+@endsection

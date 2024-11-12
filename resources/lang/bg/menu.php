@@ -2,7 +2,7 @@
 
 return [
     'home'   => 'Начало',
-    'solutions' => 'Решения',
+    'products' => 'Продукти',
     'brands' => 'Партньори',
     'references' => 'Референции',
     'testimonials' => 'Отзиви',

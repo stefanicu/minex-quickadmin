@@ -22,21 +22,24 @@
 {{--                <span class="help-block">{{ trans('cruds.blog.fields.online_helper') }}</span>--}}
 {{--            </div>--}}
 
-            <div class="form-group">
-                <label class="required" for="name">{{ trans('cruds.blog.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $blog->name) }}" required>
-                @if($errors->has('name'))
-                    <span class="text-danger">{{ $errors->first('name') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.blog.fields.name_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="slug">{{ trans('cruds.blog.fields.slug') }}</label>
-                <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', $blog->slug) }}" required>
-                @if($errors->has('slug'))
-                    <span class="text-danger">{{ $errors->first('slug') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.blog.fields.slug_helper') }}</span>
+
+            <div class="row">
+                <div class="form-group col-6">
+                    <label class="required" for="name">{{ trans('cruds.blog.fields.name') }}</label>
+                    <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $blog->name) }}" required>
+                    @if($errors->has('name'))
+                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.blog.fields.name_helper') }}</span>
+                </div>
+                <div class="form-group col-6">
+                    <label class="required" for="slug">{{ trans('cruds.blog.fields.slug') }}</label>
+                    <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', $blog->slug) }}" required>
+                    @if($errors->has('slug'))
+                        <span class="text-danger">{{ $errors->first('slug') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.blog.fields.slug_helper') }}</span>
+                </div>
             </div>
             <div class="form-group">
                 <label for="content">{{ trans('cruds.blog.fields.content') }}</label>
@@ -47,24 +50,40 @@
                 <span class="help-block">{{ trans('cruds.blog.fields.content_helper') }}</span>
             </div>
 
-            <div class="form-group">
-                <label class="" for="image_text">{{ trans('Image Text') }}</label>
-                <input class="form-control {{ $errors->has('image_text') ? 'is-invalid' : '' }}" type="text" name="image_text" id="image_text" value="{{ old('image_text', '') }}">
-                @if($errors->has('image_text'))
-                    <span class="text-danger">{{ $errors->first('image_text') }}</span>
-                @endif
-                <span class="help-block">{{ trans(' ') }}</span>
+{{--            <div class="form-group">--}}
+{{--                <label class="" for="image_text">{{ trans('Image Text') }}</label>--}}
+{{--                <input class="form-control {{ $errors->has('image_text') ? 'is-invalid' : '' }}" type="text" name="image_text" id="image_text" value="{{ old('image_text', '') }}">--}}
+{{--                @if($errors->has('image_text'))--}}
+{{--                    <span class="text-danger">{{ $errors->first('image_text') }}</span>--}}
+{{--                @endif--}}
+{{--                <span class="help-block">{{ trans(' ') }}</span>--}}
+{{--            </div>--}}
+
+            <div class="row align-items-center">
+                <div class="form-group col-4 align-items-center">
+                    <label for="image">{{ trans('cruds.blog.fields.image') }}</label>
+                    <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }} text-center" id="image-dropzone">
+                    </div>
+                    @if($errors->has('image'))
+                        <span class="text-danger">{{ $errors->first('image') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.blog.fields.image_helper') }}</span>
+                </div>
+
+{{--                <div class="form-group col-8 text-center">--}}
+{{--                    @if($blog->getImageAttribute() !== null)--}}
+{{--                        <img class="my-4 h-min" height="289px" width="auto" src="{{ $blog->getImageAttribute()->getUrl() }}">--}}
+{{--                    @endif--}}
+{{--                </div>--}}
             </div>
 
-            <div class="form-group">
-                <label for="image">{{ trans('cruds.blog.fields.image') }}</label>
-                <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}" id="image-dropzone">
-                </div>
-                @if($errors->has('image'))
-                    <span class="text-danger">{{ $errors->first('image') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.blog.fields.image_helper') }}</span>
-            </div>
+
+
+{{--            <div class="form-group col-4 align-items-center text-center">--}}
+{{--                <img class="my-4" height="200px" width="auto" src="{{ url('') }}{{ asset('uploads/images/' . $blog->oldimage) }}" alt="{{ $blog->oldimage }}">--}}
+{{--            </div>--}}
+
+
             <div class="form-group">
                 <input type="hidden" name="locale" value="{{app()->getLocale()}}">
                 <button class="btn btn-danger" type="submit">
@@ -147,7 +166,7 @@
 <script>
     Dropzone.options.imageDropzone = {
     url: '{{ route('admin.blogs.storeMedia') }}',
-    maxFilesize: 4, // MB
+    maxFilesize: 2, // MB
     acceptedFiles: '.jpeg,.jpg,.png,.gif',
     maxFiles: 1,
     addRemoveLinks: true,
@@ -155,7 +174,7 @@
       'X-CSRF-TOKEN': "{{ csrf_token() }}"
     },
     params: {
-      size: 4,
+      size: 2,
       width: 750,
       height: 500
     },

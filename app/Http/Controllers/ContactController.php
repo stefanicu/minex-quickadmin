@@ -30,7 +30,6 @@ class ContactController extends Controller
             'country' => 'required|string|max:255',
             'county' => 'required|string|max:255',
             'city' => 'required|string|max:255',
-            'checkbox' => 'required|accepted',
             'product' => 'sometimes|int|max:10000',
             'ip' => 'required|string|max:255',
         ]);

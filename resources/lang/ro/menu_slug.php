@@ -2,7 +2,7 @@
 
 return [
     'home'   => '',
-    'solutions' => 'aplicatie',
+    'products' => 'produse',
     'brands' => 'parteneri',
     'references' => 'referinte',
     'testimonials' => 'testimoniale',

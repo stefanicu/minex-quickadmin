@@ -3,10 +3,10 @@
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/setlocale/{locale}', function (string $locale) {
-    if (! in_array($locale, ['en', 'ro', 'bg'])) {
+    if (! in_array($locale, config('translatable.locales'))) {
         abort(400);
     }
-    app()->setLocale('ro');
+    app()->setLocale(config('app.locale'));
     return redirect()->back();
 });
 
@@ -103,10 +103,12 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
 
 # all languages routes
 Route::get('/', 'HomeController@index')->name('home.index');
-Route::post('contact', 'ContactController@index')->name('contact.index');
 Route::get('blog', 'BlogController@index')->name('blogs.index');
 Route::get('blog/{slug}/', 'BlogController@index')->name('blog.index');
 Route::get('gdpr', 'GdprController@index')->name('gdpr.index');
+
+Route::post('contact', 'ContactController@index')->name('contact.index');
+Route::get('search', 'SearchController@index')->name('search.index');
 
 
 # romanian routes
@@ -119,7 +121,7 @@ Route::get('referinte', 'ReferencesController@index')->name('references.index.ro
 Route::get('referinta/{slug}/', 'ReferenceController@index')->name('reference.index.ro');
 
 Route::get('categorii/{slug}/', 'CategoriesController@index')->name('categories.index.ro');
-Route::get('categorie/{slug}/{id}', 'CategoryController@index')->name('category.index.ro');
+Route::get('categorie/{slug}/', 'CategoryController@index')->name('category.index.ro');
 
 Route::get('testimoniale', 'TestimonialsController@index')->name('testimonials.index.ro');
 
@@ -135,6 +137,6 @@ Route::get('references', 'ReferencesController@index')->name('references.index')
 Route::get('reference/{slug}/', 'ReferenceController@index')->name('reference.index');
 
 Route::get('categories/{slug}/', 'CategoriesController@index')->name('categories.index');
-Route::get('category/{slug}/{id}', 'CategoryController@index')->name('category.index');
+Route::get('category/{slug}/', 'CategoryController@index')->name('category.index');
 
 Route::get('testimonials', 'TestimonialsController@index')->name('testimonials.index');

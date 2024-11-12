@@ -11,6 +11,7 @@ class CreateReferencesTable extends Migration
         Schema::create('references', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('online')->default(0)->nullable();
+            $table->unsignedBigInteger('industries_id')->nullable();
             $table->integer('oldid')->nullable();
             $table->string('oldimage_1')->nullable();
             $table->string('oldimage_2')->nullable();

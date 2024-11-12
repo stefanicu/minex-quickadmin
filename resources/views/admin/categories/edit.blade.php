@@ -21,67 +21,96 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.category.fields.online_helper') }}</span>
             </div>
-            <div class="form-group">
-                <label class="required" for="name">{{ trans('cruds.category.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $category->name) }}" required>
-                @if($errors->has('name'))
-                    <span class="text-danger">{{ $errors->first('name') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.category.fields.name_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="slug">{{ trans('cruds.category.fields.slug') }}</label>
-                <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', $category->slug) }}" required>
-                @if($errors->has('slug'))
-                    <span class="text-danger">{{ $errors->first('slug') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.category.fields.slug_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="page_views">{{ trans('cruds.category.fields.page_views') }}</label>
-                <input class="form-control {{ $errors->has('page_views') ? 'is-invalid' : '' }}" type="number" name="page_views" id="page_views" value="{{ old('page_views', $category->page_views) }}" step="1">
-                @if($errors->has('page_views'))
-                    <span class="text-danger">{{ $errors->first('page_views') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.category.fields.page_views_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="cover_photo">{{ trans('cruds.category.fields.cover_photo') }}</label>
-                <div class="needsclick dropzone {{ $errors->has('cover_photo') ? 'is-invalid' : '' }}" id="cover_photo-dropzone">
+
+            <div class="row">
+
+                <div class="form-group col-5">
+                    <label class="required" for="name">{{ trans('cruds.category.fields.name') }}</label>
+                    <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $category->name) }}" required>
+                    @if($errors->has('name'))
+                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.category.fields.name_helper') }}</span>
                 </div>
-                @if($errors->has('cover_photo'))
-                    <span class="text-danger">{{ $errors->first('cover_photo') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.category.fields.cover_photo_helper') }}</span>
-            </div>
-{{--            <div class="form-group">--}}
-{{--                <label for="product_image_id">{{ trans('cruds.category.fields.product_image') }}</label>--}}
-{{--                <select class="form-control select2 {{ $errors->has('product_image') ? 'is-invalid' : '' }}" name="product_image_id" id="product_image_id">--}}
-{{--                    @foreach($product_images as $id => $entry)--}}
-{{--                        <option value="{{ $id }}" {{ (old('product_image_id') ? old('product_image_id') : $category->product_image->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>--}}
-{{--                    @endforeach--}}
-{{--                </select>--}}
-{{--                @if($errors->has('product_image'))--}}
-{{--                    <span class="text-danger">{{ $errors->first('product_image') }}</span>--}}
-{{--                @endif--}}
-{{--                <span class="help-block">{{ trans('cruds.category.fields.product_image_helper') }}</span>--}}
-{{--            </div>--}}
-            <div class="form-group">
-                <label for="applications">{{ trans('cruds.category.fields.applications') }}</label>
-                <div style="padding-bottom: 4px">
-                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+
+                <div class="form-group col-5">
+                    <label class="required" for="slug">{{ trans('cruds.category.fields.slug') }}</label>
+                    <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', $category->slug) }}" required>
+                    @if($errors->has('slug'))
+                        <span class="text-danger">{{ $errors->first('slug') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.category.fields.slug_helper') }}</span>
                 </div>
-                <select class="form-control select2 {{ $errors->has('applications') ? 'is-invalid' : '' }}" name="applications[]" id="applications" multiple>
-                    @foreach($applications as $id => $application)
-                        <option value="{{ $id }}" {{ (in_array($id, old('applications', [])) || $category->applications->contains($id)) ? 'selected' : '' }}>{{ $application }}</option>
+
+                <div class="form-group col-2">
+                    <label for="page_views">{{ trans('cruds.category.fields.page_views') }}</label>
+                    <input disabled class="form-control {{ $errors->has('page_views') ? 'is-invalid' : '' }}" type="number" name="page_views" id="page_views" value="{{ old('page_views', $category->page_views) }}" step="1">
+                    @if($errors->has('page_views'))
+                        <span class="text-danger">{{ $errors->first('page_views') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.category.fields.page_views_helper') }}</span>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="form-group col-5">
+                    <label for="cover_photo">{{ trans('cruds.category.fields.cover_photo') }}</label>
+                    <div class="needsclick dropzone {{ $errors->has('cover_photo') ? 'is-invalid' : '' }}" id="cover_photo-dropzone">
+                    </div>
+                    @if($errors->has('cover_photo'))
+                        <span class="text-danger">{{ $errors->first('cover_photo') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.category.fields.cover_photo_helper') }}</span>
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+                <label for="cover_photo">{{ trans('cruds.category.fields.product_image') }}</label>
+                <div class="row">
+
+                    <div class="col-sm-6 col-md-3 col-xl-2 mb-5">
+
+                        <div class="product_image_default">No Image</div>
+
+                        <div class="h-10 pt-3">
+                            <input
+                                checked
+                                type="radio"
+                                name="product_image_id" value=""
+                            >
+                            <span>Reset Product Image</span>
+                        </div>
+                    </div>
+
+                    @foreach($product_images as $product)
+                        <div class="col-sm-6 col-md-3 col-xl-2 mb-5">
+
+                            @if($product->getMainPhotoAttribute())
+                                <label for="image-{{ $product->id }}">
+                                    <img src="{{ $product->getMainPhotoAttribute()->getUrl() }}" alt="{{ $product->name }}" style="width: 223px; height: auto;">
+                                </label>
+                            @else
+                                <div class="product_image_default">No Image</div>
+                            @endif
+
+                            <div class="h-10 pt-3">
+                                <input
+                                    {{ (old('product_image_id') ? old('product_image_id') : $category->product_image_id ?? '') == $product->id ? 'checked' : '' }}
+                                    type="radio"
+                                    name="product_image_id" value="{{ $product->id }}"
+                                >
+                                <span>{{ $product->name }}</span>
+                            </div>
+                        </div>
                     @endforeach
-                </select>
-                @if($errors->has('applications'))
-                    <span class="text-danger">{{ $errors->first('applications') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.category.fields.applications_helper') }}</span>
+
+                </div>
             </div>
+
             <div class="form-group">
                 <input type="hidden" name="locale" value="{{app()->getLocale()}}">
                 <button class="btn btn-danger" type="submit">
@@ -89,7 +118,7 @@
                 </button>
             </div>
         </form>
-    </div>
+    </form>
 </div>
 
 
@@ -109,8 +138,8 @@
     },
     params: {
       size: 4,
-      width: 1920,
-      height: 540
+      // width: 1920,
+      // height: 540
     },
     success: function (file, response) {
       $('form').find('input[name="cover_photo"]').remove()

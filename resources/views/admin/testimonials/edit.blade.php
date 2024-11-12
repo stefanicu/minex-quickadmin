@@ -10,13 +10,32 @@
         <form method="POST" action="{{ route("admin.testimonials.update", [$testimonial->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
-            <div class="form-group">
-                <label class="required" for="company">{{ trans('cruds.testimonial.fields.company') }}</label>
-                <input class="form-control {{ $errors->has('company') ? 'is-invalid' : '' }}" type="text" name="company" id="company" value="{{ old('company', $testimonial->company) }}" required>
-                @if($errors->has('company'))
-                    <span class="text-danger">{{ $errors->first('company') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.testimonial.fields.company_helper') }}</span>
+
+            <div class="row">
+                <div class="form-group col-4">
+                    <label class="required" for="company">{{ trans('cruds.testimonial.fields.company') }}</label>
+                    <input class="form-control {{ $errors->has('company') ? 'is-invalid' : '' }}" type="text" name="company" id="company" value="{{ old('company', $testimonial->company) }}" required>
+                    @if($errors->has('company'))
+                        <span class="text-danger">{{ $errors->first('company') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.testimonial.fields.company_helper') }}</span>
+                </div>
+                <div class="form-group col-4">
+                    <label class="required" for="name">{{ trans('cruds.testimonial.fields.name') }}</label>
+                    <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $testimonial->name) }}" required>
+                    @if($errors->has('name'))
+                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.testimonial.fields.name_helper') }}</span>
+                </div>
+                <div class="form-group col-4">
+                    <label class="required" for="job">{{ trans('cruds.testimonial.fields.job') }}</label>
+                    <input class="form-control {{ $errors->has('job') ? 'is-invalid' : '' }}" type="text" name="job" id="job" value="{{ old('job', $testimonial->job) }}" required>
+                    @if($errors->has('job'))
+                        <span class="text-danger">{{ $errors->first('job') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.testimonial.fields.job_helper') }}</span>
+                </div>
             </div>
             <div class="form-group">
                 <label for="content">{{ trans('cruds.testimonial.fields.content') }}</label>
@@ -26,31 +45,36 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.testimonial.fields.content_helper') }}</span>
             </div>
-            <div class="form-group">
-                <label class="required" for="name">{{ trans('cruds.testimonial.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $testimonial->name) }}" required>
-                @if($errors->has('name'))
-                    <span class="text-danger">{{ $errors->first('name') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.testimonial.fields.name_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="job">{{ trans('cruds.testimonial.fields.job') }}</label>
-                <input class="form-control {{ $errors->has('job') ? 'is-invalid' : '' }}" type="text" name="job" id="job" value="{{ old('job', $testimonial->job) }}" required>
-                @if($errors->has('job'))
-                    <span class="text-danger">{{ $errors->first('job') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.testimonial.fields.job_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="logo">{{ trans('cruds.testimonial.fields.logo') }}</label>
-                <div class="needsclick dropzone {{ $errors->has('logo') ? 'is-invalid' : '' }}" id="logo-dropzone">
+
+
+            <div class="row align-items-center">
+                <div class="form-group col-3 align-items-center">
+                    <label class="required" for="logo">{{ trans('cruds.testimonial.fields.logo') }}</label>
+                    <div class="needsclick dropzone {{ $errors->has('logo') ? 'is-invalid' : '' }} text-center" id="logo-dropzone">
+                    </div>
+                    @if($errors->has('logo'))
+                        <span class="text-danger">{{ $errors->first('logo') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.testimonial.fields.logo_helper') }}</span>
                 </div>
-                @if($errors->has('logo'))
-                    <span class="text-danger">{{ $errors->first('logo') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.testimonial.fields.logo_helper') }}</span>
+
+
+{{--                <div class="form-group col-9 text-center">--}}
+{{--                    @if($testimonial->getLogoAttribute() !== null)--}}
+{{--                        <img class="my-4 h-min" height="228px" width="auto" src="{{ $testimonial->getLogoAttribute()->getUrl() }}">--}}
+{{--                    @endif--}}
+{{--                </div>--}}
             </div>
+
+
+
+{{--            <div class="form-group col-3 align-items-center text-center">--}}
+{{--                <img class="my-4" height="200px" width="auto" src="{{ url('') }}{{ asset('uploads/testimoniale/' . $testimonial->oldimage) }}" alt="{{ $testimonial->oldimage }}">--}}
+{{--            </div>--}}
+
+
+
+
             <div class="form-group">
                 <input type="hidden" name="locale" value="{{app()->getLocale()}}">
                 <button class="btn btn-danger" type="submit">
@@ -134,14 +158,15 @@
     var uploadedLogoMap = {}
 Dropzone.options.logoDropzone = {
     url: '{{ route('admin.testimonials.storeMedia') }}',
-    maxFilesize: 4, // MB
+    maxFilesize: 1, // MB
     acceptedFiles: '.jpeg,.jpg,.png,.gif',
+    maxFiles: 1,
     addRemoveLinks: true,
     headers: {
       'X-CSRF-TOKEN': "{{ csrf_token() }}"
     },
     params: {
-      size: 4,
+      size: 1,
       width: 360,
       height: 300
     },
@@ -162,14 +187,12 @@ Dropzone.options.logoDropzone = {
     },
     init: function () {
 @if(isset($testimonial) && $testimonial->logo)
-      var files = {!! json_encode($testimonial->logo) !!}
-          for (var i in files) {
-          var file = files[i]
-          this.options.addedfile.call(this, file)
-          this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
-          file.previewElement.classList.add('dz-complete')
-          $('form').append('<input type="hidden" name="logo[]" value="' + file.file_name + '">')
-        }
+    var file = {!! json_encode($testimonial->logo) !!}
+        this.options.addedfile.call(this, file)
+    this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+    file.previewElement.classList.add('dz-complete')
+    $('form').append('<input type="hidden" name="logo" value="' + file.file_name + '">')
+    this.options.maxFiles = this.options.maxFiles - 1
 @endif
     },
      error: function (file, response) {

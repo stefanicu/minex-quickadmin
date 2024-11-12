@@ -82,6 +82,7 @@
 
   let dtOverrideGlobals = {
     buttons: dtButtons,
+      stateSave: true,
     processing: true,
     serverSide: true,
     retrieve: true,
@@ -93,7 +94,7 @@
 { data: 'name', name: 'name' },
 { data: 'job', name: 'job' },
 { data: 'logo', name: 'logo', sortable: false, searchable: false },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
+{ data: 'actions', name: '{{ trans('global.actions') }}', class: 'text-nowrap text-center', sortable: false, searchable: false  }
     ],
     orderCellsTop: true,
     order: [[ 1, 'asc' ]],

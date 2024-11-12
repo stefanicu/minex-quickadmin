@@ -14,7 +14,8 @@ class ReferenceController extends Controller
     {
         $reference_id = Reference::whereTranslation('slug',$request->slug)->first()->id;
 
-        $reference = Reference::leftJoin('reference_translations','references.id', '=', 'reference_translations.reference_id')
+        $reference = Reference::with('translations','media')
+            ->leftJoin('reference_translations','references.id', '=', 'reference_translations.reference_id')
             ->select('references.id','reference_translations.name','reference_translations.slug','references.industries_id')
             ->where('references.online','=',1)
             ->where('reference_translations.online','=',1)
@@ -23,7 +24,8 @@ class ReferenceController extends Controller
             ->select(sprintf('%s.*', (new Reference)->table),'reference_translations.name as name','reference_translations.slug as slug')
             ->first();
 
-        $references = Reference::leftJoin('reference_translations','references.id', '=', 'reference_translations.reference_id')
+        $references = Reference::with('translations','media')
+            ->leftJoin('reference_translations','references.id', '=', 'reference_translations.reference_id')
             ->select('references.id','reference_translations.name','reference_translations.slug','references.industries_id')
             ->where('references.online','=',1)
             ->where('references.industries_id','=',$reference->industries_id)
@@ -34,7 +36,8 @@ class ReferenceController extends Controller
             ->orderBy('reference_translations.name')
             ->get();
 
-        $products = Product::whereHas('references', function (Builder $query) use ($reference){
+        $products = Product::with('translations','media')
+            ->whereHas('references', function (Builder $query) use ($reference){
                 $query->where('reference_id', '=', $reference->id);
             })
             ->leftJoin('product_translations','products.id','=','product_translations.product_id')

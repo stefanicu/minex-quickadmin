@@ -22,47 +22,53 @@
 {{--                <span class="help-block">{{ trans('cruds.application.fields.online_helper') }}</span>--}}
 {{--            </div>--}}
 
-            <div class="form-group">
-                <label class="required" for="name">{{ trans('cruds.application.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $application->name) }}" required>
-                @if($errors->has('name'))
-                    <span class="text-danger">{{ $errors->first('name') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.application.fields.name_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="slug">{{ trans('cruds.application.fields.slug') }}</label>
-                <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', $application->slug) }}" required>
-                @if($errors->has('slug'))
-                    <span class="text-danger">{{ $errors->first('slug') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.application.fields.slug_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="image">{{ trans('cruds.application.fields.image') }}</label>
-                <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}" id="image-dropzone">
+            <div class="row">
+                <div class="form-group col-6">
+                    <label class="required" for="name">{{ trans('cruds.application.fields.name') }}</label>
+                    <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $application->name) }}" required>
+                    @if($errors->has('name'))
+                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.application.fields.name_helper') }}</span>
                 </div>
-                @if($errors->has('image'))
-                    <span class="text-danger">{{ $errors->first('image') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.application.fields.image_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="categories">{{ trans('cruds.application.fields.categories') }}</label>
-                <div style="padding-bottom: 4px">
-                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                <div class="form-group col-6">
+                    <label class="required" for="slug">{{ trans('cruds.application.fields.slug') }}</label>
+                    <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', $application->slug) }}" required>
+                    @if($errors->has('slug'))
+                        <span class="text-danger">{{ $errors->first('slug') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.application.fields.slug_helper') }}</span>
                 </div>
-                <select class="form-control select2 {{ $errors->has('categories') ? 'is-invalid' : '' }}" name="categories[]" id="categories" multiple>
-                    @foreach($categories as $id => $category)
-                        <option value="{{ $id }}" {{ (in_array($id, old('categories', [])) || $application->categories->contains($id)) ? 'selected' : '' }}>{{ $category }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('categories'))
-                    <span class="text-danger">{{ $errors->first('categories') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.application.fields.categories_helper') }}</span>
             </div>
+
+            <div class="row align-items-center">
+                <div class="form-group col-4 align-items-center">
+                    <label for="image">{{ trans('cruds.application.fields.image') }}</label>
+                    <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}" id="image-dropzone"></div>
+                    @if($errors->has('image'))
+                        <span class="text-danger">{{ $errors->first('image') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.application.fields.image_helper') }}</span>
+                </div>
+            </div>
+
+{{--            <div class="form-group">--}}
+{{--                <label for="categories">{{ trans('cruds.application.fields.categories') }}</label>--}}
+{{--                <div style="padding-bottom: 4px">--}}
+{{--                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>--}}
+{{--                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>--}}
+{{--                </div>--}}
+{{--                <select class="form-control select2 {{ $errors->has('categories') ? 'is-invalid' : '' }}" name="categories[]" id="categories" multiple>--}}
+{{--                    @foreach($categories as $id => $category)--}}
+{{--                        <option value="{{ $id }}" {{ (in_array($id, old('categories', [])) || $application->categories->contains($id)) ? 'selected' : '' }}>{{ $category }}</option>--}}
+{{--                    @endforeach--}}
+{{--                </select>--}}
+{{--                @if($errors->has('categories'))--}}
+{{--                    <span class="text-danger">{{ $errors->first('categories') }}</span>--}}
+{{--                @endif--}}
+{{--                <span class="help-block">{{ trans('cruds.application.fields.categories_helper') }}</span>--}}
+{{--            </div>--}}
+
             <div class="form-group">
                 <input type="hidden" name="locale" value="{{app()->getLocale()}}">
                 <button class="btn btn-danger" type="submit">
