@@ -30,6 +30,18 @@ class BlogController extends Controller
                 ->where('blog_translations.locale','=',app()->getLocale())
                 ->select(sprintf('%s.*', (new Blog)->table));
 
+//            foreach ($query->get() as $blog) {
+//                $images = Media::where('model_id', $blog->id)
+//                    ->where('model_type', Blog::class)
+//                    ->get();
+//
+//                if(count($images) == 0) {
+//                    if (file_exists(public_path().asset('uploads/images/'.$blog->oldimage))) {
+//                        $blog->addMediaFromUrl(url('').asset('uploads/images/'.$blog->oldimage))->toMediaCollection('image');
+//                    }
+//                }
+//            }
+
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -49,18 +61,6 @@ class BlogController extends Controller
                     'row'
                 ));
             });
-
-            foreach ($query->get() as $blog) {
-                $images = Media::where('model_id', $blog->id)
-                    ->where('model_type', Blog::class)
-                    ->get();
-
-                if(count($images) == 0) {
-                    if (file_exists(public_path().asset('uploads/images/'.$blog->oldimage))) {
-                        $blog->addMediaFromUrl(url('').asset('uploads/images/'.$blog->oldimage))->toMediaCollection('image');
-                    }
-                }
-            }
 
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
