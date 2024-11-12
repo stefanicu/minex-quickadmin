@@ -31,19 +31,19 @@ class ApplicationsController extends Controller
                 ->select(sprintf('%s.*', (new Application)->table));
 
 
-            foreach ($query->get() as $application) {
-                $image = Media::where('model_id', $application->id)
-                    ->where('model_type', Application::class)
-                    ->get();
-
-                if(count($image) == 0) {
-                    if (file_exists(public_path().asset('uploads/images/'.$application->oldimage))) {
-                        $application->addMediaFromUrl(
-                            url('').asset('uploads/images/'.$application->oldimage)
-                        )->toMediaCollection('image');
-                    }
-                }
-            }
+//            foreach ($query->get() as $application) {
+//                $image = Media::where('model_id', $application->id)
+//                    ->where('model_type', Application::class)
+//                    ->get();
+//
+//                if(count($image) == 0) {
+//                    if (file_exists(public_path().asset('uploads/images/'.$application->oldimage))) {
+//                        $application->addMediaFromUrl(
+//                            url('').asset('uploads/images/'.$application->oldimage)
+//                        )->toMediaCollection('image');
+//                    }
+//                }
+//            }
 
 
             $table = Datatables::of($query);
