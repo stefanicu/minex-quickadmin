@@ -32,37 +32,37 @@ class CategoriesController extends Controller
 
 
 
-            foreach ($query->get() as $category) {
-                if($category->oldproductid){
-                    $product_id = Product::find($category->oldproductid);
-                    if($product_id){
-                        $categ = Category::find($category->id); // Find the product by ID
-                        $categ->product_image_id = $category->oldproductid;
-                        $categ->save(); // Save the changes
-                    }
-                }
-            }
-
-
-            foreach ($query->get() as $category) {
-                $cover_photo = Media::where('model_id', $category->id)
-                    ->where('model_type', Category::class)
-                    ->get();
-
-                if(count($cover_photo) === 0) {
-                    if ($category->oldimage) {
-                        if (file_exists(public_path().asset('uploads/categorii/'.$category->oldimage))) {
-                            $category->addMediaFromUrl(
-                                url('').asset('uploads/categorii/'.$category->oldimage)
-                            )->toMediaCollection('cover_photo');
-                        }
-                    }else{
-                        $category->addMediaFromUrl(
-                            url('').asset('img/headers/aplicatie-xl.jpg')
-                        )->toMediaCollection('cover_photo');
-                    }
-                }
-            }
+//            foreach ($query->get() as $category) {
+//                if($category->oldproductid){
+//                    $product_id = Product::find($category->oldproductid);
+//                    if($product_id){
+//                        $categ = Category::find($category->id); // Find the product by ID
+//                        $categ->product_image_id = $category->oldproductid;
+//                        $categ->save(); // Save the changes
+//                    }
+//                }
+//            }
+//
+//
+//            foreach ($query->get() as $category) {
+//                $cover_photo = Media::where('model_id', $category->id)
+//                    ->where('model_type', Category::class)
+//                    ->get();
+//
+//                if(count($cover_photo) === 0) {
+//                    if ($category->oldimage) {
+//                        if (file_exists(public_path().asset('uploads/categorii/'.$category->oldimage))) {
+//                            $category->addMediaFromUrl(
+//                                url('').asset('uploads/categorii/'.$category->oldimage)
+//                            )->toMediaCollection('cover_photo');
+//                        }
+//                    }else{
+//                        $category->addMediaFromUrl(
+//                            url('').asset('img/headers/aplicatie-xl.jpg')
+//                        )->toMediaCollection('cover_photo');
+//                    }
+//                }
+//            }
 
 
 
