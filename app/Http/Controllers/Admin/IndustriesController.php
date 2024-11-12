@@ -22,20 +22,6 @@ class IndustriesController extends Controller
     {
         abort_if(Gate::denies('industry_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-
-//        $images = Media::where('model_id', 1)
-//            ->where('model_type', Industry::class)
-//            ->get();
-//
-//        dd($images);
-
-//        $query = Industry::with(['translations','media'])
-//            ->join('industry_translations','industries.id','=','industry_translations.industry_id')
-//            ->where('industry_translations.locale','=',app()->getLocale())
-//            ->select(sprintf('%s.*', (new Industry)->table))->first();
-//
-//        dd($query->oldimage);
-
         if ($request->ajax()) {
             $query = Industry::with(['translations','media'])
                 ->join('industry_translations','industries.id','=','industry_translations.industry_id')
