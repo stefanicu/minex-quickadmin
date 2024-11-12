@@ -24,7 +24,8 @@ class BlogController extends Controller
         abort_if(Gate::denies('blog_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Blog::join('blog_translations','blogs.id','=','blog_translations.blog_id')
+            $query = Blog::with('translations','media')
+                ->join('blog_translations','blogs.id','=','blog_translations.blog_id')
                 ->where('oldarticletype','!=','Page')
                 ->where('blog_translations.locale','=',app()->getLocale())
                 ->select(sprintf('%s.*', (new Blog)->table));
@@ -48,6 +49,18 @@ class BlogController extends Controller
                     'row'
                 ));
             });
+
+            foreach ($query->get() as $blog) {
+                $images = Media::where('model_id', $blog->id)
+                    ->where('model_type', Blog::class)
+                    ->get();
+
+                if(count($images) == 0) {
+                    if (file_exists(public_path().asset('uploads/images/'.$blog->oldimage))) {
+                        $blog->addMediaFromUrl(url('').asset('uploads/images/'.$blog->oldimage))->toMediaCollection('image');
+                    }
+                }
+            }
 
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
@@ -104,15 +117,15 @@ class BlogController extends Controller
     {
         abort_if(Gate::denies('blog_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $images = Media::where('model_id', $blog->id)
-            ->where('model_type', Blog::class)
-            ->get();
-
-        if(count($images) == 0) {
-            if (file_exists(public_path().asset('uploads/images/'.$blog->oldimage))) {
-                $blog->addMediaFromUrl(url('').asset('uploads/images/'.$blog->oldimage))->toMediaCollection('image');
-            }
-        }
+//        $images = Media::where('model_id', $blog->id)
+//            ->where('model_type', Blog::class)
+//            ->get();
+//
+//        if(count($images) == 0) {
+//            if (file_exists(public_path().asset('uploads/images/'.$blog->oldimage))) {
+//                $blog->addMediaFromUrl(url('').asset('uploads/images/'.$blog->oldimage))->toMediaCollection('image');
+//            }
+//        }
         return view('admin.blogs.edit', compact('blog'));
     }
 
