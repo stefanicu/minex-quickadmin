@@ -23,7 +23,7 @@ class BrandsController extends Controller
         abort_if(Gate::denies('brand_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Brand::query()->select(sprintf('%s.*', (new Brand)->table));
+            $query = Brand::with(['media','translations'])->select(sprintf('%s.*', (new Brand)->table));
 
             $table = Datatables::of($query);
 
