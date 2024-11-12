@@ -15,15 +15,26 @@ class CategoriesController extends Controller
 
         $application = Application::whereTranslation('slug', $application_slug)->whereTranslation('locale',app()->getLocale())->first();
 
+        session(['application_id' => $application->id]);
+
+        if(!$application) {
+            $application = Application::whereTranslation('slug', $application_slug)->whereTranslation('locale','en')->first();
+        }
+
+        $currentLocale = app()->getLocale();
+
         $productIds = Application::find($application->id)
             ->products()
-            ->pluck('id')
+            ->whereHas('translations', function ($query) use ($currentLocale) {
+                $query->where('locale', $currentLocale);
+            })
+            ->pluck('products.id')
             ->toArray();
 
-        $categories = Category::whereHas('products', function ($query) use ($productIds) {
-            $query->whereIn('products.id', $productIds);
-        })
-            ->with('product_image')
+        $categories = Category::with('product_main_image','product_main_image.media')
+            ->whereHas('products', function ($query) use ($productIds) {
+                $query->whereIn('products.id', $productIds);
+            })
             ->orderByTranslation('name')
             ->get();
 
@@ -32,7 +43,14 @@ class CategoriesController extends Controller
             $category = $categories->first();
             $category_id = $category->id;
 
-            $products = Product::with('translations') // Eager load translations
+            session(['category_id' => $category->id]);
+
+            $products = Product::with(['translations' => function ($query) use ($currentLocale) {
+                    $query->where('locale', $currentLocale);
+                }])
+                ->whereHas('translations', function ($query) use ($currentLocale) {
+                    $query->where('locale', $currentLocale);
+                })
                 ->whereHas('categories', function ($query) use ($category_id) {
                     $query->where('category_id', $category_id);
                 })
@@ -41,10 +59,10 @@ class CategoriesController extends Controller
             if($products->count() == 1)
             {
                 $product = $products->first();
-                return view('product', compact( 'category',  'product'));
+                return redirect(route('product.index', ['slug' => $product->slug]));
             }
 
-            return view('category', compact('application', 'categories', 'category', 'products'));
+            return redirect(route('category.index', ['slug' => $category->slug]));
         }
 
         return view('categories', compact('application', 'categories'));
