@@ -32,14 +32,6 @@ class ProductsController extends Controller
 
         if ($request->ajax()) {
 
-//            DB::enableQueryLog();
-
-//            $query = Product::leftJoin('product_translations','products.id','=','product_translations.product_id')
-//                ->where('product_translations.locale','=',app()->getLocale())
-//                ->with(['brand', 'applications', 'categories', 'references'])
-//                ->select(sprintf('%s.*', (new Product)->table),'product_translations.name as name','product_translations.slug as slug')
-//            ;
-
             $query = Product::with([
                 'brand.translations',
                 'applications.translations', // Eager load translations for applications
@@ -94,13 +86,7 @@ class ProductsController extends Controller
 //                    }
 //                }
 
-
-
-
-
             $table = Datatables::of($query);
-
-
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
