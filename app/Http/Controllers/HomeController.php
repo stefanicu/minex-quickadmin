@@ -10,8 +10,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $applications = Application::all();
-
         $hero = FrontPage::leftJoin('front_page_translations','front_pages.id','=','front_page_translations.front_page_id' )
             ->select('name','first_text','second_text')
             ->where('locale','=',app()->getLocale())
@@ -61,6 +59,6 @@ class HomeController extends Controller
             ->where('front_page_id','=',7)
             ->first();
 
-        return view('welcome', compact( 'applications','hero', 'integrated_solutions', 'industries', 'consultancy', 'maintenance', 'references', 'about_us', 'contact_us'));
+        return view('welcome', compact( 'hero', 'integrated_solutions', 'industries', 'consultancy', 'maintenance', 'references', 'about_us', 'contact_us'));
     }
 }
