@@ -99,7 +99,7 @@ class HomeController
             'fields'                => [
                 'id'         => '',
                 'name'       => '',
-                'image'      => '',
+//                'image'      => '',
                 'created_at' => '',
                 'oldid'      => '',
                 'oldimage'   => '',
