@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreContactRequest;
 use App\Models\Contact;
 use App\Models\ContactSpam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
@@ -17,8 +17,34 @@ class ContactController extends Controller
      */
     public function index(Request $store_contact_request)
     {
+        $validator = Validator::make($store_contact_request->all(),[
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'email' => 'required|email',
+            'job' => 'required|string|max:255',
+            'industry' => 'required|string|max:255',
+            'how_about' => 'required|string|max:255',
+            'message' => 'required|string|max:255',
+            'company' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'county' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'checkbox' => 'required|accepted',
+            'product' => 'sometimes|int|max:10000',
+            'ip' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            // Redirect back with errors and add the anchor #form-errors to the URL
+            return redirect(url()->previous() . '#form-errors')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         if(!empty($store_contact_request->all()))
         {
+
             if(empty($store_contact_request->district))
             {
                 try
