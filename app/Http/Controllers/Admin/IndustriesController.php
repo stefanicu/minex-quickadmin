@@ -22,12 +22,25 @@ class IndustriesController extends Controller
     {
         abort_if(Gate::denies('industry_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+
+//        $images = Media::where('model_id', 1)
+//            ->where('model_type', Industry::class)
+//            ->get();
+//
+//        dd($images);
+
+//        $query = Industry::with(['translations','media'])
+//            ->join('industry_translations','industries.id','=','industry_translations.industry_id')
+//            ->where('industry_translations.locale','=',app()->getLocale())
+//            ->select(sprintf('%s.*', (new Industry)->table))->first();
+//
+//        dd($query->oldimage);
+
         if ($request->ajax()) {
-            $query = Industry::join('industry_translations','industries.id','=','industry_translations.industry_id')
+            $query = Industry::with(['translations','media'])
+                ->join('industry_translations','industries.id','=','industry_translations.industry_id')
                 ->where('industry_translations.locale','=',app()->getLocale())
                 ->select(sprintf('%s.*', (new Industry)->table));
-
-
 
             $table = Datatables::of($query);
 
@@ -55,9 +68,9 @@ class IndustriesController extends Controller
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
             });
-            $table->editColumn('language', function ($row) {
-                return $row->language ? Industry::LANGUAGE_SELECT[$row->language] : '';
-            });
+//            $table->editColumn('language', function ($row) {
+//                return $row->language ? Industry::LANGUAGE_SELECT[$row->language] : '';
+//            });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });
