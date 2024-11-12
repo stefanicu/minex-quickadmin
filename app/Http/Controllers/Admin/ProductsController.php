@@ -14,6 +14,7 @@ use App\Models\Category;
 use App\Models\CategoryTranslation;
 use App\Models\Product;
 use App\Models\Reference;
+use App\Models\ReferenceTranslation;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,19 +32,71 @@ class ProductsController extends Controller
 
         if ($request->ajax()) {
 
-            DB::enableQueryLog();
+//            DB::enableQueryLog();
 
-            ray()->showQueries();
+//            $query = Product::leftJoin('product_translations','products.id','=','product_translations.product_id')
+//                ->where('product_translations.locale','=',app()->getLocale())
+//                ->with(['brand', 'applications', 'categories', 'references'])
+//                ->select(sprintf('%s.*', (new Product)->table),'product_translations.name as name','product_translations.slug as slug')
+//            ;
 
-            $query = Product::leftJoin('product_translations','products.id','=','product_translations.product_id')
-                ->where('product_translations.locale','=',app()->getLocale())
-                ->with(['brand', 'applications', 'categories', 'references'])
-                ->select(sprintf('%s.*', (new Product)->table),'product_translations.name as name','product_translations.slug as slug')
-            ;
+            $query = Product::with([
+                'brand.translations',
+                'applications.translations', // Eager load translations for applications
+                'categories.translations',
+                'translations',
+                'media',
+                'applications.media',
+                'categories.media',
+                'brand.media'
+            ])
+                ->leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
+                ->leftJoin('application_product', 'products.id', '=', 'application_product.product_id') // Many-to-many pivot table for applications
+                ->leftJoin('applications', 'applications.id', '=', 'application_product.application_id') // Join the applications table
+                ->leftJoin('application_translations', 'applications.id', '=', 'application_translations.application_id') // Join the application_translations table
+                ->leftJoin('category_product', 'products.id', '=', 'category_product.product_id') // Many-to-many pivot table for categories
+                ->leftJoin('categories', 'categories.id', '=', 'category_product.category_id') // Join the categories table
+                ->leftJoin('category_translations', 'categories.id', '=', 'category_translations.category_id') // Join category_translations
+                ->where('product_translations.locale', app()->getLocale())
+                ->where('application_translations.locale', app()->getLocale())
+                ->where('category_translations.locale', app()->getLocale())
+                ->select(
+                    sprintf('%s.*', (new Product)->table),
+                    'product_translations.name as product_name',
+                    DB::raw("GROUP_CONCAT(DISTINCT application_translations.name SEPARATOR ', ') as application_names"),
+                    DB::raw("GROUP_CONCAT(DISTINCT category_translations.name SEPARATOR ', ') as category_names")
+                )
+                ->groupBy('products.id', 'products.brand_id', 'product_translations.name');
 
-            ray('$query',$query->toRawSql())->red();
+//                foreach ($query->get() as $product) {
+//                    $main_photo = Media::where('model_id', $product->id)
+//                        ->where('model_type', Product::class)
+//                        ->get();
+//
+//                    if(count($main_photo) === 0) {
+//                        if (file_exists(public_path().asset('uploads/produse/'.$product->oldimage))) {
+//                            $product->addMediaFromUrl(
+//                                url('').asset('uploads/produse/'.$product->oldimage)
+//                            )->toMediaCollection('main_photo');
+//                        }
+//                    }
+//
+//                    if(count($main_photo) === 1) {
+//                        if($product->oldmoreimages) {
+//                            foreach (explode(',',$product->oldmoreimages) as $photo) {
+//                                if (file_exists(public_path().asset('uploads/produse/'.$photo))) {
+//                                    $product->addMediaFromUrl(
+//                                        url('').asset('uploads/produse/'.$photo)
+//                                    )->toMediaCollection('photo');
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
 
-            ray()->stopShowingQueries();
+
+
+
 
             $table = Datatables::of($query);
 
@@ -105,13 +158,25 @@ class ProductsController extends Controller
                 }
                 $links = [];
                 foreach ($row->photo as $media) {
-                    $links[] = '<a href="' . $media->getUrl() . '" target="_blank"><img src="' . $media->getUrl('thumb') . '" width="50px" height="50px"></a>';
+                    $links[] = '<a href="' . $media->getUrl() . '" target="_blank"><img src="' . $media->getUrl('thumb') . '" width="50" height="50px"></a>';
                 }
 
                 return implode(' ', $links);
             });
 
-            $table->rawColumns(['actions', 'placeholder', 'online', 'brand', 'applications', 'categories', 'photo']);
+            $table->editColumn('main_photo', function ($row) {
+                if ($photo = $row->main_photo) {
+                    return sprintf(
+                        '<a href="%s" target="_blank"><img src="%s" width="auto" height="50px"></a>',
+                        $photo->url,
+                        $photo->thumbnail
+                    );
+                }
+
+                return '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'online', 'brand', 'applications', 'categories', 'photo', 'main_photo']);
 
             return $table->make(true);
         }
@@ -144,6 +209,10 @@ class ProductsController extends Controller
             $product->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('photo');
         }
 
+        if ($request->input('main_photo', false)) {
+            $product->addMedia(storage_path('tmp/uploads/' . basename($request->input('main_photo'))))->toMediaCollection('main_photo');
+        }
+
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $product->id]);
         }
@@ -161,7 +230,7 @@ class ProductsController extends Controller
 
         $categories = CategoryTranslation::where('locale',app()->getLocale() )->orderBy('name','asc')->pluck('name', 'category_id');
 
-        $references = Reference::pluck('online', 'id');
+        $references = ReferenceTranslation::where('locale',app()->getLocale() )->orderBy('name','asc')->pluck('name', 'reference_id');
 
         $product->load('brand', 'applications', 'categories', 'references');
 
@@ -186,6 +255,17 @@ class ProductsController extends Controller
             if (count($media) === 0 || ! in_array($file, $media)) {
                 $product->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('photo');
             }
+        }
+
+        if ($request->input('main_photo', false)) {
+            if (! $product->main_photo || $request->input('main_photo') !== $product->main_photo->file_name) {
+                if ($product->main_photo) {
+                    $product->main_photo->delete();
+                }
+                $product->addMedia(storage_path('tmp/uploads/' . basename($request->input('main_photo'))))->toMediaCollection('main_photo');
+            }
+        } elseif ($product->main_photo) {
+            $product->main_photo->delete();
         }
 
         return redirect()->route('admin.products.index');
