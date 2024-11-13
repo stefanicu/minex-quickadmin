@@ -58,7 +58,7 @@ class Brand extends Model implements HasMedia, TranslatableContract
         $this->addMediaConversion('preview')->fit(Manipulations::FIT_MAX, 120)->optimize();
     }
 
-    public function brandProducts()
+    public function products()
     {
         return $this->hasMany(Product::class, 'brand_id', 'id');
     }
