@@ -32,20 +32,21 @@ class ProductsController extends Controller
 
         if ($request->ajax()) {
 
-//            $query = Product::with([
-//                'brand.translations',
-//                'applications.translations', // Eager load translations for applications
-//                'categories.translations',
-//                'translations',
-//                'media',
-//                'applications.media',
-//                'categories.media',
-//                'brand.media'
-//            ])
+
 
             $currentLocale = app()->getLocale();
 
-            $query = Product::with('brand')
+            $query = Product::with(
+                'translations',
+                'media',
+                'brand',
+                'brand.media',
+                'brand.translations',
+                'applications.translations', // Eager load translations for applications
+                'applications.media',
+                'categories.translations',
+                'categories.media',
+            )
                 ->leftJoin('product_translations', function($join) use ($currentLocale) {
                     $join->on('products.id', '=', 'product_translations.product_id')
                         ->where('product_translations.locale', $currentLocale);
@@ -67,31 +68,31 @@ class ProductsController extends Controller
                 )
                 ->groupBy('products.id','products.oldimage','products.oldmoreimages','product_translations.name','brands.name');
 
-                foreach ($query->get() as $product) {
-                    $main_photo = Media::where('model_id', $product->id)
-                        ->where('model_type', Product::class)
-                        ->get();
-
-                    if(count($main_photo) === 0) {
-                        if (file_exists(public_path().asset('uploads/produse/'.$product->oldimage))) {
-                            $product->addMediaFromUrl(
-                                url('').asset('uploads/produse/'.$product->oldimage)
-                            )->toMediaCollection('main_photo');
-                        }
-                    }
-
-                    if(count($main_photo) === 1) {
-                        if($product->oldmoreimages) {
-                            foreach (explode(',',$product->oldmoreimages) as $photo) {
-                                if (file_exists(public_path().asset('uploads/produse/'.$photo))) {
-                                    $product->addMediaFromUrl(
-                                        url('').asset('uploads/produse/'.$photo)
-                                    )->toMediaCollection('photo');
-                                }
-                            }
-                        }
-                    }
-                }
+//                foreach ($query->get() as $product) {
+//                    $main_photo = Media::where('model_id', $product->id)
+//                        ->where('model_type', Product::class)
+//                        ->get();
+//
+//                    if(count($main_photo) === 0) {
+//                        if (file_exists(public_path().asset('uploads/produse/'.$product->oldimage))) {
+//                            $product->addMediaFromUrl(
+//                                url('').asset('uploads/produse/'.$product->oldimage)
+//                            )->toMediaCollection('main_photo');
+//                        }
+//                    }
+//
+//                    if(count($main_photo) === 1) {
+//                        if($product->oldmoreimages) {
+//                            foreach (explode(',',$product->oldmoreimages) as $photo) {
+//                                if (file_exists(public_path().asset('uploads/produse/'.$photo))) {
+//                                    $product->addMediaFromUrl(
+//                                        url('').asset('uploads/produse/'.$photo)
+//                                    )->toMediaCollection('photo');
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
 
             $table = Datatables::of($query);
 
@@ -119,7 +120,7 @@ class ProductsController extends Controller
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
             });
-            $table->addColumn('brand_name', function ($row) {
+            $table->addColumn('brands.name', function ($row) {
                 return $row->brand ? $row->brand->name : '';
             });
 
@@ -145,29 +146,29 @@ class ProductsController extends Controller
 
                 return implode(' ', $labels);
             });
-            $table->editColumn('photo', function ($row) {
-                if (! $row->photo) {
-                    return '';
-                }
-                $links = [];
-                foreach ($row->photo as $media) {
-                    $links[] = '<a href="' . $media->getUrl() . '" target="_blank"><img src="' . $media->getUrl('thumb') . '" width="50" height="50px"></a>';
-                }
-
-                return implode(' ', $links);
-            });
-
-            $table->editColumn('main_photo', function ($row) {
-                if ($photo = $row->main_photo) {
-                    return sprintf(
-                        '<a href="%s" target="_blank"><img src="%s" width="auto" height="50px"></a>',
-                        $photo->url,
-                        $photo->thumbnail
-                    );
-                }
-
-                return '';
-            });
+//            $table->editColumn('photo', function ($row) {
+//                if (! $row->photo) {
+//                    return '';
+//                }
+//                $links = [];
+//                foreach ($row->photo as $media) {
+//                    $links[] = '<a href="' . $media->getUrl() . '" target="_blank"><img src="' . $media->getUrl('thumb') . '" width="50" height="50px"></a>';
+//                }
+//
+//                return implode(' ', $links);
+//            });
+//
+//            $table->editColumn('main_photo', function ($row) {
+//                if ($photo = $row->main_photo) {
+//                    return sprintf(
+//                        '<a href="%s" target="_blank"><img src="%s" width="auto" height="50px"></a>',
+//                        $photo->url,
+//                        $photo->thumbnail
+//                    );
+//                }
+//
+//                return '';
+//            });
 
             $table->rawColumns(['actions', 'placeholder', 'online', 'brand', 'applications', 'categories', 'photo', 'main_photo']);
 
@@ -217,17 +218,19 @@ class ProductsController extends Controller
     {
         abort_if(Gate::denies('product_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $currentLocale = app()->getLocale();
+
         $brands = Brand::orderBy('name','asc')->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $applications = ApplicationTranslation::where('locale',app()->getLocale() )->orderBy('name','asc')->pluck('name', 'application_id');
+        $applications = ApplicationTranslation::where('locale',$currentLocale)->orderBy('name','asc')->pluck('name', 'application_id');
 
-        $categories = CategoryTranslation::where('locale',app()->getLocale() )->orderBy('name','asc')->pluck('name', 'category_id');
+        $categories = CategoryTranslation::where('locale',$currentLocale)->orderBy('name','asc')->pluck('name', 'category_id');
 
-        $references = ReferenceTranslation::where('locale',app()->getLocale() )->orderBy('name','asc')->pluck('name', 'reference_id');
+        $references = ReferenceTranslation::where('locale',$currentLocale)->orderBy('name','asc')->pluck('name', 'reference_id');
 
-        $product->load('brand', 'applications', 'categories', 'references');
+        //$product->load('brand', 'applications', 'categories', 'references');
 
-        return view('admin.products.edit', compact('applications', 'brands', 'categories', 'product', 'references'));
+        return view('admin.products.edit', compact('product', 'brands', 'applications', 'categories', 'references', 'applications2'));
     }
 
     public function update(UpdateProductRequest $request, Product $product)
