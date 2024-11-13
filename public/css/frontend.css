@@ -245,3 +245,13 @@ a.category_count span.badge {
     color: #ccc;
     font-size: 1.2rem;
 }
+
+em.error.help-block {
+    background-color: rgba(255, 225, 225, 0.7);
+    width: 100%;
+    padding: 6px 10px;
+    color: #c40000;
+    display: block;
+    border-radius: 4px;
+    margin-top: 5px;
+}
