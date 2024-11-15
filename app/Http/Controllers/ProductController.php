@@ -88,8 +88,36 @@ class ProductController extends Controller
         })
             ->with('translations') // Load translations for each application
             ->orderByTranslation('name')
-            ->withCount('products') // Adds a `products_count` attribute to each category
+            ->withCount(['products as products_count' => function ($query) use ($currentLocale) {
+                $query->whereHas('translations', function ($query) use ($currentLocale) {
+                    $query->where('locale', $currentLocale);
+                });
+            }])
+            ->having('products_count', '>', 0) // Filter out categories with zero products
             ->get();
+
+
+
+
+
+//        $currentLocale = app()->getLocale();
+//
+//        $categories = Category::whereHas('products', function ($query) use ($application, $currentLocale) {
+//            // Filter products that belong to the specified application and exist in the current language
+//            $query->whereHas('applications', function ($query) use ($application) {
+//                $query->where('applications.id', $application->id);
+//            })
+//                ->whereHas('translations', function ($query) use ($currentLocale) {
+//                    $query->where('locale', $currentLocale); // Only include products with translations in the current locale
+//                });
+//        })
+//            ->with(['translations' => function ($query) use ($currentLocale) {
+//                $query->where('locale', $currentLocale); // Load translations for each category in the current locale
+//            }])
+//            ->orderByTranslation('name')
+//            ->withCount('products') // Adds a `products_count` attribute to each category
+//            ->get();
+
 
 //        $productIds = Application::find($application->id)
 //            ->products()
