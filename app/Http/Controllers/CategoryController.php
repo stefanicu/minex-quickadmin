@@ -51,12 +51,20 @@ class CategoryController extends Controller
             ->pluck('id')
             ->toArray();
 
-        $categories = Category::whereHas('products', function ($query) use ($productIds, $currentLocale) {
-            $query->whereIn('products.id', $productIds);
+        $categories = Category::whereHas('products', function($query) use ($application) {
+            // Filter products that belong to the specified category
+            $query->whereHas('applications', function($query) use ($application) {
+                $query->where('applications.id', $application->id);
+            });
         })
-            ->with('product_main_image')
+            ->with('translations') // Load translations for each application
             ->orderByTranslation('name')
-            ->withCount('products') // Adds a `products_count` attribute to each category
+            ->withCount(['products as products_count' => function ($query) use ($currentLocale) {
+                $query->whereHas('translations', function ($query) use ($currentLocale) {
+                    $query->where('locale', $currentLocale);
+                });
+            }])
+            ->having('products_count', '>', 0) // Filter out categories with zero products
             ->get();
 
         if($categories->count() === 0){
