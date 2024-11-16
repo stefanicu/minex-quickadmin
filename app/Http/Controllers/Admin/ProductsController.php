@@ -230,7 +230,7 @@ class ProductsController extends Controller
 
         //$product->load('brand', 'applications', 'categories', 'references');
 
-        return view('admin.products.edit', compact('product', 'brands', 'applications', 'categories', 'references', 'applications2'));
+        return view('admin.products.edit', compact('product', 'brands', 'applications', 'categories', 'references'));
     }
 
     public function update(UpdateProductRequest $request, Product $product)
