@@ -14,32 +14,26 @@ class ProductController extends Controller
     {
         $currentLocale = app()->getLocale();
 
-        $product = Product::with('translations','media')
-            ->leftJoin('product_translations','products.id','=','product_translations.product_id')
-            ->where('products.online','=',1)
-            ->where('product_translations.online','=',1)
-            ->where('product_translations.slug','=',$request->slug)
-            ->where('product_translations.locale','=',$currentLocale)
+        $product = Product::with('translations', 'media')
+            ->leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
+            ->where('products.online', '=', 1)
+            ->where('product_translations.online', '=', 1)
+            ->where('product_translations.slug', '=', $request->slug)
+            ->where('product_translations.locale', '=', $currentLocale)
             ->select(sprintf('%s.*', (new Product)->table))
             ->first();
 
 
-        if($product === null)
-        {
+        if ($product === null) {
             return redirect(url(''));
         }
 
         $references = $product->references()
-            ->with(['translations' => function ($query) use ($currentLocale) {
-                $query->where('locale', $currentLocale);
-            }])
-            ->get();
-
-        $categoryId = session('category_id');
-        $similar_products = Product::whereHas('categories', function ($query) use ($categoryId) {
-            $query->where('category_id', $categoryId);
-        })
-            ->where('id', '!=', $product->id)
+            ->with([
+                'translations' => function ($query) use ($currentLocale) {
+                    $query->where('locale', $currentLocale);
+                }
+            ])
             ->get();
 
         $files = Productfile::where('product_id', $product->id)
@@ -48,57 +42,88 @@ class ProductController extends Controller
 
         $referrer = $request->headers->get('referer');
 
-        if(session()->has('application_id') &&
-            !str_contains($referrer, 'search?search') &&
-            !str_contains($referrer, 'partner') &&
-            !str_contains($referrer, 'parteneri') &&
-            $referrer !== null )
-        {
-            $application = Application::where('id',session('application_id'))->with('translations')->first();
-        }
-        else
-        {
+        if (session()->has('application_id') &&
+            ! str_contains($referrer, 'search?search') &&
+            ! str_contains($referrer, 'partner') &&
+            ! str_contains($referrer, 'parteneri') &&
+            $referrer !== null) {
+            $application = Application::where('id', session('application_id'))->with('translations')->first();
+        } else {
             $application = Product::find($product->id)
                 ->applications() // Access the many-to-many relationship
                 ->with('translations') // Eager load translations for each application
                 ->first();
         }
 
-        if(session()->has('category_id') &&
-            !str_contains($referrer, 'search?search') &&
-            !str_contains($referrer, 'partner') &&
-            !str_contains($referrer, 'parteneri') &&
-            $referrer !== null)
-        {
-            $category = Category::where('id',session('category_id'))->with('translations')->first();
-        }
-        else
-        {
+        if (session()->has('category_id') &&
+            ! str_contains($referrer, 'search?search') &&
+            ! str_contains($referrer, 'partner') &&
+            ! str_contains($referrer, 'parteneri') &&
+            $referrer !== null) {
+            $category = Category::where('id', session('category_id'))->with('translations')->first();
+        } else {
             $category = Product::find($product->id)
                 ->categories() // Access the many-to-many relationship
                 ->with('translations') // Eager load translations for each application
                 ->first();
         }
 
-        $categories = Category::whereHas('products', function($query) use ($application) {
-            // Filter products that belong to the specified category
-            $query->whereHas('applications', function($query) use ($application) {
-                $query->where('applications.id', $application->id);
-            });
-        })
-            ->with('translations') // Load translations for each application
-            ->orderByTranslation('name')
-            ->withCount(['products as products_count' => function ($query) use ($currentLocale) {
-                $query->whereHas('translations', function ($query) use ($currentLocale) {
-                    $query->where('locale', $currentLocale);
+        if ($application) {
+            $categories = Category::whereHas('products', function ($query) use ($application) {
+                // Filter products that belong to the specified category
+                $query->whereHas('applications', function ($query) use ($application) {
+                    $query->where('applications.id', $application->id);
                 });
-            }])
-            ->having('products_count', '>', 0) // Filter out categories with zero products
-            ->get();
+            })
+                ->with('translations') // Load translations for each application
+                ->orderByTranslation('name')
+                ->withCount([
+                    'products as products_count' => function ($query) use ($currentLocale) {
+                        $query->whereHas('translations', function ($query) use ($currentLocale) {
+                            $query->where('locale', $currentLocale);
+                        });
+                    }
+                ])
+                ->having('products_count', '>', 0) // Filter out categories with zero products
+                ->get();
+        } else {
+            $application = [];
+            $categories = [];
+        }
 
+        if (session()->has('category_id')) {
+            $categoryId = session('category_id');
 
+            $hasCategory = $product->categories()->where('categories.id', $categoryId)->exists();
 
+            dd($hasCategory);
 
+            if ($hasCategory) {
+                $similar_products = Product::whereHas('categories', function ($query) use ($categoryId) {
+                    $query->where('category_id', $categoryId);
+                })
+                    ->where('id', '!=', $product->id)
+                    ->get();
+            }
+            else
+            {
+                $brandId = $product->brand_id;
+                $similar_products = Product::whereHas('brand', function ($query) use ($brandId) {
+                    $query->where('brand_id', $brandId);
+                })
+                    ->where('id', '!=', $product->id)
+                    ->get();
+            }
+        }
+        else
+        {
+            $brandId = $product->brand_id;
+            $similar_products = Product::whereHas('brand', function ($query) use ($brandId) {
+                $query->where('brand_id', $brandId);
+            })
+                ->where('id', '!=', $product->id)
+                ->get();
+        }
 
 //        $currentLocale = app()->getLocale();
 //
