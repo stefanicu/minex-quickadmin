@@ -16,11 +16,9 @@
 			<h2 class="h3">{{ $consultancy->name }}</h2>
 			<p>{{ trans('frontend.see_what_we_have_done') }}:</p>
 			<ul>
-				<?php
-					// foreach ($proiecte as $pro) {
-					// 	echo "<li><a href=" . base_url() . $referinta_x . "/" . $pro['slug'] . ">" . $pro['nume'] . "</a></li>";
-					// }
-				?>
+                @foreach($consultancy_references as $consultancy_reference)
+                    <li><a href="{{ url('') }}/{{ trans('pages_slugs.reference') }}/{{ $consultancy_reference->slug }}">{{ $consultancy_reference->name }}</a></li>
+                @endforeach
 			</ul>
 		</div>
 	</div>
