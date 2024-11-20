@@ -13,13 +13,13 @@ class SearchController extends Controller
     {
         $search = $request->input('search');
         $blogs = Blog::with('translations','media')
-            ->whereTranslationLike('name', "%$search%")  // Search in translated 'name'
-            ->whereTranslationLike('content', "%$search%")  // Search in translated 'description'
+            ->whereTranslationLike('name', "%$search%")
+            ->orWhereTranslationLike('content', "%$search%")
             ->get();
 
         $products = Product::with(['translations', 'media'])
-            ->whereTranslationLike('name', "%$search%")  // Search in translated 'name'
-            ->whereTranslationLike('description', "%$search%")  // Search in translated 'description'
+            ->whereTranslationLike('name', "%$search%")
+            ->orWhereTranslationLike('description', "%$search%")
             ->get();
 
         return view('search', compact('blogs','products','search'));
