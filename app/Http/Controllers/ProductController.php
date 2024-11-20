@@ -87,16 +87,15 @@ class ProductController extends Controller
                 ->having('products_count', '>', 0) // Filter out categories with zero products
                 ->get();
         } else {
-            $application = [];
-            $categories = [];
+            $application = null;
+            $category = null;
+            $categories = null;
         }
 
         if (session()->has('category_id')) {
             $categoryId = session('category_id');
 
             $hasCategory = $product->categories()->where('categories.id', $categoryId)->exists();
-
-            dd($hasCategory);
 
             if ($hasCategory) {
                 $similar_products = Product::whereHas('categories', function ($query) use ($categoryId) {
@@ -113,6 +112,10 @@ class ProductController extends Controller
                 })
                     ->where('id', '!=', $product->id)
                     ->get();
+
+                $application = null;
+                $category = null;
+                $categories = null;
             }
         }
         else
