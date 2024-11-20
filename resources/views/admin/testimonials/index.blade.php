@@ -93,7 +93,7 @@
 { data: 'company', name: 'company' },
 { data: 'name', name: 'name' },
 { data: 'job', name: 'job' },
-{ data: 'logo', name: 'logo', sortable: false, searchable: false },
+{ data: 'logo', name: 'logo', class: 'text-center', sortable: false, searchable: false },
 { data: 'actions', name: '{{ trans('global.actions') }}', class: 'text-nowrap text-center', sortable: false, searchable: false  }
     ],
     orderCellsTop: true,
