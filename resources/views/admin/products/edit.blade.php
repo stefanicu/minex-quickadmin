@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="form-group col-4">
                     <label class="required" for="name">{{ trans('cruds.product.fields.name') }}</label>
-                    <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $product->name) }}" required>
+                    <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name',$product->name) }}" required>
                     @if($errors->has('name'))
                         <span class="text-danger">{{ $errors->first('name') }}</span>
                     @endif
@@ -34,7 +34,7 @@
                 </div>
                 <div class="form-group col-4">
                     <label class="required" for="slug">{{ trans('cruds.product.fields.slug') }}</label>
-                    <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', $product->slug) }}" required>
+                    <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug',$product->slug) }}" required>
                     @if($errors->has('slug'))
                         <span class="text-danger">{{ $errors->first('slug') }}</span>
                     @endif
