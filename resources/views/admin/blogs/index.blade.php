@@ -96,7 +96,7 @@
           { data: 'id', name: 'id' },
           // { data: 'online', name: 'online' },
           { data: 'name', name: 'blog_translations.name' },
-          { data: 'image', name: 'image', sortable: false, searchable: false },
+          { data: 'image', name: 'image', class: 'text-center', sortable: false, searchable: false },
           { data: 'created_at', name: 'created_at' },
           { data: 'actions', name: '{{ trans('global.actions') }}', class: 'text-nowrap text-center', sortable: false, searchable: false  }
       ],
