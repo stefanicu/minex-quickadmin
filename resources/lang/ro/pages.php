@@ -30,7 +30,7 @@ return [
     'product_applications' => 'Aplicatii Produse',
 
     'reference' => 'Referinta',
-    'references' => 'Referrinte',
+    'references' => 'Referinte',
     'other_references' => 'Alte referinte',
 
     'no_products' => 'Nu sunt produse disponibile',
