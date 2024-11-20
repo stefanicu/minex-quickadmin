@@ -18,12 +18,15 @@ class BrandController extends Controller
             ->first();
 
         $brands = Brand::leftJoin('brand_translations', 'brands.id', '=', 'brand_translations.brand_id')
-            ->leftJoin('products','brands.id','=','products.brand_id')
-            ->selectRAW('brands.id, brands.name, brands.slug, count(products.brand_id) as cnt')
-            ->where('brands.online','=',1)
-            ->where('brand_translations.online','=',1)
-            ->where('brand_translations.locale','=',app()->getLocale())
+            ->leftJoin('products', 'brands.id', '=', 'products.brand_id')
+            ->leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
+            ->selectRaw('brands.id, brands.name, brands.slug, COUNT(products.id) as cnt')
+            ->where('brands.online', '=', 1)
+            ->where('brand_translations.online', '=', 1)
+            ->where('brand_translations.locale', '=', app()->getLocale())
+            ->where('product_translations.locale', '=', app()->getLocale())
             ->groupByRaw('brands.id, brands.name, brands.slug')
+            ->having('cnt', '>', 0) // Exclude brands with no products
             ->orderBy('brands.name')
             ->get();
 
