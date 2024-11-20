@@ -97,7 +97,7 @@
         // { data: 'online', name: 'online' },
         { data: 'name', name: 'category_translations.name' },
         { data: 'page_views', name: 'page_views' },
-        { data: 'cover_photo', name: 'cover_photo', sortable: false, searchable: false },
+        { data: 'cover_photo', name: 'cover_photo', class: 'text-center', sortable: false, searchable: false },
         { data: 'actions', name: '{{ trans('global.actions') }}', class: 'text-nowrap text-center', sortable: false, searchable: false  }
     ],
     orderCellsTop: false,
