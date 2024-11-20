@@ -94,7 +94,7 @@
         { data: 'id', name: 'id' },
         { data: 'name', name: 'reference_translations.name' },
         // { data: 'photo_square', name: 'photo_square', sortable: false, searchable: false },
-        { data: 'photo_wide', name: 'photo_wide', sortable: false, searchable: false },
+        { data: 'photo_wide', name: 'photo_wide', class: 'text-center', sortable: false, searchable: false },
         { data: 'actions', name: '{{ trans('global.actions') }}', class: 'text-nowrap text-center', sortable: false, searchable: false  }
     ],
     orderCellsTop: true,
