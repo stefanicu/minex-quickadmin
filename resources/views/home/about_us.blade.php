@@ -29,7 +29,7 @@
 				<div class="bxslider">
 					<div><img src="{{ asset('/img/home/s6/slider/despre-noi1-min.png') }}" class="img-fluid" title="Minex 1"></div>
 					<div><img src="{{ asset('/img/home/s6/slider/despre-noi2-min.png') }}" class="img-fluid" title="Minex 2"></div>
-					<div><img src="{{ asset('/img/home/s6/slider/despre-noi2-min.png') }}" class="img-fluid" title="Minex 3"></div>
+					<div><img src="{{ asset('/img/home/s6/slider/despre-noi3-min.png') }}" class="img-fluid" title="Minex 3"></div>
 					<div><img src="{{ asset('/img/home/s6/slider/despre-noi4-min.png') }}" class="img-fluid" title="Minex 4"></div>
 					<div><img src="{{ asset('/img/home/s6/slider/despre-noi5-min.png') }}" class="img-fluid" title="Minex 5"></div>
 				</div>
