@@ -4,15 +4,19 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="/">{{ trans('menu.home') }}</a></li>
+                @if($application)
                 <li class="breadcrumb-item"><a href="{{ url('') }}/{{ trans('pages_slugs.categories') }}/{{ $application->slug }}">{{ $application->name }}</a></li>
+                @endif
+                @if($category)
                 <li class="breadcrumb-item"><a href="{{ url('') }}/{{ trans('pages_slugs.category') }}/{{ $category->slug }}">{{ $category->name }}</a></li>
+                @endif
                 <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
             </ol>
         </nav>
 
 
         @php
-            if($category->getCoverPhotoAttribute()){
+            if($category && $category->getCoverPhotoAttribute()){
                 $cover_image_url = $category->getCoverPhotoAttribute()->getUrl();
             }else{
                 $cover_image_url = asset('/img/headers/aplicatie-xl.jpg');
@@ -215,6 +219,7 @@
                 @endif
             </div>
 
+            @if($categories && $categories->count() >0)
             <div class="col-12 col-md-4">
                 <h2 class="h3">{{ trans('pages.product_categories') }}</h2>
                 <ul class="list-group">
@@ -255,6 +260,7 @@
 {{--                    ?>--}}
 {{--                </ul>--}}
             </div>
+            @endif
         </div>
     </div>
 
