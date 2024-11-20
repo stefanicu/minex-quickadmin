@@ -88,7 +88,7 @@
         // { data: 'online', name: 'online' },
         { data: 'name', name: 'industry_translations.name' },
         // { data: 'slug', name: 'slug' },
-        { data: 'photo', name: 'photo', sortable: false, searchable: false },
+        { data: 'photo', name: 'photo', class: 'text-center', sortable: false, searchable: false },
         { data: 'actions', name: '{{ trans('global.actions') }}', class: 'text-nowrap text-center', sortable: false, searchable: false }
     ],
     orderCellsTop: true,
