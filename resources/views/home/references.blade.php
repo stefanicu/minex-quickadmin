@@ -15,21 +15,17 @@
 		<div class="v-alighn px-4">
 			<h2 class="h3">{{ $references->name }}</h2>
             <ul class="d-flex mx-auto list-unstyled justify-content-center flex-wrap row-icons">
-                <?php
-                //dd($industries);
-                if(app()->getLocale() == 'bg'){ $wrap_russian = 'wrap_russian'; }else{ $wrap_russian = ''; }
-                foreach ($industries as $ind) {
-                    $image_url = '';
-                    if($ind->getPhotoAttribute())
-                        $image_url = $ind->getPhotoAttribute()->getUrl();
-                    echo "<li class='py-3'>
-                          <a href='referinte#tab-a" . $ind['industry_id'] . "' class='d-flex flex-column text-center'>
-                              <img data-src='" .  $image_url . "' alt='" . $ind['name'] . "' class='svg_gray row-icons--ico-img mx-auto lozad img-fluid'>
-                              <p class='row-icons--desc px-2 mt-4 $wrap_russian'>" . $ind['name'] . "</p>
-                          </a>
-                      </li>";
-                }
-                ?>
+                @foreach($references_industries as $references_industry)
+                    <li class='py-3'>
+                        <a href="referinte#tab-a{{ $references_industry->id }}" class="d-flex flex-column text-center">
+                            @if($references_industry->getPhotoAttribute())
+                                <img data-src="{{ $references_industry->getPhotoAttribute()->getUrl() }}" alt="{{ $references_industry->name }}" class="svg_gray row-icons--ico-img mx-auto lozad img-fluid">
+                            @endif
+                            <p class="row-icons--desc px-2 mt-4 {{ app()->getLocale() === 'bg' ? 'wrap_russian' : '' }}">{{ $references_industry->name }}</p>
+                        </a>
+                    </li>
+                @endforeach
+
             </ul>
 		</div>
 	</div>
@@ -41,9 +37,30 @@
 				<ul class="list-unstyled img-grid">
 				<?php
 					//foreach ($referinte12 as $r12) {
-						//echo '<li class="img-grid--item px-4"><a href="' . base_url() . $referinta_x . '/' . $r12['slug'] . '" class="text-center d-flex flex-column"><img data-src="' . HTTP_UPLOADS_PATH . 'images/' . $r12['img'] . '" alt="" class="mx-auto img-fluid lozad img-hover"><p class="my-4">' . $r12['nume'] . '</p></a></li>';
+						//echo '<li class="img-grid--item px-4">
+                                    //<a href="' . base_url() . $referinta_x . '/' . $r12['slug'] . '" class="text-center d-flex flex-column">
+                                        //<img data-src="' . HTTP_UPLOADS_PATH . 'images/' . $r12['img'] . '" alt="" class="mx-auto img-fluid lozad img-hover"><p class="my-4">' . $r12['nume'] . '</p>
+                                    //</a>
+                                //</li>';
 					//}
 					?>
+                    @foreach($references_references as $references_reference)
+                        <li class="img-grid--item px-4">
+                            <a href="{{ url('') }}/{{ trans('pages_slugs.reference') }}/{{ $references_reference->slug }}" class="text-center d-flex flex-column">
+                                @if($references_reference->getPhotoSquareAttribute()->all() !== null && $references_reference->getPhotoSquareAttribute()->count()>=2)
+                                    <img
+                                        srcset="{{ $references_reference->getPhotoSquareAttribute()->all()[1]->getUrl() }}"
+                                        alt="{{ $references_reference->name }}"
+                                        title="{{ $references_reference->name }}"
+                                        class="mx-auto img-fluid lozad img-hover">
+                                @else
+                                    <div class="reference_image_default">No image</div>
+                                @endif
+                                    <p class="my-4">{{ $references_reference->name }}</p>
+                            </a>
+                        </li>
+                    @endforeach
+
 				</ul>
 				<div class="text-center">
 					<a href="{{ url('') }}/references/" class="btn btn-primary">{{ $references->button }}</a>
