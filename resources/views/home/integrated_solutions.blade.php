@@ -19,20 +19,16 @@
             <p class="text-center">{{ trans('frontend.see_what_we_have_done') }}</p>
 
             <ul class="d-flex mx-auto list-unstyled justify-content-center flex-wrap row-icons">
-                <?php
-                if(app()->getLocale() == 'bg'){ $wrap_russian = 'wrap_russian'; }else{ $wrap_russian = ''; }
-                foreach ($industries as $ind) {
-                    $image_url = '';
-                    if($ind->getPhotoAttribute())
-                        $image_url = $ind->getPhotoAttribute()->getUrl();
-                    echo "<li class='py-3'>
-                              <a href='referinte#tab-a" . $ind['industry_id'] . "' class='d-flex flex-column text-center'>
-                                  <img data-src='" .  $image_url . "' alt='" . $ind['name'] . "' class='svg_white row-icons--ico-img mx-auto lozad img-fluid'>
-                                  <p class='row-icons--desc px-2 mt-4 $wrap_russian'>" . $ind['name'] . "</p>
-                              </a>
-                          </li>";
-                }
-                ?>
+                @foreach($integrated_solutions_industries as $integrated_solutions_industry)
+                    <li class='py-3'>
+                        <a href="referinte#tab-a{{ $integrated_solutions_industry->id }}" class="d-flex flex-column text-center">
+                        @if($integrated_solutions_industry->getPhotoAttribute())
+                            <img data-src="{{ $integrated_solutions_industry->getPhotoAttribute()->getUrl() }}" alt="{{ $integrated_solutions_industry->name }}" class="svg_white row-icons--ico-img mx-auto lozad img-fluid">
+                        @endif
+                        <p class="row-icons--desc px-2 mt-4 {{ app()->getLocale() === 'bg' ? 'wrap_russian' : '' }}">{{ $integrated_solutions_industry->name }}</p>
+                        </a>
+                    </li>
+                @endforeach
             </ul>
             <a href="{{ url('') }}/{{ trans('menu_slug.brands') }}/" class="btn btn-light">{{ $integrated_solutions->button }}</a>
         </div>
