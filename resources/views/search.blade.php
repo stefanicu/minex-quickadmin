@@ -39,7 +39,7 @@
                                     <a href="{{ url('') }}/{{ trans('pages_slugs.product') }}/{{ $product->slug }}" class="d-flex flex-column">
                                         @if($product->getMainPhotoAttribute())
                                             <figure class="mx-auto">
-                                                <img srcset="{{ $product->getMainPhotoAttribute()->getUrl('preview') }}"
+                                                <img srcset="{{ $product->getMainPhotoAttribute()->getUrl() }}"
                                                      class="mx-auto lozad img-fluid"
                                                      alt="{{ $product->name }}">
                                             </figure>
