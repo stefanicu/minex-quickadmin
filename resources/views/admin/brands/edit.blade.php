@@ -10,6 +10,7 @@
         <form method="POST" action="{{ route("admin.brands.update", [$brand->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
+
             <div class="form-group">
                 <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
                     <input type="hidden" name="online" value="0">
@@ -42,7 +43,8 @@
             </div>
 
             <div class="row align-items-center">
-                <div class="form-group col-3 align-items-center">
+
+                <div class="form-group col-3">
                     <label class="required" for="photo">{{ trans('cruds.brand.fields.photo') }}</label>
                     <div class="needsclick dropzone {{ $errors->has('photo') ? 'is-invalid' : '' }} w-max text-center" id="photo-dropzone">
                     </div>
@@ -51,6 +53,16 @@
                     @endif
                     <span class="help-block">{{ trans('cruds.brand.fields.photo_helper') }}</span>
                 </div>
+
+                <div class="form-group col-9">
+                    <label class="" for="offline_message">{{ trans('cruds.brand.fields.offline_message') }}</label>
+                    <textarea class="form-control ckeditor {{ $errors->has('offline_message') ? 'is-invalid' : '' }}" name="offline_message" id="offline_message">{!! old('offline_message', $brand->offline_message) !!}</textarea>
+                    @if($errors->has('offline_message'))
+                        <span class="text-danger">{{ $errors->first('offline_message') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.brand.fields.offline_message_helper') }}</span>
+                </div>
+
             </div>
 
             <div class="form-group col-3">
@@ -67,7 +79,71 @@
 @endsection
 
 @section('scripts')
-<script>
+    <script>
+        $(document).ready(function () {
+            function SimpleUploadAdapter(editor) {
+                editor.plugins.get('FileRepository').createUploadAdapter = function(loader) {
+                    return {
+                        upload: function() {
+                            return loader.file
+                                .then(function (file) {
+                                    return new Promise(function(resolve, reject) {
+                                        // Init request
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open('POST', '{{ route('admin.blogs.storeCKEditorImages') }}', true);
+                                        xhr.setRequestHeader('x-csrf-token', window._token);
+                                        xhr.setRequestHeader('Accept', 'application/json');
+                                        xhr.responseType = 'json';
+
+                                        // Init listeners
+                                        var genericErrorText = `Couldn't upload file: ${ file.name }.`;
+                                        xhr.addEventListener('error', function() { reject(genericErrorText) });
+                                        xhr.addEventListener('abort', function() { reject() });
+                                        xhr.addEventListener('load', function() {
+                                            var response = xhr.response;
+
+                                            if (!response || xhr.status !== 201) {
+                                                return reject(response && response.message ? `${genericErrorText}\n${xhr.status} ${response.message}` : `${genericErrorText}\n ${xhr.status} ${xhr.statusText}`);
+                                            }
+
+                                            $('form').append('<input type="hidden" name="ck-media[]" value="' + response.id + '">');
+
+                                            resolve({ default: response.url });
+                                        });
+
+                                        if (xhr.upload) {
+                                            xhr.upload.addEventListener('progress', function(e) {
+                                                if (e.lengthComputable) {
+                                                    loader.uploadTotal = e.total;
+                                                    loader.uploaded = e.loaded;
+                                                }
+                                            });
+                                        }
+
+                                        // Send request
+                                        var data = new FormData();
+                                        data.append('upload', file);
+                                        data.append('crud_id', '{{ $blog->id ?? 0 }}');
+                                        xhr.send(data);
+                                    });
+                                })
+                        }
+                    };
+                }
+            }
+
+            var allEditors = document.querySelectorAll('.ckeditor');
+            for (var i = 0; i < allEditors.length; ++i) {
+                ClassicEditor.create(
+                    allEditors[i], {
+                        extraPlugins: [SimpleUploadAdapter]
+                    }
+                );
+            }
+        });
+    </script>
+
+    <script>
     Dropzone.options.photoDropzone = {
     url: '{{ route('admin.brands.storeMedia') }}',
     maxFilesize: 2, // MB

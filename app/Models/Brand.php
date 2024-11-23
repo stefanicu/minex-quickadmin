@@ -19,7 +19,7 @@ class Brand extends Model implements HasMedia, TranslatableContract
 
     public $table = 'brands';
 
-    public $translatedAttributes = ['online'];
+    public $translatedAttributes = ['online','offline_message'];
 
     protected $appends = [
         'photo',
@@ -40,6 +40,7 @@ class Brand extends Model implements HasMedia, TranslatableContract
         'online',
         'name',
         'slug',
+        'offline_message',
         'oldid',
         'oldimage',
         'created_at',

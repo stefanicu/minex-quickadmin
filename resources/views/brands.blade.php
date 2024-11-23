@@ -29,26 +29,22 @@
                 <h1 class="h2">{{ trans('pages.brands') }}</h1>
                 <hr>
                 <ul id="brd_id" class="justify-content-md list-group list-group-flush row flex-row flex-wrap">
-
                     @foreach($brands as $brand)
-                        @if($brand->cnt_produse>0)
-                            <li class="col-6 col-md-4 col-lg-3 text-center d-flex align-items-center list-group-item">
-                                <a href="{{ url('') }}/{{ trans('pages_slugs.brand') }}/{{ $brand->slug }}" class="w-100">
-                                    @if($brand->getPhotoAttribute() !== null)
-                                        <figure class="brand_image">
-                                            <img
-                                                srcset="{{ $brand->getPhotoAttribute()->getUrl() }}"
-                                                alt="{{ $brand->name }}"
-                                                title="{{ $brand->name }}"
-                                                class="img-hover lozad img-fluid lazy-fade">
-                                        </figure>
-                                    @else
-                                        <div class="brand_image_default">No image<br>{{ $brand->name }}</div>
-                                    @endif
-                                </a>
-                            </li>
-                        @endif
-
+                        <li class="col-6 col-md-4 col-lg-3 text-center d-flex align-items-center list-group-item">
+                            <a href="{{ url('') }}/{{ trans('pages_slugs.brand') }}/{{ $brand->slug }}" class="w-100">
+                                @if($brand->getPhotoAttribute() !== null)
+                                    <figure class="brand_image">
+                                        <img
+                                            srcset="{{ $brand->getPhotoAttribute()->getUrl() }}"
+                                            alt="{{ $brand->name }}"
+                                            title="{{ $brand->name }}"
+                                            class="img-hover lozad img-fluid lazy-fade">
+                                    </figure>
+                                @else
+                                    <div class="brand_image_default">No image<br>{{ $brand->name }}</div>
+                                @endif
+                            </a>
+                        </li>
                     @endforeach
                 </ul>
             </div>

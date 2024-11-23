@@ -38,10 +38,12 @@ class CategoryController extends Controller
             ->products()
             ->with('media')
             ->whereHas('translations', function ($query) use ($currentLocale) {
-                $query->where('locale', $currentLocale);
+                $query->where('locale', $currentLocale)
+                    ->where('online', 1);  // Ensure only translations with 'online' = 1 are included
             })
             ->orderByTranslation('name')
             ->get();
+
 
         $productIds = Application::find($application->id)
             ->products()
@@ -61,7 +63,8 @@ class CategoryController extends Controller
             ->orderByTranslation('name')
             ->withCount(['products as products_count' => function ($query) use ($currentLocale) {
                 $query->whereHas('translations', function ($query) use ($currentLocale) {
-                    $query->where('locale', $currentLocale);
+                    $query->where('locale', $currentLocale)
+                        ->where('online', 1);
                 });
             }])
             ->having('products_count', '>', 0) // Filter out categories with zero products

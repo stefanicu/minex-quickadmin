@@ -111,6 +111,7 @@ class BrandsController extends Controller
         $brand->translate( app()->getLocale() )->online = $request->input('online');
         $brand->name = $request->input('name');
         $brand->slug = $request->input('slug');
+        $brand->offline_message = $request->input('offline_message');
         $brand->update();
 
         // $brand->update('ro' =>[ 'online' => $request->input('online') ]);

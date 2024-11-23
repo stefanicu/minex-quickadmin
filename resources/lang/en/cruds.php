@@ -119,6 +119,8 @@ return [
             'oldid_helper'      => ' ',
             'oldimage'          => 'Oldimage',
             'oldimage_helper'   => ' ',
+            'offline_message'   => 'Offline Message',
+            'offline_message_helper' => ' ',
         ],
     ],
     'industry' => [
