@@ -35,6 +35,11 @@ return [
 
     'no_products' => 'Nu sunt produse disponibile',
 
+    'no_translated_title' => 'Nu a fost tradus in romana',
+    'no_translated_message' => 'Momentan, pagina nu a fost tradusa in romana. Pentru mai multe informatii, va rugam sa ne trimiteti un mesaj si va vom contacta cat mai curand posibil.',
+
+    'no_brand_default_message' => 'Produsul nu este disponibil in tara dumneavoastra.',
+
     'testimonials' => 'Testimoniale',
     'testimonial_question' => 'Ce spun clientii si partenerii despre MINEX Group?',
 
