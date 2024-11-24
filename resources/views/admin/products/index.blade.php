@@ -93,6 +93,18 @@
 {{--@endcan--}}
 
   let dtOverrideGlobals = {
+      "createdRow": function (row, data, dataIndex) {
+          data['translations'].forEach(
+              function(element) {
+                  if( element['locale'] == '<?= app()->getLocale() ?>' ){
+                      if (element['online'] == 0) {
+                          $(row).addClass('red_row')
+                      }
+                  }
+              }
+          )
+      },
+
     buttons: dtButtons,
       stateSave: true,
     processing: true,
