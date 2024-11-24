@@ -41,7 +41,11 @@
             <div class="col-12 col-md-8">
                 <h1 class="h2">{{ $product->name }}</h1>
                 <hr>
-                {!! $product->description !!}
+                @if(!$brand || $brand->online === 1)
+                    {!! $product->description !!}
+                @else
+                    <h5 class="no-brand">{!! $brandOfflineMessage !!}</h5>
+                @endif
             </div>
             <div class="col-12 col-md-4">
                 @if($product->getMainPhotoAttribute())
@@ -97,7 +101,7 @@
                             </a>
                         @endif
 
-                        @if($references->count()>0)
+                        @if($references && $references->count()>0)
                             <a class="nav-item nav-link" id="nav-{{ trans('pages.references') }}-tab" data-toggle="tab" href="#nav-{{ trans('pages.references') }}" role="tab" aria-controls="nav-{{ trans('pages.references') }}" aria-selected="false">
                                 {{ trans('pages.references') }}
                             </a>
@@ -133,7 +137,7 @@
                         </div>
                     @endif
 
-                    @if($references->count()>0)
+                    @if($references && $references->count()>0)
                         <div class="tab-pane fade p-4" id="nav-{{ trans('pages.references') }}" role="tabpanel" aria-labelledby="nav-{{ trans('pages.references') }}-tab">
                             <ul>
                                 @foreach($references as $reference)
