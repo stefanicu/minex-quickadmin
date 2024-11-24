@@ -36,6 +36,11 @@ return [
 
     'no_products' => 'There are currently no products available',
 
+    'no_translated_title' => 'It is not translated into English',
+    'no_translated_message' => 'The page is not currently translated into English. For more information, please send us a message and we will contact you as soon as possible.',
+
+    'no_brand_default_message' => 'The product is not available in your country.',
+
     'testimonials' => 'Testimonials',
     'testimonial_question' => 'What do clients say about us?',
 
