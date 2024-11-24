@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Application;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Productfile;
@@ -23,10 +24,47 @@ class ProductController extends Controller
             ->select(sprintf('%s.*', (new Product)->table))
             ->first();
 
+        $brandOfflineDefaultMessage = trans('pages.no_brand_default_message');
 
         if ($product === null) {
-            return redirect(url(''));
+            $product = Product::with('translations', 'media')
+                ->leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
+                ->where('product_translations.slug', '=', $request->slug)
+                ->select(sprintf('%s.*', (new Product)->table))
+                ->first();
+            $product->name = trans('pages.no_translated_title');
+            $product->description = trans('pages.no_translated_message');
+            $brand = null;
+            $references = null;
+            $files = [];
+            $similar_products = [];
+            $application = null;
+            $category = null;
+            $categories = [];
+            $referrer  =  $request->headers->get('referer');
+
+            $brandOfflineMessage = $brandOfflineDefaultMessage;
+
+            return view(
+                'product',
+                compact(
+                    'product',
+                    'references',
+                    'files',
+                    'similar_products',
+                    'application',
+                    'category',
+                    'categories',
+                    'referrer',
+                    'brand',
+                    'brandOfflineMessage'
+                )
+            );
         }
+
+        $brand = Brand::find($product->brand_id);
+        $brand->offline_message ? $brandOfflineMessage = $brand->offline_message : $brandOfflineMessage = $brandOfflineDefaultMessage;
+
 
         $references = $product->references()
             ->with([
@@ -163,6 +201,20 @@ class ProductController extends Controller
 //            ->withCount('products') // Adds a `products_count` attribute to each category
 //            ->get();
 
-        return view('product', compact( 'product','references','files','similar_products','application','category','categories','referrer'));
+        return view(
+            'product',
+            compact(
+                'product',
+                'references',
+                'files',
+                'similar_products',
+                'application',
+                'category',
+                'categories',
+                'referrer',
+                'brand',
+                'brandOfflineMessage'
+            )
+        );
     }
 }
