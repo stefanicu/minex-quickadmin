@@ -44,7 +44,7 @@
                 @if(!$brand || $brand->online === 1)
                     {!! $product->description !!}
                 @else
-                    <h5 class="no-brand">{!! $brandOfflineMessage !!}</h5>
+                    {!! $brandOfflineMessage !!}
                 @endif
             </div>
             <div class="col-12 col-md-4">
