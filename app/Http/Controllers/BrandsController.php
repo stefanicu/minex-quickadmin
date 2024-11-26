@@ -11,7 +11,7 @@ class BrandsController extends Controller
     {
         $brands = Brand::join('brand_translations', function ($join) {
             $join->on('brands.id', '=', 'brand_translations.brand_id')
-                ->where('brand_translations.online', '=', 1)
+                //->where('brand_translations.online', '=', 1)
                 ->where('brand_translations.locale', '=', app()->getLocale());
             })
             ->whereHas('products')
