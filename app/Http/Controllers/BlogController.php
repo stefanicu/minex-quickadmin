@@ -51,7 +51,26 @@ class BlogController extends Controller
                 ->orderBy('created_at','desc')->first();
         }
 
+        if($request->more)
+        {
+            $more = 0;
+            $limit = 9999;
+        }
+        else
+        {
+            $more = 1;
+            $limit = 10;
+        }
 
+        $blogs10 = Blog::with('translations','media')
+            ->leftJoin('blog_translations','blogs.id', '=', 'blog_translations.blog_id')
+            ->select('blogs.id as id','name','slug','created_at')
+            ->where('locale','=',app()->getLocale())
+            ->where('blogs.online','=',1)
+            ->where('blog_translations.online','=',1)
+            //->where('blogs.id','!=',$blog->id)
+            ->orderBy('created_at','desc')
+            ->simplePaginate(10);
 
         $blogs = Blog::with('translations','media')
             ->leftJoin('blog_translations','blogs.id', '=', 'blog_translations.blog_id')
@@ -59,9 +78,10 @@ class BlogController extends Controller
             ->where('locale','=',app()->getLocale())
             ->where('blogs.online','=',1)
             ->where('blog_translations.online','=',1)
-            ->where('blogs.id','!=',$blog->id)
-            ->orderBy('created_at','desc')->get();
+            //->where('blogs.id','!=',$blog->id)
+            ->orderBy('created_at','desc')
+            ->get();
 
-        return view('blog', compact('blogs', 'blog'));
+        return view('blog', compact('blogs10', 'blogs', 'blog', 'more'));
     }
 }
