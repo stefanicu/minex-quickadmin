@@ -21,8 +21,8 @@ class BrandController extends Controller
             ->leftJoin('products', 'brands.id', '=', 'products.brand_id')
             ->leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
             ->selectRaw('brands.id, brands.name, brands.slug, COUNT(products.id) as cnt')
-            ->where('brands.online', '=', 1)
-            ->where('brand_translations.online', '=', 1)
+            //->where('brands.online', '=', 1)
+            //->where('brand_translations.online', '=', 1)
             ->where('brand_translations.locale', '=', app()->getLocale())
             ->where('product_translations.locale', '=', app()->getLocale())
             ->groupByRaw('brands.id, brands.name, brands.slug')
@@ -36,6 +36,7 @@ class BrandController extends Controller
             ->where('brand_id','=',$brand->id)
             ->where('product_translations.locale','=',app()->getLocale())
             ->select(sprintf('%s.*', (new Product)->table),'product_translations.name as name','product_translations.slug as slug')
+            ->orderBy('name')
             ->get();
 
         if($products->count() == 1)
