@@ -8,7 +8,6 @@ return [
     'search_for' => 'Search for word',
     'search_error' => 'The word searched must be at least 3 characters long',
     'search_not_found' => 'No results found',
-    'articles' => 'Articles',
 
     'product' => 'Product',
     'products' => 'Products',
@@ -45,5 +44,8 @@ return [
     'testimonial_question' => 'What do clients say about us?',
 
     'blog' => 'Blog',
-
+    'articles' => 'Articles',
+    'next' => 'Next',
+    'previous' => 'Previous',
+    'more_articles' => 'More Articles',
 ];
