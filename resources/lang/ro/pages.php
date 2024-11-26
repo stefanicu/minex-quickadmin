@@ -44,4 +44,8 @@ return [
     'testimonial_question' => 'Ce spun clientii si partenerii despre MINEX Group?',
 
     'blog' => 'Blog',
+    'articles' => 'Articole',
+    'next' => 'Напред',
+    'previous' => 'Предишен',
+    'more_articles' => 'Още статии',
 ];
