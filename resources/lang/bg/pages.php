@@ -8,7 +8,6 @@ return [
     'search_for' => 'Търсене на дума',
     'search_error' => 'Търсената дума трябва да има поне 3 знака',
     'search_not_found' => 'No results found',
-    'articles' => 'Cтатии',
 
     'product' => 'Продукт',
     'products' => 'Продукти',
@@ -44,4 +43,8 @@ return [
     'testimonial_question' => 'Какво казват клиентите за нас?',
 
     'blog' => 'Блог',
+    'articles' => 'Статии',
+    'next' => 'Next',
+    'previous' => 'Previous',
+    'more_articles' => 'More Articles',
 ];
