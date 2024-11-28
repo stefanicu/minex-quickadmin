@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'previous' => '&laquo; More new',
-    'next'     => 'Older once &raquo;',
+    'previous' => '&laquo; Newer',
+    'next'     => 'Older &raquo;',
 ];
