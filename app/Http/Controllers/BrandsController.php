@@ -14,7 +14,7 @@ class BrandsController extends Controller
                 //->where('brand_translations.online', '=', 1)
                 ->where('brand_translations.locale', '=', app()->getLocale());
             })
-            ->whereHas('products')
+//            ->whereHas('products')
             ->selectRaw('brands.id, brands.name, brands.slug')
             ->groupByRaw('brands.id, brands.name, brands.slug')
             ->orderBy('brands.name')
