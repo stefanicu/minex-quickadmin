@@ -22,11 +22,11 @@
 
 {{--                    </th>--}}
                     <th>
+                        {{ trans('cruds.blog.fields.online') }}
+                    </th>
+                    <th>
                         {{ trans('cruds.blog.fields.id') }}
                     </th>
-{{--                    <th>--}}
-{{--                        {{ trans('cruds.blog.fields.online') }}--}}
-{{--                    </th>--}}
                     <th>
                         {{ trans('cruds.blog.fields.name') }}
                     </th>
@@ -84,6 +84,17 @@
 {{--@endcan--}}
 
   let dtOverrideGlobals = {
+      "createdRow": function (row, data, dataIndex) {
+          data['translations'].forEach(
+              function(element) {
+                  if( element['locale'] == '<?= app()->getLocale() ?>' ){
+                      if (element['online'] == 0) {
+                          $(row).addClass('red_row')
+                      }
+                  }
+              }
+          )
+      },
       buttons: dtButtons,
       stateSave: true,
       processing: true,
@@ -93,15 +104,15 @@
       ajax: "{{ route('admin.blogs.index') }}",
       columns: [
           // { data: 'placeholder', name: 'placeholder' },
+          { data: 'online', name: 'online' },
           { data: 'id', name: 'id' },
-          // { data: 'online', name: 'online' },
           { data: 'name', name: 'blog_translations.name' },
           { data: 'image', name: 'image', class: 'text-center', sortable: false, searchable: false },
           { data: 'created_at', name: 'created_at' },
           { data: 'actions', name: '{{ trans('global.actions') }}', class: 'text-nowrap text-center', sortable: false, searchable: false  }
       ],
       orderCellsTop: true,
-      order: [[ 3, 'desc' ]],
+      order: [[ 4, 'desc' ]],
       pageLength: 25,
   };
   let table = $('.datatable-Blog').DataTable(dtOverrideGlobals);
