@@ -154,7 +154,13 @@ span.translation_guide {
 
 .red_row {
     color: #454545;
+}
+.red_row.even {
     background-color: #fbdce3 !important;
+}
+
+.red_row.odd {
+    background-color: #fdcbd7 !important;
 }
 
 .product_image_default {
