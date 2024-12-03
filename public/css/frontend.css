@@ -1,8 +1,9 @@
 .svg_white {
-    filter:invert(1);
+    filter: invert(1);
 }
+
 .svg_gray {
-    filter:invert(.6);
+    filter: invert(.6);
 }
 
 .product_default_image {
@@ -104,21 +105,21 @@ a.blogim img {
 }
 
 .blogim_over {
-    background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 90%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 90%);
 }
 
 .blogim_over:hover {
-    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%);
 }
 
 .blogim_over p {
     position: absolute;
     left: 0;
-    bottom:0;
+    bottom: 0;
     padding: 10px;
     color: white;
     min-width: 100%;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0, 0, 0, 0.3);
 
     display: inline-block;
     width: 180px;
@@ -129,7 +130,7 @@ a.blogim img {
 
 .blogim_over:hover p {
     color: white;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     white-space: pre-wrap;
 }
 
@@ -138,8 +139,7 @@ a.blogim {
     width: 100%;
 }
 
-div.container.content > div > div > figure > img
- {
+div.container.content > div > div > figure > img {
     max-width: -webkit-fill-available;
 }
 
@@ -151,6 +151,7 @@ div.container.content > div > div > figure > img
     #brd_id .col-lg-3:nth-child(4n) {
         border-right: none;
     }
+
     #brd_id .list-group-item:nth-last-child(-n +4) {
         border-bottom: none;
     }
@@ -160,6 +161,7 @@ div.container.content > div > div > figure > img
     #brd_id .col-md-4:nth-child(3n) {
         border-right: none;
     }
+
     #brd_id .list-group-item:nth-last-child(-n +3) {
         border-bottom: none;
     }
@@ -169,6 +171,7 @@ div.container.content > div > div > figure > img
     #brd_id .col-6:nth-child(2n) {
         border-right: none;
     }
+
     #brd_id .list-group-item:nth-last-child(-n +2) {
         border-bottom: none;
     }
@@ -195,6 +198,7 @@ div.container.content > div > div > figure > img
     #grid3_borders .col-lg-4:nth-child(3n) {
         border-right: none !important;
     }
+
     #grid3_borders .list-group-item:nth-last-child(-n +3) {
         border-bottom: none !important;
     }
@@ -204,6 +208,7 @@ div.container.content > div > div > figure > img
     #grid3_borders .col-md-6:nth-child(2n) {
         border-right: none !important;
     }
+
     #grid3_borders .list-group-item:nth-last-child(-n +2) {
         border-bottom: none !important;
     }
@@ -213,10 +218,11 @@ div.container.content > div > div > figure > img
     #grid3_borders .col-12 {
         border-right: none !important;
     }
+
     #categories_list {
         margin: 25px 0 50px;
     }
- }
+}
 
 #grid3_borders .list-group-item:last-child {
     border-right: none !important;
@@ -274,5 +280,13 @@ em.error.help-block {
     min-height: 75px;
     width: auto;
     position: absolute;
-    left:-20px
+    left: -20px
+}
+
+#addresses a {
+    font-weight: bold;
+}
+
+#addresses b {
+    color: #ff7200;
 }
