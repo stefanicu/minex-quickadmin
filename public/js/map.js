@@ -73,17 +73,17 @@ function initialize() {
         '</dl>',
             47.15984827, 27.59766881, 7],
 
-        ['<p><b>Minex Group - Romania - Cluj Napoca</b></p>' +
-        '<dl>' +
-        '<dt>M:</dt> <dd><a href="tel:+40724313334">+40 (724) 313334</a></dd>' +
-        '<dt>T:</dt> <dd><a href="tel:+40213060281">+40 (21) 3060281</a></dd>' +
-        '<dt>F:</dt> <dd>+40 (21) 3060284</dd>' +
-        '<dt>E:</dt> <dd><a href="mail:office@minexgroup.eu">office@minexgroup.eu</a></dd>' +
-        '</dl>'
-            , 46.786737, 23.60394, 5],
+        // ['<p><b>Minex Group - Romania - Cluj Napoca</b></p>' +
+        // '<dl>' +
+        // '<dt>M:</dt> <dd><a href="tel:+40724313334">+40 (724) 313334</a></dd>' +
+        // '<dt>T:</dt> <dd><a href="tel:+40213060281">+40 (21) 3060281</a></dd>' +
+        // '<dt>F:</dt> <dd>+40 (21) 3060284</dd>' +
+        // '<dt>E:</dt> <dd><a href="mail:office@minexgroup.eu">office@minexgroup.eu</a></dd>' +
+        // '</dl>'
+        //     , 46.786737, 23.60394, 5],
 
         ['<p><b>Minex Group - Bulgaria</b><br/><br/>' +
-        'Logic Park â€œSTADâ€ 467 Okolovrasten pat St. 1532<br />' +
+        'Logic Park STAD: 467 Okolovrasten pat St. 1532<br />' +
         'Sofia, Bulgaria</p>' +
         '<dl>' +
         '<dt>M:</dt> <dd><a href="tel:+3590885647622">+359 (0) 885647622</a></dd>' +
