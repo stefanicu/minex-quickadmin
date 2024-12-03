@@ -43,9 +43,9 @@
             <!-- harta -->
             <div id="map"></div>
         </div>
-        <div class="col-12 pt-4 text-center address">
-            <p class="mb-0">{!! $contact_us->first_text !!}</p>
-        </div>
+{{--        <div class="col-12 pt-4 text-center address">--}}
+{{--            <p class="mb-0">{!! $contact_us->first_text !!}</p>--}}
+{{--        </div>--}}
     </div>
 @endif
 </section>
