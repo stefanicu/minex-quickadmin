@@ -47,46 +47,6 @@ $page = '';
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
 
-    <script>
-        window.addEventListener("load", function(){
-            window.cookieconsent.initialise({
-                "palette": {
-                    "popup": {
-                        "background": "#eeeeee",
-                        "text": "#333333"
-                    },
-                    "button": {
-                        "background": "#ff7200",
-                        "text": "#fff"
-                    }
-                },
-                "content": {
-
-                    <?php
-                    switch(app()->getLocale()){
-                        case 'ro':
-                            echo '"message" : "Prin utilizarea site-ului nostru acceptati faptul ca folosim Cookie-uri in scopul imbunatatirii permanente a experientei dumneavoastra de utilizator. Mai multe informatii despre Cookie-uri pe care le folosim aflati pe pagina ",
-						"link" : "Conformitate GDPR.",
-						"href": "http://www.minexgroup.eu/gdpr",
-						"dismiss": "Am inteles!"';
-                            break;
-                        case 'en':
-                            echo '"message" : "By using this website, you agree with our use of cookies to improve its performance and enhance your user experience. More info on our ",
-						"link" : "GDPR compliance page.",
-						"href": "http://www.minexgroup.eu/gdpr",
-						"dismiss": "Got it!"';
-                            break;
-                        case 'bg':
-                            echo '"message" : "By using this website, you agree with our use of cookies to improve its performance and enhance your user experience. More info on our ",
-						"link" : "GDPR compliance page.",
-						"href": "http://www.minexgroup.eu/gdpr",
-						"dismiss": "Got it!"';
-                            break;
-                    }
-                    ?>
-                }
-            })});
-    </script>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.min.css') }}">
     <link href="{{ asset('css/minex.css') }}" rel="stylesheet">
     <link href="{{ asset('css/frontend.css') }}" rel="stylesheet">
@@ -161,7 +121,7 @@ $page = '';
         </ul>
 
         <p class="text-right my-0 m-button">
-            <a href="{{ url('') }}/gdpr/">{{ trans('frontend.gdpr_compliance') }}</a><br>{{ trans('frontend.copyright') }}. {{ trans('frontend.all_rights_reserved') }}.
+            <a href="{{ url('') }}/gdpr/">{{ trans('frontend.gdpr_compliance') }}</a><br>&#169; {{ trans('frontend.copyright') }}
         </p>
 
     </footer>
