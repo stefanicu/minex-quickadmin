@@ -17,7 +17,7 @@ class ContactController extends Controller
      */
     public function index(Request $store_contact_request)
     {
-        $validator = Validator::make($store_contact_request->all(),[
+        $validator = Validator::make($store_contact_request->all(), [
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
             'email' => 'required|email',
@@ -25,7 +25,7 @@ class ContactController extends Controller
             'industry' => 'required|string|max:255',
             'how_about' => 'required|string|max:255',
             'message' => 'required|string|max:255',
-            'company' => 'required|string|max:255',
+            'company' => 'nullable|string|max:255',
             'phone' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'county' => 'required|string|max:255',
@@ -33,21 +33,17 @@ class ContactController extends Controller
             'product' => 'sometimes|int|max:10000',
             'ip' => 'required|string|max:255',
         ]);
-
+        
         if ($validator->fails()) {
             // Redirect back with errors and add the anchor #form-errors to the URL
-            return redirect(url()->previous() . '#form-errors')
+            return redirect(url()->previous().'#form-errors')
                 ->withErrors($validator)
                 ->withInput();
         }
-
-        if(!empty($store_contact_request->all()))
-        {
-
-            if(empty($store_contact_request->district))
-            {
-                try
-                {
+        
+        if ( ! empty($store_contact_request->all())) {
+            if (empty($store_contact_request->district)) {
+                try {
                     Contact::create([
                         'name' => $store_contact_request->name,
                         'surname' => $store_contact_request->surname,
@@ -65,16 +61,11 @@ class ContactController extends Controller
                         'product' => $store_contact_request->product,
                         'ip' => $store_contact_request->ip,
                     ]);
-                }
-                catch (\Exception $exception)
-                {
+                } catch (\Exception $exception) {
                     return back()->withError($exception->getMessage());
                 }
-            }
-            else
-            {
-                try
-                {
+            } else {
+                try {
                     ContactSpam::create([
                         'name' => $store_contact_request->name,
                         'surname' => $store_contact_request->surname,
@@ -93,14 +84,12 @@ class ContactController extends Controller
                         'ip' => $store_contact_request->ip,
                         'district' => $store_contact_request->district,
                     ]);
-                }
-                catch (\Exception $exception)
-                {
+                } catch (\Exception $exception) {
                     return back()->withError($exception->getMessage());
                 }
             }
-
-            return Redirect::to(URL::previous() . "#contact")->with('success','Contact saved!');
+            
+            return Redirect::to(URL::previous()."#contact")->with('success', 'Contact saved!');
         }
     }
 }
