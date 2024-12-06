@@ -73,14 +73,15 @@
                         @foreach ($products as $product)
                             <div>
                                 <a href="{{ url('') }}/{{ trans('pages_slugs.product') }}/{{ $product->slug }}" class="bwWrapper">
-                                    @if(!empty($product->getPhotoAttribute()->all()))
+                                    @if(!empty($product->getMainPhotoAttribute()))
                                         <img
-                                            srcset="{{ $product->getPhotoAttribute()[0]->getUrl() }}"
+                                            srcset="{{ $product->getMainPhotoAttribute()->getUrl() }}"
                                             alt="{{ $product->name }}"
                                             class="mx-auto img-fluid img-hover">
                                     @else
                                         <div class="product_default_image">No image</div>
                                     @endif
+
                                     <p class="h5 assets-title row-icons--desc mt-4">{{ $product->name }}</p>
                                 </a>
                             </div>
