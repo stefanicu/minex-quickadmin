@@ -97,7 +97,7 @@
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center text-sm-left">
             <p>
                 {{--                <a href="https://www.google.com/maps?cid=119518942697758357" target="_blank">Sofia, Bulgaria</a><br/>--}}
-                <b>Sofia, Bulgaria</b><br/>
+                <b>Minex Bulgaria OOD<br/>Sofia, Bulgaria</b><br/>
                 A: Logic Park STAD:<br/>
                 467 Okolovrasten pat St.<br/>
                 1532 Sofia, Bulgaria<br/>
@@ -110,7 +110,7 @@
                 {{--                   target="_blank">--}}
                 {{--                    Belgrade, Serbia--}}
                 {{--                </a><br/>--}}
-                <b>Belgrade, Serbia</b><br/>
+                <b>Minex Balkans - Representative Office<br/>Belgrade, Serbia</b><br/>
                 A: Francuska 5,<br/>
                 11000 Belgrade, Serbia<br/>
                 M: +381 (63) 507586
@@ -118,7 +118,7 @@
         </div>
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center text-sm-left">
             <p>
-                <b>Vilnius, Lithuania</b><br/>
+                <b>Minex Baltics UAB<br/>Vilnius, Lithuania</b><br/>
                 A: Gariūnų g. 57,<br/>
                 02300 Vilnius, Lithuania<br/>
                 M: +370 674 63371
