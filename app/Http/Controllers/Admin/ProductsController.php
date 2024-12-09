@@ -7,13 +7,10 @@ use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyProductRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-use App\Models\Application;
 use App\Models\ApplicationTranslation;
 use App\Models\Brand;
-use App\Models\Category;
 use App\Models\CategoryTranslation;
 use App\Models\Product;
-use App\Models\Reference;
 use App\Models\ReferenceTranslation;
 use Gate;
 use Illuminate\Http\Request;
@@ -25,17 +22,14 @@ use Yajra\DataTables\Facades\DataTables;
 class ProductsController extends Controller
 {
     use MediaUploadingTrait;
-
+    
     public function index(Request $request)
     {
         abort_if(Gate::denies('product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        
         if ($request->ajax()) {
-
-
-
             $currentLocale = app()->getLocale();
-
+            
             $query = Product::with(
                 'translations',
                 'media',
@@ -47,13 +41,13 @@ class ProductsController extends Controller
                 'categories.translations',
                 'categories.media',
             )
-                ->leftJoin('product_translations', function($join) use ($currentLocale) {
+                ->leftJoin('product_translations', function ($join) use ($currentLocale) {
                     $join->on('products.id', '=', 'product_translations.product_id')
                         ->where('product_translations.locale', $currentLocale);
                 })
                 ->leftJoin('category_product', 'products.id', '=', 'category_product.product_id')
                 ->leftJoin('categories', 'categories.id', '=', 'category_product.category_id')
-                ->leftJoin('category_translations', function($join) use ($currentLocale) {
+                ->leftJoin('category_translations', function ($join) use ($currentLocale) {
                     $join->on('categories.id', '=', 'category_translations.category_id')
                         ->where('category_translations.locale', $currentLocale);
                 })
@@ -66,7 +60,8 @@ class ProductsController extends Controller
                     'brands.name as brand_name',
                     DB::raw("GROUP_CONCAT(DISTINCT category_translations.name ORDER BY category_translations.name ASC SEPARATOR ', ') as category_names")
                 )
-                ->groupBy('products.id','products.oldimage','products.oldmoreimages','product_translations.name','brands.name');
+                ->groupBy('products.id', 'products.oldimage', 'products.oldmoreimages', 'product_translations.name',
+                    'brands.name');
 
 //                foreach ($query->get() as $product) {
 //                    $main_photo = Media::where('model_id', $product->id)
@@ -93,18 +88,18 @@ class ProductsController extends Controller
 //                        }
 //                    }
 //                }
-
+            
             $table = Datatables::of($query);
-
+            
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
-
+            
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'product_show';
-                $editGate      = 'product_edit';
-                $deleteGate    = 'product_delete';
+                $viewGate = 'product_show';
+                $editGate = 'product_edit';
+                $deleteGate = 'product_delete';
                 $crudRoutePart = 'products';
-
+                
                 return view('partials.datatablesActions', compact(
                     'viewGate',
                     'editGate',
@@ -113,17 +108,17 @@ class ProductsController extends Controller
                     'row'
                 ));
             });
-
+            
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
             $table->editColumn('online', function ($row) {
-                return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
+                return '<input type="checkbox" disabled '.($row->online ? 'checked' : null).'>';
             });
             $table->addColumn('brands.name', function ($row) {
                 return $row->brand ? $row->brand->name : '';
             });
-
+            
             $table->editColumn('brand.slug', function ($row) {
                 return $row->brand ? (is_string($row->brand) ? $row->brand : $row->brand->slug) : '';
             });
@@ -135,7 +130,7 @@ class ProductsController extends Controller
                 foreach ($row->applications as $applicaiton) {
                     $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $applicaiton->name);
                 }
-
+                
                 return implode(' ', $labels);
             });
             $table->editColumn('categories', function ($row) {
@@ -143,7 +138,7 @@ class ProductsController extends Controller
                 foreach ($row->categories as $category) {
                     $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $category->name);
                 }
-
+                
                 return implode(' ', $labels);
             });
 //            $table->editColumn('photo', function ($row) {
@@ -169,30 +164,38 @@ class ProductsController extends Controller
 //
 //                return '';
 //            });
-
-            $table->rawColumns(['actions', 'placeholder', 'online', 'brand', 'applications', 'categories', 'photo', 'main_photo']);
-
+            
+            $table->rawColumns([
+                'actions', 'placeholder', 'online', 'brand', 'applications', 'categories', 'photo', 'main_photo'
+            ]);
+            
             return $table->make(true);
         }
-
+        
         return view('admin.products.index');
     }
-
+    
     public function create()
     {
+        $currentLocale = app()->getLocale();
+        
         abort_if(Gate::denies('product_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $brands = Brand::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $applications = Application::pluck('name', 'id');
-
-        $categories = Category::pluck('name', 'id');
-
-        $references = Reference::pluck('online', 'id');
-
+        
+        $brands = Brand::orderBy('name', 'asc')->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        
+        $applications = ApplicationTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name',
+            'application_id');
+        
+        $categories = CategoryTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name',
+            'category_id');
+        
+        $references = ReferenceTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name',
+            'reference_id');
+        
+        
         return view('admin.products.create', compact('applications', 'brands', 'categories', 'references'));
     }
-
+    
     public function store(StoreProductRequest $request)
     {
         $product = Product::create($request->all());
@@ -200,39 +203,42 @@ class ProductsController extends Controller
         $product->categories()->sync($request->input('categories', []));
         $product->references()->sync($request->input('references', []));
         foreach ($request->input('photo', []) as $file) {
-            $product->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('photo');
+            $product->addMedia(storage_path('tmp/uploads/'.basename($file)))->toMediaCollection('photo');
         }
-
+        
         if ($request->input('main_photo', false)) {
-            $product->addMedia(storage_path('tmp/uploads/' . basename($request->input('main_photo'))))->toMediaCollection('main_photo');
+            $product->addMedia(storage_path('tmp/uploads/'.basename($request->input('main_photo'))))->toMediaCollection('main_photo');
         }
-
+        
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $product->id]);
         }
-
+        
         return redirect()->route('admin.products.index');
     }
-
+    
     public function edit(Product $product)
     {
         abort_if(Gate::denies('product_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        
         $currentLocale = app()->getLocale();
-
-        $brands = Brand::orderBy('name','asc')->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $applications = ApplicationTranslation::where('locale',$currentLocale)->orderBy('name','asc')->pluck('name', 'application_id');
-
-        $categories = CategoryTranslation::where('locale',$currentLocale)->orderBy('name','asc')->pluck('name', 'category_id');
-
-        $references = ReferenceTranslation::where('locale',$currentLocale)->orderBy('name','asc')->pluck('name', 'reference_id');
-
+        
+        $brands = Brand::orderBy('name', 'asc')->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        
+        $applications = ApplicationTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name',
+            'application_id');
+        
+        $categories = CategoryTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name',
+            'category_id');
+        
+        $references = ReferenceTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name',
+            'reference_id');
+        
         //$product->load('brand', 'applications', 'categories', 'references');
-
+        
         return view('admin.products.edit', compact('product', 'brands', 'applications', 'categories', 'references'));
     }
-
+    
     public function update(UpdateProductRequest $request, Product $product)
     {
         $product->update($request->all());
@@ -241,7 +247,7 @@ class ProductsController extends Controller
         $product->references()->sync($request->input('references', []));
         if (count($product->photo) > 0) {
             foreach ($product->photo as $media) {
-                if (! in_array($media->file_name, $request->input('photo', []))) {
+                if ( ! in_array($media->file_name, $request->input('photo', []))) {
                     $media->delete();
                 }
             }
@@ -249,53 +255,54 @@ class ProductsController extends Controller
         $media = $product->photo->pluck('file_name')->toArray();
         foreach ($request->input('photo', []) as $file) {
             if (count($media) === 0 || ! in_array($file, $media)) {
-                $product->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('photo');
+                $product->addMedia(storage_path('tmp/uploads/'.basename($file)))->toMediaCollection('photo');
             }
         }
-
+        
         if ($request->input('main_photo', false)) {
-            if (! $product->main_photo || $request->input('main_photo') !== $product->main_photo->file_name) {
+            if ( ! $product->main_photo || $request->input('main_photo') !== $product->main_photo->file_name) {
                 if ($product->main_photo) {
                     $product->main_photo->delete();
                 }
-                $product->addMedia(storage_path('tmp/uploads/' . basename($request->input('main_photo'))))->toMediaCollection('main_photo');
+                $product->addMedia(storage_path('tmp/uploads/'.basename($request->input('main_photo'))))->toMediaCollection('main_photo');
             }
         } elseif ($product->main_photo) {
             $product->main_photo->delete();
         }
-
+        
         return redirect()->route('admin.products.index');
     }
-
+    
     public function destroy(Product $product)
     {
         abort_if(Gate::denies('product_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        
         $product->delete();
-
+        
         return back();
     }
-
+    
     public function massDestroy(MassDestroyProductRequest $request)
     {
         $products = Product::find(request('ids'));
-
+        
         foreach ($products as $product) {
             $product->delete();
         }
-
+        
         return response(null, Response::HTTP_NO_CONTENT);
     }
-
+    
     public function storeCKEditorImages(Request $request)
     {
-        abort_if(Gate::denies('product_create') && Gate::denies('product_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $model         = new Product();
-        $model->id     = $request->input('crud_id', 0);
+        abort_if(Gate::denies('product_create') && Gate::denies('product_edit'), Response::HTTP_FORBIDDEN,
+            '403 Forbidden');
+        
+        $model = new Product();
+        $model->id = $request->input('crud_id', 0);
         $model->exists = true;
-        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
-
+        $media = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+        
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
 }
