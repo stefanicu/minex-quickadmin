@@ -13,7 +13,7 @@
                     <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
                         <input type="hidden" name="online" value="0">
                         <input class="form-check-input" type="checkbox" name="online" id="online"
-                               value="1" {{ old('online', 0) == 1 ? 'checked' : '' }}>
+                               value="0">
                         <label class="form-check-label" for="online">{{ trans('cruds.product.fields.online') }}</label>
                     </div>
                     @if($errors->has('online'))
@@ -21,156 +21,211 @@
                     @endif
                     <span class="help-block">{{ trans('cruds.product.fields.online_helper') }}</span>
                 </div>
-                <div class="form-group">
-                    <label class="required">{{ trans('cruds.product.fields.language') }}</label>
-                    <select class="form-control {{ $errors->has('language') ? 'is-invalid' : '' }}" name="language"
-                            id="language" required>
-                        <option value
-                                disabled {{ old('language', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                        @foreach(\App\Models\Product::LANGUAGE_SELECT as $key => $label)
-                            <option value="{{ $key }}" {{ old('language', 'en') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                        @endforeach
-                    </select>
-                    @if($errors->has('language'))
-                        <span class="text-danger">{{ $errors->first('language') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.product.fields.language_helper') }}</span>
-                </div>
-                <div class="form-group">
-                    <label class="required" for="brand_id">{{ trans('cruds.product.fields.brand') }}</label>
-                    <select class="form-control select2 {{ $errors->has('brand') ? 'is-invalid' : '' }}" name="brand_id"
-                            id="brand_id" required>
-                        @foreach($brands as $id => $entry)
-                            <option value="{{ $id }}" {{ old('brand_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                        @endforeach
-                    </select>
-                    @if($errors->has('brand'))
-                        <span class="text-danger">{{ $errors->first('brand') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.product.fields.brand_helper') }}</span>
-                </div>
-                <div class="form-group">
-                    <label class="required" for="name">{{ trans('cruds.product.fields.name') }}</label>
-                    <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name"
-                           id="name" value="{{ old('name', '') }}" required>
-                    @if($errors->has('name'))
-                        <span class="text-danger">{{ $errors->first('name') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.product.fields.name_helper') }}</span>
-                </div>
-                <div class="form-group">
-                    <label class="required" for="slug">{{ trans('cruds.product.fields.slug') }}</label>
-                    <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug"
-                           id="slug" value="{{ old('slug', '') }}" required>
-                    @if($errors->has('slug'))
-                        <span class="text-danger">{{ $errors->first('slug') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.product.fields.slug_helper') }}</span>
-                </div>
-                <div class="form-group">
-                    <label for="applications">{{ trans('cruds.product.fields.applications') }}</label>
-                    <div style="padding-bottom: 4px">
-                        <span class="btn btn-info btn-xs select-all"
-                              style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                        <span class="btn btn-info btn-xs deselect-all"
-                              style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+
+                <div class="row">
+                    <div class="form-group col-4">
+                        <label class="required" for="name">{{ trans('cruds.product.fields.name') }}</label>
+                        <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text"
+                               name="name" id="name" value="" required>
+                        @if($errors->has('name'))
+                            <span class="text-danger">{{ $errors->first('name') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.product.fields.name_helper') }}</span>
                     </div>
-                    <select class="form-control select2 {{ $errors->has('applications') ? 'is-invalid' : '' }}"
-                            name="applications[]" id="applications" multiple>
-                        @foreach($applications as $id => $applicaiton)
-                            <option value="{{ $id }}" {{ in_array($id, old('applications', [])) ? 'selected' : '' }}>{{ $applicaiton }}</option>
-                        @endforeach
-                    </select>
-                    @if($errors->has('applications'))
-                        <span class="text-danger">{{ $errors->first('applications') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.product.fields.applications_helper') }}</span>
-                </div>
-                <div class="form-group">
-                    <label for="categories">{{ trans('cruds.product.fields.categories') }}</label>
-                    <div style="padding-bottom: 4px">
-                        <span class="btn btn-info btn-xs select-all"
-                              style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                        <span class="btn btn-info btn-xs deselect-all"
-                              style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                    <div class="form-group col-4">
+                        <label class="required" for="slug">{{ trans('cruds.product.fields.slug') }}</label>
+                        <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text"
+                               name="slug" id="slug" value="" required>
+                        @if($errors->has('slug'))
+                            <span class="text-danger">{{ $errors->first('slug') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.product.fields.slug_helper') }}</span>
                     </div>
-                    <select class="form-control select2 {{ $errors->has('categories') ? 'is-invalid' : '' }}"
-                            name="categories[]" id="categories" multiple>
-                        @foreach($categories as $id => $category)
-                            <option value="{{ $id }}" {{ in_array($id, old('categories', [])) ? 'selected' : '' }}>{{ $category }}</option>
-                        @endforeach
-                    </select>
-                    @if($errors->has('categories'))
-                        <span class="text-danger">{{ $errors->first('categories') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.product.fields.categories_helper') }}</span>
-                </div>
-                <div class="form-group">
-                    <label for="description">{{ trans('cruds.product.fields.description') }}</label>
-                    <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                              name="description" id="description">{!! old('description') !!}</textarea>
-                    @if($errors->has('description'))
-                        <span class="text-danger">{{ $errors->first('description') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.product.fields.description_helper') }}</span>
-                </div>
-                <div class="form-group">
-                    <label for="photo">{{ trans('cruds.product.fields.photo') }}</label>
-                    <div class="needsclick dropzone {{ $errors->has('photo') ? 'is-invalid' : '' }}"
-                         id="photo-dropzone">
+                    <div class="form-group col-4">
+                        <label class="required" for="brand_id">{{ trans('cruds.product.fields.brand') }}</label>
+                        <select class="form-control select2 {{ $errors->has('brand') ? 'is-invalid' : '' }}"
+                                name="brand_id" id="brand_id" required>
+                            @foreach($brands as $id => $entry)
+                                <option value="{{ $id }}">{{ $entry }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('brand'))
+                            <span class="text-danger">{{ $errors->first('brand') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.product.fields.brand_helper') }}</span>
                     </div>
-                    @if($errors->has('photo'))
-                        <span class="text-danger">{{ $errors->first('photo') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.product.fields.photo_helper') }}</span>
                 </div>
-                <div class="form-group">
-                    <label for="specifications">{{ trans('cruds.product.fields.specifications') }}</label>
-                    <textarea class="form-control ckeditor {{ $errors->has('specifications') ? 'is-invalid' : '' }}"
-                              name="specifications" id="specifications">{!! old('specifications') !!}</textarea>
-                    @if($errors->has('specifications'))
-                        <span class="text-danger">{{ $errors->first('specifications') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.product.fields.specifications_helper') }}</span>
-                </div>
-                <div class="form-group">
-                    <label for="advantages">{{ trans('cruds.product.fields.advantages') }}</label>
-                    <textarea class="form-control ckeditor {{ $errors->has('advantages') ? 'is-invalid' : '' }}"
-                              name="advantages" id="advantages">{!! old('advantages') !!}</textarea>
-                    @if($errors->has('advantages'))
-                        <span class="text-danger">{{ $errors->first('advantages') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.product.fields.advantages_helper') }}</span>
-                </div>
-                <div class="form-group">
-                    <label for="usage">{{ trans('cruds.product.fields.usage') }}</label>
-                    <textarea class="form-control ckeditor {{ $errors->has('usage') ? 'is-invalid' : '' }}" name="usage"
-                              id="usage">{!! old('usage') !!}</textarea>
-                    @if($errors->has('usage'))
-                        <span class="text-danger">{{ $errors->first('usage') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.product.fields.usage_helper') }}</span>
-                </div>
-                <div class="form-group">
-                    <label for="references">{{ trans('cruds.product.fields.references') }}</label>
-                    <div style="padding-bottom: 4px">
-                        <span class="btn btn-info btn-xs select-all"
-                              style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                        <span class="btn btn-info btn-xs deselect-all"
-                              style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+
+
+                <div class="row">
+                    <div id="applications" class="form-group col-6">
+                        <label for="applications">{{ trans('cruds.product.fields.applications') }}</label>
+                        <div style="padding-bottom: 4px">
+                            <span class="btn btn-info btn-xs select-all"
+                                  style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                            <span class="btn btn-info btn-xs deselect-all"
+                                  style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                        </div>
+                        <select class="form-control select2 {{ $errors->has('applications') ? 'is-invalid' : '' }}"
+                                name="applications[]" id="applications" multiple>
+                            @foreach($applications as $id => $applicaiton)
+                                <option value="{{ $id }}">{{ $applicaiton }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('applications'))
+                            <span class="text-danger">{{ $errors->first('applications') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.product.fields.applications_helper') }}</span>
                     </div>
-                    <select class="form-control select2 {{ $errors->has('references') ? 'is-invalid' : '' }}"
-                            name="references[]" id="references" multiple>
-                        @foreach($references as $id => $reference)
-                            <option value="{{ $id }}" {{ in_array($id, old('references', [])) ? 'selected' : '' }}>{{ $reference }}</option>
-                        @endforeach
-                    </select>
-                    @if($errors->has('references'))
-                        <span class="text-danger">{{ $errors->first('references') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.product.fields.references_helper') }}</span>
+                    <div id="categories" class="form-group col-6">
+                        <label for="categories">{{ trans('cruds.product.fields.categories') }}</label>
+                        <div style="padding-bottom: 4px">
+                            <span class="btn btn-info btn-xs select-all"
+                                  style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                            <span class="btn btn-info btn-xs deselect-all"
+                                  style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                        </div>
+                        <select class="form-control select2 {{ $errors->has('categories') ? 'is-invalid' : '' }}"
+                                name="categories[]" id="categories" multiple>
+                            @foreach($categories as $id => $category)
+                                <option value="{{ $id }}">{{ $category }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('categories'))
+                            <span class="text-danger">{{ $errors->first('categories') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.product.fields.categories_helper') }}</span>
+                    </div>
                 </div>
+
+
+                <div class="row">
+
+                    <ul class="nav nav-tabs mt-2 col-12">
+                        <li class="nav-item"><a class="nav-link active" data-toggle="tab"
+                                                href="#description">{{ trans('cruds.product.fields.description') }}</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab"
+                                                href="#specifications">{{ trans('cruds.product.fields.specifications') }}</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab"
+                                                href="#advantages">{{ trans('cruds.product.fields.advantages') }}</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab"
+                                                href="#usages">{{ trans('cruds.product.fields.usages') }}</a></li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab"
+                                                href="#accessories">{{ trans('cruds.product.fields.accessories') }}</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab"
+                                                href="#references">{{ trans('cruds.product.fields.references') }}</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content pt-4 mb-2 col-12">
+                        <div id="description" class="form-group tab-pane fade in active show">
+                            {{--                    <label for="description">{{ trans('cruds.product.fields.description') }}</label>--}}
+                            <textarea
+                                    class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
+                                    name="description"
+                                    id="description"></textarea>
+                            @if($errors->has('description'))
+                                <span class="text-danger">{{ $errors->first('description') }}</span>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.product.fields.description_helper') }}</span>
+                        </div>
+
+                        <div id="specifications" class="form-group tab-pane fade in">
+                            {{--                    <label for="specifications">{{ trans('cruds.product.fields.specifications') }}</label>--}}
+                            <textarea
+                                    class="form-control ckeditor {{ $errors->has('specifications') ? 'is-invalid' : '' }}"
+                                    name="specifications"
+                                    id="specifications"></textarea>
+                            @if($errors->has('specifications'))
+                                <span class="text-danger">{{ $errors->first('specifications') }}</span>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.product.fields.specifications_helper') }}</span>
+                        </div>
+
+                        <div id="advantages" class="form-group tab-pane fade in">
+                            {{--                    <label for="advantages">{{ trans('cruds.product.fields.advantages') }}</label>--}}
+                            <textarea class="form-control ckeditor {{ $errors->has('advantages') ? 'is-invalid' : '' }}"
+                                      name="advantages"
+                                      id="advantages"></textarea>
+                            @if($errors->has('advantages'))
+                                <span class="text-danger">{{ $errors->first('advantages') }}</span>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.product.fields.advantages_helper') }}</span>
+                        </div>
+
+                        <div id="usages" class="form-group tab-pane fade in">
+                            {{--                    <label for="usages">{{ trans('cruds.product.fields.usages') }}</label>--}}
+                            <textarea class="form-control ckeditor {{ $errors->has('usages') ? 'is-invalid' : '' }}"
+                                      name="usages" id="usages"></textarea>
+                            @if($errors->has('usages'))
+                                <span class="text-danger">{{ $errors->first('usage') }}</span>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.product.fields.usage_helper') }}</span>
+                        </div>
+
+                        <div id="accessories" class="form-group tab-pane fade in">
+                            {{--                    <label for="usage">{{ trans('cruds.product.fields.accessories') }}</label>--}}
+                            <textarea
+                                    class="form-control ckeditor {{ $errors->has('accessories') ? 'is-invalid' : '' }}"
+                                    name="accessories"
+                                    id="accessories"></textarea>
+                            @if($errors->has('accessories'))
+                                <span class="text-danger">{{ $errors->first('accessories') }}</span>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.product.fields.accessories_helper') }}</span>
+                        </div>
+                        <div id="references" class="form-group tab-pane fade in">
+                            {{--                    <label for="references">{{ trans('cruds.product.fields.references') }}</label>--}}
+                            <div style="padding-bottom: 4px">
+                                <span class="btn btn-info btn-xs select-all"
+                                      style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                                <span class="btn btn-info btn-xs deselect-all"
+                                      style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                            </div>
+                            <select class="form-control select2 {{ $errors->has('references') ? 'is-invalid' : '' }}"
+                                    name="references[]" id="references" multiple>
+                                @foreach($references as $id => $reference)
+                                    <option value="{{ $id }}">{{ $reference }}</option>
+                                @endforeach
+                            </select>
+                            @if($errors->has('references'))
+                                <span class="text-danger">{{ $errors->first('references') }}</span>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.product.fields.references_helper') }}</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-2">
+                        <label for="main_photo">{{ trans('cruds.product.fields.main_photo') }}</label>
+                        <div class="needsclick dropzone {{ $errors->has('main_photo') ? 'is-invalid' : '' }}"
+                             id="main_photo-dropzone">
+                        </div>
+                        @if($errors->has('main_photo'))
+                            <span class="text-danger">{{ $errors->first('main_photo') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.product.fields.main_photo_helper') }}</span>
+                    </div>
+
+                    <div class="form-group col-10">
+                        <label for="photo">{{ trans('cruds.product.fields.photo') }}</label>
+                        <div class="needsclick dropzone {{ $errors->has('photo') ? 'is-invalid' : '' }}"
+                             id="photo-dropzone">
+                        </div>
+                        @if($errors->has('photo'))
+                            <span class="text-danger">{{ $errors->first('photo') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.product.fields.photo_helper') }}</span>
+                    </div>
+                </div>
+
                 <div class="form-group">
+                    <input type="hidden" name="locale" value="{{app()->getLocale()}}">
                     <button class="btn btn-danger" type="submit">
                         {{ trans('global.save') }}
                     </button>
