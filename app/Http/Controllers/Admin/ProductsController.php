@@ -34,7 +34,6 @@ class ProductsController extends Controller
                 'translations',
                 'media',
                 'brand',
-                'brand.media',
                 'brand.translations',
                 'applications.translations', // Eager load translations for applications
                 'applications.media',
@@ -51,7 +50,10 @@ class ProductsController extends Controller
                     $join->on('categories.id', '=', 'category_translations.category_id')
                         ->where('category_translations.locale', $currentLocale);
                 })
-                ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
+                ->leftJoin('brands', function ($join) use ($currentLocale) {
+                    $join->on('products.brand_id', '=', 'brands.id')
+                        ->whereNull('brands.deleted_at');
+                })
                 ->select(
                     'products.id',
                     'products.oldimage',
