@@ -7,25 +7,30 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Productfile;
+use App\Models\ProductTranslation;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     public function index(Request $request)
     {
+        $productTranslation = ProductTranslation::where('slug', $request->slug)->first();
+        
         $currentLocale = app()->getLocale();
-
-        $product = Product::with('translations', 'media')
-            ->leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
-            ->where('products.online', '=', 1)
+        
+        $product = Product::leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
+            ->with('translations', 'media')
             ->where('product_translations.online', '=', 1)
-            ->where('product_translations.slug', '=', $request->slug)
+            ->where('product_translations.product_id', '=', $productTranslation->product_id)
             ->where('product_translations.locale', '=', $currentLocale)
             ->select(sprintf('%s.*', (new Product)->table))
             ->first();
-
+        
         $brandOfflineDefaultMessage = trans('pages.no_brand_default_message');
-
+        
+        
+        //dd($productTranslation->product_id, $currentLocale, $product, $request->slug);
+        
         if ($product === null) {
             $product = Product::with('translations', 'media')
                 ->leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
@@ -41,10 +46,10 @@ class ProductController extends Controller
             $application = null;
             $category = null;
             $categories = [];
-            $referrer  =  $request->headers->get('referer');
-
+            $referrer = $request->headers->get('referer');
+            
             $brandOfflineMessage = $brandOfflineDefaultMessage;
-
+            
             return view(
                 'product',
                 compact(
@@ -61,11 +66,11 @@ class ProductController extends Controller
                 )
             );
         }
-
+        
         $brand = Brand::find($product->brand_id);
         $brand->offline_message ? $brandOfflineMessage = $brand->offline_message : $brandOfflineMessage = $brandOfflineDefaultMessage;
-
-
+        
+        
         $references = $product->references()
             ->with([
                 'translations' => function ($query) use ($currentLocale) {
@@ -73,13 +78,13 @@ class ProductController extends Controller
                 }
             ])
             ->get();
-
+        
         $files = Productfile::where('product_id', $product->id)
             ->whereRaw("FIND_IN_SET(?, languages)", [$currentLocale])
             ->get();
-
+        
         $referrer = $request->headers->get('referer');
-
+        
         if (session()->has('application_id') &&
             ! str_contains($referrer, 'search?search') &&
             ! str_contains($referrer, 'partner') &&
@@ -92,7 +97,7 @@ class ProductController extends Controller
                 ->with('translations') // Eager load translations for each application
                 ->first();
         }
-
+        
         if (session()->has('category_id') &&
             ! str_contains($referrer, 'search?search') &&
             ! str_contains($referrer, 'partner') &&
@@ -105,7 +110,7 @@ class ProductController extends Controller
                 ->with('translations') // Eager load translations for each application
                 ->first();
         }
-
+        
         if ($application) {
             $categories = Category::whereHas('products', function ($query) use ($application) {
                 // Filter products that belong to the specified category
@@ -129,35 +134,31 @@ class ProductController extends Controller
             $category = null;
             $categories = null;
         }
-
+        
         if (session()->has('category_id')) {
             $categoryId = session('category_id');
-
+            
             $hasCategory = $product->categories()->where('categories.id', $categoryId)->exists();
-
+            
             if ($hasCategory) {
                 $similar_products = Product::whereHas('categories', function ($query) use ($categoryId) {
                     $query->where('category_id', $categoryId);
                 })
                     ->where('id', '!=', $product->id)
                     ->get();
-            }
-            else
-            {
+            } else {
                 $brandId = $product->brand_id;
                 $similar_products = Product::whereHas('brand', function ($query) use ($brandId) {
                     $query->where('brand_id', $brandId);
                 })
                     ->where('id', '!=', $product->id)
                     ->get();
-
+                
                 $application = null;
                 $category = null;
                 $categories = null;
             }
-        }
-        else
-        {
+        } else {
             $brandId = $product->brand_id;
             $similar_products = Product::whereHas('brand', function ($query) use ($brandId) {
                 $query->where('brand_id', $brandId);
@@ -200,7 +201,7 @@ class ProductController extends Controller
 //            ->orderByTranslation('name')
 //            ->withCount('products') // Adds a `products_count` attribute to each category
 //            ->get();
-
+        
         return view(
             'product',
             compact(
