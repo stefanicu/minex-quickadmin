@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Product;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 
 class UpdateProductRequest extends FormRequest
@@ -14,7 +12,7 @@ class UpdateProductRequest extends FormRequest
     {
         return Gate::allows('product_edit');
     }
-
+    
     public function rules()
     {
         return [
@@ -32,7 +30,7 @@ class UpdateProductRequest extends FormRequest
                 'required',
                 Rule::unique('product_translations', 'name')
                     ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('product')->id,'product_id')
+                    ->ignore(request()->route('product')->id, 'product_id')
             ],
             'slug' => [
                 'string',
@@ -41,7 +39,7 @@ class UpdateProductRequest extends FormRequest
                 'required',
                 Rule::unique('product_translations', 'slug')
                     ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('product')->id,'product_id')
+                    ->ignore(request()->route('product')->id, 'product_id')
             ],
             'applications.*' => [
                 'integer',
