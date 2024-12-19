@@ -16,20 +16,22 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
-
+    
     /**
      * Bootstrap any application services.
      */
     public function boot(): void
     {
+        // Set umask globally
+        umask(0002); // Allow group and others to read files
+        
         Paginator::useBootstrapFour();
-
+        
         if ( ! request()->is('admin/*')) {
-
             // Share the applications globally for all views
             View::composer('*', function ($view) {
                 // Get all applications, or whatever specific data you need
-
+                
                 $applications = Application::select(
                     'applications.id',
                     'application_translations.name',
@@ -49,10 +51,9 @@ class AppServiceProvider extends ServiceProvider
                     ->groupBy('applications.id', 'application_translations.name', 'application_translations.slug')
                     ->orderBy('application_translations.name')
                     ->get();
-
+                
                 $view->with('applications', $applications);  // Share with all views
             });
-
         }
     }
 }
