@@ -9,20 +9,18 @@ class BlogController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->slug) {
-            $blog_id = Blog::whereTranslation('slug', $request->slug)->first()->id;
+        if ( ! is_numeric($request->slug)) {
+            $blog = Blog::whereTranslation('slug', $request->slug)
+                ->whereTranslation('locale', app()->getLocale())
+                ->first();
             
-            $blog = Blog::whereTranslation('locale', app()->getLocale())->whereTranslation('blog_id',
-                $blog_id)->first();
-            
-            //dd($blog);
             
             if ($blog) {
                 $blog = Blog::with('translations', 'media')
                     ->leftJoin('blog_translations', 'blogs.id', '=', 'blog_translations.blog_id')
                     ->select('blogs.id as id', 'name', 'slug', 'created_at')
                     ->where('blog_translations.online', '=', 1)
-                    ->where('blog_translations.blog_id', '=', $blog_id)
+                    ->where('blog_translations.blog_id', '=', $blog->id)
                     ->where('locale', '=', app()->getLocale())
                     ->orderBy('created_at', 'desc')->first();
             } else {
@@ -37,17 +35,13 @@ class BlogController extends Controller
             $blog = Blog::with('translations', 'media')
                 ->leftJoin('blog_translations', 'blogs.id', '=', 'blog_translations.blog_id')
                 ->select('blogs.id as id', 'name', 'slug', 'created_at')
-                ->where('locale', '=', app()->getLocale())
+                ->where('locale', '=', 'en')
                 ->where('blog_translations.online', '=', 1)
+                ->where('blog_translations.blog_id', '=', $request->slug)
                 ->orderBy('created_at', 'desc')->first();
-        }
-        
-        if ($request->more) {
-            $more = 0;
-            $limit = 9999;
-        } else {
-            $more = 1;
-            $limit = 10;
+            
+            $blog->name = trans('pages.no_translated_title');
+            $blog->content = trans('pages.no_translated_message');
         }
         
         $blogs10 = Blog::with('translations', 'media')
@@ -70,6 +64,12 @@ class BlogController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
         
-        return view('blog', compact('blogs10', 'blogs', 'blog', 'more'));
+        $slugs = null;
+        foreach (config('translatable.locales') as $locale) {
+            $slug_blog = $blog->translate($locale)->slug ?? $blog->id;
+            $slugs[$locale] = $slug_blog;
+        }
+        
+        return view('blog', compact('blogs10', 'blogs', 'blog', 'slugs'));
     }
 }
