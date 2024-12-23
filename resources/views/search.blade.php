@@ -14,9 +14,12 @@
                 <source data-srcset="{{ asset('/img/headers/aplicatie-lg.jpg') }}" media="(min-width: 992px)">
                 <source data-srcset="{{ asset('/img/headers/aplicatie-md.jpg') }}" media="(min-width: 576px)">
                 <source data-srcset="{{ asset('/img/headers/aplicatie-sm.jpg') }}" media="(max-width: 576px)">
-                <img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ asset('/img/headers/aplicatie-xl.jpg') }}" alt="{{ trans('pages.product') }}" data-loaded="true">
+                <img class="lozad img-fluid section--hero-img lazy-fade"
+                     srcset="{{ asset('/img/headers/aplicatie-xl.jpg') }}" alt="{{ trans('pages.product') }}"
+                     data-loaded="true">
                 <noscript>
-                    <img class="img-fluid lozad" src="{{ asset('/img/headers/aplicatie-xl.jpg') }}" alt="{{ trans('pages.product') }}">
+                    <img class="img-fluid lozad" src="{{ asset('/img/headers/aplicatie-xl.jpg') }}"
+                         alt="{{ trans('pages.product') }}">
                 </noscript>
             </picture>
         </figure>
@@ -33,10 +36,12 @@
                 @else
                     @if($products->count()>0)
                         <h2>{{ trans('pages.products') }}</h2>
-                        <ul id="grid3_borders" class='list-unstyled row justify-content-start assets-row main-row-prod main-row--grid'>
+                        <ul id="grid3_borders"
+                            class='list-unstyled row justify-content-start assets-row main-row-prod main-row--grid'>
                             @foreach($products as $product)
                                 <li class="col-12 col-md-6 col-lg-4 d-flex align-items-center list-group-item py-3">
-                                    <a href="{{ url('') }}/{{ trans('pages_slugs.product') }}/{{ $product->slug }}" class="d-flex flex-column">
+                                    <a href="{{ url('') }}/{{ trans('pages_slugs.product') }}/{{ $product->slug }}"
+                                       class="d-flex flex-column">
                                         @if($product->getMainPhotoAttribute())
                                             <figure class="mx-auto">
                                                 <img srcset="{{ $product->getMainPhotoAttribute()->getUrl() }}"
@@ -53,17 +58,19 @@
 
                     @if($blogs->count()>0)
                         <h2>{{ trans('pages.articles') }}</h2>
-                        <ul id="grid3_borders" class='list-unstyled row justify-content-start assets-row main-row-prod main-row--grid'>
+                        <ul id="grid3_borders"
+                            class='list-unstyled row justify-content-start assets-row main-row-prod main-row--grid'>
                             @foreach($blogs as $blog)
                                 <li class="col-12 col-md-6 col-lg-4 d-flex align-items-center list-group-item py-3">
-                                    <a href="{{ url('') }}/{{ trans('pages_slugs.blog') }}/{{ $blog->slug }}" class="d-flex flex-column">
-                                            @if($blog->getImageAttribute() !== null && $blog->getImageAttribute()->count()>0)
-                                                <img srcset="{{ $blog->getImageAttribute()->getUrl() }}"
-                                                    alt="{{ $blog->name }}"
-                                                    class="mx-auto lozad img-fluid">
-                                            @else
-                                                <div class="blog_slider_image_default">No image</div>
-                                            @endif
+                                    <a href="{{ url('') }}/{{ trans('pages_slugs.blog') }}/{{ $blog->slug }}"
+                                       class="d-flex flex-column">
+                                        @if($blog->getImageAttribute() !== null && $blog->getImageAttribute()->count()>0)
+                                            <img srcset="{{ $blog->getImageAttribute()->getUrl() }}"
+                                                 alt="{{ $blog->name }}"
+                                                 class="mx-auto lozad img-fluid">
+                                        @else
+                                            <div class="blog_slider_image_default">No image</div>
+                                        @endif
                                         <p class="h5 assets-title row-icons--desc mt-4">{{ $blog->name }}</p>
                                     </a>
                                 </li>
@@ -78,14 +85,4 @@
 @endsection
 @section('scripts')
     @parent
-    <script src="{{ asset('/js/validate/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('/js/validate/setprodus.validate.js') }}"></script>
-    <script>var selectedCountry = "{{ old('country') }}";var selectedState = "{{ old('county') }}";</script>
-    <script src="{{ asset('/js/countries.js') }}"></script>
-    <script>populateCountries("country", "county");</script>
-    <script>
-        $(document).ready(function(){$(function(){$('.bxslider').bxSlider({mode:'fade',slideWidth:400});});
-            $(function(){$('.bxslider-related').bxSlider({minSlides:3,maxSlides:6,slideWidth:250,slideMargin:50,pager:false});});});
-        $(function(){$('.bxslider-img').bxSlider({mode:'fade',slideWidth:800,pager:false,controls:true});});
-    </script>
 @endsection
