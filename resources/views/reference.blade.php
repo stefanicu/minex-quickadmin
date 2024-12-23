@@ -4,7 +4,9 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="/">{{ trans('menu.home') }}</a></li>
-                <li class="breadcrumb-item"><a href="{{ url('') }}/{{ trans('pages_slugs.references') }}/">{{ trans('pages.references') }}</a></li>
+                <li class="breadcrumb-item"><a
+                            href="{{ route('references.'.app()->getLocale()) }}">{{ trans('pages.references') }}</a>
+                </li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $reference->name }}</li>
             </ol>
         </nav>
@@ -15,9 +17,12 @@
                 <source data-srcset="{{ asset('/img/headers/aplicatie-lg.jpg') }}" media="(min-width: 992px)">
                 <source data-srcset="{{ asset('/img/headers/aplicatie-md.jpg') }}" media="(min-width: 576px)">
                 <source data-srcset="{{ asset('/img/headers/aplicatie-sm.jpg') }}" media="(max-width: 576px)">
-                <img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ asset('/img/headers/aplicatie-xl.jpg') }}" alt="{{ trans('pages.references') }}" data-loaded="true">
+                <img class="lozad img-fluid section--hero-img lazy-fade"
+                     srcset="{{ asset('/img/headers/aplicatie-xl.jpg') }}" alt="{{ trans('pages.references') }}"
+                     data-loaded="true">
                 <noscript>
-                    <img class="img-fluid lozad" src="{{ asset('/img/headers/aplicatie-xl.jpg') }}" alt="{{ trans('pages.references') }}">
+                    <img class="img-fluid lozad" src="{{ asset('/img/headers/aplicatie-xl.jpg') }}"
+                         alt="{{ trans('pages.references') }}">
                 </noscript>
             </picture>
         </figure>
@@ -35,7 +40,8 @@
                 <h2 class="h3">{{ trans('pages.other_references') }}</h2>
                 <div class="list-group references--other">
                     @foreach($references as $ref)
-                        <a href="{{ url('') }}/{{ trans('pages_slugs.reference') }}/{{ $ref->slug }}" class="list-group-item d-flex justify-content-between align-items-center">{{ $ref->name }}</a>
+                        <a href="{{ route('reference.'.app()->getLocale(), ['slug' => $ref->slug]) }}"
+                           class="list-group-item d-flex justify-content-between align-items-center">{{ $ref->name }}</a>
                     @endforeach
                 </div>
             </div>
@@ -51,16 +57,16 @@
                     @if($loop->iteration == 1 && $reference->getPhotoWideAttribute() !== null && $reference->getPhotoWideAttribute()->count()>0)
                         <article class="news--item news--item__big">
                             <img
-                                srcset="{{ $reference->getPhotoWideAttribute()->getUrl() }}"
-                                alt="{{ $reference->name }} image wide"
-                                class="lozad lazy-fade">
+                                    srcset="{{ $reference->getPhotoWideAttribute()->getUrl() }}"
+                                    alt="{{ $reference->name }} image wide"
+                                    class="lozad lazy-fade">
                         </article>
                     @endif
                     <article class="news--item news--item__small">
                         <img
-                            srcset="{{ $image->getUrl() }}"
-                            alt="{{ $reference->name }} image {{ $loop->iteration }}"
-                            class="lozad lazy-fade">
+                                srcset="{{ $image->getUrl() }}"
+                                alt="{{ $reference->name }} image {{ $loop->iteration }}"
+                                class="lozad lazy-fade">
                     </article>
                 @endforeach
             @endif
@@ -72,12 +78,13 @@
                     <div class="bxslider-related mx-auto">
                         @foreach ($products as $product)
                             <div>
-                                <a href="{{ url('') }}/{{ trans('pages_slugs.product') }}/{{ $product->slug }}" class="bwWrapper">
+                                <a href="{{ url('') }}/{{ trans('pages_slugs.product') }}/{{ $product->slug }}"
+                                   class="bwWrapper">
                                     @if(!empty($product->getMainPhotoAttribute()))
                                         <img
-                                            srcset="{{ $product->getMainPhotoAttribute()->getUrl() }}"
-                                            alt="{{ $product->name }}"
-                                            class="mx-auto img-fluid img-hover">
+                                                srcset="{{ $product->getMainPhotoAttribute()->getUrl() }}"
+                                                alt="{{ $product->name }}"
+                                                class="mx-auto img-fluid img-hover">
                                     @else
                                         <div class="product_default_image">No image</div>
                                     @endif
@@ -95,9 +102,5 @@
 @endsection
 @section('scripts')
     @parent
-    <script>
-        $(document).ready(function(){$(function(){$('.bxslider').bxSlider({mode:'fade',slideWidth:400});});
-            $(function(){$('.bxslider-related').bxSlider({minSlides:3,maxSlides:6,slideWidth:250,slideMargin:50,pager:false});});});
-        $(function(){$('.bxslider-img').bxSlider({mode:'fade',slideWidth:800,pager:false,controls:true});});
-    </script>
+    <script src="{{ asset('/js/bxSlider/reference_setup.js') }}"></script>
 @endsection
