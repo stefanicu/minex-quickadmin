@@ -34,9 +34,9 @@
         autoHidingNavbar.element.addClass('navbar-hidden').animate({
             top: -autoHidingNavbar.element.height()
         }, {
-                queue: false,
-                duration: autoHidingNavbar.settings.animationDuration
-            });
+            queue: false,
+            duration: autoHidingNavbar.settings.animationDuration
+        });
 
         $('.dropdown.open .dropdown-toggle', autoHidingNavbar.element).dropdown('toggle');
 
@@ -51,9 +51,9 @@
         autoHidingNavbar.element.removeClass('navbar-hidden').animate({
             top: 0
         }, {
-                queue: false,
-                duration: autoHidingNavbar.settings.animationDuration
-            });
+            queue: false,
+            duration: autoHidingNavbar.settings.animationDuration
+        });
         _visible = true;
     }
 
@@ -71,8 +71,7 @@
             if (autoHidingNavbar.settings.showOnUpscroll || scrollTop <= _hideOffset) {
                 show(autoHidingNavbar);
             }
-        }
-        else if (scrollDelta > 0) {
+        } else if (scrollDelta > 0) {
             if (!_visible) {
                 if (autoHidingNavbar.settings.showOnBottom && scrollTop + _windowHeight === $document.height()) {
                     show(autoHidingNavbar);
@@ -101,8 +100,7 @@
         $document.on('scroll.' + pluginName, function () {
             if (new Date().getTime() - _lastScrollHandlerRun > _throttleDelay) {
                 scrollHandler(autoHidingNavbar);
-            }
-            else {
+            } else {
                 clearTimeout(_scrollThrottleTimer);
                 _scrollThrottleTimer = setTimeout(function () {
                     scrollHandler(autoHidingNavbar);
@@ -203,3 +201,6 @@
     };
 
 })(jQuery, window, document);
+
+
+$(".fixed--top").autoHidingNavbar();
