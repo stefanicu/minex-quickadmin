@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Application;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
     {
         // Set umask globally
         umask(0002); // Allow group and others to read files
+        
+        URL::forceScheme('https');
         
         Paginator::useBootstrapFour();
         
