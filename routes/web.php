@@ -1,19 +1,11 @@
 <?php
 
-Route::get('/', 'HomeController@index')->name('home');
-
-Route::get('/setlocale/{locale}', function (string $locale) {
-    if ( ! in_array($locale, config('translatable.locales'))) {
-        abort(400);
-    }
-    app()->setLocale(config('app.locale'));
-    return redirect()->back();
-});
-
 Auth::routes(['register' => false]);
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
-    Route::get('/', 'HomeController@index')->name('home.index');
+Route::group([
+    'prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'setBackendLocale']
+], function () {
+    Route::get('/', 'HomeController@index')->name('home');
     
     // Permissions
     Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
@@ -108,40 +100,46 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
 });
 
 
-# all languages routes
-Route::get('/', 'HomeController@index')->name('home.index');
-Route::get('blog', 'BlogController@index')->name('blogs.index');
-Route::get('blog/{slug}/', 'BlogController@index')->name('blog.index');
-Route::get('gdpr', 'GdprController@index')->name('gdpr.index');
+Route::get('/', function () {
+    $defaultLocale = config('app.fallback_locale', 'en'); // Default language
+    return redirect($defaultLocale);
+});
 
-Route::post('contact', 'ContactController@index')->name('contact.index');
-Route::get('search', 'SearchController@index')->name('search.index');
-
-# romanian routes
-Route::get('parteneri', 'BrandsController@index')->name('brands.index.ro');
-Route::get('partener/{slug}/', 'BrandController@index')->name('brand.index.ro');
-
-Route::get('produs/{slug}/', 'ProductController@index')->name('product.index.ro');
-
-Route::get('referinte', 'ReferencesController@index')->name('references.index.ro');
-Route::get('referinta/{slug}/', 'ReferenceController@index')->name('reference.index.ro');
-
-Route::get('categorii/{slug}/', 'CategoriesController@index')->name('categories.index.ro');
-Route::get('categorie/{slug}/', 'CategoryController@index')->name('category.index.ro');
-
-Route::get('testimoniale', 'TestimonialsController@index')->name('testimonials.index.ro');
-
-
-# english and bulgarian routes
-Route::get('partners', 'BrandsController@index')->name('brands.index');
-Route::get('partner/{slug}/', 'BrandController@index')->name('brand.index');
-
-Route::get('product/{slug}/', 'ProductController@index')->name('product.index');
-
-Route::get('references', 'ReferencesController@index')->name('references.index');
-Route::get('reference/{slug}/', 'ReferenceController@index')->name('reference.index');
-
-Route::get('categories/{slug}/', 'CategoriesController@index')->name('categories.index');
-Route::get('category/{slug}/', 'CategoryController@index')->name('category.index');
-
-Route::get('testimonials', 'TestimonialsController@index')->name('testimonials.index');
+// Define translatable routes separately for each language
+foreach (config('translatable.locales') as $locale) {
+    Route::group(['prefix' => $locale, 'middleware' => 'setFrontendLocale'], function () use ($locale) {
+        Route::get('/', 'HomeController@index')->name("home.$locale");
+        Route::get('gdpr', 'GdprController@index')->name("gdpr.$locale");
+        Route::post('contact', 'ContactController@index')->name("contact.post.$locale");
+        Route::get('contact', 'ContactController@index')->name("contact.get.$locale");
+        Route::get('search', 'SearchController@index')->name("search.$locale");
+        
+        // Translatable routes with language-specific names and slugs
+        Route::get(trans('pages_slugs.blog', [], $locale), 'BlogController@index')->name("blogs.$locale");
+        Route::get(trans('pages_slugs.blog', [], $locale).'/{slug?}', 'BlogController@index')->name("blog.$locale");
+        
+        Route::get(trans('pages_slugs.brands', [], $locale), 'BrandsController@index')->name("brands.$locale");
+        Route::get(trans('pages_slugs.brand', [], $locale).'/{slug}/', 'BrandController@index')->name("brand.$locale");
+        
+        
+        Route::get(trans('pages_slugs.products', [], $locale).'/{app_slug?}',
+            'CategoriesController@index')->name("categories.$locale");
+        Route::get(trans('pages_slugs.products', [], $locale).'/{app_slug?}'.'/{cat_slug?}',
+            'ProductsController@index')->name("products.$locale");
+        
+        Route::get(trans('pages_slugs.product', [], $locale).'/{app_slug?}'.'/{cat_slug?}'.'/{prod_slug}',
+            'ProductController@index')->name("product.$locale");
+        
+        Route::get(trans('pages_slugs.brand', [], $locale).'/{brand_slug}'.'/{prod_slug?}',
+            'ProductBrandController@index')->name("product_brand.$locale");
+        
+        Route::get(trans('pages_slugs.references', [], $locale),
+            'ReferencesController@index')->name("references.$locale");
+        Route::get(trans('pages_slugs.reference', [], $locale).'/{slug}',
+            'ReferenceController@index')->name("reference.$locale");
+        
+        
+        Route::get(trans('pages_slugs.testimonials', [], $locale),
+            'TestimonialsController@index')->name("testimonials.$locale");
+    })->where('lang', implode('|', config('translatable.locales')));
+}
