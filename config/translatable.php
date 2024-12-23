@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    
     /*
     |--------------------------------------------------------------------------
     | Application Locales
@@ -9,13 +9,36 @@ return [
     |
     | Contains an array with the applications available locales.
     |
+    | en – Engleza (limba principala / sursa, unde aterizeaza oricine nu se regaseste in una din limbile/zonele de mai jos)
+    | ro – Romana (limba cu introducere manuala)
+    | bg – Bulgara
+    | lt – Lituaniana
+    | lv – Letona
+    | et – Estona
+    | sr – Sarba
+    | hr – Croata
+    | sl – Slovena
+    | bs – Bosniaca
+    | mk – Macedoneana
+    | hu – Ungara
+    | uk – Ucrainiana.
     */
     'locales' => [
         'en',
         'ro',
-        'bg'
+        'bg',
+//        'lt',
+//        'lv',
+//        'et',
+//        'sr',
+//        'hr',
+//        'sl',
+//        'bs',
+//        'mk',
+//        'hu',
+//        'uk'
     ],
-
+    
     /*
     |--------------------------------------------------------------------------
     | Locale separator
@@ -27,7 +50,7 @@ return [
     |
     */
     'locale_separator' => '-',
-
+    
     /*
     |--------------------------------------------------------------------------
     | Default locale
@@ -41,7 +64,7 @@ return [
     |
     */
     'locale' => null,
-
+    
     /*
     |--------------------------------------------------------------------------
     | Use fallback
@@ -54,7 +77,7 @@ return [
     |
     */
     'use_fallback' => false,
-
+    
     /*
     |--------------------------------------------------------------------------
     | Use fallback per property
@@ -66,7 +89,7 @@ return [
     |
      */
     'use_property_fallback' => false,
-
+    
     /*
     |--------------------------------------------------------------------------
     | Fallback Locale
@@ -82,7 +105,7 @@ return [
     |
     */
     'fallback_locale' => 'en',
-
+    
     /*
     |--------------------------------------------------------------------------
     | Translation Model Namespace
@@ -94,7 +117,7 @@ return [
     |
     */
     'translation_model_namespace' => null,
-
+    
     /*
     |--------------------------------------------------------------------------
     | Translation Suffix
@@ -106,7 +129,7 @@ return [
     |
     */
     'translation_suffix' => 'Translation',
-
+    
     /*
     |--------------------------------------------------------------------------
     | Locale key
@@ -117,7 +140,7 @@ return [
     |
     */
     'locale_key' => 'locale',
-
+    
     /*
     |--------------------------------------------------------------------------
     | Always load translations when converting to array
@@ -128,7 +151,7 @@ return [
     |
      */
     'to_array_always_loads_translations' => true,
-
+    
     /*
     |--------------------------------------------------------------------------
     | Configure the default behavior of the rule factory
