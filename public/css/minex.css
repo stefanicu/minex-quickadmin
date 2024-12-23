@@ -3,49 +3,60 @@
     height: 100%;
 }
 
-.form-label {display: none;}
+.form-label {
+    display: none;
+}
 
 
 option[value=""][disabled] {
-  display: none;
+    display: none;
 }
 
 option {
-  color: black;
+    color: black;
 }
 
-.h2 small {color:#777;}
-.list-group-item.active a {color:#fff;}
+.h2 small {
+    color: #777;
+}
+
+.list-group-item.active a {
+    color: #fff;
+}
+
 .list-group-item.active a span.badge-primary {
-  color: #ff7200;
-  background-color: #fff;
+    color: #ff7200;
+    background-color: #fff;
 }
 
 .blockquote-home {
     font-size: 1.2rem;
 }
-.animate-area--title {
-  max-width: 60rem;
+
+.animate-area--text h1 {
+    max-width: 60rem;
 }
 
-.main_minex{
-  min-height: 90vh;
+.main_minex {
+    min-height: 90vh;
 }
 
 .fixed--top {
-  z-index: 200;
+    z-index: 200;
 }
 
-.h3 small { color: #777;}
-
-.form-checkbox-min{
-  width: 2.5rem;
-  height: 2rem;
-  display: block;
-  float: left;
+.h3 small {
+    color: #777;
 }
 
-.multumim-center{
+.form-checkbox-min {
+    width: 2.5rem;
+    height: 2rem;
+    display: block;
+    float: left;
+}
+
+.multumim-center {
     padding: 6rem;
     font-size: x-large;
     color: green;
@@ -56,29 +67,30 @@ option {
     border-radius: .25rem;
 }
 
-.form_errors{
-  background-color: #ffd1d1ad;
-  padding: 2rem .75rem;
-  border-radius: .25rem;
+.form_errors {
+    background-color: #ffd1d1ad;
+    padding: 2rem .75rem;
+    border-radius: .25rem;
 }
+
 .form_errors ul {
     margin: 0;
 }
 
 .captcha-error {
-  width: 304px;
+    width: 304px;
 }
 
 .navbar--minex .navbar-nav .nav-link {
-  padding: .3rem .9rem;
+    padding: .3rem .9rem;
 }
 
 .dropdown-menu a {
-  padding: .2rem 0;
+    padding: .2rem 0;
 }
 
 .animate-area--sub {
-  font-size: 1.8rem;
+    font-size: 1.8rem;
 }
 
 .wrap_russian {
@@ -86,32 +98,33 @@ option {
 }
 
 .searchbox-input {
-  width: auto;
+    width: auto;
 }
 
-@media (max-width: 1240px){
-  .navbar--minex .navbar-nav .nav-link {
-    padding: .3rem .4rem;
-  }
-  .form-control.searchbox-input {
-    width: 100px;
-  }
+@media (max-width: 1240px) {
+    .navbar--minex .navbar-nav .nav-link {
+        padding: .3rem .4rem;
+    }
+
+    .form-control.searchbox-input {
+        width: 100px;
+    }
 }
 
-footer{
-  background-color: #ced4da;
+footer {
+    background-color: #ced4da;
 }
 
 dl {
-  display: grid;
-  grid-template-columns: max-content auto;
+    display: grid;
+    grid-template-columns: max-content auto;
 }
 
 dt {
-  grid-column-start: 1;
-  padding-right: 10px;
+    grid-column-start: 1;
+    padding-right: 10px;
 }
 
 dd {
-  grid-column-start: 2;
+    grid-column-start: 2;
 }
