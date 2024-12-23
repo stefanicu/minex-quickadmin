@@ -14,9 +14,12 @@
                 <source data-srcset="{{ asset('/img/headers/aplicatie-lg.jpg') }}" media="(min-width: 992px)">
                 <source data-srcset="{{ asset('/img/headers/aplicatie-md.jpg') }}" media="(min-width: 576px)">
                 <source data-srcset="{{ asset('/img/headers/aplicatie-sm.jpg') }}" media="(max-width: 576px)">
-                <img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ asset('/img/headers/aplicatie-xl.jpg') }}" alt="{{ trans('pages.references') }}" data-loaded="true">
+                <img class="lozad img-fluid section--hero-img lazy-fade"
+                     srcset="{{ asset('/img/headers/aplicatie-xl.jpg') }}" alt="{{ trans('pages.references') }}"
+                     data-loaded="true">
                 <noscript>
-                    <img class="img-fluid lozad" src="{{ asset('/img/headers/aplicatie-xl.jpg') }}" alt="{{ trans('pages.references') }}">
+                    <img class="img-fluid lozad" src="{{ asset('/img/headers/aplicatie-xl.jpg') }}"
+                         alt="{{ trans('pages.references') }}">
                 </noscript>
             </picture>
         </figure>
@@ -31,31 +34,37 @@
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         @foreach($industries as $industry)
                             <li class="nav-item">
-                                <a class="nav-link {{ $loop->iteration==1 ? 'active' : '' }}" id="tab-a{{ $industry->id }}-tab"  data-toggle="tab" href="#tab-a{{ $industry->id }}" role="tab" aria-controls="tab-a{{ $industry->id }}"  >
+                                <a class="nav-link {{ $loop->iteration==1 ? 'active' : '' }}"
+                                   id="tab-a{{ $industry->id }}-tab" data-toggle="tab" href="#tab-a{{ $industry->id }}"
+                                   role="tab" aria-controls="tab-a{{ $industry->id }}">
                                     {{ $industry->name }}
                                 </a>
                             </li>
                         @endforeach
 
-                        <li class="nav-item"><a class="nav-link" id="tab-alte-tab"  data-toggle="tab" href="#tab-alte" role="tab" aria-controls="tab-alte" >Altele</a></li>
+                        <li class="nav-item"><a class="nav-link" id="tab-alte-tab" data-toggle="tab" href="#tab-alte"
+                                                role="tab" aria-controls="tab-alte">Altele</a></li>
                     </ul>
 
                     <div class="tab-content py-4" id="myTabContent">
 
 
                         @foreach($industries as $industry)
-                            <div class="tab-pane py-4 fade {{ $loop->iteration== 1 ? 'show active' : '' }}" id="tab-a{{ $industry->id }}" role="tabpanel" aria-labelledby="tab{{ $industry->id }}-tab">
+                            <div class="tab-pane py-4 fade {{ $loop->iteration== 1 ? 'show active' : '' }}"
+                                 id="tab-a{{ $industry->id }}" role="tabpanel"
+                                 aria-labelledby="tab{{ $industry->id }}-tab">
                                 <ul class="list-unstyled img-grid">
                                     @foreach($references as $reference)
                                         @if($reference->industries_id == $industry->id)
                                             <li class="img-grid--item px-4">
-                                                <a href="{{ url('') }}/{{ trans('pages_slugs.reference') }}/{{ $reference->slug }}" class="text-center d-flex flex-column">
+                                                <a href="{{ route('reference.'.app()->getLocale(), ['slug' => $reference->slug]) }}"
+                                                   class="text-center d-flex flex-column">
                                                     @if($reference->getPhotoSquareAttribute()->all() !== null && $reference->getPhotoSquareAttribute()->count()>=2)
                                                         <img
-                                                            srcset="{{ $reference->getPhotoSquareAttribute()->all()[1]->getUrl() }}"
-                                                            alt="{{ $reference->name }}"
-                                                            title="{{ $reference->name }}"
-                                                            class="mx-auto img-fluid lozad img-hover">
+                                                                srcset="{{ $reference->getPhotoSquareAttribute()->all()[1]->getUrl() }}"
+                                                                alt="{{ $reference->name }}"
+                                                                title="{{ $reference->name }}"
+                                                                class="mx-auto img-fluid lozad img-hover">
                                                     @else
                                                         <div class="reference_image_default">No image</div>
                                                     @endif
@@ -74,13 +83,14 @@
                                 @foreach($references as $reference)
                                     @if(!in_array($reference->industries_id,$industries_in_tab))
                                         <li class="img-grid--item px-4">
-                                            <a href="{{ url('') }}/{{ trans('pages_slugs.reference') }}/{{ $reference->slug }}" class="text-center d-flex flex-column">
+                                            <a href="{{ route('reference.'.app()->getLocale(), ['slug' => $reference->slug]) }}"
+                                               class="text-center d-flex flex-column">
                                                 @if($reference->getPhotoSquareAttribute()->all() !== null && $reference->getPhotoSquareAttribute()->count()>=2)
                                                     <img
-                                                        srcset="{{ $reference->getPhotoSquareAttribute()->all()[1]->getUrl() }}"
-                                                        alt="{{ $reference->name }}"
-                                                        title="{{ $reference->name }}"
-                                                        class="mx-auto img-fluid lozad img-hover">
+                                                            srcset="{{ $reference->getPhotoSquareAttribute()->all()[1]->getUrl() }}"
+                                                            alt="{{ $reference->name }}"
+                                                            title="{{ $reference->name }}"
+                                                            class="mx-auto img-fluid lozad img-hover">
                                                 @else
                                                     <div class="reference_image_default">No image</div>
                                                 @endif
@@ -99,44 +109,6 @@
 
 @endsection
 @section('scripts')
-    <script>
-        $(document).ready(() => {
-            let url = location.href.replace(/\/$/, "");
-            const tabs = $('#myTab a[data-toggle="tab"]'); // Select all tabs
-            const firstTab = tabs.first(); // First tab
-            const defaultTab = $('#myTab a[href="#tab-alte"]'); // Default tab for invalid hashes
-
-            if (location.hash) {
-                // Extract the hash from the URL
-                const hash = url.split("#")[1];
-                const targetTab = $('#myTab a[href="#' + hash + '"]');
-
-                if (targetTab.length) {
-                    // If the hash matches an existing tab, show that tab
-                    targetTab.tab("show");
-                } else {
-                    // If the hash is invalid, show the default tab
-                    defaultTab.tab("show");
-                    updateUrl(defaultTab.attr("href"));
-                }
-            } else {
-                // No hash: Show the first tab
-                firstTab.tab("show");
-                updateUrl(firstTab.attr("href"));
-            }
-
-            // Handle tab clicks
-            $('a[data-toggle="tab"]').on("click", function () {
-                const hash = $(this).attr("href");
-                updateUrl(hash);
-            });
-
-            // Function to update the URL
-            function updateUrl(hash) {
-                const newUrl = url.split("#")[0] + hash + "/";
-                history.replaceState(null, null, newUrl);
-            }
-        });
-    </script>
     @parent
+    <script src="{{ asset('/js/references-tabs.js') }}"></script>
 @endsection
