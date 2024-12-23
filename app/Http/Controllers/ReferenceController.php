@@ -64,6 +64,12 @@ class ReferenceController extends Controller
                 'product_translations.slug as slug')
             ->get();
         
-        return view('reference', compact('references', 'reference', 'products'));
+        $slugs = null;
+        foreach (config('translatable.locales') as $locale) {
+            $slug_reference = $reference->translate($locale)->slug ?? $reference->id;
+            $slugs[$locale] = $slug_reference;
+        }
+        
+        return view('reference', compact('references', 'reference', 'products', 'slugs'));
     }
 }
