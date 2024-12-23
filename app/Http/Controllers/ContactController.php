@@ -12,12 +12,17 @@ use Illuminate\Support\Facades\Validator;
 class ContactController extends Controller
 {
     /**
-     * @param  Request  $store_contact_request
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse|void
      */
-    public function index(Request $store_contact_request)
+    public function index(Request $request)
     {
-        $validator = Validator::make($store_contact_request->all(), [
+        if ($request->isMethod('get')) {
+            // Handle GET request
+            return redirect()->route('home.'.app()->getLocale())->withFragment('contact');
+        }
+        
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
             'email' => 'required|email',
@@ -41,25 +46,25 @@ class ContactController extends Controller
                 ->withInput();
         }
         
-        if ( ! empty($store_contact_request->all())) {
-            if (empty($store_contact_request->district)) {
+        if ( ! empty($request->all())) {
+            if (empty($request->district)) {
                 try {
                     Contact::create([
-                        'name' => $store_contact_request->name,
-                        'surname' => $store_contact_request->surname,
-                        'email' => $store_contact_request->email,
-                        'job' => $store_contact_request->job,
-                        'industry' => $store_contact_request->industry,
-                        'how_about' => $store_contact_request->how_about,
-                        'message' => $store_contact_request->message,
-                        'company' => $store_contact_request->company,
-                        'phone' => $store_contact_request->phone,
-                        'country' => $store_contact_request->country,
-                        'county' => $store_contact_request->county,
-                        'city' => $store_contact_request->city,
-                        'checkbox' => $store_contact_request->checkbox,
-                        'product' => $store_contact_request->product,
-                        'ip' => $store_contact_request->ip,
+                        'name' => $request->name,
+                        'surname' => $request->surname,
+                        'email' => $request->email,
+                        'job' => $request->job,
+                        'industry' => $request->industry,
+                        'how_about' => $request->how_about,
+                        'message' => $request->message,
+                        'company' => $request->company,
+                        'phone' => $request->phone,
+                        'country' => $request->country,
+                        'county' => $request->county,
+                        'city' => $request->city,
+                        'checkbox' => $request->checkbox,
+                        'product' => $request->product,
+                        'ip' => $request->ip,
                     ]);
                 } catch (\Exception $exception) {
                     return back()->withError($exception->getMessage());
@@ -67,22 +72,22 @@ class ContactController extends Controller
             } else {
                 try {
                     ContactSpam::create([
-                        'name' => $store_contact_request->name,
-                        'surname' => $store_contact_request->surname,
-                        'email' => $store_contact_request->email,
-                        'job' => $store_contact_request->job,
-                        'industry' => $store_contact_request->industry,
-                        'how_about' => $store_contact_request->how_about,
-                        'message' => $store_contact_request->message,
-                        'company' => $store_contact_request->company,
-                        'phone' => $store_contact_request->phone,
-                        'country' => $store_contact_request->country,
-                        'county' => $store_contact_request->county,
-                        'city' => $store_contact_request->city,
-                        'checkbox' => $store_contact_request->checkbox,
-                        'product' => $store_contact_request->product,
-                        'ip' => $store_contact_request->ip,
-                        'district' => $store_contact_request->district,
+                        'name' => $request->name,
+                        'surname' => $request->surname,
+                        'email' => $request->email,
+                        'job' => $request->job,
+                        'industry' => $request->industry,
+                        'how_about' => $request->how_about,
+                        'message' => $request->message,
+                        'company' => $request->company,
+                        'phone' => $request->phone,
+                        'country' => $request->country,
+                        'county' => $request->county,
+                        'city' => $request->city,
+                        'checkbox' => $request->checkbox,
+                        'product' => $request->product,
+                        'ip' => $request->ip,
+                        'district' => $request->district,
                     ]);
                 } catch (\Exception $exception) {
                     return back()->withError($exception->getMessage());
