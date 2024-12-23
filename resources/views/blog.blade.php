@@ -8,7 +8,7 @@
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="/">{{ trans('menu.home') }}</a></li>
                 <li class="breadcrumb-item"><a
-                            href="{{ url('') }}/{{ trans('pages_slugs.blog') }}/">{{ trans('pages.blog') }}</a></li>
+                            href="{{ route('blogs.'.app()->getLocale()) }}">{{ trans('pages.blog') }}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $blog->name }}</li>
             </ol>
         </nav>
@@ -42,8 +42,6 @@
                             srcset="{{ $blog->getImageAttribute()->getUrl() }}"
                             alt="{{ $blog->name }}"
                             class="img-fluid">
-                @else
-                    <div class="blog_image_default">No image</div>
                 @endif
                 <hr>
                 {!! $blog->content !!}
@@ -62,7 +60,7 @@
                                                 class="lozad">
                                     </div>
                                 @endif
-                                <a href="{{ route('blog.index', ['slug' => $bg->slug, 'page' => request()->get('page')]) }}"
+                                <a href="{{ route('blog.'.app()->getLocale(), ['slug' => $bg->slug, 'page' => request()->get('page')]) }}"
                                    class="flex m-auto">
                                     {{ $bg->name }}
                                 </a>
@@ -80,7 +78,7 @@
         <div class="bxslider-related mx-auto pt-4">
             @foreach ($blogs as $blg)
                 <div class="d-flex slider-image-container">
-                    <a href="{{ route('blog.index', ['slug' => $blg->slug, 'page' => request()->get('page')]) }}"
+                    <a href="{{ route('blog.'.app()->getLocale(), ['slug' => $blg->slug ?? null, 'page' => request()->get('page')]) }}"
                        class="blogim position-relative">
                         @if($blg->getImageAttribute() !== null && $blg->getImageAttribute()->count()>0)
                             <img
