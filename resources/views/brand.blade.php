@@ -6,7 +6,7 @@
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="/">{{ trans('menu.home') }}</a></li>
                 <li class="breadcrumb-item"><a
-                            href="{{ url('') }}/{{ trans('pages_slugs.brands') }}/">{{ trans('pages.brands') }}</a></li>
+                            href="{{ route('brands.'.app()->getLocale()) }}">{{ trans('pages.brands') }}</a></li>
                 <li class="breadcrumb-item active" aria-current="page"><?= $brand->name; ?></li>
             </ol>
         </nav>
