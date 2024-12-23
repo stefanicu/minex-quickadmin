@@ -96,14 +96,10 @@ class HomeController extends Controller
             ->where('locale', '=', app()->getLocale())
             ->where('front_page_id', '=', 7)
             ->first();
-
-
-//        dd($request->attributes->get('csp_nonce'));
-        $nonce = $request->attributes->get('csp_nonce');
         
         return view('welcome',
             compact('hero', 'integrated_solutions', 'integrated_solutions_industries', 'consultancy', 'maintenance',
                 'references', 'about_us', 'contact_us', 'consultancy_references', 'references_industries',
-                'references_references', 'nonce'));
+                'references_references'));
     }
 }
