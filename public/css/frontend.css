@@ -253,9 +253,7 @@ a.category_count span.badge {
 }
 
 em.error.help-block {
-    background-color: rgba(255, 225, 225, 0.7);
     width: 100%;
-    padding: 6px 10px;
     color: #c40000;
     display: block;
     border-radius: 4px;
