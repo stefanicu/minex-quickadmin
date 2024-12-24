@@ -127,10 +127,10 @@ foreach (config('translatable.locales') as $locale) {
         Route::get(trans('pages_slugs.products', [], $locale).'/{app_slug?}'.'/{cat_slug?}',
             'ProductsController@index')->name("products.$locale");
         
-        Route::get(trans('pages_slugs.product', [], $locale).'/{app_slug?}'.'/{cat_slug?}'.'/{prod_slug}',
+        Route::get(trans('pages_slugs.product', [], $locale).'/{app_slug?}'.'/{cat_slug?}'.'/{prod_slug?}',
             'ProductController@index')->name("product.$locale");
         
-        Route::get(trans('pages_slugs.brand', [], $locale).'/{brand_slug}'.'/{prod_slug?}',
+        Route::get(trans('pages_slugs.brand', [], $locale).'/{brand_slug?}'.'/{prod_slug?}',
             'ProductBrandController@index')->name("product_brand.$locale");
         
         Route::get(trans('pages_slugs.references', [], $locale),
