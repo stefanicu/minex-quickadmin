@@ -173,6 +173,38 @@
 
                 </div>
 
+
+                <div class="container mt-5">
+                    <!-- Tab Buttons -->
+                    <div class="nav nav-tabs" role="tablist">
+                        <button class="nav-link active" id="tab1-btn" type="button" role="tab" aria-controls="tab1"
+                                aria-selected="true">
+                            Tab 1
+                        </button>
+                        <button class="nav-link" id="tab2-btn" type="button" role="tab" aria-controls="tab2"
+                                aria-selected="false">
+                            Tab 2
+                        </button>
+                        <button class="nav-link" id="tab3-btn" type="button" role="tab" aria-controls="tab3"
+                                aria-selected="false">
+                            Tab 3
+                        </button>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content mt-3">
+                        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-btn">
+                            <p>This is the content for Tab 1.</p>
+                        </div>
+                        <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-btn">
+                            <p>This is the content for Tab 2.</p>
+                        </div>
+                        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-btn">
+                            <p>This is the content for Tab 3.</p>
+                        </div>
+                    </div>
+                </div>
+
                 <ul>
                     @if($files)
                         @foreach($files as $file)
