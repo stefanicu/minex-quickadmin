@@ -57,11 +57,12 @@ class ReferenceController extends Controller
                 $query->where('reference_id', '=', $reference->id);
             })
             ->leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
+            ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
             ->where('products.online', '=', 1)
             ->where('product_translations.online', '=', 1)
             ->where('product_translations.locale', '=', app()->getLocale())
             ->select(sprintf('%s.*', (new Product)->table), 'product_translations.name as name',
-                'product_translations.slug as slug')
+                'product_translations.slug as slug', 'brands.name as brand_name', 'brands.slug as brand_slug')
             ->get();
         
         $slugs = null;
