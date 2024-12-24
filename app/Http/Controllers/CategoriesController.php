@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Application;
-use App\Models\ApplicationTranslation;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -29,7 +28,6 @@ class CategoriesController extends Controller
         }
         
         $productIds = null;
-        $app_slugs = null;
         if ($application) {
             $productIds = Application::find($application->id)
                 ->products()
@@ -38,13 +36,6 @@ class CategoriesController extends Controller
                 })
                 ->pluck('products.id')
                 ->toArray();
-            
-            # add variable for language change
-            $app_slugs_query = ApplicationTranslation::where('application_id', $application->id)->select('locale',
-                'slug')->get();
-            $app_slugs = $app_slugs_query->keyBy('locale')->map(function ($item) {
-                return $item->slug;
-            });
         }
         
         if ( ! $productIds) {
@@ -85,6 +76,12 @@ class CategoriesController extends Controller
             
             return redirect(route('products.'.app()->getLocale(),
                 ['app_slug' => $application->slug, 'cat_slug' => $category->slug]));
+        }
+        
+        $app_slugs = null;
+        foreach (config('translatable.locales') as $locale) {
+            $slug_app = $application->translate($locale)->slug ?? $application->id;
+            $app_slugs[$locale] = $slug_app;
         }
         
         return view('categories', compact('application', 'categories', 'app_slugs'));
