@@ -40,7 +40,7 @@
                             class='list-unstyled row justify-content-start assets-row main-row-prod main-row--grid'>
                             @foreach($products as $product)
                                 <li class="col-12 col-md-6 col-lg-4 d-flex align-items-center list-group-item py-3">
-                                    <a href="{{ url('') }}/{{ trans('pages_slugs.product') }}/{{ $product->slug }}"
+                                    <a href="{{ route('product_brand.'.app()->getLocale(),[ 'brand_slug' => $product->brand_slug, 'prod_slug' => $product->slug ]) }}"
                                        class="d-flex flex-column">
                                         @if($product->getMainPhotoAttribute())
                                             <figure class="mx-auto">
@@ -62,7 +62,7 @@
                             class='list-unstyled row justify-content-start assets-row main-row-prod main-row--grid'>
                             @foreach($blogs as $blog)
                                 <li class="col-12 col-md-6 col-lg-4 d-flex align-items-center list-group-item py-3">
-                                    <a href="{{ url('') }}/{{ trans('pages_slugs.blog') }}/{{ $blog->slug }}"
+                                    <a href="{{ route('blog.'.app()->getLocale(), ['slug' => $blog->slug]) }}"
                                        class="d-flex flex-column">
                                         @if($blog->getImageAttribute() !== null && $blog->getImageAttribute()->count()>0)
                                             <img srcset="{{ $blog->getImageAttribute()->getUrl() }}"
