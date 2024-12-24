@@ -52,7 +52,7 @@ class ReferenceController extends Controller
             ->orderBy('reference_translations.name')
             ->get();
         
-        $products = Product::with('translations', 'media')
+        $products = Product::with('translations', 'media', 'brand')
             ->whereHas('references', function (Builder $query) use ($reference) {
                 $query->where('reference_id', '=', $reference->id);
             })
