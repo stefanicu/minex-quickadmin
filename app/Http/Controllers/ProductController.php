@@ -26,6 +26,7 @@ class ProductController extends Controller
         })->first();
         
         $product_slug = $request->prod_slug;
+        
         if ( ! is_numeric($product_slug)) {
             $product = Product::leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
                 ->with('translations', 'media')
@@ -47,6 +48,7 @@ class ProductController extends Controller
             $product->description = trans('pages.no_translated_message');
         }
         
+        
         $brandOfflineDefaultMessage = trans('pages.no_brand_default_message');
         
         $brand = Brand::find($product->brand_id);
@@ -66,30 +68,6 @@ class ProductController extends Controller
             ->get();
         
         $referrer = $request->headers->get('referer');
-
-//        if ( ! str_contains($referrer, 'search?search') &&
-//            ! str_contains($referrer, 'partner') &&
-//            ! str_contains($referrer, 'parteneri') &&
-//            $referrer !== null) {
-//            $application = Application::where('id', $application_slug)->with('translations')->first();
-//        } else {
-//            $application = Product::find($product->id)
-//                ->applications() // Access the many-to-many relationship
-//                ->with('translations') // Eager load translations for each application
-//                ->first();
-//        }
-
-//        if ( ! str_contains($referrer, 'search?search') &&
-//            ! str_contains($referrer, 'partner') &&
-//            ! str_contains($referrer, 'parteneri') &&
-//            $referrer !== null) {
-//            $category = Category::where('id', $category_slug)->with('translations')->first();
-//        } else {
-//            $category = Product::find($product->id)
-//                ->categories() // Access the many-to-many relationship
-//                ->with('translations') // Eager load translations for each application
-//                ->first();
-//        }
         
         if ($application) {
             $categories = Category::whereHas('products', function ($query) use ($application) {
@@ -126,14 +104,10 @@ class ProductController extends Controller
         $cat_slugs = null;
         $prod_slugs = null;
         foreach (config('translatable.locales') as $locale) {
-            $slug_app = $application->translate($locale)->slug ?? '';
-            $app_slugs[$locale] = $slug_app;
-            $slug_cat = $category->translate($locale)->slug ?? '';
-            $cat_slugs[$locale] = $slug_cat;
-            $slug_prod = $product->translate($locale)->slug ?? $product->id;
-            $prod_slugs[$locale] = $slug_prod;
+            $app_slugs[$locale] = $application->translate($locale)->slug ?? '';
+            $cat_slugs[$locale] = $category->translate($locale)->slug ?? '';
+            $prod_slugs[$locale] = $product->translate($locale)->slug ?? $product->id;
         }
-        
         
         return view(
             'product',
