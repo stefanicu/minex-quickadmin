@@ -75,19 +75,9 @@
 <!-- End Google Tag Manager (noscript) -->
 
 <div id="totop" class="main_minex">
+
     @include('partials.main_menu')
-
     @yield('content')
-
-    <div class="internal-nav__footer">
-        <a href="#totop" class="internal-nav internal-nav__totop toTop-js">
-            <svg x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
-                <circle fill="#ff7200" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="50" cy="50"
-                        r="45.93"/>
-                <polygon fill="#FFFFFF" points="49.99,36.73 25.79,50.56 25.79,62.7 49.99,48.86 74.2,62.7 74.2,50.56 "/>
-            </svg>
-        </a>
-    </div>
 
 </div><!-- /#main_minex -->
 <footer class="d-flex py-2 px-4 justify-content-between align-items-center">
@@ -154,6 +144,23 @@
 
 </footer>
 
+<div class="internal-nav__footer">
+    <button id="goToTopBtn" class="">
+        <svg x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve"><circle
+                    fill="#ff7200" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="50" cy="50" r="45.93"/>
+            <polygon fill="#FFFFFF"
+                     points="49.99,36.73 25.79,50.56 25.79,62.7 49.99,48.86 74.2,62.7 74.2,50.56 "/></svg>
+    </button>
+</div>
+
+{{--<div class="internal-nav__footer">--}}
+{{--    <a href="#totop" class="internal-nav internal-nav__totop toTop-js">--}}
+{{--        <svg x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve"><circle--}}
+{{--                    fill="#ff7200" stroke="#FFFFFF" stroke-width="4" stroke-miterlimit="10" cx="50" cy="50" r="45.93"/>--}}
+{{--            <polygon fill="#FFFFFF"--}}
+{{--                     points="49.99,36.73 25.79,50.56 25.79,62.7 49.99,48.86 74.2,62.7 74.2,50.56 "/></svg>--}}
+{{--    </a>--}}
+{{--</div>--}}
 <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
 <script src="{{ asset('js/popper.min.js') }}"></script>
 <script src="{{ asset('js/customBootstrap.min.js') }}"></script>
