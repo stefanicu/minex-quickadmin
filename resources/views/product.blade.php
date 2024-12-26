@@ -82,139 +82,100 @@
     <div class="container pt-4">
         <div class="row">
             <div class="col-12 col-md-8">
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        @if($product->specifications)
-                            <a class="nav-item nav-link active show" id="nav-{{ trans('pages.specifications') }}-tab"
-                               data-toggle="tab" href="#nav-{{ trans('pages.specifications') }}" role="tab"
-                               aria-controls="nav-{{ trans('pages.specifications') }}" aria-selected="false">
-                                {{ trans('pages.specifications') }}
-                            </a>
-                        @endif
-
-                        @if($product->advantages)
-                            <a class="nav-item nav-link" id="nav-{{ trans('pages.advantages') }}-tab" data-toggle="tab"
-                               href="#nav-{{ trans('pages.advantages') }}" role="tab"
-                               aria-controls="nav-{{ trans('pages.advantages') }}" aria-selected="false">
-                                {{ trans('pages.advantages') }}
-                            </a>
-                        @endif
-
-                        @if($product->usages)
-                            <a class="nav-item nav-link" id="nav-{{ trans('pages.usages') }}-tab" data-toggle="tab"
-                               href="#nav-{{ trans('pages.usages') }}" role="tab"
-                               aria-controls="nav-{{ trans('pages.usages') }}" aria-selected="false">
-                                {{ trans('pages.usages') }}
-                            </a>
-                        @endif
-
-                        @if($product->accessories)
-                            <a class="nav-item nav-link" id="nav-{{ trans('pages.accessories') }}-tab" data-toggle="tab"
-                               href="#nav-{{ trans('pages.accessories') }}" role="tab"
-                               aria-controls="nav-{{ trans('pages.accessories') }}" aria-selected="false">
-                                {{ trans('pages.accessories') }}
-                            </a>
-                        @endif
-
-                        @if($references && $references->count()>0)
-                            <a class="nav-item nav-link" id="nav-{{ trans('pages.references') }}-tab" data-toggle="tab"
-                               href="#nav-{{ trans('pages.references') }}" role="tab"
-                               aria-controls="nav-{{ trans('pages.references') }}" aria-selected="false">
-                                {{ trans('pages.references') }}
-                            </a>
-                        @endif
-                    </div>
-                </nav>
-
-                <div class="tab-content" id="nav-tabContent">
-
-                    @if($product->specifications)
-                        <div class="tab-pane fade show active p-4" id="nav-{{ trans('pages.specifications') }}"
-                             role="tabpanel" aria-labelledby="nav-{{ trans('pages.specifications') }}-tab">
-                            <div class="table-responsive">
-                                {!! $product->specifications !!}
-                            </div>
-                        </div>
-                    @endif
-
-                    @if($product->advantages)
-                        <div class="tab-pane fade p-4" id="nav-{{ trans('pages.advantages') }}" role="tabpanel"
-                             aria-labelledby="nav-{{ trans('pages.advantages') }}-tab">
-                            {!! $product->advantages !!}
-                        </div>
-                    @endif
-
-                    @if($product->usages)
-                        <div class="tab-pane fade p-4" id="nav-{{ trans('pages.usages') }}" role="tabpanel"
-                             aria-labelledby="nav-{{ trans('pages.usages') }}-tab">
-                            {!! $product->usages !!}
-                        </div>
-                    @endif
-
-                    @if($product->accessories)
-                        <div class="tab-pane fade p-4" id="nav-{{ trans('pages.accessories') }}" role="tabpanel"
-                             aria-labelledby="nav-{{ trans('pages.accessories') }}-tab">
-                            {!! $product->accessories !!}
-                        </div>
-                    @endif
-
-                    @if($references && $references->count()>0)
-                        <div class="tab-pane fade p-4" id="nav-{{ trans('pages.references') }}" role="tabpanel"
-                             aria-labelledby="nav-{{ trans('pages.references') }}-tab">
-                            <ul>
-                                @foreach($references as $reference)
-                                    <li>
-                                        <a href="{{ url('') }}/{{ trans('pages_slugs.reference') }}/{{ $reference->slug }}">{{ $reference->name }}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                </div>
-
-
-                <div class="container mt-5">
+                <div class="container mt-1 mb-5">
                     <!-- Tab Buttons -->
                     <div class="nav nav-tabs" role="tablist">
-                        <button class="nav-link active" id="tab1-btn" type="button" role="tab" aria-controls="tab1"
-                                aria-selected="true">
-                            Tab 1
-                        </button>
-                        <button class="nav-link" id="tab2-btn" type="button" role="tab" aria-controls="tab2"
-                                aria-selected="false">
-                            Tab 2
-                        </button>
-                        <button class="nav-link" id="tab3-btn" type="button" role="tab" aria-controls="tab3"
-                                aria-selected="false">
-                            Tab 3
-                        </button>
+                        @if($product->specifications)
+                            <button class="nav-item nav-link active" id="{{ trans('pages.specifications') }}-btn"
+                                    type="button"
+                                    role="tab" aria-controls="{{ trans('pages.specifications') }}" aria-selected="true">
+                                {{ trans('pages.specifications') }}
+                            </button>
+                        @endif
+                        @if($product->advantages)
+                            <button class="nav-item nav-link" id="{{ trans('pages.advantages') }}-btn" type="button"
+                                    role="tab"
+                                    aria-controls="{{ trans('pages.advantages') }}"
+                                    aria-selected="false">
+                                {{ trans('pages.advantages') }}
+                            </button>
+                        @endif
+                        @if($product->usages)
+                            <button class="nav-item nav-link" id="{{ trans('pages.usages') }}-btn" type="button"
+                                    role="tab"
+                                    aria-controls="{{ trans('pages.usages') }}"
+                                    aria-selected="false">
+                                {{ trans('pages.usages') }}
+                            </button>
+                        @endif
+                        @if($product->accessories)
+                            <button class="nav-item nav-link" id="{{ trans('pages.accessories') }}-btn" type="button"
+                                    role="tab"
+                                    aria-controls="{{ trans('pages.accessories') }}"
+                                    aria-selected="false">
+                                {{ trans('pages.accessories') }}
+                            </button>
+                        @endif
+                        @if($references && $references->count()>0)
+                            <button class="nav-item nav-link" id="{{ trans('pages.references') }}-btn" type="button"
+                                    role="tab"
+                                    aria-controls="{{ trans('pages.references') }}"
+                                    aria-selected="false">
+                                {{ trans('pages.references') }}
+                            </button>
+                        @endif
                     </div>
 
                     <!-- Tab Content -->
-                    <div class="tab-content mt-3">
-                        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-btn">
-                            <p>This is the content for Tab 1.</p>
-                        </div>
-                        <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-btn">
-                            <p>This is the content for Tab 2.</p>
-                        </div>
-                        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-btn">
-                            <p>This is the content for Tab 3.</p>
-                        </div>
+                    <div class="tab-content mt-3" id="nav-tabContent">
+                        @if($product->specifications)
+                            <div class="tab-pane fade show active" id="{{ trans('pages.specifications') }}"
+                                 role="tabpanel" aria-labelledby="{{ trans('pages.specifications') }}-btn">
+                                {!! $product->specifications !!}
+                            </div>
+                        @endif
+                        @if($product->advantages)
+                            <div class="tab-pane fade" id="{{ trans('pages.advantages') }}" role="tabpanel"
+                                 aria-labelledby="{{ trans('pages.advantages') }}-btn">
+                                {!! $product->advantages !!}
+                            </div>
+                        @endif
+                        @if($product->usages)
+                            <div class="tab-pane fade" id="{{ trans('pages.usages') }}" role="tabpanel"
+                                 aria-labelledby="{{ trans('pages.usages') }}-btn">
+                                {!! $product->usages !!}
+                            </div>
+                        @endif
+                        @if($product->accessories)
+                            <div class="tab-pane fade" id="{{ trans('pages.accessories') }}" role="tabpanel"
+                                 aria-labelledby="{{ trans('pages.accessories') }}-btn">
+                                {!! $product->accessories !!}
+                            </div>
+                        @endif
+                        @if($references && $references->count()>0)
+                            <div class="tab-pane fade" id="{{ trans('pages.references') }}" role="tabpanel"
+                                 aria-labelledby="{{ trans('pages.references') }}-btn">
+                                <ul>
+                                    @foreach($references as $reference)
+                                        <li>
+                                            <a href="{{ route('reference.'.app()->getLocale(), ['slug' => $reference->slug]) }}">{{ $reference->name }}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                     </div>
-                </div>
-
-                <ul>
                     @if($files)
-                        @foreach($files as $file)
-                            <li><a href='{{ url('') }}/uploads/files/{{ $file->name }}'>{{ $file->title }}</a></li>
-                        @endforeach
+                        <ul>
+                            @foreach($files as $file)
+                                <li><a href='{{ url('') }}/uploads/files/{{ $file->name }}'>{{ $file->title }}</a></li>
+                            @endforeach
+                        </ul>
                     @endif
-                </ul>
-
-                <p class="text-center">{{ trans('pages.ask_our_experts') }}</p>
+                </div>
+                
                 <div class="panel panel-default">
+                    <p class="text-center">{{ trans('pages.ask_our_experts') }}</p>
                     <a href="tel:{{ trans('pages.phone') }}" class="btn btn-primary" style="width:100%" id="form">
                         {{ trans('pages.call_us') }} {{ trans('pages.phone') }}
                     </a>
@@ -339,4 +300,5 @@
     <script src="{{ asset('/js/validate/setprodus.validate.js') }}"></script>
     <script src="{{ asset('/js/countries.js') }}"></script>
     <script src="{{ asset('/js/bxSlider/product_setup.js') }}"></script>
+    <script src="{{ asset('/js/tabs.js') }}"></script>
 @endsection
