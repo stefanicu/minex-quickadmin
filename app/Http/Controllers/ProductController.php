@@ -49,11 +49,13 @@ class ProductController extends Controller
         }
         
         
-        $brandOfflineDefaultMessage = trans('pages.no_brand_default_message');
+        $brandOfflineMessage = trans('pages.no_brand_default_message');
         
         $brand = Brand::find($product->brand_id);
         
-        $brand->offline_message ? $brandOfflineMessage = $brand->offline_message : $brandOfflineMessage = $brandOfflineDefaultMessage;
+        if ($brand) {
+                $brand->offline_message ?? $brandOfflineMessage = $brand->offline_message;
+        }
         
         $references = $product->references()
             ->with([
