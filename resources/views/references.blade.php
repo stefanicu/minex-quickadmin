@@ -35,14 +35,14 @@
                         @foreach($industries as $industry)
                             <li class="nav-item">
                                 <a class="nav-link {{ $loop->iteration==1 ? 'active' : '' }}"
-                                   id="tab-a{{ $industry->id }}-tab" data-toggle="tab" href="#tab-a{{ $industry->id }}"
+                                   id="tab-a{{ $industry->id }}-tab" data-toggle="tab" href="#ind_{{ $industry->id }}"
                                    role="tab" aria-controls="tab-a{{ $industry->id }}">
                                     {{ $industry->name }}
                                 </a>
                             </li>
                         @endforeach
 
-                        <li class="nav-item"><a class="nav-link" id="tab-alte-tab" data-toggle="tab" href="#tab-alte"
+                        <li class="nav-item"><a class="nav-link" id="tab-alte-tab" data-toggle="tab" href="#ind_0"
                                                 role="tab" aria-controls="tab-alte">Altele</a></li>
                     </ul>
 
@@ -51,7 +51,7 @@
 
                         @foreach($industries as $industry)
                             <div class="tab-pane py-4 fade {{ $loop->iteration== 1 ? 'show active' : '' }}"
-                                 id="tab-a{{ $industry->id }}" role="tabpanel"
+                                 id="ind_{{ $industry->id }}" role="tabpanel"
                                  aria-labelledby="tab{{ $industry->id }}-tab">
                                 <ul class="list-unstyled img-grid">
                                     @foreach($references as $reference)
@@ -78,7 +78,7 @@
                         @endforeach
 
                         {{-- Other Industries --}}
-                        <div class="tab-pane py-4 fade" id="tab-alte" role="tabpanel" aria-labelledby="tab-alte-tab">
+                        <div class="tab-pane py-4 fade" id="ind_0" role="tabpanel" aria-labelledby="tab-alte-tab">
                             <ul class="list-unstyled img-grid">
                                 @foreach($references as $reference)
                                     @if(!in_array($reference->industries_id,$industries_in_tab))
