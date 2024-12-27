@@ -157,7 +157,7 @@
                             <ul>
                                 @foreach($references as $reference)
                                     <li>
-                                        <a href="{{ url('') }}/{{ trans('pages_slugs.reference') }}/{{ $reference->slug }}">{{ $reference->name }}</a>
+                                        <a href="{{ route('reference.'.app()->getLocale(), ['slug' => $reference->slug]) }}">{{ $reference->name }}</a>
                                     </li>
                                 @endforeach
                             </ul>
