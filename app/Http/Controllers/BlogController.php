@@ -44,24 +44,14 @@ class BlogController extends Controller
             $blog->content = trans('pages.no_translated_message');
         }
         
-        $blogs10 = Blog::with('translations', 'media')
-            ->leftJoin('blog_translations', 'blogs.id', '=', 'blog_translations.blog_id')
-            ->select('blogs.id as id', 'name', 'slug', 'created_at')
-            ->where('locale', '=', app()->getLocale())
-            ->where('blogs.online', '=', 1)
-            ->where('blog_translations.online', '=', 1)
-            //->where('blogs.id','!=',$blog->id)
-            ->orderBy('created_at', 'desc')
-            ->simplePaginate(10);
-        
         $blogs = Blog::with('translations', 'media')
             ->leftJoin('blog_translations', 'blogs.id', '=', 'blog_translations.blog_id')
             ->select('blogs.id as id', 'name', 'slug', 'created_at')
             ->where('locale', '=', app()->getLocale())
             ->where('blogs.online', '=', 1)
             ->where('blog_translations.online', '=', 1)
-            //->where('blogs.id','!=',$blog->id)
             ->orderBy('created_at', 'desc')
+            ->limit(10)
             ->get();
         
         $slugs = null;
@@ -70,6 +60,6 @@ class BlogController extends Controller
             $slugs[$locale] = $slug_blog;
         }
         
-        return view('blog', compact('blogs10', 'blogs', 'blog', 'slugs'));
+        return view('blog', compact('blogs', 'blog', 'slugs'));
     }
 }
