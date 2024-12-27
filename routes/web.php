@@ -115,7 +115,7 @@ foreach (config('translatable.locales') as $locale) {
         Route::get('search', 'SearchController@index')->name("search.$locale");
         
         // Translatable routes with language-specific names and slugs
-        Route::get(trans('pages_slugs.blog', [], $locale), 'BlogController@index')->name("blogs.$locale");
+        Route::get(trans('pages_slugs.blog', [], $locale), 'BlogsController@index')->name("blogs.$locale");
         Route::get(trans('pages_slugs.blog', [], $locale).'/{slug?}', 'BlogController@index')->name("blog.$locale");
         
         Route::get(trans('pages_slugs.brands', [], $locale), 'BrandsController@index')->name("brands.$locale");
