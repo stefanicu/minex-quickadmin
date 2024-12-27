@@ -17,8 +17,15 @@
             <h2 class="h3">{{ $references->name }}</h2>
             <ul class="d-flex mx-auto list-unstyled justify-content-center flex-wrap row-icons">
                 @foreach($references_industries as $references_industry)
+                    @php
+                        if( in_array($references_industry->id, [8, 12, 4, 6]) ){
+                            $ind_tab = '#ind_'.$references_industry->id;
+                        }else{
+                            $ind_tab = '#ind_0';
+                        }
+                    @endphp
                     <li class='py-3'>
-                        <a href="{{ route('references.'.app()->getLocale()) }}#tab-a{{ $references_industry->id }}"
+                        <a href="{{ route('references.'.app()->getLocale()).$ind_tab }}"
                            class="d-flex flex-column text-center">
                             @if($references_industry->getPhotoAttribute())
                                 <img data-src="{{ $references_industry->getPhotoAttribute()->getUrl() }}"
