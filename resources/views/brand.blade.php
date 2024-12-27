@@ -43,7 +43,7 @@
                             @foreach($products as $product)
                                 @if($product->translateOrDefault(app()->getLocale()))
                                     <li class="col-12 col-md-6 col-lg-4 d-flex align-items-center list-group-item py-3">
-                                        <a href="{{ route('product_brand.'.app()->getLocale(),[ 'brand_slug' => $brand->slug, 'prod_slug' => $product->translateOrDefault(app()->getLocale())->slug ]) }}"
+                                        <a href="{{ route('product_brand.'.app()->getLocale(), ['brand_slug' => $brand->slug, 'prod_slug' => $product->translateOrDefault(app()->getLocale())->slug ]) }}"
                                            class="d-flex flex-column w-100 h-100">
                                             @if($product->getMainPhotoAttribute() !== null)
                                                 <figure class="mx-auto">
