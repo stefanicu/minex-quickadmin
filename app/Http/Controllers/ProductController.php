@@ -110,7 +110,7 @@ class ProductController extends Controller
             $app_slugs[$locale] = $application->translate($locale)->slug ?? '';
             $cat_slugs[$locale] = $category->translate($locale)->slug ?? '';
             $prod_slugs[$locale] = $product->translate($locale)->slug ?? $product->id;
-            $slug_brand = $brand->slug ?? '';
+            $slug_brand = $brand->slug ?? $brand->id;
             $brand_slugs[$locale] = $slug_brand;
         }
         
