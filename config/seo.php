@@ -31,7 +31,7 @@ return [
      * from Google and Yoast say that this is the best strategy.
      * See https://yoast.com/rel-canonical/.
      */
-    'canonical_link' => true,
+    'canonical_link' => false,
     
     'robots' => [
         /**
