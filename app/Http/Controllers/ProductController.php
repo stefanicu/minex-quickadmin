@@ -105,10 +105,13 @@ class ProductController extends Controller
         $app_slugs = null;
         $cat_slugs = null;
         $prod_slugs = null;
+        $brand_slugs = null;
         foreach (config('translatable.locales') as $locale) {
             $app_slugs[$locale] = $application->translate($locale)->slug ?? '';
             $cat_slugs[$locale] = $category->translate($locale)->slug ?? '';
             $prod_slugs[$locale] = $product->translate($locale)->slug ?? $product->id;
+            $slug_brand = $brand->slug ?? '';
+            $brand_slugs[$locale] = $slug_brand;
         }
         
         return view(
@@ -127,6 +130,7 @@ class ProductController extends Controller
                 'app_slugs',
                 'cat_slugs',
                 'prod_slugs',
+                'brand_slugs',
             )
         );
     }
