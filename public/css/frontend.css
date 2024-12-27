@@ -281,6 +281,10 @@ em.error.help-block {
     left: -20px
 }
 
+blogimg {
+
+}
+
 #addresses a {
     font-weight: bold;
 }
@@ -297,4 +301,53 @@ em.error.help-block {
     height: 100%;
     border-radius: inherit;
     padding: 0;
+}
+
+.card-body {
+    min-height: 140px;
+    align-items: center;
+}
+
+.blog .card {
+    border-radius: 0.25rem;
+    overflow: hidden;
+    background: #fff;
+    transition: all ease-in-out .3s;
+    border: 0px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin: 0 0 1em 0;
+
+    &:hover {
+        box-shadow: .1rem 1rem 2rem rgba(0, 0, 0, 0.12), -.1rem 0 2rem rgba(0, 0, 0, 0.12);
+    }
+
+    .card-img {
+        position: relative;
+        overflow: hidden;
+
+        &:hover {
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0.25rem;
+        }
+
+        &:hover img {
+            transform: scale(1.2);
+        }
+
+        & img {
+            transition: all 1s ease 0s;
+            width: 100%;
+        }
+    }
+}
+
+.blog .card .card-footer .views {
+    text-align: right;
+    font-weight: lighter;
+    width: 100%;
+}
+
+.blog .card-image {
+    min-height: 233px;
+    background-color: #ff7200;
 }
