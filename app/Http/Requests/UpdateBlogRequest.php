@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Blog;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 
 class UpdateBlogRequest extends FormRequest
@@ -14,7 +12,7 @@ class UpdateBlogRequest extends FormRequest
     {
         return Gate::allows('blog_edit');
     }
-
+    
     public function rules()
     {
         return [
@@ -28,7 +26,7 @@ class UpdateBlogRequest extends FormRequest
                 'required',
                 Rule::unique('blog_translations', 'name')
                     ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('blog')->id,'blog_id')
+                    ->ignore(request()->route('blog')->id, 'blog_id')
             ],
             'slug' => [
                 'string',
@@ -37,10 +35,11 @@ class UpdateBlogRequest extends FormRequest
                 'required',
                 Rule::unique('blog_translations', 'slug')
                     ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('blog')->id,'blog_id')
+                    ->ignore(request()->route('blog')->id, 'blog_id')
             ],
             'content' => [
-                'required',
+                'nullable',
+                'string'
             ],
         ];
     }
