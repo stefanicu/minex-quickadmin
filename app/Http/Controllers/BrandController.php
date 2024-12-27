@@ -14,9 +14,15 @@ class BrandController extends Controller
         
         $brand_slug = $request->slug;
         
-        $brand = Brand::select('id', 'name', 'slug')
-            ->where('slug', '=', $brand_slug)
-            ->first();
+        if ( ! is_numeric($brand_slug)) {
+            $brand = Brand::select('id', 'name', 'slug')
+                ->where('slug', '=', $brand_slug)
+                ->first();
+        } else {
+            $brand = Brand::select('id', 'name', 'slug')
+                ->where('id', '=', $brand_slug)
+                ->first();
+        }
         
         $brands = Brand::leftJoin('brand_translations', 'brands.id', '=', 'brand_translations.brand_id')
             ->leftJoin('products', 'brands.id', '=', 'products.brand_id')
@@ -49,11 +55,10 @@ class BrandController extends Controller
         
         $slugs = null;
         foreach (config('translatable.locales') as $locale) {
-            $slug_brand = $brand->translate($locale)->slug ?? $brand->id;
+            $slug_brand = $brand->slug ?? $brand->id;
             $slugs[$locale] = $slug_brand;
         }
         
-        $products = $products->all();
         return view('brand', compact('brand', 'brands', 'products', 'slugs'));
     }
 }
