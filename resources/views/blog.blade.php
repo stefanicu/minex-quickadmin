@@ -49,51 +49,26 @@
             <div class="d-none d-lg-block col-md-4 pb-4 mb-4">
                 <h2 class="h3">{{ trans('pages.articles') }}</h2>
                 <ul class="list-group">
-                    @foreach ($blogs10 as $bg)
-                        <li class="list-group-item flex-row {{ $blog->id === $bg->id ? 'active' : '' }}">
+                    @foreach ($blogs as $blg)
+                        <li class="list-group-item flex-row {{ $blog->id === $blg->id ? 'active' : '' }}">
                             <div class="d-flex w-100 justify-content-between">
-                                @if($bg->getImageAttribute() !== null && $bg->getImageAttribute()->count()>0)
+                                @if($blg->getImageAttribute() !== null && $blg->getImageAttribute()->count()>0)
                                     <div class="blog_image">
                                         <img
-                                                srcset="{{ $bg->getImageAttribute()->getUrl('thumb') }}"
-                                                alt="{{ $bg->name }}"
+                                                srcset="{{ $blg->getImageAttribute()->getUrl('thumb') }}"
+                                                alt="{{ $blg->name }}"
                                                 class="lozad">
                                     </div>
                                 @endif
-                                <a href="{{ route('blog.'.app()->getLocale(), ['slug' => $bg->slug, 'page' => request()->get('page')]) }}"
+                                <a href="{{ route('blog.'.app()->getLocale(), ['slug' => $blg->slug, 'page' => request()->get('page')]) }}"
                                    class="flex m-auto">
-                                    {{ $bg->name }}
+                                    {{ $blg->name }}
                                 </a>
                             </div>
                         </li>
                     @endforeach
                 </ul>
-                {!! $blogs10->onEachSide(3)->links() !!}
             </div>
-        </div>
-    </div>
-
-    <div class="container d-block d-lg-none">
-        <hr/>
-        <div class="bxslider-related mx-auto pt-4">
-            @foreach ($blogs as $blg)
-                <div class="d-flex slider-image-container">
-                    <a href="{{ route('blog.'.app()->getLocale(), ['slug' => $blg->slug ?? null, 'page' => request()->get('page')]) }}"
-                       class="blogim position-relative">
-                        @if($blg->getImageAttribute() !== null && $blg->getImageAttribute()->count()>0)
-                            <img
-                                    srcset="{{ $blg->getImageAttribute()->getUrl() }}"
-                                    alt="{{ $blg->name }}"
-                                    class="mx-auto lozad">
-                        @else
-                            <div class="blog_slider_image_default">No image</div>
-                        @endif
-                        <div class="card-img-overlay blogim_over">
-                            <p class="assets-title row-icons--desc position-absolute">{{ $blg->name }}</p>
-                        </div>
-                    </a>
-                </div>
-            @endforeach
         </div>
     </div>
 
