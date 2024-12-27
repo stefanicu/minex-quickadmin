@@ -21,8 +21,15 @@
 
             <ul class="d-flex mx-auto list-unstyled justify-content-center flex-wrap row-icons">
                 @foreach($integrated_solutions_industries as $integrated_solutions_industry)
+                    @php
+                        if( in_array($integrated_solutions_industry->id, [8, 12, 4, 6]) ){
+                            $ind_tab = '#ind_'.$integrated_solutions_industry->id;
+                        }else{
+                            $ind_tab = '#ind_0';
+                        }
+                    @endphp
                     <li class='py-3'>
-                        <a href="{{ route('references.'.app()->getLocale()) }}#tab-a{{ $integrated_solutions_industry->id }}"
+                        <a href="{{ route('references.'.app()->getLocale()).$ind_tab }}"
                            class="d-flex flex-column text-center">
                             @if($integrated_solutions_industry->getPhotoAttribute())
                                 <img data-src="{{ $integrated_solutions_industry->getPhotoAttribute()->getUrl() }}"
