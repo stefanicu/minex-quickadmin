@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Blog;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Response;
 
 class StoreBlogRequest extends FormRequest
 {
@@ -13,7 +11,7 @@ class StoreBlogRequest extends FormRequest
     {
         return Gate::allows('blog_create');
     }
-
+    
     public function rules()
     {
         return [
@@ -35,7 +33,8 @@ class StoreBlogRequest extends FormRequest
                 'unique:blog_translations',
             ],
             'content' => [
-                'required',
+                'nullable',
+                'string'
             ],
         ];
     }
