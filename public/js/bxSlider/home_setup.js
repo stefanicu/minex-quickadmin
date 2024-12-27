@@ -15,3 +15,8 @@ $(document).ready(function () {
 $(function () {
     $('.bxslider-img').bxSlider({mode: 'fade', slideWidth: 1110, pager: false, controls: true});
 });
+
+document.getElementById('scrollButton').addEventListener('click', function () {
+    const targetElement = document.getElementById('internal-pg-nav1');
+    targetElement.scrollIntoView({behavior: 'smooth'});
+});
