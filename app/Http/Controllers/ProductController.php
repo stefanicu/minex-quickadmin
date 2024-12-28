@@ -36,11 +36,11 @@ class ProductController extends Controller
                 ->select(sprintf('%s.*', (new Product)->table))
                 ->first();
         } else {
+            $product_id = (int) $product_slug;
             $product = Product::leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
                 ->with('translations', 'media')
                 ->where('product_translations.online', '=', 1)
-                ->where('products.id', '=', (int) $product_slug)
-                ->where('product_translations.locale', '=', 'en')
+                ->where('products.id', '=', $product_id)
                 ->select(sprintf('%s.*', (new Product)->table))
                 ->first();
             
@@ -48,10 +48,27 @@ class ProductController extends Controller
             $product->description = trans('pages.no_translated_message');
         }
         
+        if ( ! $product) {
+            $product = Product::leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
+                ->with('translations', 'media')
+                ->where('product_translations.slug', '=', $product_slug)
+                ->select(sprintf('%s.*', (new Product)->table))
+                ->first();
+            
+            if ($product) {
+                $product->name = trans('pages.no_translated_title');
+                $product->description = trans('pages.no_translated_message');
+            } else {
+                abort(404);
+            }
+        }
         
         $brandOfflineMessage = trans('pages.no_brand_default_message');
         
-        $brand = Brand::find($product->brand_id);
+        $brand = null;
+        if (isset($product->brand_id)) {
+            $brand = Brand::find($product->brand_id);
+        }
         
         if ($brand) {
                 $brand->offline_message ?? $brandOfflineMessage = $brand->offline_message;
@@ -96,10 +113,15 @@ class ProductController extends Controller
         }
         
         $category_id = $category->id;
-        $similar_products = Product::whereHas('categories', function ($query) use ($category_id) {
-            $query->where('category_id', $category_id);
-        })
-            ->where('id', '!=', $product->id)
+        $similar_products = Product::select('products.*', 'product_translations.name')
+            ->join('product_translations', 'products.id', '=', 'product_translations.product_id')
+            ->where('product_translations.online', 1)
+            ->where('product_translations.locale', app()->getLocale())
+            ->whereHas('categories', function ($query) use ($category_id) {
+                $query->where('category_id', $category_id);
+            })
+            ->where('products.id', '!=', $product->id)
+            ->whereNotNull('products.brand_id')
             ->get();
         
         $app_slugs = null;
@@ -110,8 +132,9 @@ class ProductController extends Controller
             $app_slugs[$locale] = $application->translate($locale)->slug ?? '';
             $cat_slugs[$locale] = $category->translate($locale)->slug ?? '';
             $prod_slugs[$locale] = $product->translate($locale)->slug ?? $product->id;
-            $slug_brand = $brand->slug ?? $brand->id;
-            $brand_slugs[$locale] = $slug_brand;
+            if (isset($brand->slug)) {
+                $brand_slugs[$locale] = $brand->slug ?? '';
+            }
         }
         
         return view(
