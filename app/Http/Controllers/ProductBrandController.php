@@ -32,7 +32,6 @@ class ProductBrandController extends Controller
                 ->with('translations', 'media')
                 ->where('product_translations.online', '=', 1)
                 ->where('product_translations.product_id', '=', (int) $product_slug)
-                ->where('product_translations.locale', '=', 'en')
                 ->select(sprintf('%s.*', (new Product)->table))
                 ->first();
             
@@ -40,9 +39,28 @@ class ProductBrandController extends Controller
             $product->description = trans('pages.no_translated_message');
         }
         
+        
+        if ( ! $product) {
+            $product = Product::leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
+                ->with('translations', 'media')
+                ->where('product_translations.slug', '=', $product_slug)
+                ->select(sprintf('%s.*', (new Product)->table))
+                ->first();
+            
+            if ($product) {
+                $product->name = trans('pages.no_translated_title');
+                $product->description = trans('pages.no_translated_message');
+            } else {
+                abort(404);
+            }
+        }
+        
         $brandOfflineDefaultMessage = trans('pages.no_brand_default_message');
         
-        $brand = Brand::find($product->brand_id);
+        $brand = null;
+        if (isset($product->brand_id)) {
+            $brand = Brand::find($product->brand_id);
+        }
         
         $brand->offline_message ? $brandOfflineMessage = $brand->offline_message : $brandOfflineMessage = $brandOfflineDefaultMessage;
         
