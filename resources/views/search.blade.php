@@ -30,9 +30,9 @@
                 <h1 class="h2"><small>{{ trans('pages.search_for') }}: </small>{{ $search }}</h1>
                 <hr>
                 @if(strlen($search)<3)
-                    <h5>{{ trans('pages.search_error') }}</h5>
+                    <div class="h5 pb-4">{{ trans('pages.search_error') }}</div>
                 @elseif($products->count() + $blogs->count() === 0)
-                    <h5>{{ trans('pages.search_not_found') }}</h5>
+                    <div class="h5 pb-4 min-h-200">{{ trans('pages.search_not_found') }}</div>
                 @else
                     @if($products->count()>0)
                         <h2>{{ trans('pages.products') }}</h2>
