@@ -31,20 +31,21 @@ class SecurityHeaders
         // Add HSTS Header
         $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
         
-        $response->headers->set('Content-Security-Policy',
-            "default-src 'none'; ".
-            "connect-src 'self' 'nonce-{$nonce}' https://stats.g.doubleclick.net https://www.googleadservices.com https://region1.analytics.google.com https://www.google-analytics.com/ https://maps.googleapis.com https://cdnjs.cloudflare.com https://maps.googleapis.com https://www.gstatic.com/recaptcha/ https://www.google.com/recaptcha/ https://www.google-analytics.com/ https://www.googletagmanager.com;".
-            "script-src 'self' 'nonce-{$nonce}' https://www.googleadservices.com https://cdnjs.cloudflare.com https://maps.googleapis.com https://www.gstatic.com/recaptcha/ https://www.google.com/recaptcha/ https://www.google-analytics.com/ https://www.googletagmanager.com  www.google-analytics.com; ".
-            "object-src 'self' https://maps.googleapis.com; ".
-            "style-src 'self' 'unsafe-inline' https://www.googleadservices.com https://cdnjs.cloudflare.com https://fonts.googleapis.com https://maps.gstatic.com/;".
-            "img-src 'self' data: https://www.google.com https://www.googletagmanager.com https://googleads.g.doubleclick.net https://maps.googleapis.com https://www.google.ro/ https://maps.gstatic.com/;".
-            "font-src 'self' data: https://fonts.gstatic.com https://fonts.googleapis.com; ".
-            "frame-ancestors 'self' https://maps.googleapis.com; ".
-            "base-uri 'self';".
-            "frame-src 'self' https://www.googletagmanager.com/;".
-            "form-action 'self';"
-        );
-        // Pass the nonce to the request for later use
+        if ( ! config('app.debug')) {
+            $response->headers->set('Content-Security-Policy',
+                "default-src 'none'; ".
+                "connect-src 'self' 'nonce-{$nonce}' https://stats.g.doubleclick.net https://www.googleadservices.com https://region1.analytics.google.com https://www.google-analytics.com/ https://maps.googleapis.com https://cdnjs.cloudflare.com https://maps.googleapis.com https://www.gstatic.com/recaptcha/ https://www.google.com/recaptcha/ https://www.google-analytics.com/ https://www.googletagmanager.com;".
+                "script-src 'self' 'nonce-{$nonce}' https://www.googleadservices.com https://cdnjs.cloudflare.com https://maps.googleapis.com https://www.gstatic.com/recaptcha/ https://www.google.com/recaptcha/ https://www.google-analytics.com/ https://www.googletagmanager.com  www.google-analytics.com; ".
+                "object-src 'self' https://maps.googleapis.com; ".
+                "style-src 'self' 'unsafe-inline' https://www.googleadservices.com https://cdnjs.cloudflare.com https://fonts.googleapis.com https://maps.gstatic.com/;".
+                "img-src 'self' data: https://www.google.com https://www.googletagmanager.com https://googleads.g.doubleclick.net https://maps.googleapis.com https://www.google.ro/ https://maps.gstatic.com/;".
+                "font-src 'self' data: https://fonts.gstatic.com https://fonts.googleapis.com; ".
+                "frame-ancestors 'self' https://maps.googleapis.com; ".
+                "base-uri 'self';".
+                "frame-src 'self' https://www.googletagmanager.com/ https://www.google.com/;".
+                "form-action 'self';"
+            );
+        }
         
         
         // Add X-Content-Type-Options
