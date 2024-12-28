@@ -16,7 +16,7 @@
                     <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
                         <input type="hidden" name="online" value="0">
                         <input class="form-check-input" type="checkbox" name="online" id="online"
-                               value="1" {{ $product->online || old('online', 0) === 1 ? 'checked' : '' }}>
+                               value="1" {{ old('online', optional($product->translations->firstWhere('locale', app()->getLocale()))->online) ? 'checked' : '' }}>
                         <label class="form-check-label" for="online">{{ trans('cruds.product.fields.online') }}</label>
                     </div>
                     @if($errors->has('online'))
