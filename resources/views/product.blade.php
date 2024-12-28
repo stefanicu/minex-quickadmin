@@ -4,12 +4,12 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="/">{{ trans('menu.home') }}</a></li>
-                @if($application)
+                @if($application->slug)
                     <li class="breadcrumb-item"><a
                                 href="{{ route('categories.'.app()->getLocale(), ['app_slug' =>$application->slug]) }}">{{ $application->name }}</a>
                     </li>
                 @endif
-                @if($category)
+                @if($category->slug)
                     <li class="breadcrumb-item"><a
                                 href="{{ route('products.'.app()->getLocale(), ['app_slug' =>$application->slug, 'cat_slug' => $category->slug]) }}">{{ $category->name }}</a>
                     </li>
@@ -173,7 +173,7 @@
                         </ul>
                     @endif
                 </div>
-                
+
                 <div class="panel panel-default">
                     <p class="text-center">{{ trans('pages.ask_our_experts') }}</p>
                     <a href="tel:{{ trans('pages.phone') }}" class="btn btn-primary" style="width:100%" id="form">
