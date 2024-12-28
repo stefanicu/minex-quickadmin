@@ -13,6 +13,10 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
+        if ( ! $request->app_slug || ! $request->cat_slug) {
+            abort(404);
+        }
+        
         $currentLocale = app()->getLocale();
         
         $application_slug = $request->app_slug;
@@ -42,6 +46,7 @@ class ProductController extends Controller
                 ->whereTranslation('locale', 'en')
                 ->with('translations')
                 ->first();
+            
             $category->name = trans('pages.no_translated_title');
         }
         
@@ -161,7 +166,7 @@ class ProductController extends Controller
             $cat_slugs[$locale] = $category->translate($locale)->slug ?? $category->translate('en')->slug;
             $prod_slugs[$locale] = $product->translate($locale)->slug ?? $product->id;
             if (isset($brand->slug)) {
-                $canonical_product_page_brand_slugs[$locale] = $brand->slug ?? '';
+                $canonical_product_page_brand_slugs[$locale] = $brand->slug;
             }
         }
         
