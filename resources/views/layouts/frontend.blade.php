@@ -39,7 +39,7 @@
             }
         @endphp
         @if($langLocale == app()->getLocale())
-            @if(isset($prod_slugs) && isset($brand_slugs) && isset($brand->slug))
+            @if(isset($prod_slugs) && isset($brand->slug))
                 <link rel="canonical"
                       href="{{ route('product_brand.'.app()->getLocale(), ['brand_slug' => $brand->slug, 'prod_slug' => $product->translateOrDefault(app()->getLocale())->slug ]) }}"/>
             @else
