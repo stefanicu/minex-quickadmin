@@ -1,11 +1,24 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
+    @php
+        if (isset($_POST['search'])) {
+            $search = $_POST['search'];
+            redirect('search/'.$search);
+        }
+
+        if (isset($data[0]['nume'])) {
+            $datanume = ' | '.$data[0]['nume'];
+        } else {
+            if (isset($page)) {
+                $datanume = ' | '.$page;
+            } else {
+                $datanume = "";
+            }
+        }
+    @endphp
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    {!! seo() !!}
-
     @foreach(config('panel.available_languages') as $langLocale => $langName)
         @php
             $parameters = [];
@@ -26,7 +39,7 @@
             }
         @endphp
         @if($langLocale == app()->getLocale())
-            @if(isset($prod_slugs) && isset($brand_slugs))
+            @if(isset($prod_slugs) && isset($brand_slugs) && isset($brand->slug))
                 <link rel="canonical"
                       href="{{ route('product_brand.'.app()->getLocale(), ['brand_slug' => $brand->slug, 'prod_slug' => $product->translateOrDefault(app()->getLocale())->slug ]) }}"/>
             @else
@@ -36,24 +49,8 @@
         <link rel="alternate" hreflang="{{ $langLocale }}"
               href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>
     @endforeach
-    @php
-        if (isset($_POST['search'])) {
-            $search = $_POST['search'];
-            redirect('search/'.$search);
-        }
-
-        if (isset($data[0]['nume'])) {
-            $datanume = ' | '.$data[0]['nume'];
-        } else {
-            if (isset($page)) {
-                $datanume = ' | '.$page;
-            } else {
-                $datanume = "";
-            }
-        }
-    @endphp
-
-            <!-- Google Tag Manager -->
+    {!! seo() !!}
+    <!-- Google Tag Manager -->
     <script nonce="{{ session('csp_nonce') }}">(function (w, d, s, l, i) {
             w[l] = w[l] || [];
             w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
