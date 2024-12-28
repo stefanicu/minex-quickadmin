@@ -24,6 +24,10 @@ class BrandController extends Controller
                 ->first();
         }
         
+        if ( ! $brand) {
+            abort(404);
+        }
+        
         $brands = Brand::leftJoin('brand_translations', 'brands.id', '=', 'brand_translations.brand_id')
             ->leftJoin('products', 'brands.id', '=', 'products.brand_id')
             ->leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
