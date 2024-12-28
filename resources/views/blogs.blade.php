@@ -37,20 +37,22 @@
         </div>
         <div class="row blog">
             @foreach ($blogs as $blg)
-                <div class="col-12 col-sm-8 col-md-6 col-lg-4 mb-4">
+                <div class="col-12 col-sm-6 col-lg-4 mb-4">
                     <div class="card">
-                        <div class="card-image d-flex align-items-center justify-content-center">
+                        <div class="card-image d-flex align-items-center justify-content-center overflow-hidden">
                             <a href="{{ route('blog.'.app()->getLocale(), ['slug' => $blg->slug ?? null]) }}"
                                class="d-flex align-items-center w-100 h-100">
                                 @if($blg->getImageAttribute() !== null && $blg->getImageAttribute()->count()>0)
                                     <img srcset="{{ $blg->getImageAttribute()->getUrl('preview') }}"
+                                         data-loaded="true"
                                          alt="{{ $blg->name }}"
-                                         class="mx-auto card-img lozad">
+                                         class="mx-auto card-img lozad lazy-fade img-cover">
                                 @else
                                     <div class="blog_slider_image_default">No image</div>
                                 @endif
                             </a>
                         </div>
+
                         <div class="card-body">
                             <a href="{{ route('blog.'.app()->getLocale(), ['slug' => $blg->slug ?? null]) }}"
                                class="card-title">{{ $blg->name }}</a>
