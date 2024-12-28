@@ -19,13 +19,32 @@ class ProductsController extends Controller
         $application_slug = $request->app_slug;
         $category_slug = $request->cat_slug;
         
-        $category = Category::whereTranslation('slug', $category_slug)
-            ->whereTranslation('locale', $currentLocale)
-            ->first();
-        
         $application = Application::whereTranslation('slug', $application_slug)
+            ->whereTranslation('locale', $currentLocale)
             ->with('translations')
             ->first();
+        
+        if ( ! $application) {
+            $application = Application::whereTranslation('slug', $application_slug)
+                ->whereTranslation('locale', 'en')
+                ->with('translations')
+                ->first();
+            
+            $application->name = trans('pages.no_translated_title');
+        }
+        
+        $category = Category::whereTranslation('slug', $category_slug)
+            ->whereTranslation('locale', $currentLocale)
+            ->with('translations')
+            ->first();
+        
+        if ( ! $category) {
+            $category = Category::whereTranslation('slug', $category_slug)
+                ->whereTranslation('locale', 'en')
+                ->with('translations')
+                ->first();
+            $category->name = trans('pages.no_translated_title');
+        }
         
         $products = Category::find($category->id)
             ->products()
@@ -58,7 +77,7 @@ class ProductsController extends Controller
         
         
         if ($categories->count() === 0) {
-            return redirect(url(''));
+            //return redirect(url(''));
         }
         
         if ($products->count() == 1) {
@@ -71,9 +90,11 @@ class ProductsController extends Controller
         $app_slugs = null;
         $cat_slugs = null;
         foreach (config('translatable.locales') as $locale) {
-            $app_slugs[$locale] = $application->translate($locale)->slug ?? '';
-            $cat_slugs[$locale] = $category->translate($locale)->slug ?? '';
+            $app_slugs[$locale] = $application->translate($locale)->slug ?? $application->translate('en')->slug;
+            $cat_slugs[$locale] = $category->translate($locale)->slug ?? $category->translate('en')->slug;
         }
+        
+        //dd($application_slug, $category_slug, $app_slugs, $cat_slugs, $category, $application);
         
         return view('products', compact('category', 'categories', 'products', 'application', 'app_slugs', 'cat_slugs'));
     }
