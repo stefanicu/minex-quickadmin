@@ -16,14 +16,46 @@ class ProductController extends Controller
         $currentLocale = app()->getLocale();
         
         $application_slug = $request->app_slug;
-        $application = Application::whereHas('translations', function ($query) use ($application_slug) {
-            $query->where('slug', $application_slug);
-        })->first();
-        
         $category_slug = $request->cat_slug;
-        $category = Category::whereHas('translations', function ($query) use ($category_slug) {
-            $query->where('slug', $category_slug);
-        })->first();
+        
+        $application = Application::whereTranslation('slug', $application_slug)
+            ->whereTranslation('locale', $currentLocale)
+            ->with('translations')
+            ->first();
+        
+        if ( ! $application) {
+            $application = Application::whereTranslation('slug', $application_slug)
+                ->whereTranslation('locale', 'en')
+                ->with('translations')
+                ->first();
+            
+            $application->name = trans('pages.no_translated_title');
+        }
+        
+        $category = Category::whereTranslation('slug', $category_slug)
+            ->whereTranslation('locale', $currentLocale)
+            ->with('translations')
+            ->first();
+        
+        if ( ! $category) {
+            $category = Category::whereTranslation('slug', $category_slug)
+                ->whereTranslation('locale', 'en')
+                ->with('translations')
+                ->first();
+            $category->name = trans('pages.no_translated_title');
+        }
+        
+        $application = Application::whereTranslation('slug', $application_slug)
+            ->whereTranslation('locale', $currentLocale)
+            ->first();
+        
+        if ( ! $application) {
+            $application = Application::whereTranslation('slug', $application_slug)
+                ->whereTranslation('locale', 'en')
+                ->first();
+            
+            $application->name = trans('pages.no_translated_title');
+        }
         
         $product_slug = $request->prod_slug;
         
@@ -106,10 +138,6 @@ class ProductController extends Controller
                 ])
                 ->having('products_count', '>', 0) // Filter out categories with zero products
                 ->get();
-        } else {
-            $application = null;
-            $category = null;
-            $categories = null;
         }
         
         $category_id = $category->id;
@@ -127,13 +155,13 @@ class ProductController extends Controller
         $app_slugs = null;
         $cat_slugs = null;
         $prod_slugs = null;
-        $brand_slugs = null;
+        $canonical_product_page_brand_slugs = null;
         foreach (config('translatable.locales') as $locale) {
-            $app_slugs[$locale] = $application->translate($locale)->slug ?? '';
-            $cat_slugs[$locale] = $category->translate($locale)->slug ?? '';
+            $app_slugs[$locale] = $application->translate($locale)->slug ?? $application->translate('en')->slug;
+            $cat_slugs[$locale] = $category->translate($locale)->slug ?? $category->translate('en')->slug;
             $prod_slugs[$locale] = $product->translate($locale)->slug ?? $product->id;
             if (isset($brand->slug)) {
-                $brand_slugs[$locale] = $brand->slug ?? '';
+                $canonical_product_page_brand_slugs[$locale] = $brand->slug ?? '';
             }
         }
         
@@ -153,7 +181,7 @@ class ProductController extends Controller
                 'app_slugs',
                 'cat_slugs',
                 'prod_slugs',
-                'brand_slugs',
+                'canonical_product_page_brand_slugs',
             )
         );
     }
