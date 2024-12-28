@@ -9,35 +9,22 @@ class BlogController extends Controller
 {
     public function index(Request $request)
     {
-        if ( ! is_numeric($request->slug)) {
-            $blog = Blog::whereTranslation('slug', $request->slug)
-                ->whereTranslation('locale', app()->getLocale())
-                ->first();
-            
-            
-            if ($blog) {
-                $blog = Blog::with('translations', 'media')
-                    ->leftJoin('blog_translations', 'blogs.id', '=', 'blog_translations.blog_id')
-                    ->select('blogs.id as id', 'name', 'slug', 'created_at')
-                    ->where('blog_translations.online', '=', 1)
-                    ->where('blog_translations.blog_id', '=', $blog->id)
-                    ->where('locale', '=', app()->getLocale())
-                    ->orderBy('created_at', 'desc')->first();
-            } else {
-                $blog = Blog::with('translations', 'media')
-                    ->leftJoin('blog_translations', 'blogs.id', '=', 'blog_translations.blog_id')
-                    ->select('blogs.id as id', 'name', 'slug', 'created_at')
-                    ->where('locale', '=', app()->getLocale())
-                    ->where('blog_translations.online', '=', 1)
-                    ->orderBy('created_at', 'desc')->first();
-            }
-        } else {
+        $blog_slug = $request->slug;
+        if ( ! is_numeric($blog_slug)) {
             $blog = Blog::with('translations', 'media')
                 ->leftJoin('blog_translations', 'blogs.id', '=', 'blog_translations.blog_id')
                 ->select('blogs.id as id', 'name', 'slug', 'created_at')
-                ->where('locale', '=', 'en')
                 ->where('blog_translations.online', '=', 1)
-                ->where('blog_translations.blog_id', '=', $request->slug)
+                ->where('blog_translations.slug', '=', $blog_slug)
+                ->where('locale', '=', app()->getLocale())
+                ->orderBy('created_at', 'desc')->first();
+        } else {
+            $blog_id = (int) $blog_slug;
+            $blog = Blog::with('translations', 'media')
+                ->leftJoin('blog_translations', 'blogs.id', '=', 'blog_translations.blog_id')
+                ->select('blogs.id as id', 'name', 'slug', 'created_at')
+                ->where('blog_translations.online', '=', 1)
+                ->where('blog_translations.blog_id', '=', $blog_id)
                 ->orderBy('created_at', 'desc')->first();
             
             $blog->name = trans('pages.no_translated_title');
