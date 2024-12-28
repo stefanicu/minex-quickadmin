@@ -11,31 +11,33 @@ class ReferenceController extends Controller
 {
     public function index(Request $request)
     {
-        $reference_id = Reference::whereTranslation('slug', $request->slug)->first()->id;
+        $reference_slug = $request->slug;
         
-        $reference = Reference::with('translations', 'media')
-            ->leftJoin('reference_translations', 'references.id', '=', 'reference_translations.reference_id')
-            ->select('references.id', 'reference_translations.name', 'reference_translations.slug',
-                'references.industries_id')
-            ->where('references.online', '=', 1)
-            ->where('reference_translations.online', '=', 1)
-            ->where('reference_translations.reference_id', '=', $reference_id)
-            ->where('locale', '=', app()->getLocale())
-            ->select(sprintf('%s.*', (new Reference)->table), 'reference_translations.name as name',
-                'reference_translations.slug as slug')
-            ->first();
-        
-        if ( ! $reference) {
+        if ( ! is_numeric($reference_slug)) {
             $reference = Reference::with('translations', 'media')
                 ->leftJoin('reference_translations', 'references.id', '=', 'reference_translations.reference_id')
                 ->select('references.id', 'reference_translations.name', 'reference_translations.slug',
                     'references.industries_id')
-                ->where('references.online', '=', 1)
+                ->where('reference_translations.online', '=', 1)
+                ->where('reference_translations.slug', '=', $reference_slug)
+                ->where('locale', '=', app()->getLocale())
+                ->select(sprintf('%s.*', (new Reference)->table), 'reference_translations.name as name',
+                    'reference_translations.slug as slug')
+                ->first();
+        } else {
+            $reference_id = (int) $reference_slug;
+            $reference = Reference::with('translations', 'media')
+                ->leftJoin('reference_translations', 'references.id', '=', 'reference_translations.reference_id')
+                ->select('references.id', 'reference_translations.name', 'reference_translations.slug',
+                    'references.industries_id')
                 ->where('reference_translations.online', '=', 1)
                 ->where('reference_translations.reference_id', '=', $reference_id)
                 ->select(sprintf('%s.*', (new Reference)->table), 'reference_translations.name as name',
                     'reference_translations.slug as slug')
                 ->first();
+            
+            $reference->name = trans('pages.no_translated_title');
+            $reference->content = trans('pages.no_translated_message');
         }
         
         $references = Reference::with('translations', 'media')
