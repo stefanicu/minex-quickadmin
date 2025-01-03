@@ -545,6 +545,25 @@
     //# sourceMappingURL=adminlte.min.js.map
 
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const nameInput = document.getElementById("name");
+        const slugInput = document.getElementById("slug");
+
+        nameInput.addEventListener("input", () => {
+            const slug = nameInput.value
+                .toLowerCase()                        // Convert to lowercase
+                .replace(/[^a-z0-9\s-]/g, '')         // Remove invalid characters
+                .trim()                               // Remove leading/trailing spaces
+                .replace(/\s+/g, '-');                // Replace spaces with hyphens
+
+            slugInput.value = slug;
+        });
+    });
+</script>
+
+
 @yield('scripts')
 </body>
 
