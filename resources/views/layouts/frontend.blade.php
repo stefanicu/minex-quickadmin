@@ -46,10 +46,72 @@
                 <link rel="canonical" href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>
             @endif
         @endif
-        <link rel="alternate" hreflang="{{ $langLocale }}"
-              href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>
+        @php
+            if($langLocale == 'en'){
+                $hreflang1 = 'en-US';
+                $hreflang2 = 'en-GB';
+            } else {
+                $hreflang1 = $langLocale.'-'.strtoupper($langLocale);
+                $hreflang2 = 'en-'.strtoupper($langLocale);
+            }
+        @endphp
+        @if(isset($prod_slugs) && isset($brand->slug))
+            <link rel="alternate"
+                  hreflang="{{ $hreflang1 }}"
+                  href="{{ route('product_brand.'.app()->getLocale(), ['brand_slug' => $brand->slug, 'prod_slug' => $product->translateOrDefault(app()->getLocale())->slug ]) }}"/>
+            <link rel="alternate"
+                  hreflang="{{ $hreflang2 }}"
+                  href="{{ route('product_brand.'.app()->getLocale(), ['brand_slug' => $brand->slug, 'prod_slug' => $product->translateOrDefault(app()->getLocale())->slug ]) }}"/>
+        @else
+            <link rel="alternate" hreflang="{{ $hreflang1 }}"
+                  href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>
+            <link rel="alternate" hreflang="{{ $hreflang2 }}"
+                  href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>
+        @endif
     @endforeach
-    {!! seo() !!}
+
+    @if(isset($robots))
+        <meta name="robots" content="{{ $robots }}">
+    @else
+        <meta name="robots" content="max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+    @endif
+    @if(isset($meta_title))
+        <title>{{ $meta_title }}</title>
+    @endif
+    @if(isset($meta_description))
+        <meta name="description" content="{{ $meta_description }}">
+    @endif
+    @if(isset($meta_image_url))
+        <meta name="image" content="{{ $meta_image_url }}">
+    @endif
+    <link href="https://www.minexgroup.eu/img/favicon.png" rel="shortcut icon">
+    @if(isset($meta_title))
+        <meta property="og:title" content="{{ $meta_title }}">
+    @endif
+    @if(isset($meta_description))
+        <meta property="og:description" content="{{ $meta_description }}">
+    @endif
+    <meta property="og:locale" content="{{ app()->getLocale() }}">
+    @if(isset($meta_image_url) && $meta_image_url != null)
+        <meta property="og:image" content="{{ $meta_image_name }}">
+        <meta property="og:image:width" content="{{ $meta_image_width }}">
+        <meta property="og:image:height" content="{{ $meta_image_height }}">
+        <meta property="og:url" content="{{ $meta_image_url }}">
+    @endif
+
+    <meta property="og:site_name" content="Minex Group International">
+    <meta property="og:type" content="{{ $og_type }}">
+
+    <meta name="twitter:card" content="summary">
+    @if(isset($meta_title))
+        <meta name="twitter:title" content="{{ $meta_title }}">
+    @endif
+    @if(isset($meta_description))
+        <meta name="twitter:description" content="{{ $meta_description }}">
+    @endif
+    <meta name="twitter:site" content="@MinexGroup">
+
+
     <!-- Google Tag Manager -->
     <script nonce="{{ session('csp_nonce') }}">(function (w, d, s, l, i) {
             w[l] = w[l] || [];
