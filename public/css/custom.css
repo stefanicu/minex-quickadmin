@@ -195,3 +195,7 @@ ul.pagination li.active a {
     text-align: center;
     min-height: 220px;
 }
+
+.seo_meta {
+    background-color: antiquewhite;
+}
