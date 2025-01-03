@@ -116,23 +116,6 @@ class ApplicationController extends Controller
         }
         
         
-        $meta_title = $application->meta_title ?? $application->name;
-        $meta_description = $application->meta_description ?? $application->name;
-        $author = $application->author ?? 'Minex Group International';
-        $robots = $application->robots ?? null;
-        $canonical_url = $application->canonical_url ?? null;
-        $meta_image_url = null;
-        $meta_image_width = null;
-        $meta_image_height = null;
-        $meta_image_name = null;
-        if ($application->getImageAttribute()) {
-            $meta_image_url = $application->getImageAttribute()->getUrl();
-            $meta_image_width = 120;
-            $meta_image_height = 120;
-            $meta_image_name = $application->name;
-        }
-        $og_type = 'website';
-        
         return view('application',
             compact(
                 'application',
