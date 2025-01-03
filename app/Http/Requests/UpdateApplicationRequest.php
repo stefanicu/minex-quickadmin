@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Application;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 
 class UpdateApplicationRequest extends FormRequest
@@ -14,7 +12,7 @@ class UpdateApplicationRequest extends FormRequest
     {
         return Gate::allows('application_edit');
     }
-
+    
     public function rules()
     {
         return [
@@ -34,7 +32,7 @@ class UpdateApplicationRequest extends FormRequest
                 'required',
                 Rule::unique('application_translations', 'name')
                     ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('application')->id,'application_id')
+                    ->ignore(request()->route('application')->id, 'application_id')
             ],
             'slug' => [
                 'string',
@@ -43,7 +41,37 @@ class UpdateApplicationRequest extends FormRequest
                 'required',
                 Rule::unique('application_translations', 'slug')
                     ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('application')->id,'application_id')
+                    ->ignore(request()->route('application')->id, 'application_id')
+            ],
+            'meta_title' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'meta_description' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'author' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'robots' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'canonical_url' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
             ]
         ];
     }
