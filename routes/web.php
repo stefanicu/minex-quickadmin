@@ -123,9 +123,9 @@ foreach (config('translatable.locales') as $locale) {
         
         
         Route::get(trans('pages_slugs.products', [], $locale).'/{app_slug?}',
-            'CategoriesController@index')->name("categories.$locale");
+            'ApplicationController@index')->name("categories.$locale");
         Route::get(trans('pages_slugs.products', [], $locale).'/{app_slug?}'.'/{cat_slug?}',
-            'ProductsController@index')->name("products.$locale");
+            'CategoryController@index')->name("products.$locale");
         
         Route::get(trans('pages_slugs.product', [], $locale).'/{app_slug?}'.'/{cat_slug?}'.'/{prod_slug?}',
             'ProductController@index')->name("product.$locale");
