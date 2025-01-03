@@ -5,7 +5,6 @@ namespace App\Models;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use DateTimeInterface;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
@@ -14,7 +13,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Application extends Model implements HasMedia, TranslatableContract
 {
-    use SoftDeletes, InteractsWithMedia, HasFactory, Translatable;
+    use SoftDeletes, InteractsWithMedia, Translatable;
     
     public $table = 'applications';
     
