@@ -378,3 +378,32 @@ em.error.help-block {
 .min-h-200 {
     min-height: 200px;
 }
+
+h1 {
+    margin-top: 2rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-top: 1.8rem;
+}
+
+h3 {
+    font-size: 1.6rem;
+    margin-top: 1.6rem;
+}
+
+h4 {
+    font-size: 1.45rem;
+    margin-top: 1.45rem;
+}
+
+h5 {
+    font-size: 1.3rem;
+    margin-top: 1.3rem;
+}
+
+h6 {
+    font-size: 1.2rem;
+    margin-top: 1.2rem;
+}
