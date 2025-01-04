@@ -18,7 +18,7 @@ class Brand extends Model implements HasMedia, TranslatableContract
     
     public $table = 'brands';
     
-    public array $translatedAttributes = ['online', 'offline_message'];
+    public array $translatedAttributes = ['online', 'locale', 'offline_message'];
     
     protected $appends = [
         'photo',

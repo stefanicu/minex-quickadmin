@@ -84,18 +84,23 @@
 
             let dtOverrideGlobals = {
                 "createdRow": function (row, data, dataIndex) {
-                    data['translations'].forEach(
-                        function (element) {
+                    let hasCurrentLocale = false; // Track if the current locale exists
 
-                            if (element['locale'] == currentLocale) {
-                                if (element['online'] == 0) {
-                                    $(row).addClass('red_row')
-                                }
+                    data['translations'].forEach(function (element) {
+                        if (element['locale'] == '<?= app()->getLocale() ?>') {
+                            hasCurrentLocale = true; // Mark that the locale exists
+                            if (element['online'] == 0) {
+                                $(row).addClass('red_row'); // Add red_row if online is 0
                             }
-
                         }
-                    )
+                    });
+
+                    // If the current locale is missing in translations, add red_row
+                    if (!hasCurrentLocale) {
+                        $(row).addClass('red_row');
+                    }
                 },
+
                 buttons: dtButtons,
                 stateSave: true,
                 processing: true,
