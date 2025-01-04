@@ -3,22 +3,21 @@
 namespace App\Models;
 
 use DateTimeInterface;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ContactSpam extends Model
 {
-    use SoftDeletes, HasFactory;
-
+    use SoftDeletes;
+    
     public $table = 'contact_spams';
-
+    
     protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at',
     ];
-
+    
     public static $searchable = [
         'name',
         'surname',
@@ -36,7 +35,7 @@ class ContactSpam extends Model
         'ip',
         'district',
     ];
-
+    
     protected $fillable = [
         'name',
         'surname',
@@ -58,7 +57,7 @@ class ContactSpam extends Model
         'updated_at',
         'deleted_at',
     ];
-
+    
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
