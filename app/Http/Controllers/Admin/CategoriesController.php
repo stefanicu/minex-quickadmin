@@ -12,6 +12,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
@@ -19,17 +20,27 @@ use Yajra\DataTables\Facades\DataTables;
 class CategoriesController extends Controller
 {
     use MediaUploadingTrait;
-
+    
     public function index(Request $request)
     {
         abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        
         if ($request->ajax()) {
-            $query = Category::with(['media','translations'])
-                ->join('category_translations','categories.id','=','category_translations.category_id')
-                ->where('category_translations.locale','=',app()->getLocale())
-                ->select(sprintf('%s.*', (new Category)->table));
-
+//            $query = Category::with(['media','translations'])
+//                ->join('category_translations','categories.id','=','category_translations.category_id')
+//                ->where('category_translations.locale','=',app()->getLocale())
+//                ->select(sprintf('%s.*', (new Category)->table));
+            
+            $query = Category::with(['media', 'translations'])
+                ->leftJoin('category_translations', function ($join) {
+                    $join->on('categories.id', '=', 'category_translations.category_id')
+                        ->where('category_translations.locale', '=', app()->getLocale());
+                })
+                ->select([
+                    'categories.*',
+                    DB::raw("COALESCE(category_translations.name, '---NO TRANSLATION---') as name"),
+                ])
+                ->get();
 
 
 //            foreach ($query->get() as $category) {
@@ -63,20 +74,19 @@ class CategoriesController extends Controller
 //                    }
 //                }
 //            }
-
-
-
+            
+            
             $table = Datatables::of($query);
-
+            
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
-
+            
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'category_show';
-                $editGate      = 'category_edit';
-                $deleteGate    = 'category_delete';
+                $viewGate = 'category_show';
+                $editGate = 'category_edit';
+                $deleteGate = 'category_delete';
                 $crudRoutePart = 'categories';
-
+                
                 return view('partials.datatablesActions', compact(
                     'viewGate',
                     'editGate',
@@ -85,12 +95,12 @@ class CategoriesController extends Controller
                     'row'
                 ));
             });
-
+            
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
             $table->editColumn('online', function ($row) {
-                return '<input type="checkbox" disabled ' . ($row->online ? 'checked' : null) . '>';
+                return '<input type="checkbox" disabled '.($row->online ? 'checked' : null).'>';
             });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
@@ -106,110 +116,110 @@ class CategoriesController extends Controller
                         $photo->thumbnail
                     );
                 }
-
+                
                 return '';
             });
-
+            
             $table->rawColumns(['actions', 'placeholder', 'online', 'cover_photo']);
-
+            
             return $table->make(true);
         }
-
+        
         return view('admin.categories.index');
     }
-
+    
     public function create()
     {
         abort_if(Gate::denies('category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        
         $product_images = null;
-
-        $applications = ApplicationTranslation::where('locale',app()->getLocale() )->orderBy('name','asc')->pluck('name', 'id');
-
+        
+        $applications = ApplicationTranslation::where('locale', app()->getLocale())->orderBy('name', 'asc')->pluck('name', 'id');
+        
         return view('admin.categories.create', compact('applications', 'product_images'));
     }
-
+    
     public function store(StoreCategoryRequest $request)
     {
         $category = Category::create($request->all());
         $category->applications()->sync($request->input('applications', []));
         if ($request->input('cover_photo', false)) {
-            $category->addMedia(storage_path('tmp/uploads/' . basename($request->input('cover_photo'))))->toMediaCollection('cover_photo');
+            $category->addMedia(storage_path('tmp/uploads/'.basename($request->input('cover_photo'))))->toMediaCollection('cover_photo');
         }
-
+        
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $category->id]);
         }
-
+        
         return redirect()->route('admin.categories.index');
     }
-
+    
     public function edit(Category $category)
     {
         abort_if(Gate::denies('category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        
         $categoryId = $category->id;
-        $product_images = Product::whereHas('categories',function ($query) use ($categoryId) {
-                $query->where('categories.id', '=', $categoryId);
-            })
+        $product_images = Product::whereHas('categories', function ($query) use ($categoryId) {
+            $query->where('categories.id', '=', $categoryId);
+        })
             ->orderByTranslation('name')
             ->get();
-
-        $applications = ApplicationTranslation::where('locale',app()->getLocale() )->pluck('name', 'application_id');
-
+        
+        $applications = ApplicationTranslation::where('locale', app()->getLocale())->pluck('name', 'application_id');
+        
         //$category->load('product_image', 'applications');
-
+        
         return view('admin.categories.edit', compact('applications', 'category', 'product_images'));
     }
-
+    
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $category->update($request->all());
-
+        
         $category->applications()->sync($request->input('applications', []));
         if ($request->input('cover_photo', false)) {
-            if (! $category->cover_photo || $request->input('cover_photo') !== $category->cover_photo->file_name) {
+            if ( ! $category->cover_photo || $request->input('cover_photo') !== $category->cover_photo->file_name) {
                 if ($category->cover_photo) {
                     $category->cover_photo->delete();
                 }
-                $category->addMedia(storage_path('tmp/uploads/' . basename($request->input('cover_photo'))))->toMediaCollection('cover_photo');
+                $category->addMedia(storage_path('tmp/uploads/'.basename($request->input('cover_photo'))))->toMediaCollection('cover_photo');
             }
         } elseif ($category->cover_photo) {
             $category->cover_photo->delete();
         }
-
+        
         return redirect()->route('admin.categories.index');
     }
-
+    
     public function destroy(Category $category)
     {
         abort_if(Gate::denies('category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        
         $category->delete();
-
+        
         return back();
     }
-
+    
     public function massDestroy(MassDestroyCategoryRequest $request)
     {
         $categories = Category::find(request('ids'));
-
+        
         foreach ($categories as $category) {
             $category->delete();
         }
-
+        
         return response(null, Response::HTTP_NO_CONTENT);
     }
-
+    
     public function storeCKEditorImages(Request $request)
     {
         abort_if(Gate::denies('category_create') && Gate::denies('category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $model         = new Category();
-        $model->id     = $request->input('crud_id', 0);
+        
+        $model = new Category();
+        $model->id = $request->input('crud_id', 0);
         $model->exists = true;
-        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
-
+        $media = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+        
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
 }
