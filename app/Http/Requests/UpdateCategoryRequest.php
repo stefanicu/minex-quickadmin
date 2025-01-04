@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Gate;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -13,13 +12,13 @@ class UpdateCategoryRequest extends FormRequest
     {
         return Gate::allows('category_edit');
     }
-
+    
     public function rules(): array
     {
         return [
-             'locale' => [
-                 'required',
-             ],
+            'locale' => [
+                'required',
+            ],
             'name' => [
                 'string',
                 'min:0',
@@ -27,8 +26,8 @@ class UpdateCategoryRequest extends FormRequest
                 'required',
                 Rule::unique('category_translations', 'name')
                     ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('category')->id,'category_id')
-
+                    ->ignore(request()->route('category')->id, 'category_id')
+            
             ],
             'slug' => [
                 'string',
@@ -37,8 +36,8 @@ class UpdateCategoryRequest extends FormRequest
                 'required',
                 Rule::unique('category_translations', 'slug')
                     ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('category')->id,'category_id')
-
+                    ->ignore(request()->route('category')->id, 'category_id')
+            
             ],
             'page_views' => [
                 'nullable',
@@ -52,6 +51,36 @@ class UpdateCategoryRequest extends FormRequest
             'applications' => [
                 'array',
             ],
+            'meta_title' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'meta_description' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'author' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'robots' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'canonical_url' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ]
         ];
     }
 }
