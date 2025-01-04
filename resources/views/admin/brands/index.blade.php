@@ -1,29 +1,29 @@
 @extends('layouts.admin')
 @section('content')
-@can('brand_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.brands.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.brand.title_singular') }}
-            </a>
+    @can('brand_create')
+        <div style="margin-bottom: 10px;" class="row">
+            <div class="col-lg-12">
+                <a class="btn btn-success" href="{{ route('admin.brands.create') }}">
+                    {{ trans('global.add') }} {{ trans('cruds.brand.title_singular') }}
+                </a>
+            </div>
         </div>
-    </div>
-@endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.brand.title_singular') }} {{ trans('global.list') }}
-    </div>
+    @endcan
+    <div class="card">
+        <div class="card-header">
+            {{ trans('cruds.brand.title_singular') }} {{ trans('global.list') }}
+        </div>
 
-    <div class="card-body">
-        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Brand">
-            <thead>
+        <div class="card-body">
+            <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Brand">
+                <thead>
                 <tr>
                     <th>
                         {{ trans('cruds.brand.fields.online') }}
                     </th>
-{{--                    <th width="10">--}}
+                    {{--                    <th width="10">--}}
 
-{{--                    </th>--}}
+                    {{--                    </th>--}}
                     <th>
                         {{ trans('cruds.brand.fields.id') }}
                     </th>
@@ -40,89 +40,99 @@
                         &nbsp;
                     </th>
                 </tr>
-            </thead>
-        </table>
+                </thead>
+            </table>
+        </div>
     </div>
-</div>
-
-
 
 @endsection
 @section('scripts')
-@parent
-<script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-{{--@can('brand_delete')--}}
-{{--  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';--}}
-{{--  let deleteButton = {--}}
-{{--    text: deleteButtonTrans,--}}
-{{--    url: "{{ route('admin.brands.massDestroy') }}",--}}
-{{--    className: 'btn-danger',--}}
-{{--    action: function (e, dt, node, config) {--}}
-{{--      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {--}}
-{{--          return entry.id--}}
-{{--      });--}}
+    @parent
+    <script>
+        $(function () {
+            let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+            {{--@can('brand_delete')--}}
+            {{--  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';--}}
+            {{--  let deleteButton = {--}}
+            {{--    text: deleteButtonTrans,--}}
+            {{--    url: "{{ route('admin.brands.massDestroy') }}",--}}
+            {{--    className: 'btn-danger',--}}
+            {{--    action: function (e, dt, node, config) {--}}
+            {{--      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {--}}
+            {{--          return entry.id--}}
+            {{--      });--}}
 
-{{--      if (ids.length === 0) {--}}
-{{--        alert('{{ trans('global.datatables.zero_selected') }}')--}}
+            {{--      if (ids.length === 0) {--}}
+            {{--        alert('{{ trans('global.datatables.zero_selected') }}')--}}
 
-{{--        return--}}
-{{--      }--}}
+            {{--        return--}}
+            {{--      }--}}
 
-{{--      if (confirm('{{ trans('global.areYouSure') }}')) {--}}
-{{--        $.ajax({--}}
-{{--          headers: {'x-csrf-token': _token},--}}
-{{--          method: 'POST',--}}
-{{--          url: config.url,--}}
-{{--          data: { ids: ids, _method: 'DELETE' }})--}}
-{{--          .done(function () { location.reload() })--}}
-{{--      }--}}
-{{--    }--}}
-{{--  }--}}
-{{--  dtButtons.push(deleteButton)--}}
-{{--@endcan--}}
+            {{--      if (confirm('{{ trans('global.areYouSure') }}')) {--}}
+            {{--        $.ajax({--}}
+            {{--          headers: {'x-csrf-token': _token},--}}
+            {{--          method: 'POST',--}}
+            {{--          url: config.url,--}}
+            {{--          data: { ids: ids, _method: 'DELETE' }})--}}
+            {{--          .done(function () { location.reload() })--}}
+            {{--      }--}}
+            {{--    }--}}
+            {{--  }--}}
+            {{--  dtButtons.push(deleteButton)--}}
+            {{--@endcan--}}
 
-    let dtOverrideGlobals = {
-        "createdRow": function (row, data, dataIndex) {
-            data['translations'].forEach(
-                function(element) {
-                    if( element['locale'] == '<?= app()->getLocale() ?>' ){
-                        if (element['online'] == 0) {
-                            $(row).addClass('red_row')
+            let dtOverrideGlobals = {
+                "createdRow": function (row, data, dataIndex) {
+                    let hasCurrentLocale = false; // Track if the current locale exists
+
+                    data['translations'].forEach(function (element) {
+                        if (element['locale'] == '<?= app()->getLocale() ?>') {
+                            hasCurrentLocale = true; // Mark that the locale exists
+                            if (element['online'] == 0) {
+                                $(row).addClass('red_row'); // Add red_row if online is 0
+                            }
                         }
+                    });
+
+                    // If the current locale is missing in translations, add red_row
+                    if (!hasCurrentLocale) {
+                        $(row).addClass('red_row');
                     }
-                }
-            )
-        },
+                },
 
-        buttons: dtButtons,
-        stateSave: true,
-        processing: true,
-        serverSide: true,
-        retrieve: true,
-        aaSorting: [],
-        ajax: "{{ route('admin.brands.index') }}",
-        columns: [
-          // { data: 'placeholder', name: 'placeholder' },
-            { data: 'online', name: 'online', sortable: false, searchable: false },
-            { data: 'id', name: 'id' },
-            { data: 'name', name: 'name' },
-            { data: 'slug', name: 'slug' },
-            { data: 'photo', name: 'photo', sortable: false, searchable: false, class: 'text-center' },
-            { data: 'actions', name: '{{ trans('global.actions') }}', class: 'text-nowrap text-center', sortable: false, searchable: false }
-        ],
-        orderCellsTop: true,
-        order: [[ 2, 'asc' ]],
-        pageLength: 25,
-    };
-  let table = $('.datatable-Brand').DataTable(dtOverrideGlobals);
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
+                buttons: dtButtons,
+                stateSave: true,
+                processing: true,
+                serverSide: true,
+                retrieve: true,
+                aaSorting: [],
+                ajax: "{{ route('admin.brands.index') }}",
+                columns: [
+                    // { data: 'placeholder', name: 'placeholder' },
+                    {data: 'online', name: 'online', sortable: false, searchable: false},
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'slug', name: 'slug'},
+                    {data: 'photo', name: 'photo', sortable: false, searchable: false, class: 'text-center'},
+                    {
+                        data: 'actions',
+                        name: '{{ trans('global.actions') }}',
+                        class: 'text-nowrap text-center',
+                        sortable: false,
+                        searchable: false
+                    }
+                ],
+                orderCellsTop: true,
+                order: [[2, 'asc']],
+                pageLength: 25,
+            };
+            let table = $('.datatable-Brand').DataTable(dtOverrideGlobals);
+            $('a[data-toggle="tab"]').on('shown.bs.tab click', function (e) {
+                $($.fn.dataTable.tables(true)).DataTable()
+                    .columns.adjust();
+            });
 
-});
+        });
 
-</script>
+    </script>
 @endsection
