@@ -94,19 +94,19 @@ class CategoryController extends Controller
             $cat_slugs[$locale] = $category->translate($locale)->slug ?? $category->translate('en')->slug;
         }
         
-        //dd($application_slug, $category_slug, $app_slugs, $cat_slugs, $category, $application);
-        
-        $meta_title = $category->meta_title ?? $category->translate('en')->title;
-        $meta_description = $category->meta_description ?? $category->translate('en')->meta_description;
+        $meta_title = $category->meta_title ?? $category->name;
+        $meta_description = $category->meta_description ?? $category->name;
         $canonical_url = $category->canonical_url ?? null;
-        
-        $author = $category->author ?? $category->translate('en')->author;
+        $author = $category->author ?? 'Minex Group International';
         $robots = $category->robots ?? null;
-        
-        $meta_image = null;
+        $meta_image_url = null;
+        $meta_image_width = null;
+        $meta_image_height = null;
+        $meta_image_name = null;
         if ($category->product_main_image && $category->product_main_image->getMainPhotoAttribute() !== null) {
-            $meta_image = $category->product_main_image->getMainPhotoAttribute()->getUrl();
+            $meta_image_name = $category->product_main_image->getMainPhotoAttribute()->getUrl();
         }
+        $og_type = 'website';
         
         return view(
             'category',
@@ -122,7 +122,8 @@ class CategoryController extends Controller
                 'author',
                 'robots',
                 'canonical_url',
-                'meta_image',
+                'meta_image_name',
+                'og_type',
             )
         );
     }

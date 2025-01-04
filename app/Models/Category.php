@@ -18,7 +18,10 @@ class Category extends Model implements HasMedia, TranslatableContract
     
     public $table = 'categories';
     
-    public array $translatedAttributes = ['online', 'name', 'slug'];
+    public array $translatedAttributes = [
+        'online', 'name', 'slug',
+        'meta_title', 'meta_description', 'author', 'robots', 'canonical_url'
+    ];
     
     protected $indexes = [
         'name',

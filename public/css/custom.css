@@ -162,14 +162,14 @@ span.translation_guide {
 }
 
 .product_image_default {
-    max-width: 223px;
-    max-height: 223px;
-    width: 100%;
+    max-width: 100px;
+    max-height: 100px;
+    xwidth: 100%;
     height: auto;
     background-color: #eee;
     text-align: center;
     margin: 0;
-    padding: 100px 40px;
+    padding: 38px 16px;
     color: #000;
 }
 
