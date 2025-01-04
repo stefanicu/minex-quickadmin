@@ -9,18 +9,18 @@
         <div class="card-body">
             <form method="POST" action="{{ route("admin.brands.store") }}" enctype="multipart/form-data">
                 @csrf
-                <div class="form-group">
-                    <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
-                        <input type="hidden" name="online" value="0">
-                        <input class="form-check-input" type="checkbox" name="online" id="online"
-                               value="0">
-                        <label class="form-check-label" for="online">{{ trans('cruds.brand.fields.online') }}</label>
-                    </div>
-                    @if($errors->has('online'))
-                        <span class="text-danger">{{ $errors->first('online') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.brand.fields.online_helper') }}</span>
-                </div>
+                {{--                <div class="form-group">--}}
+                {{--                    <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">--}}
+                {{--                        <input type="hidden" name="online" value="0">--}}
+                {{--                        <input class="form-check-input" type="checkbox" name="online" id="online"--}}
+                {{--                               value="0">--}}
+                {{--                        <label class="form-check-label" for="online">{{ trans('cruds.brand.fields.online') }}</label>--}}
+                {{--                    </div>--}}
+                {{--                    @if($errors->has('online'))--}}
+                {{--                        <span class="text-danger">{{ $errors->first('online') }}</span>--}}
+                {{--                    @endif--}}
+                {{--                    <span class="help-block">{{ trans('cruds.brand.fields.online_helper') }}</span>--}}
+                {{--                </div>--}}
 
                 <div class="row">
                     <div class="form-group col-12 col-sm-6">
@@ -162,8 +162,8 @@
             },
             params: {
                 size: 2,
-                width: 360,
-                height: 240
+                width: 345,
+                height: 228
             },
             success: function (file, response) {
                 $('form').find('input[name="photo"]').remove()
@@ -177,6 +177,13 @@
                 }
             },
             init: function () {
+
+                const dropzoneInfo = document.createElement('p');
+                dropzoneInfo.textContent = 'Allowed: Images only, max 2MB, dimensions up to 343x228px.';
+                dropzoneInfo.style.color = '#f00';
+                dropzoneInfo.style.marginBottom = '10px';
+                this.element.insertBefore(dropzoneInfo, this.element.firstChild);
+
                 @if(isset($brand) && $brand->photo)
                 var file = {!! json_encode($brand->photo) !!}
                 this.options.addedfile.call(this, file)
