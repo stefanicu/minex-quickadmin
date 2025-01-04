@@ -201,6 +201,7 @@ class ProductsController extends Controller
     public function store(StoreProductRequest $request)
     {
         $product = Product::create($request->all());
+        
         $product->applications()->sync($request->input('applications', []));
         $product->categories()->sync($request->input('categories', []));
         $product->references()->sync($request->input('references', []));
