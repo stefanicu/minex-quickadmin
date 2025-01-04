@@ -7,10 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class IndustryTranslation extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['online','name','slug'];
-
-    public static $searchable = [
-        'name',
-        'slug',
-    ];
+    
+    protected $fillable = ['online', 'name', 'slug'];
 }
