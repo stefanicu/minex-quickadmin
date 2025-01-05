@@ -10,13 +10,13 @@ if ( ! function_exists('routeWithLang')) {
      */
     function routeWithLang(string $baseRouteName, string $lang): string
     {
-// Validate that the language is valid
-        $availableLocales = config('translatable.locales'); // or an array of available languages
+        // Validate that the language is valid
+        $availableLocales = config('translatable.locales');
         if ( ! in_array($lang, $availableLocales)) {
-            return ''; // Or return a default route if the language is not valid
+            return '';
         }
-
-// Return the route name with the language prefix
+        
+        // Return the route name with the language prefix
         return $baseRouteName.'.'.$lang;
     }
 }
