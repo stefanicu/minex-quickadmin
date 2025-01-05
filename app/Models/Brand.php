@@ -77,4 +77,20 @@ class Brand extends Model implements HasMedia, TranslatableContract
         
         return $file;
     }
+    
+    public function getMetaImage(): ?array
+    {
+        $mainPhoto = $this->getPhotoAttribute(); // Replace with your logic to get the main photo
+        
+        if ($mainPhoto) {
+            return [
+                'url' => $mainPhoto->getUrl(),
+                'name' => $this->slug,
+                'width' => 1920,
+                'height' => 540,
+            ];
+        }
+        
+        return null;
+    }
 }
