@@ -82,10 +82,10 @@ class Application extends Model implements HasMedia, TranslatableContract
         
         if ($mainPhoto) {
             return [
-                'url' => $mainPhoto->getUrl(),
+                'url' => $mainPhoto->getUrl('preview'),
                 'name' => $this->slug,
-                'width' => 600,
-                'height' => 600,
+                'width' => 120,
+                'height' => 120,
             ];
         }
         
