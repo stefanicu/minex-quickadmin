@@ -119,7 +119,7 @@ class BrandsController extends Controller
         if ( ! $translation) {
             // If no translation exists, create a new one
             $brand->translations()->create([
-                'locale' => 'en',
+                'locale' => app()->getLocale(),
                 'online' => $request->input('online'),
                 'offline_message' => $request->input('offline_message'),
             ]);

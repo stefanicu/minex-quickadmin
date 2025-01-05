@@ -18,7 +18,10 @@ class Brand extends Model implements HasMedia, TranslatableContract
     
     public $table = 'brands';
     
-    public array $translatedAttributes = ['online', 'locale', 'offline_message'];
+    public array $translatedAttributes = [
+        'online', 'offline_message',
+        'meta_title', 'meta_description', 'author', 'robots', 'canonical_url'
+    ];
     
     protected $appends = [
         'photo',
@@ -47,7 +50,7 @@ class Brand extends Model implements HasMedia, TranslatableContract
         'deleted_at',
     ];
     
-    protected function serializeDate(DateTimeInterface $date)
+    protected function serializeDate(DateTimeInterface $date): string
     {
         return $date->format('Y-m-d H:i:s');
     }

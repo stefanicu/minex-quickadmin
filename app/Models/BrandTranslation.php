@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class BrandTranslation extends Model
 {
-    protected $table = 'brand_translations';
-    
     public $timestamps = false;
-    protected $fillable = ['online', 'locale', 'offline_message'];
+    
+    protected $fillable = [
+        'online', 'offline_message',
+        'meta_title', 'meta_description', 'author', 'robots', 'canonical_url'
+    ];
 }

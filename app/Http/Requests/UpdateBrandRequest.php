@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Brand;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Response;
 
 class UpdateBrandRequest extends FormRequest
 {
@@ -13,7 +11,7 @@ class UpdateBrandRequest extends FormRequest
     {
         return Gate::allows('brand_edit');
     }
-
+    
     public function rules()
     {
         return [
@@ -22,14 +20,44 @@ class UpdateBrandRequest extends FormRequest
                 'min:0',
                 'max:255',
                 'required',
-                'unique:brands,name,' . request()->route('brand')->id,
+                'unique:brands,name,'.request()->route('brand')->id,
             ],
             'slug' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:brands,slug,' . request()->route('brand')->id,
+                'unique:brands,slug,'.request()->route('brand')->id,
+            ],
+            'meta_title' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'meta_description' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'author' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'robots' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'canonical_url' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
             ]
         ];
     }

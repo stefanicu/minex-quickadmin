@@ -63,6 +63,33 @@ class BrandController extends Controller
             $slugs[$locale] = $slug_brand;
         }
         
-        return view('brand', compact('brand', 'brands', 'products', 'slugs'));
+        $meta_title = $brand->meta_title ?? $brand->name;
+        $meta_description = $brand->meta_description ?? $brand->name;
+        $canonical_url = $brand->canonical_url ?? null;
+        $author = $brand->author ?? 'Minex Group International';
+        $robots = $brand->robots ?? null;
+        $meta_image_url = null;
+        $meta_image_width = null;
+        $meta_image_height = null;
+        $meta_image_name = null;
+        if ($brand->getPhotoAttribute() !== null) {
+            $meta_image_name = $brand->getPhotoAttribute()->getUrl();
+        }
+        
+        $og_type = 'website';
+        
+        return view(
+            'brand',
+            compact(
+                'brand', 'brands', 'products', 'slugs',
+                'meta_title',
+                'meta_description',
+                'author',
+                'robots',
+                'canonical_url',
+                'meta_image_name',
+                'og_type',
+            )
+        );
     }
 }
