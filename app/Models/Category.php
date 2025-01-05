@@ -52,7 +52,7 @@ class Category extends Model implements HasMedia, TranslatableContract
         'deleted_at',
     ];
     
-    protected function serializeDate(DateTimeInterface $date)
+    protected function serializeDate(DateTimeInterface $date): string
     {
         return $date->format('Y-m-d H:i:s');
     }
@@ -73,7 +73,7 @@ class Category extends Model implements HasMedia, TranslatableContract
 //        $this->addMediaConversion('sm_webp')->fit('crop', 425,200)->format(Manipulations::FORMAT_WEBP);
     }
     
-    public function products()
+    public function products(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Product::class);
     }
@@ -90,12 +90,28 @@ class Category extends Model implements HasMedia, TranslatableContract
         return $file;
     }
     
-    public function product_main_image()
+    public function product_main_image(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Product::class, 'product_image_id', 'id');
     }
     
-    public function applications()
+    public function getMetaImage(): ?array
+    {
+        $mainPhoto = $this->getCoverPhotoAttribute(); // Replace with your logic to get the main photo
+        
+        if ($mainPhoto) {
+            return [
+                'url' => $mainPhoto->getUrl(),
+                'name' => $this->slug,
+                'width' => 1920,
+                'height' => 540,
+            ];
+        }
+        
+        return null;
+    }
+    
+    public function applications(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Application::class);
     }
