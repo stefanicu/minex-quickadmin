@@ -30,18 +30,17 @@ class BrandsController extends Controller
         $meta_image_name = null;
         $og_type = 'website';
         
+        $metaData = getStaticMetaData([
+            'meta_title' => trans('pages.brands'),
+            'meta_description' => trans('pages.brands').' description',
+        ]);
+        
         
         return view(
             'brands',
             compact(
                 'brands',
-                'meta_title',
-                'meta_description',
-                'author',
-                'robots',
-                'canonical_url',
-                'meta_image_name',
-                'og_type',
+                'metaData'
             )
         );
     }
