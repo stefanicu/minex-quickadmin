@@ -76,6 +76,22 @@ class Application extends Model implements HasMedia, TranslatableContract
         return $file;
     }
     
+    public function getMetaImage(): ?array
+    {
+        $mainPhoto = $this->getImageAttribute(); // Replace with your logic to get the main photo
+        
+        if ($mainPhoto) {
+            return [
+                'url' => $mainPhoto->getUrl(),
+                'name' => $this->slug,
+                'width' => 600,
+                'height' => 600,
+            ];
+        }
+        
+        return null;
+    }
+    
     public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Category::class);
