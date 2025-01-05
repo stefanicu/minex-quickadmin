@@ -75,7 +75,6 @@ class BrandController extends Controller
         if ($brand->getPhotoAttribute() !== null) {
             $meta_image_name = $brand->getPhotoAttribute()->getUrl();
         }
-        
         $og_type = 'website';
         
         return view(
