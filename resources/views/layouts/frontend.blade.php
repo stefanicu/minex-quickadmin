@@ -6,16 +6,6 @@
             $search = $_POST['search'];
             redirect('search/'.$search);
         }
-
-        if (isset($data[0]['nume'])) {
-            $datanume = ' | '.$data[0]['nume'];
-        } else {
-            if (isset($page)) {
-                $datanume = ' | '.$page;
-            } else {
-                $datanume = "";
-            }
-        }
     @endphp
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,6 +27,12 @@
             if(isset($brand_slugs)) {
                 $parameters['brand_slug'] = $brand_slugs[$langLocale];
             }
+
+            $page = request()->get('page');
+            if ($page && $page > 1) {
+                $parameters['page'] = $page;
+            }
+
         @endphp
         @if($langLocale == app()->getLocale())
             @if(isset($prod_slugs) && isset($brand->slug))
@@ -70,46 +66,46 @@
         @endif
     @endforeach
 
-    @if(isset($robots))
-        <meta name="robots" content="{{ $robots }}">
-    @else
-        <meta name="robots" content="max-snippet:-1,max-image-preview:large,max-video-preview:-1">
-    @endif
-    @if(isset($meta_title))
-        <title>{{ $meta_title }}</title>
-    @endif
-    @if(isset($meta_description))
-        <meta name="description" content="{{ $meta_description }}">
-    @endif
-    @if(isset($meta_image_url))
-        <meta name="image" content="{{ $meta_image_url }}">
-    @endif
+    <meta name="robots" content="max-snippet:-1,max-image-preview:large,max-video-preview:-1">
     <link href="https://www.minexgroup.eu/img/favicon.png" rel="shortcut icon">
-    @if(isset($meta_title))
-        <meta property="og:title" content="{{ $meta_title }}">
-    @endif
-    @if(isset($meta_description))
-        <meta property="og:description" content="{{ $meta_description }}">
-    @endif
-    <meta property="og:locale" content="{{ app()->getLocale() }}">
-    @if(isset($meta_image_url) && $meta_image_url != null)
-        <meta property="og:image" content="{{ $meta_image_name }}">
-        <meta property="og:image:width" content="{{ $meta_image_width }}">
-        <meta property="og:image:height" content="{{ $meta_image_height }}">
-        <meta property="og:url" content="{{ $meta_image_url }}">
+
+    @if(isset($metaData['meta_title']))
+        <title>{{ $metaData['meta_title'] }}</title>
     @endif
 
-    <meta property="og:site_name" content="Minex Group International">
-    <meta property="og:type" content="{{ $og_type }}">
+    @if(isset($metaData['meta_description']))
+        <meta name="description" content="{{ $metaData['meta_description'] }}">
+    @endif
 
-    <meta name="twitter:card" content="summary">
-    @if(isset($meta_title))
-        <meta name="twitter:title" content="{{ $meta_title }}">
+    @if(isset($metaData['meta_image_url']))
+        <meta name="image" content="{{ $metaData['meta_image_url'] }}">
     @endif
-    @if(isset($meta_description))
-        <meta name="twitter:description" content="{{ $meta_description }}">
+
+    @if(isset($metaData['meta_title']))
+        <meta property="og:title" content="{{ $metaData['meta_title'] }}">
+        @if(isset($metaData['meta_description']))
+            <meta property="og:description" content="{{ $metaData['meta_description'] }}">
+        @endif
+        <meta property="og:locale" content="{{ app()->getLocale() }}">
+        @if(isset($metaData['meta_image_url']) && $metaData['meta_image_url'] != null)
+            <meta property="og:image" content="{{ $metaData['meta_image_name'] }}">
+            <meta property="og:image:width" content="{{ $metaData['meta_image_width'] }}">
+            <meta property="og:image:height" content="{{ $metaData['meta_image_height'] }}">
+            <meta property="og:url" content="{{ $metaData['meta_image_url'] }}">
+        @endif
+
+        <meta property="og:site_name" content="Minex Group International">
+        <meta property="og:type" content="{{ $metaData['og_type'] }}">
     @endif
-    <meta name="twitter:site" content="@MinexGroup">
+
+    @if(isset($metaData['meta_title']))
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="{{ $metaData['meta_title'] }}">
+        @if(isset($metaData['meta_description']))
+            <meta name="twitter:description" content="{{ $metaData['meta_description'] }}">
+        @endif
+        <meta name="twitter:site" content="@MinexGroup">
+    @endif
 
 
     <!-- Google Tag Manager -->
