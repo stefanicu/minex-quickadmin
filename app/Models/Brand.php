@@ -86,8 +86,8 @@ class Brand extends Model implements HasMedia, TranslatableContract
             return [
                 'url' => $mainPhoto->getUrl(),
                 'name' => $this->slug,
-                'width' => 1920,
-                'height' => 540,
+                'width' => 343,
+                'height' => 228,
             ];
         }
         
