@@ -38,9 +38,8 @@
       "Database\\Seeders\\": "database/seeders/"
     },
     "files": [
-      "app/Helpers/routeWithLang.php",
       "app/Helpers/currentRouteChangeName.php",
-      "app/Helpers/langRoute.php"
+      "app/Helpers/getStaticMetaData.php"
     ]
   },
   "autoload-dev": {
