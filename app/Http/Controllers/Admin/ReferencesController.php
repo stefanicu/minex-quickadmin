@@ -11,6 +11,7 @@ use App\Models\IndustryTranslation;
 use App\Models\Reference;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
@@ -25,9 +26,14 @@ class ReferencesController extends Controller
         
         if ($request->ajax()) {
             $query = Reference::with(['translations', 'media'])
-                ->join('reference_translations', 'references.id', '=', 'reference_translations.reference_id')
-                ->where('reference_translations.locale', '=', app()->getLocale())
-                ->select(sprintf('%s.*', (new Reference)->table));
+                ->leftJoin('reference_translations', function ($join) {
+                    $join->on('references.id', '=', 'reference_translations.reference_id')
+                        ->where('reference_translations.locale', '=', app()->getLocale());
+                })
+                ->select([
+                    'references.*',
+                    DB::raw("COALESCE(reference_translations.name, '--- NO TRANSLATION ---') as name")
+                ]);
             
             $table = Datatables::of($query);
             
