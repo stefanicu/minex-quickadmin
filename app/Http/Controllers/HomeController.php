@@ -97,9 +97,17 @@ class HomeController extends Controller
             ->where('front_page_id', '=', 7)
             ->first();
         
+        $metaData = getStaticMetaData([
+            'meta_title' => trans('seo.home.title'),
+            'meta_description' => trans('seo.home.description'),
+            'meta_image_url' => url('').'/img/home/s6/xl-min.jpg',
+            'meta_image_width' => 960,
+            'meta_image_height' => 815,
+        ]);
+        
         return view('welcome',
             compact('hero', 'integrated_solutions', 'integrated_solutions_industries', 'consultancy', 'maintenance',
                 'references', 'about_us', 'contact_us', 'consultancy_references', 'references_industries',
-                'references_references'));
+                'references_references', 'metaData'));
     }
 }
