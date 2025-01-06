@@ -199,3 +199,12 @@ ul.pagination li.active a {
 .seo_meta {
     background-color: #eee;
 }
+
+.help-block {
+    color: #0097ff;
+    font-style: italic;
+    font-size: small;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
