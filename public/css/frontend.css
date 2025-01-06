@@ -418,11 +418,11 @@ h6 {
     position: fixed;
     bottom: 10px; /* Adjust the distance from the bottom */
     right: 10px; /* Adjust the distance from the right */
-    z-index: 9999; /* Ensure it is on top of other elements */
+    z-index: 5; /* Ensure it is on top of other elements */
     padding: 10px;
-    background-color: #f8f9fa;
+    background-color: rgba(0, 69, 139, 0.7);
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 15px;
 }
 
 .red {
@@ -431,4 +431,12 @@ h6 {
 
 .white {
     color: #fff;
+}
+
+.blue {
+    color: #003eff;
+}
+
+figure.image {
+    text-align: center;
 }
