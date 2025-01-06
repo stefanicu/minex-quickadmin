@@ -227,6 +227,23 @@
                     </div>
                 </div>
 
+
+                <!-- SEO fields -->
+                <div class="row p-4 my-4 seo_meta">
+                    <div class="form-group col-12">
+                        <label for="meta_title">Meta Title</label>
+                        <input class="form-control" type="text" id="meta_title" name="meta_title"
+                               value="{{ old('meta_title', $product->meta_title ?? '') }}">
+                    </div>
+                    <div class="form-group col-12">
+                        <label for="meta_description">Meta Description</label>
+                        <textarea class="form-control" id="meta_description"
+                                  name="meta_description">{{ old('meta_description', $product->meta_description ?? '') }}</textarea>
+                    </div>
+                </div>
+                <!-- SEO fields end -->
+
+
                 <div class="form-group">
                     <input type="hidden" name="locale" value="{{ app()->getLocale() }}">
                     <button class="btn btn-danger" type="submit">

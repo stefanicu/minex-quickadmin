@@ -7,10 +7,13 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Productfile;
+use App\Traits\HasMetaData;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    use HasMetaData;
+    
     public function index(Request $request)
     {
         if ( ! $request->app_slug || ! $request->cat_slug) {
@@ -125,6 +128,7 @@ class ProductController extends Controller
         
         $referrer = $request->headers->get('referer');
         
+        $categories = null;
         if ($application) {
             $categories = Category::whereHas('products', function ($query) use ($application) {
                 // Filter products that belong to the specified category
@@ -141,7 +145,7 @@ class ProductController extends Controller
                         });
                     }
                 ])
-                ->having('products_count', '>', 0) // Filter out categories with zero products
+                ->having('products_count', '>', 0)
                 ->get();
         }
         
@@ -170,6 +174,8 @@ class ProductController extends Controller
             }
         }
         
+        $metaData = $this->getMetaData($product);
+        
         return view(
             'product',
             compact(
@@ -187,6 +193,7 @@ class ProductController extends Controller
                 'cat_slugs',
                 'prod_slugs',
                 'canonical_product_page_brand_slugs',
+                'metaData'
             )
         );
     }

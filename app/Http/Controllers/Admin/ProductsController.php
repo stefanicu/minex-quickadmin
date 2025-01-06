@@ -244,7 +244,36 @@ class ProductsController extends Controller
     
     public function update(UpdateProductRequest $request, Product $product)
     {
+//        dd($request->all());
+        
         $product->update($request->all());
+
+//        $locale = $request->input('locale'); // Use the locale from the request
+//
+//        // Update fields in the `products` table
+//        $product->update($request->only(['brand_id']));
+//
+//        // Handle translation update
+//        $translation = $product->translate($locale, false);
+//        if ($translation) {
+//            $translation->update([
+//                'online' => $request->input('online'),
+//                'name' => $request->input('name'),
+//                'slug' => $request->input('slug'),
+//                'description' => $request->input('description'),
+//                'specifications' => $request->input('specifications'),
+//                'advantages' => $request->input('advantages'),
+//                'usages' => $request->input('usages'),
+//                'accessories' => $request->input('accessories'),
+//                'meta_title' => $request->input('meta_title'),
+//                'meta_description' => $request->input('meta_description'),
+//                'author' => $request->input('author'),
+//                'robots' => $request->input('robots'),
+//                'canonical_url' => $request->input('canonical_url'),
+//            ]);
+//        }
+        
+        
         $product->applications()->sync($request->input('applications', []));
         $product->categories()->sync($request->input('categories', []));
         $product->references()->sync($request->input('references', []));

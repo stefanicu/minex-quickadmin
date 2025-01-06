@@ -18,7 +18,8 @@ class Product extends Model implements HasMedia, TranslatableContract
     public $table = 'products';
     
     public array $translatedAttributes = [
-        'online', 'name', 'slug', 'description', 'specifications', 'advantages', 'usages', 'accessories'
+        'online', 'name', 'slug', 'description', 'specifications', 'advantages', 'usages', 'accessories',
+        'meta_title', 'meta_description', 'author', 'robots', 'canonical_url'
     ];
     
     protected $indexes = [
@@ -58,27 +59,27 @@ class Product extends Model implements HasMedia, TranslatableContract
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
     
-    public function brand()
+    public function brand(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Brand::class, 'brand_id');
     }
     
-    public function categories()
+    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'category_product', 'product_id', 'category_id');
     }
     
-    public function applications()
+    public function applications(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Application::class, 'application_product', 'product_id', 'application_id');
     }
     
-    public function Productfiles()
+    public function Productfiles(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Productfile::class, 'product_id', 'id');
     }
     
-    public function getPhotoAttribute()
+    public function getPhotoAttribute(): \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection
     {
         $files = $this->getMedia('photo');
         $files->each(function ($item) {
@@ -114,7 +115,23 @@ class Product extends Model implements HasMedia, TranslatableContract
         return $file;
     }
     
-    public function references()
+    public function getMetaImage(): ?array
+    {
+        $mainPhoto = $this->getMainPhotoAttribute(); // Replace with your logic to get the main photo
+        
+        if ($mainPhoto) {
+            return [
+                'url' => $mainPhoto->getUrl(),
+                'name' => $this->slug,
+                'width' => 600,
+                'height' => 600,
+            ];
+        }
+        
+        return null;
+    }
+    
+    public function references(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Reference::class, 'product_reference', 'product_id', 'reference_id');
     }

@@ -16,6 +16,7 @@ class ProductTranslation extends Model
         'specifications',
         'advantages',
         'usages',
-        'accessories'
+        'accessories',
+        'meta_title', 'meta_description', 'author', 'robots', 'canonical_url'
     ];
 }
