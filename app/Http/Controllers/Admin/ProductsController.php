@@ -35,7 +35,7 @@ class ProductsController extends Controller
                 'media',
                 'brand',
                 'brand.translations',
-                'applications.translations', // Eager load translations for applications
+                'applications.translations',
                 'applications.media',
                 'categories.translations',
                 'categories.media',
@@ -56,14 +56,11 @@ class ProductsController extends Controller
                 })
                 ->select(
                     'products.id',
-                    'products.oldimage',
-                    'products.oldmoreimages',
-                    'product_translations.name',
                     'brands.name as brand_name',
+                    DB::raw("COALESCE(product_translations.name, '--- NO TRANSLATION ---') as name"),
                     DB::raw("GROUP_CONCAT(DISTINCT category_translations.name ORDER BY category_translations.name ASC SEPARATOR ', ') as category_names")
                 )
-                ->groupBy('products.id', 'products.oldimage', 'products.oldmoreimages', 'product_translations.name',
-                    'brands.name');
+                ->groupBy('products.id', 'product_translations.name', 'brands.name');
 
 //                foreach ($query->get() as $product) {
 //                    $main_photo = Media::where('model_id', $product->id)
@@ -244,35 +241,7 @@ class ProductsController extends Controller
     
     public function update(UpdateProductRequest $request, Product $product)
     {
-//        dd($request->all());
-        
         $product->update($request->all());
-
-//        $locale = $request->input('locale'); // Use the locale from the request
-//
-//        // Update fields in the `products` table
-//        $product->update($request->only(['brand_id']));
-//
-//        // Handle translation update
-//        $translation = $product->translate($locale, false);
-//        if ($translation) {
-//            $translation->update([
-//                'online' => $request->input('online'),
-//                'name' => $request->input('name'),
-//                'slug' => $request->input('slug'),
-//                'description' => $request->input('description'),
-//                'specifications' => $request->input('specifications'),
-//                'advantages' => $request->input('advantages'),
-//                'usages' => $request->input('usages'),
-//                'accessories' => $request->input('accessories'),
-//                'meta_title' => $request->input('meta_title'),
-//                'meta_description' => $request->input('meta_description'),
-//                'author' => $request->input('author'),
-//                'robots' => $request->input('robots'),
-//                'canonical_url' => $request->input('canonical_url'),
-//            ]);
-//        }
-        
         
         $product->applications()->sync($request->input('applications', []));
         $product->categories()->sync($request->input('categories', []));
