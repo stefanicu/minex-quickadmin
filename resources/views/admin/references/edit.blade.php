@@ -4,21 +4,23 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between">
             <div class="w-50">{{ trans('global.edit') }} {{ trans('cruds.reference.title_singular') }}</div>
-            <div class="w-50 text-right">
-                <a class="blue"
-                   href="{{ route('reference.'.app()->getLocale(), ['slug'=>$reference->slug,'id'=>$reference->id]) }}"
-                   target="_blank">
-                    <svg class="mr-1" width="20px" height="20px" viewBox="0 0 24 24" fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <g id="Interface / External_Link">
-                            <path id="Vector"
-                                  d="M10.0002 5H8.2002C7.08009 5 6.51962 5 6.0918 5.21799C5.71547 5.40973 5.40973 5.71547 5.21799 6.0918C5 6.51962 5 7.08009 5 8.2002V15.8002C5 16.9203 5 17.4801 5.21799 17.9079C5.40973 18.2842 5.71547 18.5905 6.0918 18.7822C6.5192 19 7.07899 19 8.19691 19H15.8031C16.921 19 17.48 19 17.9074 18.7822C18.2837 18.5905 18.5905 18.2839 18.7822 17.9076C19 17.4802 19 16.921 19 15.8031V14M20 9V4M20 4H15M20 4L13 11"
-                                  stroke="#003eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </g>
-                    </svg>
-                    Preview
-                </a>
-            </div>
+            @if($reference->translate(app()->getLocale()))
+                <div class="w-50 text-right">
+                    <a class="blue"
+                       href="{{ route('reference.'.app()->getLocale(), ['slug'=>$reference->slug]) }}"
+                       target="_blank">
+                        <svg class="mr-1" width="20px" height="20px" viewBox="0 0 24 24" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <g id="Interface / External_Link">
+                                <path id="Vector"
+                                      d="M10.0002 5H8.2002C7.08009 5 6.51962 5 6.0918 5.21799C5.71547 5.40973 5.40973 5.71547 5.21799 6.0918C5 6.51962 5 7.08009 5 8.2002V15.8002C5 16.9203 5 17.4801 5.21799 17.9079C5.40973 18.2842 5.71547 18.5905 6.0918 18.7822C6.5192 19 7.07899 19 8.19691 19H15.8031C16.921 19 17.48 19 17.9074 18.7822C18.2837 18.5905 18.5905 18.2839 18.7822 17.9076C19 17.4802 19 16.921 19 15.8031V14M20 9V4M20 4H15M20 4L13 11"
+                                      stroke="#003eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                        </svg>
+                        Preview
+                    </a>
+                </div>
+            @endif
         </div>
 
 
@@ -27,6 +29,19 @@
                   enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
+
+                <div class="form-group">
+                    <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
+                        <input type="hidden" name="online" value="0">
+                        <input class="form-check-input" type="checkbox" name="online" id="online"
+                               value="1" {{ old('online', optional($reference->translations->firstWhere('locale', app()->getLocale()))->online) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="online">{{ trans('cruds.blog.fields.online') }}</label>
+                    </div>
+                    @if($errors->has('online'))
+                        <span class="text-danger">{{ $errors->first('online') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.blog.fields.online_helper') }}</span>
+                </div>
 
                 <div class="row">
                     <div class="form-group col-4">
