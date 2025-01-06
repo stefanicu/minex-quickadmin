@@ -152,6 +152,7 @@ class IndustriesController extends Controller
                 [$width, $height] = getSvgDimensions($tempPath);
                 
                 if ($width != 80 || $height != 80) {
+                    $industry->image->delete();
                     return redirect()->back()->withErrors([
                         'photo' => __("validation.image_dimensions", [
                             'expected_width' => 80,
