@@ -45,6 +45,11 @@
                     <div class="dropdown-menu dropdown-menu-right">
                         @foreach(config('panel.available_languages') as $langLocale => $langName)
                             @if($langLocale != app()->getLocale())
+                                @php
+                                    if(isset($slugs)) {
+                                        $parameters['slug'] = $slugs[$langLocale];
+                                    }
+                                @endphp
                                 <a class="dropdown-item"
                                    href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['lang' => $langLocale])) }}">
                                     {{ strtoupper($langLocale) }}
