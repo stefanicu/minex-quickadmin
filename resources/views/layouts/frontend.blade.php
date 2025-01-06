@@ -35,12 +35,15 @@
 
         @endphp
         @if($langLocale == app()->getLocale())
-            @if(isset($prod_slugs) && isset($brand->slug))
-                <link rel="canonical"
-                      href="{{ route('product_brand.'.app()->getLocale(), ['brand_slug' => $brand->slug, 'prod_slug' => $product->translateOrDefault(app()->getLocale())->slug ]) }}"/>
-            @else
-                <link rel="canonical" href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>
-            @endif
+            @php
+                if(isset($prod_slugs) && isset($brand->slug)){
+                    $canonical = route('product_brand.'.app()->getLocale(), ['brand_slug' => $brand->slug, 'prod_slug' => $product->translateOrDefault(app()->getLocale())->slug ]);
+                }else{
+                    $canonical = route(currentRouteChangeName($langLocale), $parameters);
+                }
+            @endphp
+
+            <link rel="canonical" href="{{ $canonical }}"/>
         @endif
         @php
             if($langLocale == 'en'){
@@ -88,12 +91,14 @@
         @endif
         <meta property="og:locale" content="{{ app()->getLocale() }}">
         @if(isset($metaData['meta_image_url']) && $metaData['meta_image_url'] != null)
-            <meta property="og:image" content="{{ $metaData['meta_image_name'] }}">
-            <meta property="og:image:width" content="{{ $metaData['meta_image_width'] }}">
-            <meta property="og:image:height" content="{{ $metaData['meta_image_height'] }}">
-            <meta property="og:url" content="{{ $metaData['meta_image_url'] }}">
+            <meta property="og:image" content="{{ $metaData['meta_image_url'] }}">
+            @if(isset($metaData['meta_image_width']) && isset($metaData['meta_image_height']))
+                <meta property="og:image:width" content="{{ $metaData['meta_image_width'] }}">
+                <meta property="og:image:height" content="{{ $metaData['meta_image_height'] }}">
+            @endif
         @endif
 
+        <meta property="og:url" content="{{ $canonical }}">
         <meta property="og:site_name" content="Minex Group International">
         <meta property="og:type" content="{{ $metaData['og_type'] }}">
     @endif
@@ -144,7 +149,7 @@
     @if(!isset($metaData['meta_title']))
         <div class="w-100 p-2 text-center sticky-top bg-warning">No SEO meta data</div>
     @else
-        <div class="w-60 p-4 text-left sticky-bottom-right white bg-info">
+        <div class="w-25 p-4 text-left sticky-bottom-right white bg-info">
             <dl class="meta-data-list">
                 <dt>Meta Title:</dt>
                 <dd>{{ $metaData['meta_title'] }}</dd>
@@ -152,11 +157,11 @@
                 <dt>Meta Description:</dt>
                 <dd>{{ $metaData['meta_description'] }}</dd>
 
+                <dt>Canonical:</dt>
+                <dd>{{ $canonical }}</dd>
+
                 <dt>Image URL:</dt>
                 <dd>{{ $metaData['meta_image_url'] }}</dd>
-
-                <dt>Image name:</dt>
-                <dd>{{ $metaData['meta_image_name'] }}</dd>
 
                 <dt>Image with:</dt>
                 <dd>{{ $metaData['meta_image_width'] }}</dd>
