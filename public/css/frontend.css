@@ -413,3 +413,22 @@ h6 {
     color: #ffffff;
     font-weight: bolder;
 }
+
+.sticky-bottom-right {
+    position: fixed;
+    bottom: 10px; /* Adjust the distance from the bottom */
+    right: 10px; /* Adjust the distance from the right */
+    z-index: 9999; /* Ensure it is on top of other elements */
+    padding: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.red {
+    color: #c40000;
+}
+
+.white {
+    color: #fff;
+}
