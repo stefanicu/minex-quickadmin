@@ -19,7 +19,8 @@
     "laraveldaily/laravel-charts": "^0.1.29",
     "spatie/laravel-medialibrary": "^10.7",
     "spatie/laravel-sitemap": "^7.3",
-    "yajra/laravel-datatables-oracle": "^10.3"
+    "yajra/laravel-datatables-oracle": "^10.3",
+    "ext-simplexml": "*"
   },
   "require-dev": {
     "fakerphp/faker": "^1.9.1",
@@ -39,7 +40,8 @@
     },
     "files": [
       "app/Helpers/currentRouteChangeName.php",
-      "app/Helpers/getStaticMetaData.php"
+      "app/Helpers/getStaticMetaData.php",
+      "app/Helpers/getSvgDimensions.php"
     ]
   },
   "autoload-dev": {
