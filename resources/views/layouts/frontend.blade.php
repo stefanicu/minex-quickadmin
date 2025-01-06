@@ -149,8 +149,9 @@
     @if(!isset($metaData['meta_title']))
         <div class="w-100 p-2 text-center sticky-top bg-warning">No SEO meta data</div>
     @else
-        <div class="w-25 p-4 text-left sticky-bottom-right white bg-info">
-            <dl class="meta-data-list">
+        <div class="w-25 p-4 text-left sticky-bottom-right white">
+            <div class="h3 white">SEO data</div>
+            <dl class="meta-data-list m-0">
                 <dt>Meta Title:</dt>
                 <dd>{{ $metaData['meta_title'] }}</dd>
 
@@ -160,14 +161,19 @@
                 <dt>Canonical:</dt>
                 <dd>{{ $canonical }}</dd>
 
-                <dt>Image URL:</dt>
-                <dd>{{ $metaData['meta_image_url'] }}</dd>
+                @if($metaData['meta_image_url'])
+                    <dt>Image URL:</dt>
+                    <dd>{{ $metaData['meta_image_url'] }}</dd>
 
-                <dt>Image with:</dt>
-                <dd>{{ $metaData['meta_image_width'] }}</dd>
+                    <dt>Image with:</dt>
+                    <dd>{{ $metaData['meta_image_width'] }}</dd>
 
-                <dt>Image height:</dt>
-                <dd>{{ $metaData['meta_image_height'] }}</dd>
+                    <dt>Image height:</dt>
+                    <dd>{{ $metaData['meta_image_height'] }}</dd>
+                @else
+                    <dt>Image:</dt>
+                    <dd>Unavailable</dd>
+                @endif
             </dl>
         </div>
     @endif
