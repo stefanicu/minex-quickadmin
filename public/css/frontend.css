@@ -407,3 +407,9 @@ h6 {
     font-size: 1.2rem;
     margin-top: 1.2rem;
 }
+
+.warning_message {
+    background-color: #c40000;
+    color: #ffffff;
+    font-weight: bolder;
+}
