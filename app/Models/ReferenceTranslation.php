@@ -10,6 +10,6 @@ class ReferenceTranslation extends Model
     
     protected $fillable = [
         'online', 'name', 'slug', 'content', 'text_img1', 'text_img2', 'text_img3', 'text_img4', 'text_img5',
-        'meta_title', 'meta_description', 'author', 'robots', 'canonical_url'
+        'meta_title', 'meta_description', 'author', 'robots', 'canonical_url',
     ];
 }
