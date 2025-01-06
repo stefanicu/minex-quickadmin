@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Reference;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Response;
 
 class StoreReferenceRequest extends FormRequest
 {
@@ -13,7 +11,7 @@ class StoreReferenceRequest extends FormRequest
     {
         return Gate::allows('reference_create');
     }
-
+    
     public function rules()
     {
         return [
@@ -33,6 +31,10 @@ class StoreReferenceRequest extends FormRequest
                 'max:255',
                 'required',
                 'unique:reference_translations',
+            ],
+            'content' => [
+                'string',
+                'required'
             ]
         ];
     }
