@@ -5,7 +5,7 @@
         <div class="card-header d-flex justify-content-between">
             <div class="w-50">{{ trans('global.edit') }} {{ trans('cruds.blog.title_singular') }}</div>
             <div class="w-50 text-right">
-                <a class="blue" href="{{ route('blog.'.app()->getLocale(), ['slug'=>$blog->slug,'id'=>$blog->id]) }}"
+                <a class="blue" href="{{ route('blog.'.app()->getLocale(), ['slug'=>$blog->slug]) }}"
                    target="_blank">
                     <svg class="mr-1" width="20px" height="20px" viewBox="0 0 24 24" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
@@ -36,7 +36,7 @@
                     @endif
                     <span class="help-block">{{ trans('cruds.blog.fields.online_helper') }}</span>
                 </div>
-                
+
                 <div class="row">
                     <div class="form-group col-6">
                         <label class="required" for="name">{{ trans('cruds.blog.fields.name') }}</label>
