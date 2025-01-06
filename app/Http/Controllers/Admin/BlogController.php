@@ -222,8 +222,25 @@ class BlogController extends Controller
         $model = new Blog();
         $model->id = $request->input('crud_id', 0);
         $model->exists = true;
-        $media = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
         
-        return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
+        // Add the uploaded media to the collection
+        $media = $model->addMediaFromRequest('upload')
+            ->toMediaCollection('ck-media');
+        
+        // Generate conversions for the uploaded media
+        $media->refresh(); // Refresh media instance to ensure conversions are available
+        
+        $resizedPath = $media->getPath('ckeditor'); // Get the resized image's path
+        
+        // Ensure the resized image exists, then delete the original
+        $originalPath = $media->getPath(); // Path to the original image
+        if (file_exists($resizedPath) && file_exists($originalPath)) {
+            unlink($originalPath); // Delete the original image
+        }
+        
+        return response()->json([
+            'id' => $media->id,
+            'url' => $media->getUrl('ckeditor') // Return resized image URL
+        ], Response::HTTP_CREATED);
     }
 }
