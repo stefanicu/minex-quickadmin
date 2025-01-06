@@ -15,7 +15,7 @@
                                   stroke="#003eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </g>
                     </svg>
-                    View Online
+                    Preview
                 </a>
             </div>
         </div>
@@ -36,8 +36,7 @@
                     @endif
                     <span class="help-block">{{ trans('cruds.blog.fields.online_helper') }}</span>
                 </div>
-
-
+                
                 <div class="row">
                     <div class="form-group col-6">
                         <label class="required" for="name">{{ trans('cruds.blog.fields.name') }}</label>
@@ -68,15 +67,6 @@
                     <span class="help-block">{{ trans('cruds.blog.fields.content_helper') }}</span>
                 </div>
 
-                {{--            <div class="form-group">--}}
-                {{--                <label class="" for="image_text">{{ trans('Image Text') }}</label>--}}
-                {{--                <input class="form-control {{ $errors->has('image_text') ? 'is-invalid' : '' }}" type="text" name="image_text" id="image_text" value="{{ old('image_text', '') }}">--}}
-                {{--                @if($errors->has('image_text'))--}}
-                {{--                    <span class="text-danger">{{ $errors->first('image_text') }}</span>--}}
-                {{--                @endif--}}
-                {{--                <span class="help-block">{{ trans(' ') }}</span>--}}
-                {{--            </div>--}}
-
                 <div class="row align-items-center">
                     <div class="form-group col-4 align-items-center">
                         <label for="image">{{ trans('cruds.blog.fields.image') }}</label>
@@ -88,19 +78,7 @@
                             <span class="text-danger">{{ $errors->first('image') }}</span>
                         @endif
                     </div>
-
-                    {{--                <div class="form-group col-8 text-center">--}}
-                    {{--                    @if($blog->getImageAttribute() !== null)--}}
-                    {{--                        <img class="my-4 h-min" height="289px" width="auto" src="{{ $blog->getImageAttribute()->getUrl() }}">--}}
-                    {{--                    @endif--}}
-                    {{--                </div>--}}
                 </div>
-
-
-                {{--            <div class="form-group col-4 align-items-center text-center">--}}
-                {{--                <img class="my-4" height="200px" width="auto" src="{{ url('') }}{{ asset('uploads/images/' . $blog->oldimage) }}" alt="{{ $blog->oldimage }}">--}}
-                {{--            </div>--}}
-
 
                 <!-- SEO fields -->
                 <div class="row p-4 my-4 seo_meta">
