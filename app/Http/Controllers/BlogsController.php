@@ -13,11 +13,15 @@ class BlogsController extends Controller
             ->leftJoin('blog_translations', 'blogs.id', '=', 'blog_translations.blog_id')
             ->select('blogs.id as id', 'name', 'slug', 'created_at')
             ->where('locale', '=', app()->getLocale())
-            ->where('blogs.online', '=', 1)
             ->where('blog_translations.online', '=', 1)
             ->orderBy('created_at', 'desc')
             ->paginate(12);
         
-        return view('blogs', compact('blogs'));
+        $metaData = getStaticMetaData([
+            'meta_title' => trans('seo.blogs.title'),
+            'meta_description' => trans('seo.blogs.description'),
+        ]);
+        
+        return view('blogs', compact('blogs', 'metaData'));
     }
 }
