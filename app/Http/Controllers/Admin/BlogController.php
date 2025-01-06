@@ -105,6 +105,24 @@ class BlogController extends Controller
     
     public function store(StoreBlogRequest $request)
     {
+        if ($request->input('image', false)) {
+            $tempPath = storage_path('tmp/uploads/'.basename($request->input('image')));
+            // Validate the image dimensions
+            [$width, $height] = getimagesize($tempPath);
+            
+            if ($width != 750 || $height != 500) {
+                return redirect()->back()->withInput()->withErrors([
+                    'image' => __("validation.image_dimensions", [
+                        'expected_width' => 750,
+                        'expected_height' => 500,
+                        'uploaded_width' => $width,
+                        'uploaded_height' => $height
+                    ]),
+                ]);
+            }
+        }
+        
+        // Proceed with creating the blog only if the validation passes
         $blog = Blog::create($request->all());
         
         if ($request->input('image', false)) {
@@ -140,10 +158,28 @@ class BlogController extends Controller
         
         if ($request->input('image', false)) {
             if ( ! $blog->image || $request->input('image') !== $blog->image->file_name) {
-                if ($blog->image) {
+                $tempPath = storage_path('tmp/uploads/'.basename($request->input('image')));
+                // Validate the image dimensions
+                [$width, $height] = getSvgDimensions($tempPath);
+                
+                if ($width != 750 || $height != 500) {
                     $blog->image->delete();
+                    return redirect()->back()->withErrors([
+                        'photo' => __("validation.image_dimensions", [
+                            'expected_width' => 750,
+                            'expected_height' => 500,
+                            'uploaded_width' => $width,
+                            'uploaded_height' => $height
+                        ]),
+                    ]);
                 }
-                $blog->addMedia(storage_path('tmp/uploads/'.basename($request->input('image'))))->toMediaCollection('image');
+                
+                if ( ! $blog->image || $request->input('image') !== $blog->image->file_name) {
+                    if ($blog->image) {
+                        $blog->image->delete();
+                    }
+                    $blog->addMedia($tempPath)->toMediaCollection('image');
+                }
             }
         } elseif ($blog->image) {
             $blog->image->delete();

@@ -66,13 +66,13 @@
                 <div class="row align-items-center">
                     <div class="form-group col-4 align-items-center">
                         <label for="image">{{ trans('cruds.blog.fields.image') }}</label>
+                        <span class="help-block">{{ trans('cruds.blog.fields.image_helper') }}</span>
                         <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }} text-center"
                              id="image-dropzone">
                         </div>
                         @if($errors->has('image'))
                             <span class="text-danger">{{ $errors->first('image') }}</span>
                         @endif
-                        <span class="help-block">{{ trans('cruds.blog.fields.image_helper') }}</span>
                     </div>
 
                     {{--                <div class="form-group col-8 text-center">--}}
