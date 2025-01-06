@@ -109,6 +109,10 @@ class IndustriesController extends Controller
             [$width, $height] = getSvgDimensions($tempPath);
             
             if ($width != 80 || $height != 80) {
+                // Delete the temporary file if validation fails
+                if (file_exists($tempPath)) {
+                    unlink($tempPath);
+                }
                 return redirect()->back()->withInput()->withErrors([
                     'photo' => __("validation.image_dimensions", [
                         'expected_width' => 80,
@@ -152,7 +156,10 @@ class IndustriesController extends Controller
                 [$width, $height] = getSvgDimensions($tempPath);
                 
                 if ($width != 80 || $height != 80) {
-                    $industry->image->delete();
+                    // Delete the temporary file if validation fails
+                    if (file_exists($tempPath)) {
+                        unlink($tempPath);
+                    }
                     return redirect()->back()->withErrors([
                         'photo' => __("validation.image_dimensions", [
                             'expected_width' => 80,
