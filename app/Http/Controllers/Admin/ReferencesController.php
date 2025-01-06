@@ -113,16 +113,68 @@ class ReferencesController extends Controller
     
     public function store(StoreReferenceRequest $request)
     {
-        $reference = Reference::create($request->all());
-        
         if ($request->input('photo_wide', false)) {
-            foreach ($request->input('photo_square', []) as $file) {
-                $reference->addMedia(storage_path('tmp/uploads/'.basename($file)))->toMediaCollection('photo_square');
+            $tempPath = storage_path('tmp/uploads/'.basename($request->input('photo_wide')));
+            // Validate the image dimensions
+            [$width, $height] = getimagesize($tempPath);
+            
+            if ($width != 750 || $height != 300) {
+                // Delete the temporary file if validation fails
+                if (file_exists($tempPath)) {
+                    unlink($tempPath);
+                }
+                return redirect()->back()->withInput()->withErrors([
+                    'photo_wide' => __("validation.image_dimensions", [
+                        'expected_width' => 750,
+                        'expected_height' => 300,
+                        'uploaded_width' => $width,
+                        'uploaded_height' => $height
+                    ]),
+                ]);
             }
         }
         
+        if ($request->input('photo_square', false)) {
+            $index = 1;
+            foreach ($request->input('photo_square', []) as $file) {
+                $tempPath = storage_path('tmp/uploads/'.basename($request->input('photo_square')));
+                // Validate the image dimensions
+                [$width, $height] = getimagesize($tempPath);
+                
+                if ($width != 360 || $height != 300) {
+                    foreach ($request->input('photo_square', []) as $file_delete) {
+                        $tempPath = storage_path('tmp/uploads/'.basename($file_delete));
+                        
+                        // Delete the temporary file if validation fails
+                        if (file_exists($tempPath)) {
+                            unlink($tempPath);
+                        }
+                    }
+                    
+                    return redirect()->back()->withInput()->withErrors([
+                        'photo_square' => __("validation.multi_image_dimensions", [
+                            'expected_width' => 360,
+                            'expected_height' => 300,
+                            'uploaded_width' => $width,
+                            'uploaded_height' => $height,
+                            'index' => $index
+                        ]),
+                    ]);
+                }
+                $index++;
+            }
+        }
+        
+        $reference = Reference::create($request->all());
+        
         if ($request->input('photo_wide', false)) {
             $reference->addMedia(storage_path('tmp/uploads/'.basename($request->input('photo_wide'))))->toMediaCollection('photo_wide');
+        }
+        
+        if ($request->input('photo_square', false)) {
+            foreach ($request->input('photo_square', []) as $file) {
+                $reference->addMedia(storage_path('tmp/uploads/'.basename($file)))->toMediaCollection('photo_square');
+            }
         }
         
         if ($media = $request->input('ck-media', false)) {
@@ -147,30 +199,75 @@ class ReferencesController extends Controller
     {
         $reference->update($request->all());
         
-        if (count($reference->photo_square) > 0) {
-            foreach ($reference->photo_square as $media) {
-                if ( ! in_array($media->file_name, $request->input('photo_square', []))) {
-                    $media->delete();
-                }
-            }
-        }
-        $media = $reference->photo_square->pluck('file_name')->toArray();
-        foreach ($request->input('photo_square', []) as $file) {
-            if (count($media) === 0 || ! in_array($file, $media)) {
-                $reference->addMedia(storage_path('tmp/uploads/'.basename($file)))->toMediaCollection('photo_square');
-            }
-        }
-        
         if ($request->input('photo_wide', false)) {
             if ( ! $reference->photo_wide || $request->input('photo_wide') !== $reference->photo_wide->file_name) {
                 if ($reference->photo_wide) {
                     $reference->photo_wide->delete();
                 }
-                $reference->addMedia(storage_path('tmp/uploads/'.basename($request->input('photo_wide'))))->toMediaCollection('photo_wide');
+                
+                $tempPath = storage_path('tmp/uploads/'.basename($request->input('photo_wide')));
+                // Validate the image dimensions
+                [$width, $height] = getimagesize($tempPath);
+                
+                if ($width != 750 || $height != 300) {
+                    // Delete the temporary file if validation fails
+                    if (file_exists($tempPath)) {
+                        unlink($tempPath);
+                    }
+                    return redirect()->back()->withInput()->withErrors([
+                        'photo_wide' => __("validation.image_dimensions", [
+                            'expected_width' => 750,
+                            'expected_height' => 300,
+                            'uploaded_width' => $width,
+                            'uploaded_height' => $height
+                        ]),
+                    ]);
+                }
+                
+                $reference->addMedia($tempPath)->toMediaCollection('photo_wide');
             }
         } elseif ($reference->photo_wide) {
             $reference->photo_wide->delete();
         }
+        
+        $media = $reference->photo_square->pluck('file_name')->toArray();
+        foreach ($request->input('photo_square', []) as $file) {
+            if (count($media) === 0 || ! in_array($file, $media)) {
+                $tempPath = storage_path('tmp/uploads/'.basename($file));
+                // Validate the image dimensions
+                [$width, $height] = getimagesize($tempPath);
+                
+                if ($width != 360 || $height != 300) {
+                    foreach ($request->input('photo_square', []) as $file_delete) {
+                        $tempPath = storage_path('tmp/uploads/'.basename($file_delete));
+                        
+                        // Delete the temporary file if validation fails
+                        if (file_exists($tempPath)) {
+                            unlink($tempPath);
+                        }
+                    }
+                    return redirect()->back()->withErrors([
+                        'photo_square' => __("validation.image_dimensions", [
+                            'expected_width' => 360,
+                            'expected_height' => 300,
+                            'uploaded_width' => $width,
+                            'uploaded_height' => $height
+                        ]),
+                    ]);
+                }
+            }
+        }
+        
+        if ($request->input('photo_square', false)) {
+            foreach ($request->input('photo_square', []) as $file) {
+                $tempPath = storage_path('tmp/uploads/'.basename($file));
+                //dd($tempPath);
+                if (file_exists($tempPath)) {
+                    $reference->addMedia(storage_path('tmp/uploads/'.basename($file)))->toMediaCollection('photo_square');
+                }
+            }
+        }
+        
         
         return redirect()->route('admin.references.index');
     }

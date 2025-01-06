@@ -43,6 +43,22 @@ class ReferenceController extends Controller
             $reference->content = trans('pages.no_translated_message');
         }
         
+        if ( ! $reference) {
+            if (auth()->check()) {
+                $reference = Reference::with('translations', 'media')
+                    ->leftJoin('reference_translations', 'references.id', '=', 'reference_translations.reference_id')
+                    ->select('references.id', 'reference_translations.name', 'reference_translations.slug',
+                        'references.industries_id')
+                    ->where('reference_translations.slug', '=', $reference_slug)
+                    ->where('locale', '=', app()->getLocale())
+                    ->select(sprintf('%s.*', (new Reference)->table), 'reference_translations.name as name',
+                        'reference_translations.slug as slug')
+                    ->first();
+            } else {
+                abort(404);
+            }
+        }
+        
         $references = Reference::with('translations', 'media')
             ->leftJoin('reference_translations', 'references.id', '=', 'reference_translations.reference_id')
             ->select('references.id', 'reference_translations.name', 'reference_translations.slug',

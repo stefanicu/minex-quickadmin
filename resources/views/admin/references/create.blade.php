@@ -58,23 +58,23 @@
                 <div class="row">
                     <div class="form-group col-4">
                         <label for="photo_wide">{{ trans('cruds.reference.fields.photo_wide') }}</label>
+                        <span class="help-block">{{ trans('cruds.reference.fields.photo_wide_helper') }}</span>
                         <div class="needsclick dropzone {{ $errors->has('photo_wide') ? 'is-invalid' : '' }}"
                              id="photo_wide-dropzone">
                         </div>
                         @if($errors->has('photo_wide'))
                             <span class="text-danger">{{ $errors->first('photo_wide') }}</span>
                         @endif
-                        <span class="help-block">{{ trans('cruds.reference.fields.photo_wide_helper') }}</span>
                     </div>
                     <div class="form-group col-8">
                         <label for="photo_square">{{ trans('cruds.reference.fields.photo_square') }}</label>
+                        <span class="help-block">{{ trans('cruds.reference.fields.photo_square_helper') }}</span>
                         <div class="needsclick dropzone {{ $errors->has('photo_square') ? 'is-invalid' : '' }}"
                              id="photo_square-dropzone">
                         </div>
                         @if($errors->has('photo_square'))
                             <span class="text-danger">{{ $errors->first('photo_square') }}</span>
                         @endif
-                        <span class="help-block">{{ trans('cruds.reference.fields.photo_square_helper') }}</span>
                     </div>
                 </div>
 

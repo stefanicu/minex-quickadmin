@@ -32,9 +32,21 @@
     <div class="container">
         <div class="row">
             <div class="col-12 col-md-8">
-                <h1 class="h2">{{ $reference->name }}</h1>
+                <div class="d-flex justify-content-between">
+                    <h1 class="h2">{{ $reference->name }}</h1>
+                    @if(auth()->check())
+                        <a class="pt-4 mt-5 mr-2" href="{{ url('').'/admin/references/'.$_GET['id'].'/edit' }}"
+                           target="_blank">Edit the reference</a>
+                    @endif
+                </div>
                 <hr>
+
                 {!! $reference->content !!}
+
+                @if(auth()->check())
+                    <a class="pt-4 mt-5 mr-2" href="{{ url('').'/admin/references/'.$_GET['id'].'/edit' }}"
+                       target="_blank">Edit the reference</a>
+                @endif
             </div>
             <div class="col-12 col-md-4">
                 <h2 class="h3">{{ trans('pages.other_references') }}</h2>
