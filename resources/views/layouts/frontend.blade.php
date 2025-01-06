@@ -140,11 +140,11 @@
     <link href="{{ asset('css/frontend.css') }}" rel="stylesheet">
 </head>
 <body>
-@if(auth()->check() && auth()->user()->role == 'admin')
+@if(auth()->check())
     @if(!isset($metaData['meta_title']))
         <div class="w-100 p-2 text-center sticky-top bg-warning">No SEO meta data</div>
     @else
-        <div class="w-60 p-2 text-center sticky-bottom bg-info">
+        <div class="w-60 p-4 text-left sticky-bottom-right white bg-info">
             <dl class="meta-data-list">
                 <dt>Meta Title:</dt>
                 <dd>{{ $metaData['meta_title'] }}</dd>
@@ -155,11 +155,14 @@
                 <dt>Image URL:</dt>
                 <dd>{{ $metaData['meta_image_url'] }}</dd>
 
-                <dt>Author:</dt>
-                <dd>John Doe</dd>
+                <dt>Image name:</dt>
+                <dd>{{ $metaData['meta_image_name'] }}</dd>
 
-                <dt>Robots:</dt>
-                <dd>index, follow</dd>
+                <dt>Image with:</dt>
+                <dd>{{ $metaData['meta_image_width'] }}</dd>
+
+                <dt>Image height:</dt>
+                <dd>{{ $metaData['meta_image_height'] }}</dd>
             </dl>
         </div>
     @endif
