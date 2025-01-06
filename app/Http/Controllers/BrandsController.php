@@ -31,8 +31,8 @@ class BrandsController extends Controller
         $og_type = 'website';
         
         $metaData = getStaticMetaData([
-            'meta_title' => trans('pages.brands'),
-            'meta_description' => trans('pages.brands').' description',
+            'meta_title' => trans('seo.brands.title'),
+            'meta_description' => trans('seo.brands.description').' description',
         ]);
         
         
