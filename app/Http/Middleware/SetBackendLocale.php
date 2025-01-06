@@ -19,7 +19,7 @@ class SetBackendLocale
     public function handle(Request $request, Closure $next): Response
     {
         // Check for 'lang' query parameter in the URL
-        $locale = $request->query('lang', Session::get('backend_locale', config('app.fallback_locale', 'en')));
+        $locale = $request->query('lang', $request->input('locale', Session::get('backend_locale', config('app.fallback_locale', 'en'))));
         
         // Validate the locale against configured locales
         if (in_array($locale, config('translatable.locales'))) {
