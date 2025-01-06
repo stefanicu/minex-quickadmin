@@ -111,6 +111,10 @@ class BlogController extends Controller
             [$width, $height] = getimagesize($tempPath);
             
             if ($width != 750 || $height != 500) {
+                // Delete the temporary file if validation fails
+                if (file_exists($tempPath)) {
+                    unlink($tempPath);
+                }
                 return redirect()->back()->withInput()->withErrors([
                     'image' => __("validation.image_dimensions", [
                         'expected_width' => 750,
@@ -160,10 +164,13 @@ class BlogController extends Controller
             if ( ! $blog->image || $request->input('image') !== $blog->image->file_name) {
                 $tempPath = storage_path('tmp/uploads/'.basename($request->input('image')));
                 // Validate the image dimensions
-                [$width, $height] = getSvgDimensions($tempPath);
+                [$width, $height] = getimagesize($tempPath);
                 
                 if ($width != 750 || $height != 500) {
-                    $blog->image->delete();
+                    // Delete the temporary file if validation fails
+                    if (file_exists($tempPath)) {
+                        unlink($tempPath);
+                    }
                     return redirect()->back()->withErrors([
                         'photo' => __("validation.image_dimensions", [
                             'expected_width' => 750,
