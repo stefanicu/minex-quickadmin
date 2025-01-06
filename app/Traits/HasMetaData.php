@@ -12,8 +12,8 @@ trait HasMetaData
             'canonical_url' => $model->canonical_url ?? null,
             'author' => $model->author ?? 'Minex Group International',
             'meta_image_url' => null,
-            'meta_image_width' => $defaultValues['image_width'] ?? null,
-            'meta_image_height' => $defaultValues['image_height'] ?? null,
+            'meta_image_width' => null,
+            'meta_image_height' => null,
             'meta_image_name' => null,
             'og_type' => $defaultValues['og_type'] ?? 'website',
         ];
