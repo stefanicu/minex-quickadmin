@@ -41,6 +41,36 @@ class UpdateBlogRequest extends FormRequest
                 'nullable',
                 'string'
             ],
+            'meta_title' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'meta_description' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'author' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'robots' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'canonical_url' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ]
         ];
     }
 }

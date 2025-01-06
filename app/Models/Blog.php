@@ -7,6 +7,7 @@ use Astrotomic\Translatable\Translatable;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Intervention\Image\Facades\Image;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
@@ -19,7 +20,10 @@ class Blog extends Model implements HasMedia, TranslatableContract
     
     public $table = 'blogs';
     
-    public array $translatedAttributes = ['online', 'name', 'slug', 'content', 'image_text'];
+    public array $translatedAttributes = [
+        'online', 'name', 'slug', 'content', 'image_text',
+        'meta_title', 'meta_description', 'author', 'robots', 'canonical_url'
+    ];
     
     protected $appends = [
         'image',
@@ -65,5 +69,22 @@ class Blog extends Model implements HasMedia, TranslatableContract
         }
         
         return $file;
+    }
+    
+    public function getMetaImage(): ?array
+    {
+        $mainPhoto = $this->getImageAttribute(); // Replace with your logic to get the main photo
+        
+        if ($mainPhoto) {
+            $image = Image::make($mainPhoto->getPath());
+            return [
+                'url' => $mainPhoto->getUrl(),
+                'name' => $this->slug,
+                'width' => $image->width(),
+                'height' => $image->height(),
+            ];
+        }
+        
+        return null;
     }
 }

@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Reference;
+use App\Traits\HasMetaData;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ReferenceController extends Controller
 {
+    use HasMetaData;
+    
     public function index(Request $request)
     {
         $reference_slug = $request->slug;
@@ -73,6 +76,8 @@ class ReferenceController extends Controller
             $slugs[$locale] = $slug_reference;
         }
         
-        return view('reference', compact('references', 'reference', 'products', 'slugs'));
+        $metaData = $this->getMetaData($reference);
+        
+        return view('reference', compact('references', 'reference', 'products', 'slugs', 'metaData'));
     }
 }

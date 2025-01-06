@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Traits\HasMetaData;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
+    use HasMetaData;
+    
     public function index(Request $request)
     {
         $blog_slug = $request->slug;
@@ -47,6 +50,8 @@ class BlogController extends Controller
             $slugs[$locale] = $slug_blog;
         }
         
-        return view('blog', compact('blogs', 'blog', 'slugs'));
+        $metaData = $this->getMetaData($blog);
+        
+        return view('blog', compact('blogs', 'blog', 'slugs', 'metaData'));
     }
 }

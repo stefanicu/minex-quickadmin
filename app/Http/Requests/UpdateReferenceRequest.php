@@ -12,7 +12,7 @@ class UpdateReferenceRequest extends FormRequest
     {
         return Gate::allows('reference_edit');
     }
-
+    
     public function rules()
     {
         return [
@@ -26,7 +26,7 @@ class UpdateReferenceRequest extends FormRequest
                 'required',
                 Rule::unique('reference_translations', 'name')
                     ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('reference')->id,'reference_id')
+                    ->ignore(request()->route('reference')->id, 'reference_id')
             ],
             'slug' => [
                 'string',
@@ -35,7 +35,37 @@ class UpdateReferenceRequest extends FormRequest
                 'required',
                 Rule::unique('reference_translations', 'slug')
                     ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('reference')->id,'reference_id')
+                    ->ignore(request()->route('reference')->id, 'reference_id')
+            ],
+            'meta_title' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'meta_description' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'author' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'robots' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
+            ],
+            'canonical_url' => [
+                'string',
+                'min:0',
+                'max:255',
+                'nullable'
             ]
         ];
     }
