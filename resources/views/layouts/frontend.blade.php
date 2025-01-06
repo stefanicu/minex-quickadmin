@@ -140,6 +140,30 @@
     <link href="{{ asset('css/frontend.css') }}" rel="stylesheet">
 </head>
 <body>
+@if(auth()->check() && auth()->user()->role == 'admin')
+    @if(!isset($metaData['meta_title']))
+        <div class="w-100 p-2 text-center sticky-top bg-warning">No SEO meta data</div>
+    @else
+        <div class="w-60 p-2 text-center sticky-bottom bg-info">
+            <dl class="meta-data-list">
+                <dt>Meta Title:</dt>
+                <dd>{{ $metaData['meta_title'] }}</dd>
+
+                <dt>Meta Description:</dt>
+                <dd>{{ $metaData['meta_description'] }}</dd>
+
+                <dt>Image URL:</dt>
+                <dd>{{ $metaData['meta_image_url'] }}</dd>
+
+                <dt>Author:</dt>
+                <dd>John Doe</dd>
+
+                <dt>Robots:</dt>
+                <dd>index, follow</dd>
+            </dl>
+        </div>
+    @endif
+@endif
 <!-- Google Tag Manager (noscript) -->
 <noscript>
     <iframe nonce="{{ session('csp_nonce') }}" src="https://www.googletagmanager.com/ns.html?id=GTM-PM3K8LC" height="0"
