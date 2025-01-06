@@ -108,27 +108,7 @@ class BrandsController extends Controller
     
     public function update(UpdateBrandRequest $request, Brand $brand)
     {
-        // Update fields in the `brands` table
-        $brand->name = $request->input('name');
-        $brand->slug = $request->input('slug');
-        $brand->save();
-        
-        // Check if a translation exists for the current locale
-        $translation = $brand->translate(app()->getLocale(), false);
-        
-        if ( ! $translation) {
-            // If no translation exists, create a new one
-            $brand->translations()->create([
-                'locale' => app()->getLocale(),
-                'online' => $request->input('online'),
-                'offline_message' => $request->input('offline_message'),
-            ]);
-        } else {
-            // If translation exists, update it
-            $translation->online = $request->input('online');
-            $translation->offline_message = $request->input('offline_message');
-            $translation->save();
-        }
+        $brand->update($request->all());
         
         if ($request->input('photo', false)) {
             if ( ! $brand->photo || $request->input('photo') !== $brand->photo->file_name) {
