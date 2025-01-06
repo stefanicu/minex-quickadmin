@@ -90,6 +90,7 @@
 
 
                 <div class="form-group col-3">
+                    <input type="hidden" name="locale" value="{{ app()->getLocale() }}">
                     <button class="btn btn-danger" type="submit">
                         {{ trans('global.save') }}
                     </button>
