@@ -344,7 +344,7 @@ return [
             'job' => 'Job',
             'job_helper' => ' ',
             'logo' => 'Logo',
-            'logo_helper' => ' ',
+            'logo_helper' => 'Only .jpeg,.jpg,.png,.gif files are allowed. The image must have exact dimensions of 360x240 pixels (width x height).',
             'created_at' => 'Created at',
             'created_at_helper' => ' ',
             'updated_at' => 'Updated at',
