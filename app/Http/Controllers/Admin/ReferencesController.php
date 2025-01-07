@@ -245,6 +245,8 @@ class ReferencesController extends Controller
         }
         
         $media = $reference->photo_square->pluck('file_name')->toArray();
+        
+        $index = 1;
         foreach ($request->input('photo_square', []) as $file) {
             if (count($media) === 0 || ! in_array($file, $media)) {
                 $tempPath = storage_path('tmp/uploads/'.basename($file));
@@ -261,15 +263,17 @@ class ReferencesController extends Controller
                         }
                     }
                     return redirect()->back()->withErrors([
-                        'photo_square' => __("validation.image_dimensions", [
+                        'photo_square' => __("validation.multi_image_dimensions", [
                             'expected_width' => 360,
                             'expected_height' => 300,
                             'uploaded_width' => $width,
-                            'uploaded_height' => $height
+                            'uploaded_height' => $height,
+                            'index' => $index
                         ]),
                     ]);
                 }
             }
+            $index++;
         }
         
         if ($request->input('photo_square', false)) {
