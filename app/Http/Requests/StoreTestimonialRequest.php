@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Testimonial;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Response;
 
 class StoreTestimonialRequest extends FormRequest
 {
@@ -13,7 +11,7 @@ class StoreTestimonialRequest extends FormRequest
     {
         return Gate::allows('testimonial_create');
     }
-
+    
     public function rules()
     {
         return [
@@ -33,13 +31,13 @@ class StoreTestimonialRequest extends FormRequest
                 'string',
                 'min:0',
                 'max:255',
-                'required',
+                'nullable',
             ],
             'job' => [
                 'string',
                 'min:0',
                 'max:255',
-                'required',
+                'nullable',
             ]
         ];
     }
