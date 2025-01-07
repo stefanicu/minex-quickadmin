@@ -236,6 +236,14 @@ class ReferencesController extends Controller
             $reference->photo_wide->delete();
         }
         
+        if (count($reference->photo_square) > 0) {
+            foreach ($reference->photo_square as $media) {
+                if ( ! in_array($media->file_name, $request->input('photo_square', []))) {
+                    $media->delete();
+                }
+            }
+        }
+        
         $media = $reference->photo_square->pluck('file_name')->toArray();
         foreach ($request->input('photo_square', []) as $file) {
             if (count($media) === 0 || ! in_array($file, $media)) {
@@ -272,6 +280,7 @@ class ReferencesController extends Controller
                     $reference->addMedia(storage_path('tmp/uploads/'.basename($file)))->toMediaCollection('photo_square');
                 }
             }
+        } else {
         }
         
         
