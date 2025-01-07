@@ -20,3 +20,4 @@ yarn-error.log
 resources/.DS_Store
 database/.DS_Store
 .DS_Store
+app/Http/Controllers/Admin/TestimonialsController___bkp.php
