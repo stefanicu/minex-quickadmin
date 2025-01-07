@@ -184,13 +184,8 @@
             },
             init: function () {
                 @if(isset($testimonial) && $testimonial->logo)
-                var files = {!! json_encode($testimonial->logo) !!}
-                for(
-                var i
-            in
-                files
-            )
-                {
+                var files = {!! json_encode($testimonial->logo) !!};
+                for (var i in files) {
                     var file = files[i]
                     this.options.addedfile.call(this, file)
                     this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
