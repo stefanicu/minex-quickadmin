@@ -78,55 +78,55 @@
                     </div>
                 </div>
 
-                <div class="row">
+                {{--                <div class="row">--}}
 
-                    <div class="form-group col-4">
-                        <label for="text_img5">{{ trans('cruds.reference.fields.text_img5') }}</label>
-                        <input class="form-control {{ $errors->has('text_img5') ? 'is-invalid' : '' }}" type="text"
-                               name="text_img5" id="text_img5" value="{{ old('text_img5', '') }}">
-                        @if($errors->has('text_img5'))
-                            <span class="text-danger">{{ $errors->first('text_img5') }}</span>
-                        @endif
-                        <span class="help-block">{{ trans('cruds.reference.fields.text_img5_helper') }}</span>
-                    </div>
+                {{--                    <div class="form-group col-4">--}}
+                {{--                        <label for="text_img5">{{ trans('cruds.reference.fields.text_img5') }}</label>--}}
+                {{--                        <input class="form-control {{ $errors->has('text_img5') ? 'is-invalid' : '' }}" type="text"--}}
+                {{--                               name="text_img5" id="text_img5" value="{{ old('text_img5', '') }}">--}}
+                {{--                        @if($errors->has('text_img5'))--}}
+                {{--                            <span class="text-danger">{{ $errors->first('text_img5') }}</span>--}}
+                {{--                        @endif--}}
+                {{--                        <span class="help-block">{{ trans('cruds.reference.fields.text_img5_helper') }}</span>--}}
+                {{--                    </div>--}}
 
-                    <div class="form-group col-2">
-                        <label for="text_img1">{{ trans('cruds.reference.fields.text_img1') }}</label>
-                        <input class="form-control {{ $errors->has('text_img1') ? 'is-invalid' : '' }}" type="text"
-                               name="text_img1" id="text_img1" value="{{ old('text_img1', '') }}">
-                        @if($errors->has('text_img1'))
-                            <span class="text-danger">{{ $errors->first('text_img1') }}</span>
-                        @endif
-                        <span class="help-block">{{ trans('cruds.reference.fields.text_img2_helper') }}</span>
-                    </div>
-                    <div class="form-group col-2">
-                        <label for="text_img2">{{ trans('cruds.reference.fields.text_img2') }}</label>
-                        <input class="form-control {{ $errors->has('text_img2') ? 'is-invalid' : '' }}" type="text"
-                               name="text_img2" id="text_img2" value="{{ old('text_img2', '') }}">
-                        @if($errors->has('text_img2'))
-                            <span class="text-danger">{{ $errors->first('text_img2') }}</span>
-                        @endif
-                        <span class="help-block">{{ trans('cruds.reference.fields.text_img2_helper') }}</span>
-                    </div>
-                    <div class="form-group col-2">
-                        <label for="text_img3">{{ trans('cruds.reference.fields.text_img3') }}</label>
-                        <input class="form-control {{ $errors->has('text_img3') ? 'is-invalid' : '' }}" type="text"
-                               name="text_img3" id="text_img3" value="{{ old('text_img3', '') }}">
-                        @if($errors->has('text_img3'))
-                            <span class="text-danger">{{ $errors->first('text_img3') }}</span>
-                        @endif
-                        <span class="help-block">{{ trans('cruds.reference.fields.text_img3_helper') }}</span>
-                    </div>
-                    <div class="form-group col-2">
-                        <label for="text_img4">{{ trans('cruds.reference.fields.text_img4') }}</label>
-                        <input class="form-control {{ $errors->has('text_img4') ? 'is-invalid' : '' }}" type="text"
-                               name="text_img4" id="text_img4" value="{{ old('text_img4', '') }}">
-                        @if($errors->has('text_img4'))
-                            <span class="text-danger">{{ $errors->first('text_img4') }}</span>
-                        @endif
-                        <span class="help-block">{{ trans('cruds.reference.fields.text_img4_helper') }}</span>
-                    </div>
-                </div>
+                {{--                    <div class="form-group col-2">--}}
+                {{--                        <label for="text_img1">{{ trans('cruds.reference.fields.text_img1') }}</label>--}}
+                {{--                        <input class="form-control {{ $errors->has('text_img1') ? 'is-invalid' : '' }}" type="text"--}}
+                {{--                               name="text_img1" id="text_img1" value="{{ old('text_img1', '') }}">--}}
+                {{--                        @if($errors->has('text_img1'))--}}
+                {{--                            <span class="text-danger">{{ $errors->first('text_img1') }}</span>--}}
+                {{--                        @endif--}}
+                {{--                        <span class="help-block">{{ trans('cruds.reference.fields.text_img2_helper') }}</span>--}}
+                {{--                    </div>--}}
+                {{--                    <div class="form-group col-2">--}}
+                {{--                        <label for="text_img2">{{ trans('cruds.reference.fields.text_img2') }}</label>--}}
+                {{--                        <input class="form-control {{ $errors->has('text_img2') ? 'is-invalid' : '' }}" type="text"--}}
+                {{--                               name="text_img2" id="text_img2" value="{{ old('text_img2', '') }}">--}}
+                {{--                        @if($errors->has('text_img2'))--}}
+                {{--                            <span class="text-danger">{{ $errors->first('text_img2') }}</span>--}}
+                {{--                        @endif--}}
+                {{--                        <span class="help-block">{{ trans('cruds.reference.fields.text_img2_helper') }}</span>--}}
+                {{--                    </div>--}}
+                {{--                    <div class="form-group col-2">--}}
+                {{--                        <label for="text_img3">{{ trans('cruds.reference.fields.text_img3') }}</label>--}}
+                {{--                        <input class="form-control {{ $errors->has('text_img3') ? 'is-invalid' : '' }}" type="text"--}}
+                {{--                               name="text_img3" id="text_img3" value="{{ old('text_img3', '') }}">--}}
+                {{--                        @if($errors->has('text_img3'))--}}
+                {{--                            <span class="text-danger">{{ $errors->first('text_img3') }}</span>--}}
+                {{--                        @endif--}}
+                {{--                        <span class="help-block">{{ trans('cruds.reference.fields.text_img3_helper') }}</span>--}}
+                {{--                    </div>--}}
+                {{--                    <div class="form-group col-2">--}}
+                {{--                        <label for="text_img4">{{ trans('cruds.reference.fields.text_img4') }}</label>--}}
+                {{--                        <input class="form-control {{ $errors->has('text_img4') ? 'is-invalid' : '' }}" type="text"--}}
+                {{--                               name="text_img4" id="text_img4" value="{{ old('text_img4', '') }}">--}}
+                {{--                        @if($errors->has('text_img4'))--}}
+                {{--                            <span class="text-danger">{{ $errors->first('text_img4') }}</span>--}}
+                {{--                        @endif--}}
+                {{--                        <span class="help-block">{{ trans('cruds.reference.fields.text_img4_helper') }}</span>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
 
                 <div class="form-group">
                     <input type="hidden" name="locale" value="{{app()->getLocale()}}">
