@@ -102,7 +102,7 @@ class TestimonialsController extends Controller
     public function store(StoreTestimonialRequest $request)
     {
         if ($request->input('logo', false)) {
-            $tempPath = storage_path('tmp/uploads/'.basename($request->input('logo')));
+            $tempPath = storage_path('tmp/uploads/'.basename($request->input('logo')[0]));
             // Validate the image dimensions
             [$width, $height] = getimagesize($tempPath);
             
