@@ -61,32 +61,6 @@ class ProductsController extends Controller
                     DB::raw("GROUP_CONCAT(DISTINCT category_translations.name ORDER BY category_translations.name ASC SEPARATOR ', ') as category_names")
                 )
                 ->groupBy('products.id', 'product_translations.name', 'brands.name');
-
-//                foreach ($query->get() as $product) {
-//                    $main_photo = Media::where('model_id', $product->id)
-//                        ->where('model_type', Product::class)
-//                        ->get();
-//
-//                    if(count($main_photo) === 0) {
-//                        if (file_exists(public_path().asset('uploads/produse/'.$product->oldimage))) {
-//                            $product->addMediaFromUrl(
-//                                url('').asset('uploads/produse/'.$product->oldimage)
-//                            )->toMediaCollection('main_photo');
-//                        }
-//                    }
-//
-//                    if(count($main_photo) === 1) {
-//                        if($product->oldmoreimages) {
-//                            foreach (explode(',',$product->oldmoreimages) as $photo) {
-//                                if (file_exists(public_path().asset('uploads/produse/'.$photo))) {
-//                                    $product->addMediaFromUrl(
-//                                        url('').asset('uploads/produse/'.$photo)
-//                                    )->toMediaCollection('photo');
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
             
             $table = Datatables::of($query);
             
