@@ -143,7 +143,7 @@ class ReferencesController extends Controller
         if ($request->input('photo_square', false)) {
             $index = 1;
             foreach ($request->input('photo_square', []) as $file) {
-                $tempPath = storage_path('tmp/uploads/'.basename($request->input('photo_square')));
+                $tempPath = storage_path('tmp/uploads/'.basename($file));
                 // Validate the image dimensions
                 [$width, $height] = getimagesize($tempPath);
                 
