@@ -273,19 +273,14 @@ class ReferencesController extends Controller
                     ]);
                 }
             }
+            
+            $tempPath = storage_path('tmp/uploads/'.basename($file));
+            if (file_exists($tempPath)) {
+                $reference->addMedia(storage_path('tmp/uploads/'.basename($file)))->toMediaCollection('photo_square');
+            }
+            
             $index++;
         }
-        
-        if ($request->input('photo_square', false)) {
-            foreach ($request->input('photo_square', []) as $file) {
-                $tempPath = storage_path('tmp/uploads/'.basename($file));
-                //dd($tempPath);
-                if (file_exists($tempPath)) {
-                    $reference->addMedia(storage_path('tmp/uploads/'.basename($file)))->toMediaCollection('photo_square');
-                }
-            }
-        }
-        
         
         return redirect()->route('admin.references.index');
     }
