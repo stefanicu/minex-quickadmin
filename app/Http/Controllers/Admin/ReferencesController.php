@@ -280,7 +280,6 @@ class ReferencesController extends Controller
                     $reference->addMedia(storage_path('tmp/uploads/'.basename($file)))->toMediaCollection('photo_square');
                 }
             }
-        } else {
         }
         
         
