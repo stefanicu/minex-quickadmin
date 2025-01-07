@@ -68,12 +68,13 @@
                             </p>
                         @endif
                         <strong>{{ $testimonial->company }}</strong>
-                        @if(auth()->check())
-                            <a class="position-absolute" style="right: 20px"
-                               href="{{ url('').'/admin/testimonials/'.$testimonial->id.'/edit' }}"
-                               target="_blank">Edit</a>
-                        @endif
                     </blockquote>
+
+                    @if(auth()->check())
+                        <a class="position-absolute" style="left: 45px; bottom: 10px"
+                           href="{{ url('').'/admin/testimonials/'.$testimonial->id.'/edit' }}"
+                           target="_blank">Edit</a>
+                    @endif
                 </div>
             @endforeach
         </div>
