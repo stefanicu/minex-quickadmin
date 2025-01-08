@@ -28,9 +28,6 @@ class SecurityHeaders
             return $response;
         }
         
-        // Add HSTS Header
-        $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-        
         if ( ! config('app.debug')) {
             $response->headers->set('Content-Security-Policy',
                 "default-src 'none'; ".
@@ -46,23 +43,6 @@ class SecurityHeaders
                 "form-action 'self';"
             );
         }
-        
-        
-        // Add X-Content-Type-Options
-        $response->headers->set('X-Content-Type-Options', 'nosniff');
-        
-        // Add X-Frame-Options
-        $response->headers->set('X-Frame-Options', 'DENY');
-        
-        // Add Referrer Policy
-        $response->headers->set('Referrer-Policy', 'no-referrer');
-        
-        // Add CORP header
-        $response->headers->set('Cross-Origin-Resource-Policy', 'same-origin');
-        
-        // Add Permission policy
-        $response->headers->set('Permissions-Policy',
-            'geolocation=(self), camera=(), microphone=(), fullscreen=(self)');
         
         return $response;
     }
