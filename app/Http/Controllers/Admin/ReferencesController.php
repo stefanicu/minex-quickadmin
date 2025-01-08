@@ -254,13 +254,9 @@ class ReferencesController extends Controller
                 [$width, $height] = getimagesize($tempPath);
                 
                 if ($width != 360 || $height != 300) {
-                    foreach ($request->input('photo_square', []) as $file_delete) {
-                        $tempPath = storage_path('tmp/uploads/'.basename($file_delete));
-                        
-                        // Delete the temporary file if validation fails
-                        if (file_exists($tempPath)) {
-                            unlink($tempPath);
-                        }
+                    // Delete the temporary file if validation fails
+                    if (file_exists($tempPath)) {
+                        unlink($tempPath);
                     }
                     return redirect()->back()->withErrors([
                         'photo_square' => __("validation.multi_image_dimensions", [
