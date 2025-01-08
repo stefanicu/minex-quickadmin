@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-6">
+                    <div class="form-group col-12 col-xl-6">
                         <label class="required" for="name">{{ trans('cruds.blog.fields.name') }}</label>
                         <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text"
                                name="name" id="name" value="{{ old('name', $blog->name) }}" required>
@@ -47,7 +47,7 @@
                         @endif
                         <span class="help-block">{{ trans('cruds.blog.fields.name_helper') }}</span>
                     </div>
-                    <div class="form-group col-6">
+                    <div class="form-group col-12 col-xl-6">
                         <label class="required" for="slug">{{ trans('cruds.blog.fields.slug') }}</label>
                         <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text"
                                name="slug" id="slug" value="{{ old('slug', $blog->slug) }}" required>
@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="row align-items-center">
-                    <div class="form-group col-4 align-items-center">
+                    <div class="form-group col-12 align-items-center">
                         <label for="image">{{ trans('cruds.blog.fields.image') }}</label>
                         <span class="help-block">{{ trans('cruds.blog.fields.image_helper') }}</span>
                         <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }} text-center"
