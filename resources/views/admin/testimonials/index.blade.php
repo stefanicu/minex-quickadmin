@@ -106,9 +106,9 @@
                 ajax: "{{ route('admin.testimonials.index') }}",
                 columns: [
                     {data: 'id', name: 'id'},
-                    {data: 'company', name: 'company'},
-                    {data: 'name', name: 'name'},
-                    {data: 'job', name: 'job'},
+                    {data: 'company', name: 'testimonial_translations.company'},
+                    {data: 'name', name: 'testimonial_translations.name'},
+                    {data: 'job', name: 'testimonial_translations.job'},
                     {data: 'logo', name: 'logo', class: 'text-center', sortable: false, searchable: false},
                     {
                         data: 'actions',
