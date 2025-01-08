@@ -10,7 +10,7 @@
             <form method="POST" action="{{ route("admin.references.store") }}" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    <div class="form-group col-4">
+                    <div class="form-group col-12 col-xl-4">
                         <label class="required" for="name">{{ trans('cruds.reference.fields.name') }}</label>
                         <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text"
                                name="name" id="name" value="{{ old('name', '') }}" required>
@@ -19,7 +19,7 @@
                         @endif
                         <span class="help-block">{{ trans('cruds.reference.fields.name_helper') }}</span>
                     </div>
-                    <div class="form-group col-4">
+                    <div class="form-group col-12 col-xl-4">
                         <label class="required" for="slug">{{ trans('cruds.reference.fields.slug') }}</label>
                         <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text"
                                name="slug" id="slug" value="{{ old('slug', '') }}" required>
@@ -28,7 +28,7 @@
                         @endif
                         <span class="help-block">{{ trans('cruds.reference.fields.slug_helper') }}</span>
                     </div>
-                    <div class="form-group col-4">
+                    <div class="form-group col-12 col-xl-4">
                         <label for="industries_id">{{ trans('cruds.reference.fields.industry') }}</label>
                         <select class="form-control select2 {{ $errors->has('industries') ? 'is-invalid' : '' }}"
                                 name="industries_id" id="industries_id">
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-4">
+                    <div class="form-group col-12 align-items-center">
                         <label for="photo_wide">{{ trans('cruds.reference.fields.photo_wide') }}</label>
                         <span class="help-block">{{ trans('cruds.reference.fields.photo_wide_helper') }}</span>
                         <div class="needsclick dropzone {{ $errors->has('photo_wide') ? 'is-invalid' : '' }}"
@@ -66,7 +66,7 @@
                             <span class="text-danger">{{ $errors->first('photo_wide') }}</span>
                         @endif
                     </div>
-                    <div class="form-group col-8">
+                    <div class="form-group col-12 align-items-center">
                         <label for="photo_square">{{ trans('cruds.reference.fields.photo_square') }}</label>
                         <span class="help-block">{{ trans('cruds.reference.fields.photo_square_helper') }}</span>
                         <div class="needsclick dropzone {{ $errors->has('photo_square') ? 'is-invalid' : '' }}"
