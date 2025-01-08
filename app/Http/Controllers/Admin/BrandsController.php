@@ -86,10 +86,32 @@ class BrandsController extends Controller
     
     public function store(StoreBrandRequest $request)
     {
+        if ($request->input('photo', false)) {
+            $tempPath = storage_path('tmp/uploads/'.basename($request->input('photo')[0]));
+            // Validate the image dimensions
+            [$width, $height] = getimagesize($tempPath);
+            
+            if ($width != 360 || $height != 240) {
+                // Delete the temporary file if validation fails
+                if (file_exists($tempPath)) {
+                    unlink($tempPath);
+                }
+                return redirect()->back()->withInput()->withErrors([
+                    'photo' => __("validation.image_dimensions", [
+                        'expected_width' => 360,
+                        'expected_height' => 240,
+                        'uploaded_width' => $width,
+                        'uploaded_height' => $height
+                    ]),
+                ]);
+            }
+        }
+        
+        // Proceed with creating the brand only if the validation passes
         $brand = Brand::create($request->all());
         
         if ($request->input('photo', false)) {
-            $brand->addMedia(storage_path('tmp/uploads/'.basename($request->input('photo'))))->toMediaCollection('photo');
+            $brand->addMedia($tempPath)->toMediaCollection('photo');
         }
         
         if ($media = $request->input('ck-media', false)) {
@@ -112,10 +134,29 @@ class BrandsController extends Controller
         
         if ($request->input('photo', false)) {
             if ( ! $brand->photo || $request->input('photo') !== $brand->photo->file_name) {
+                $tempPath = storage_path('tmp/uploads/'.basename($request->input('photo')));
+                // Validate the image dimensions
+                [$width, $height] = getimagesize($tempPath);
+                
+                if ($width != 360 || $height != 240) {
+                    // Delete the temporary file if validation fails
+                    unlink($tempPath);
+                    
+                    return redirect()->back()->withErrors([
+                        'photo' => __("validation.image_dimensions", [
+                            'expected_width' => 360,
+                            'expected_height' => 240,
+                            'uploaded_width' => $width,
+                            'uploaded_height' => $height
+                        ]),
+                    ]);
+                }
+                
                 if ($brand->photo) {
                     $brand->photo->delete();
                 }
-                $brand->addMedia(storage_path('tmp/uploads/'.basename($request->input('photo'))))->toMediaCollection('photo');
+                
+                $brand->addMedia($tempPath)->toMediaCollection('photo');
             }
         } elseif ($brand->photo) {
             $brand->photo->delete();

@@ -205,6 +205,9 @@ ul.pagination li.active a {
     font-style: italic;
     font-size: small;
     position: absolute;
-    right: 10px;
-    top: 10px;
+    right: 18px;
+    top: 40px;
+    line-height: 16px;
+    width: 90%;
+    text-align: right;
 }

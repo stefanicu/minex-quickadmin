@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateTestimonialRequest;
 use App\Models\Testimonial;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
@@ -24,10 +25,14 @@ class TestimonialsController extends Controller
         
         if ($request->ajax()) {
             $query = Testimonial::with(['media', 'translations'])
-                ->join('testimonial_translations', 'testimonials.id', '=', 'testimonial_translations.testimonial_id')
-                ->where('testimonial_translations.locale', '=', app()->getLocale())
-                ->select(sprintf('%s.*', (new Testimonial)->table));
-            
+                ->leftjoin('testimonial_translations', function ($join) {
+                    $join->on('testimonials.id', '=', 'testimonial_translations.testimonial_id')
+                        ->where('testimonial_translations.locale', '=', app()->getLocale());
+                })
+                ->select([
+                    'testimonials.*',
+                    DB::raw("COALESCE(testimonial_translations.company, '--- NO TRANSLATION ---') as company")
+                ]);
             
             $table = Datatables::of($query);
             
@@ -96,10 +101,32 @@ class TestimonialsController extends Controller
     
     public function store(StoreTestimonialRequest $request)
     {
+        if ($request->input('logo', false)) {
+            $tempPath = storage_path('tmp/uploads/'.basename($request->input('logo')[0]));
+            // Validate the image dimensions
+            [$width, $height] = getimagesize($tempPath);
+            
+            if ($width != 360 || $height != 240) {
+                // Delete the temporary file if validation fails
+                if (file_exists($tempPath)) {
+                    unlink($tempPath);
+                }
+                return redirect()->back()->withInput()->withErrors([
+                    'logo' => __("validation.image_dimensions", [
+                        'expected_width' => 360,
+                        'expected_height' => 240,
+                        'uploaded_width' => $width,
+                        'uploaded_height' => $height
+                    ]),
+                ]);
+            }
+        }
+        
+        // Proceed with creating the industry only if the validation passes
         $testimonial = Testimonial::create($request->all());
         
         if ($request->input('logo', false)) {
-            $testimonial->addMedia(storage_path('tmp/uploads/'.basename($request->input('logo'))))->toMediaCollection('logo');
+            $testimonial->addMedia($tempPath)->toMediaCollection('logo');
         }
         
         if ($media = $request->input('ck-media', false)) {
@@ -112,18 +139,6 @@ class TestimonialsController extends Controller
     public function edit(Testimonial $testimonial)
     {
         abort_if(Gate::denies('testimonial_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-//        $logo = Media::where('model_id', $testimonial->id)
-//            ->where('model_type', Testimonial::class)
-//            ->get();
-//
-//        if(count($logo) == 0) {
-//            if (file_exists(public_path().asset('uploads/testimoniale/'.$testimonial->oldimage))) {
-//                $testimonial->addMediaFromUrl(
-//                    url('').asset('uploads/testimoniale/'.$testimonial->oldimage)
-//                )->toMediaCollection('logo');
-//            }
-//        }
         
         return view('admin.testimonials.edit', compact('testimonial'));
     }
@@ -134,10 +149,29 @@ class TestimonialsController extends Controller
         
         if ($request->input('logo', false)) {
             if ( ! $testimonial->logo || $request->input('logo') !== $testimonial->logo->file_name) {
+                $tempPath = storage_path('tmp/uploads/'.basename($request->input('logo')));
+                // Validate the image dimensions
+                [$width, $height] = getimagesize($tempPath);
+                
+                if ($width != 360 || $height != 240) {
+                    // Delete the temporary file if validation fails
+                    unlink($tempPath);
+                    
+                    return redirect()->back()->withErrors([
+                        'logo' => __("validation.image_dimensions", [
+                            'expected_width' => 360,
+                            'expected_height' => 240,
+                            'uploaded_width' => $width,
+                            'uploaded_height' => $height
+                        ]),
+                    ]);
+                }
+                
                 if ($testimonial->logo) {
                     $testimonial->logo->delete();
                 }
-                $testimonial->addMedia(storage_path('tmp/uploads/'.basename($request->input('logo'))))->toMediaCollection('logo');
+                
+                $testimonial->addMedia($tempPath)->toMediaCollection('logo');
             }
         } elseif ($testimonial->logo) {
             $testimonial->logo->delete();

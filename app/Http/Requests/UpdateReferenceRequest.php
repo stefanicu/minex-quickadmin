@@ -37,6 +37,10 @@ class UpdateReferenceRequest extends FormRequest
                     ->where('locale', app()->getLocale())
                     ->ignore(request()->route('reference')->id, 'reference_id')
             ],
+            'content' => [
+                'string',
+                'required'
+            ],
             'meta_title' => [
                 'string',
                 'min:0',

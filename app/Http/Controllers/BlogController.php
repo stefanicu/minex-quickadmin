@@ -34,6 +34,19 @@ class BlogController extends Controller
             $blog->content = trans('pages.no_translated_message');
         }
         
+        if ( ! $blog) {
+            if (auth()->check()) {
+                $blog = Blog::with('translations', 'media')
+                    ->leftJoin('blog_translations', 'blogs.id', '=', 'blog_translations.blog_id')
+                    ->select('blogs.id as id', 'name', 'slug', 'created_at')
+                    ->where('blog_translations.slug', '=', $blog_slug)
+                    ->where('locale', '=', app()->getLocale())
+                    ->orderBy('created_at', 'desc')->first();
+            } else {
+                abort(404);
+            }
+        }
+        
         $blogs = Blog::with('translations', 'media')
             ->leftJoin('blog_translations', 'blogs.id', '=', 'blog_translations.blog_id')
             ->select('blogs.id as id', 'name', 'slug', 'created_at')

@@ -126,8 +126,8 @@
 
         let languages = {
             'en': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/English.json',
-            'bg': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Bulgarian.json',
-            'ro': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Romanian.json'
+            // 'bg': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Bulgarian.json',
+            // 'ro': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Romanian.json'
         };
 
         $.extend(true, $.fn.dataTable.Buttons.defaults.dom.button, {className: 'btn'})

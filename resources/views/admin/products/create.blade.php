@@ -9,44 +9,32 @@
         <div class="card-body">
             <form method="POST" action="{{ route("admin.products.store") }}" enctype="multipart/form-data">
                 @csrf
-                {{--                <div class="form-group">--}}
-                {{--                    <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">--}}
-                {{--                        <input type="hidden" name="online" value="0">--}}
-                {{--                        <input class="form-check-input" type="checkbox" name="online" id="online"--}}
-                {{--                               value="0">--}}
-                {{--                        <label class="form-check-label" for="online">{{ trans('cruds.product.fields.online') }}</label>--}}
-                {{--                    </div>--}}
-                {{--                    @if($errors->has('online'))--}}
-                {{--                        <span class="text-danger">{{ $errors->first('online') }}</span>--}}
-                {{--                    @endif--}}
-                {{--                    <span class="help-block">{{ trans('cruds.product.fields.online_helper') }}</span>--}}
-                {{--                </div>--}}
 
                 <div class="row">
-                    <div class="form-group col-4">
+                    <div class="form-group col-12 col-xl-6">
                         <label class="required" for="name">{{ trans('cruds.product.fields.name') }}</label>
                         <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text"
-                               name="name" id="name" value="" required>
+                               name="name" id="name" value="{{ old('name', '') }}" required>
                         @if($errors->has('name'))
                             <span class="text-danger">{{ $errors->first('name') }}</span>
                         @endif
                         <span class="help-block">{{ trans('cruds.product.fields.name_helper') }}</span>
                     </div>
-                    <div class="form-group col-4">
+                    <div class="form-group col-12 col-xl-6">
                         <label class="required" for="slug">{{ trans('cruds.product.fields.slug') }}</label>
                         <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text"
-                               name="slug" id="slug" value="" required>
+                               name="slug" id="slug" value="{{ old('name', '') }}" required>
                         @if($errors->has('slug'))
                             <span class="text-danger">{{ $errors->first('slug') }}</span>
                         @endif
                         <span class="help-block">{{ trans('cruds.product.fields.slug_helper') }}</span>
                     </div>
-                    <div class="form-group col-4">
+                    <div class="form-group col-12 col-xl-6">
                         <label class="required" for="brand_id">{{ trans('cruds.product.fields.brand') }}</label>
                         <select class="form-control select2 {{ $errors->has('brand') ? 'is-invalid' : '' }}"
                                 name="brand_id" id="brand_id" required>
                             @foreach($brands as $id => $entry)
-                                <option value="{{ $id }}">{{ $entry }}</option>
+                                <option value="{{ $id }}" {{ (old('brand_id') ? old('brand_id') : '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                             @endforeach
                         </select>
                         @if($errors->has('brand'))
@@ -58,7 +46,7 @@
 
 
                 <div class="row">
-                    <div id="applications" class="form-group col-6">
+                    <div id="applications" class="form-group col-12 col-xl-6">
                         <label for="applications">{{ trans('cruds.product.fields.applications') }}</label>
                         <div style="padding-bottom: 4px">
                             <span class="btn btn-info btn-xs select-all"
@@ -69,7 +57,7 @@
                         <select class="form-control select2 {{ $errors->has('applications') ? 'is-invalid' : '' }}"
                                 name="applications[]" id="applications" multiple>
                             @foreach($applications as $id => $applicaiton)
-                                <option value="{{ $id }}">{{ $applicaiton }}</option>
+                                <option value="{{ $id }}" {{ in_array($id, old('applications', [])) ? 'selected' : '' }}>{{ $applicaiton }}</option>
                             @endforeach
                         </select>
                         @if($errors->has('applications'))
@@ -77,7 +65,7 @@
                         @endif
                         <span class="help-block">{{ trans('cruds.product.fields.applications_helper') }}</span>
                     </div>
-                    <div id="categories" class="form-group col-6">
+                    <div id="categories" class="form-group col-12 col-xl-6">
                         <label for="categories">{{ trans('cruds.product.fields.categories') }}</label>
                         <div style="padding-bottom: 4px">
                             <span class="btn btn-info btn-xs select-all"
@@ -88,7 +76,7 @@
                         <select class="form-control select2 {{ $errors->has('categories') ? 'is-invalid' : '' }}"
                                 name="categories[]" id="categories" multiple>
                             @foreach($categories as $id => $category)
-                                <option value="{{ $id }}">{{ $category }}</option>
+                                <option value="{{ $id }}" {{ in_array($id, old('categories', [])) ? 'selected' : '' }}>{{ $category }}</option>
                             @endforeach
                         </select>
                         @if($errors->has('categories'))
@@ -127,7 +115,7 @@
                             <textarea
                                     class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
                                     name="description"
-                                    id="description"></textarea>
+                                    id="description">{!! old('description', '') !!}</textarea>
                             @if($errors->has('description'))
                                 <span class="text-danger">{{ $errors->first('description') }}</span>
                             @endif
@@ -139,7 +127,7 @@
                             <textarea
                                     class="form-control ckeditor {{ $errors->has('specifications') ? 'is-invalid' : '' }}"
                                     name="specifications"
-                                    id="specifications"></textarea>
+                                    id="specifications">{!! old('specifications', '') !!}</textarea>
                             @if($errors->has('specifications'))
                                 <span class="text-danger">{{ $errors->first('specifications') }}</span>
                             @endif
@@ -150,7 +138,7 @@
                             {{--                    <label for="advantages">{{ trans('cruds.product.fields.advantages') }}</label>--}}
                             <textarea class="form-control ckeditor {{ $errors->has('advantages') ? 'is-invalid' : '' }}"
                                       name="advantages"
-                                      id="advantages"></textarea>
+                                      id="advantages">{!! old('advantages', '') !!}</textarea>
                             @if($errors->has('advantages'))
                                 <span class="text-danger">{{ $errors->first('advantages') }}</span>
                             @endif
@@ -160,7 +148,7 @@
                         <div id="usages" class="form-group tab-pane fade in">
                             {{--                    <label for="usages">{{ trans('cruds.product.fields.usages') }}</label>--}}
                             <textarea class="form-control ckeditor {{ $errors->has('usages') ? 'is-invalid' : '' }}"
-                                      name="usages" id="usages"></textarea>
+                                      name="usages" id="usages">{!! old('usages', '') !!}</textarea>
                             @if($errors->has('usages'))
                                 <span class="text-danger">{{ $errors->first('usage') }}</span>
                             @endif
@@ -172,7 +160,7 @@
                             <textarea
                                     class="form-control ckeditor {{ $errors->has('accessories') ? 'is-invalid' : '' }}"
                                     name="accessories"
-                                    id="accessories"></textarea>
+                                    id="accessories">{!! old('accessories', '') !!}</textarea>
                             @if($errors->has('accessories'))
                                 <span class="text-danger">{{ $errors->first('accessories') }}</span>
                             @endif
@@ -189,7 +177,7 @@
                             <select class="form-control select2 {{ $errors->has('references') ? 'is-invalid' : '' }}"
                                     name="references[]" id="references" multiple>
                                 @foreach($references as $id => $reference)
-                                    <option value="{{ $id }}">{{ $reference }}</option>
+                                    <option value="{{ $id }}" {{ in_array($id, old('references', [])) ? 'selected' : '' }}>{{ $reference }}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('references'))
@@ -201,26 +189,26 @@
 
                 </div>
                 <div class="row">
-                    <div class="form-group col-2">
+                    <div class="form-group col-12 align-items-center">
                         <label for="main_photo">{{ trans('cruds.product.fields.main_photo') }}</label>
+                        <span class="help-block">{{ trans('cruds.product.fields.main_photo_helper') }}</span>
                         <div class="needsclick dropzone {{ $errors->has('main_photo') ? 'is-invalid' : '' }}"
                              id="main_photo-dropzone">
                         </div>
                         @if($errors->has('main_photo'))
                             <span class="text-danger">{{ $errors->first('main_photo') }}</span>
                         @endif
-                        <span class="help-block">{{ trans('cruds.product.fields.main_photo_helper') }}</span>
                     </div>
 
-                    <div class="form-group col-10">
+                    <div class="form-group col-12 align-items-center">
                         <label for="photo">{{ trans('cruds.product.fields.photo') }}</label>
+                        <span class="help-block">{{ trans('cruds.product.fields.photo_helper') }}</span>
                         <div class="needsclick dropzone {{ $errors->has('photo') ? 'is-invalid' : '' }}"
                              id="photo-dropzone">
                         </div>
                         @if($errors->has('photo'))
                             <span class="text-danger">{{ $errors->first('photo') }}</span>
                         @endif
-                        <span class="help-block">{{ trans('cruds.product.fields.photo_helper') }}</span>
                     </div>
                 </div>
 
@@ -309,16 +297,15 @@
         var uploadedPhotoMap = {}
         Dropzone.options.photoDropzone = {
             url: '{{ route('admin.products.storeMedia') }}',
-            maxFilesize: 4, // MB
+            maxFilesize: 1, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            maxFiles: 20,
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
             },
             params: {
-                size: 4,
-                width: 600,
-                height: 600
+                size: 1,
             },
             success: function (file, response) {
                 $('form').append('<input type="hidden" name="photo[]" value="' + response.name + '">')
@@ -350,6 +337,60 @@
                     file.previewElement.classList.add('dz-complete')
                     $('form').append('<input type="hidden" name="photo[]" value="' + file.file_name + '">')
                 }
+                @endif
+            },
+            error: function (file, response) {
+                if ($.type(response) === 'string') {
+                    var message = response //dropzone sends it's own error messages in string
+                } else {
+                    var message = response.errors.file
+                }
+                file.previewElement.classList.add('dz-error')
+                _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
+                _results = []
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i]
+                    _results.push(node.textContent = message)
+                }
+
+                return _results
+            }
+        }
+
+    </script>
+
+    <script>
+        Dropzone.options.mainPhotoDropzone = {
+            url: '{{ route('admin.products.storeMedia') }}',
+            maxFilesize: 1, // MB
+            acceptedFiles: '.jpeg,.jpg,.png,.gif',
+            maxFiles: 1,
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            params: {
+                size: 1,
+            },
+            success: function (file, response) {
+                $('form').find('input[name="main_photo"]').remove()
+                $('form').append('<input type="hidden" name="main_photo" value="' + response.name + '">')
+            },
+            removedfile: function (file) {
+                file.previewElement.remove()
+                if (file.status !== 'error') {
+                    $('form').find('input[name="main_photo"]').remove()
+                    this.options.maxFiles = this.options.maxFiles + 1
+                }
+            },
+            init: function () {
+                @if(isset($product) && $product->main_photo)
+                var file = {!! json_encode($product->main_photo) !!}
+                this.options.addedfile.call(this, file)
+                this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+                file.previewElement.classList.add('dz-complete')
+                $('form').append('<input type="hidden" name="main_photo" value="' + file.file_name + '">')
+                this.options.maxFiles = this.options.maxFiles - 1
                 @endif
             },
             error: function (file, response) {

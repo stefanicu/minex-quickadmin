@@ -159,11 +159,16 @@ class CategoriesController extends Controller
         abort_if(Gate::denies('category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
         $categoryId = $category->id;
+        
         $product_images = Product::whereHas('categories', function ($query) use ($categoryId) {
             $query->where('categories.id', '=', $categoryId);
         })
+            ->whereHas('media', function ($query) {
+                $query->where('collection_name', 'main_photo');
+            })
             ->orderByTranslation('name')
             ->get();
+        
         
         $applications = ApplicationTranslation::where('locale', app()->getLocale())->pluck('name', 'application_id');
         

@@ -10,17 +10,18 @@
   "require": {
     "php": "^8.1",
     "ext-pdo": "*",
+    "ext-simplexml": "*",
     "astrotomic/laravel-translatable": "^11.12",
     "barryvdh/laravel-debugbar": "^3.13",
     "guzzlehttp/guzzle": "^7.2",
+    "intervention/image": "^2.7",
     "laravel/framework": "^10.0",
     "laravel/sanctum": "^3.2",
     "laravel/tinker": "^2.8",
     "laraveldaily/laravel-charts": "^0.1.29",
     "spatie/laravel-medialibrary": "^10.7",
     "spatie/laravel-sitemap": "^7.3",
-    "yajra/laravel-datatables-oracle": "^10.3",
-    "ext-simplexml": "*"
+    "yajra/laravel-datatables-oracle": "^10.3"
   },
   "require-dev": {
     "fakerphp/faker": "^1.9.1",

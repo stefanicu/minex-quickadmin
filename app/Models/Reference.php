@@ -5,7 +5,6 @@ namespace App\Models;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use DateTimeInterface;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Intervention\Image\Facades\Image;
@@ -15,7 +14,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Reference extends Model implements HasMedia, TranslatableContract
 {
-    use SoftDeletes, InteractsWithMedia, HasFactory, Translatable;
+    use SoftDeletes, InteractsWithMedia, Translatable;
     
     public $table = 'references';
     public $translatedAttributes = [

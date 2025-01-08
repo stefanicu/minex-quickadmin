@@ -9,22 +9,9 @@
         <div class="card-body">
             <form method="POST" action="{{ route("admin.blogs.store") }}" enctype="multipart/form-data">
                 @csrf
-                <div class="form-group">
-                    <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
-                        <input type="hidden" name="online" value="0">
-                        <input class="form-check-input" type="checkbox" name="online" id="online"
-                               value="1" {{ old('online', 0) === 1 ? 'checked' : '' }}>
-                        <label class="form-check-label" for="online">{{ trans('cruds.blog.fields.online') }}</label>
-                    </div>
-                    @if($errors->has('online'))
-                        <span class="text-danger">{{ $errors->first('online') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.blog.fields.online_helper') }}</span>
-                </div>
-
 
                 <div class="row">
-                    <div class="form-group col-6">
+                    <div class="form-group col-12 col-xl-6">
                         <label class="required" for="name">{{ trans('cruds.blog.fields.name') }}</label>
                         <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text"
                                name="name" id="name" value="{{ old('name', '') }}" required>
@@ -33,7 +20,7 @@
                         @endif
                         <span class="help-block">{{ trans('cruds.blog.fields.name_helper') }}</span>
                     </div>
-                    <div class="form-group col-6">
+                    <div class="form-group col-12 col-xl-6">
                         <label class="required" for="slug">{{ trans('cruds.blog.fields.slug') }}</label>
                         <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text"
                                name="slug" id="slug" value="{{ old('slug', '') }}" required>
@@ -53,39 +40,18 @@
                     <span class="help-block">{{ trans('cruds.blog.fields.content_helper') }}</span>
                 </div>
 
-                {{--            <div class="form-group">--}}
-                {{--                <label class="" for="image_text">{{ trans('Image Text') }}</label>--}}
-                {{--                <input class="form-control {{ $errors->has('image_text') ? 'is-invalid' : '' }}" type="text" name="image_text" id="image_text" value="{{ old('image_text', '') }}">--}}
-                {{--                @if($errors->has('image_text'))--}}
-                {{--                    <span class="text-danger">{{ $errors->first('image_text') }}</span>--}}
-                {{--                @endif--}}
-                {{--                <span class="help-block">{{ trans(' ') }}</span>--}}
-                {{--            </div>--}}
-
                 <div class="row align-items-center">
-                    <div class="form-group col-4 align-items-center">
+                    <div class="form-group col-12 align-items-center">
                         <label for="image">{{ trans('cruds.blog.fields.image') }}</label>
+                        <span class="help-block">{{ trans('cruds.blog.fields.image_helper') }}</span>
                         <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }} text-center"
                              id="image-dropzone">
                         </div>
                         @if($errors->has('image'))
                             <span class="text-danger">{{ $errors->first('image') }}</span>
                         @endif
-                        <span class="help-block">{{ trans('cruds.blog.fields.image_helper') }}</span>
                     </div>
-
-                    {{--                <div class="form-group col-8 text-center">--}}
-                    {{--                    @if($blog->getImageAttribute() !== null)--}}
-                    {{--                        <img class="my-4 h-min" height="289px" width="auto" src="{{ $blog->getImageAttribute()->getUrl() }}">--}}
-                    {{--                    @endif--}}
-                    {{--                </div>--}}
                 </div>
-
-
-                {{--            <div class="form-group col-4 align-items-center text-center">--}}
-                {{--                <img class="my-4" height="200px" width="auto" src="{{ url('') }}{{ asset('uploads/images/' . $blog->oldimage) }}" alt="{{ $blog->oldimage }}">--}}
-                {{--            </div>--}}
-
 
                 <div class="form-group">
                     <input type="hidden" name="locale" value="{{app()->getLocale()}}">
@@ -171,7 +137,7 @@
     <script>
         Dropzone.options.imageDropzone = {
             url: '{{ route('admin.blogs.storeMedia') }}',
-            maxFilesize: 4, // MB
+            maxFilesize: 1, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
             maxFiles: 1,
             addRemoveLinks: true,
@@ -179,9 +145,7 @@
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
             },
             params: {
-                size: 4,
-                width: 750,
-                height: 500
+                size: 1,
             },
             success: function (file, response) {
                 $('form').find('input[name="image"]').remove()

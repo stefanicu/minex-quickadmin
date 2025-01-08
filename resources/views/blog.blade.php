@@ -34,8 +34,14 @@
     <div class="container content">
         <div class="row">
             <div class="col-12 col-lg-8 pb-4 mb-4">
-                <h1 class="h2">{{ $blog->name }}<br> <small
-                            class="data">{{ Carbon\Carbon::parse($blog->created_at)->format('d.m.Y') }}</small></h1>
+                <div class="d-flex justify-content-between">
+                    <h1 class="h2">{{ $blog->name }}<br> <small
+                                class="data">{{ Carbon\Carbon::parse($blog->created_at)->format('d.m.Y') }}</small></h1>
+                    @if(auth()->check())
+                        <a class="position-absolute mr-2" href="{{ url('').'/admin/blogs/'.$blog->id.'/edit' }}"
+                           target="_blank">Edit</a>
+                    @endif
+                </div>
 
                 @if($blog->getImageAttribute() !== null && $blog->getImageAttribute()->count()>0)
                     <img
@@ -45,6 +51,11 @@
                 @endif
                 <hr>
                 {!! $blog->content !!}
+
+                @if(auth()->check())
+                    <a class="position-absolute mr-2" href="{{ url('').'/admin/blogs/'.$blog->id.'/edit' }}"
+                       target="_blank">Edit</a>
+                @endif
             </div>
             <div class="d-none d-lg-block col-md-4 pb-4 mb-4">
                 <h2 class="h3">{{ trans('pages.articles') }}</h2>

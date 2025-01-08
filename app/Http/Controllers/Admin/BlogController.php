@@ -33,19 +33,6 @@ class BlogController extends Controller
                         ->orWhereNull('oldarticletype');
                 })
                 ->selectRaw('blogs.*, COALESCE(blog_translations.name, "--- NO TRANSLATION ---") as name, COALESCE(blog_translations.online, 0) as online');
-            //->select(sprintf('%s.*', (new Blog)->table));
-
-//            foreach ($query->get() as $blog) {
-//                $images = Media::where('model_id', $blog->id)
-//                    ->where('model_type', Blog::class)
-//                    ->get();
-//
-//                if(count($images) == 0) {
-//                    if (file_exists(public_path().asset('uploads/images/'.$blog->oldimage))) {
-//                        $blog->addMediaFromUrl(url('').asset('uploads/images/'.$blog->oldimage))->toMediaCollection('image');
-//                    }
-//                }
-//            }
             
             $table = Datatables::of($query);
             
@@ -105,6 +92,28 @@ class BlogController extends Controller
     
     public function store(StoreBlogRequest $request)
     {
+        if ($request->input('image', false)) {
+            $tempPath = storage_path('tmp/uploads/'.basename($request->input('image')));
+            // Validate the image dimensions
+            [$width, $height] = getimagesize($tempPath);
+            
+            if ($width != 750 || $height != 500) {
+                // Delete the temporary file if validation fails
+                if (file_exists($tempPath)) {
+                    unlink($tempPath);
+                }
+                return redirect()->back()->withInput()->withErrors([
+                    'image' => __("validation.image_dimensions", [
+                        'expected_width' => 750,
+                        'expected_height' => 500,
+                        'uploaded_width' => $width,
+                        'uploaded_height' => $height
+                    ]),
+                ]);
+            }
+        }
+        
+        // Proceed with creating the blog only if the validation passes
         $blog = Blog::create($request->all());
         
         if ($request->input('image', false)) {
@@ -140,10 +149,31 @@ class BlogController extends Controller
         
         if ($request->input('image', false)) {
             if ( ! $blog->image || $request->input('image') !== $blog->image->file_name) {
-                if ($blog->image) {
-                    $blog->image->delete();
+                $tempPath = storage_path('tmp/uploads/'.basename($request->input('image')));
+                // Validate the image dimensions
+                [$width, $height] = getimagesize($tempPath);
+                
+                if ($width != 750 || $height != 500) {
+                    // Delete the temporary file if validation fails
+                    if (file_exists($tempPath)) {
+                        unlink($tempPath);
+                    }
+                    return redirect()->back()->withErrors([
+                        'photo' => __("validation.image_dimensions", [
+                            'expected_width' => 750,
+                            'expected_height' => 500,
+                            'uploaded_width' => $width,
+                            'uploaded_height' => $height
+                        ]),
+                    ]);
                 }
-                $blog->addMedia(storage_path('tmp/uploads/'.basename($request->input('image'))))->toMediaCollection('image');
+                
+                if ( ! $blog->image || $request->input('image') !== $blog->image->file_name) {
+                    if ($blog->image) {
+                        $blog->image->delete();
+                    }
+                    $blog->addMedia($tempPath)->toMediaCollection('image');
+                }
             }
         } elseif ($blog->image) {
             $blog->image->delete();
@@ -179,8 +209,25 @@ class BlogController extends Controller
         $model = new Blog();
         $model->id = $request->input('crud_id', 0);
         $model->exists = true;
-        $media = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
         
-        return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
+        // Add the uploaded media to the collection
+        $media = $model->addMediaFromRequest('upload')
+            ->toMediaCollection('ck-media');
+        
+        // Generate conversions for the uploaded media
+        $media->refresh(); // Refresh media instance to ensure conversions are available
+        
+        $resizedPath = $media->getPath('ckeditor'); // Get the resized image's path
+        
+        // Ensure the resized image exists, then delete the original
+        $originalPath = $media->getPath(); // Path to the original image
+        if (file_exists($resizedPath) && file_exists($originalPath)) {
+            unlink($originalPath); // Delete the original image
+        }
+        
+        return response()->json([
+            'id' => $media->id,
+            'url' => $media->getUrl('ckeditor') // Return resized image URL
+        ], Response::HTTP_CREATED);
     }
 }

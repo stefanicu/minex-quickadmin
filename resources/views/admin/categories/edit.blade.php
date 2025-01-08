@@ -25,7 +25,7 @@
 
                 <div class="row">
 
-                    <div class="form-group col-5">
+                    <div class="form-group col-12 col-xl-5">
                         <label class="required" for="name">{{ trans('cruds.category.fields.name') }}</label>
                         <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text"
                                name="name" id="name" value="{{ old('name', $category->name) }}" required>
@@ -35,7 +35,7 @@
                         <span class="help-block">{{ trans('cruds.category.fields.name_helper') }}</span>
                     </div>
 
-                    <div class="form-group col-5">
+                    <div class="form-group col-12 col-xl-5">
                         <label class="required" for="slug">{{ trans('cruds.category.fields.slug') }}</label>
                         <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text"
                                name="slug" id="slug" value="{{ old('slug', $category->slug) }}" required>
@@ -45,7 +45,7 @@
                         <span class="help-block">{{ trans('cruds.category.fields.slug_helper') }}</span>
                     </div>
 
-                    <div class="form-group col-2">
+                    <div class="form-group col-12 col-xl-2">
                         <label for="page_views">{{ trans('cruds.category.fields.page_views') }}</label>
                         <input disabled class="form-control {{ $errors->has('page_views') ? 'is-invalid' : '' }}"
                                type="number" name="page_views" id="page_views"
@@ -60,7 +60,7 @@
 
                 <div class="row">
 
-                    <div class="form-group col-12 col-lg-6">
+                    <div class="form-group col-12 align-items-center">
                         <label for="cover_photo">{{ trans('cruds.category.fields.cover_photo') }}</label>
                         <div class="needsclick dropzone {{ $errors->has('cover_photo') ? 'is-invalid' : '' }}"
                              id="cover_photo-dropzone">
@@ -76,9 +76,9 @@
                     <label for="cover_photo">{{ trans('cruds.category.fields.product_image') }}</label>
                     <div class="row">
 
-                        <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1 mb-5">
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-5 align-items-center text-center">
 
-                            <div class="product_image_default">No Image</div>
+                            <div class="product_image_default m-auto">No Image</div>
 
                             <div class="h-10 pt-3">
                                 <input
@@ -86,12 +86,12 @@
                                         type="radio"
                                         name="product_image_id" value=""
                                 >
-                                <span>Reset Product Image</span>
+                                <span>Reset</span>
                             </div>
                         </div>
 
                         @foreach($product_images as $product)
-                            <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1 mb-5">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-5 align-items-center text-center">
 
                                 @if($product->getMainPhotoAttribute())
                                     <label for="image-{{ $product->id }}">
@@ -99,7 +99,7 @@
                                              alt="{{ $product->name }}" style="width: 100px; height: auto;">
                                     </label>
                                 @else
-                                    <div class="product_image_default">No Image</div>
+                                    <div class="product_image_default m-auto">No Image</div>
                                 @endif
 
                                 <div class="h-10 pt-3">
@@ -150,7 +150,7 @@
             <script>
                 Dropzone.options.coverPhotoDropzone = {
                     url: '{{ route('admin.categories.storeMedia') }}',
-                    maxFilesize: 4, // MB
+                    maxFilesize: 1, // MB
                     acceptedFiles: '.jpeg,.jpg,.png,.gif',
                     maxFiles: 1,
                     addRemoveLinks: true,
@@ -158,9 +158,7 @@
                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
                     },
                     params: {
-                        size: 4,
-                        // width: 1920,
-                        // height: 540
+                        size: 1,
                     },
                     success: function (file, response) {
                         $('form').find('input[name="cover_photo"]').remove()
