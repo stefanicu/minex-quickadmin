@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="row align-items-center">
-                    <div class="form-group col-8 col-xl-4 align-items-center">
+                    <div class="form-group col-12 col-xl-8 align-items-center">
                         <label for="logo">{{ trans('cruds.testimonial.fields.logo') }}</label>
                         <span class="help-block">{{ trans('cruds.testimonial.fields.logo_helper') }}</span>
                         <div class="needsclick dropzone {{ $errors->has('logo') ? 'is-invalid' : '' }} text-center"
@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-8 col-xl-4">
+                    <div class="form-group col-12 col-xl-4">
                         <label for="name">{{ trans('cruds.testimonial.fields.name') }}</label>
                         <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text"
                                name="name" id="name" value="{{ old('name', $testimonial->name) }}">
@@ -80,7 +80,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-8 col-xl-4">
+                    <div class="form-group col-12 col-xl-4">
                         <label for="job">{{ trans('cruds.testimonial.fields.job') }}</label>
                         <input class="form-control {{ $errors->has('job') ? 'is-invalid' : '' }}" type="text" name="job"
                                id="job" value="{{ old('job', $testimonial->job) }}">
@@ -92,7 +92,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-8 col-xl-4">
+                    <div class="form-group col-12 col-xl-4">
                         <label class="required" for="company">{{ trans('cruds.testimonial.fields.company') }}</label>
                         <input class="form-control {{ $errors->has('company') ? 'is-invalid' : '' }}" type="text"
                                name="company" id="company" value="{{ old('company', $testimonial->company) }}" required>
