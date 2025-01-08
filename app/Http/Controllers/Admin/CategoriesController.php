@@ -26,9 +26,11 @@ class CategoriesController extends Controller
         abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
         if ($request->ajax()) {
-//            $query = Category::with(['media','translations'])
-//                ->join('category_translations','categories.id','=','category_translations.category_id')
-//                ->where('category_translations.locale','=',app()->getLocale())
+//            $query = Category::with(['media', 'translations'])
+//                ->join('category_translations', function ($join) {
+//                    $join->on('categories.id', '=', 'category_translations.category_id')
+//                        ->where('category_translations.locale', '=', app()->getLocale());
+//                })
 //                ->select(sprintf('%s.*', (new Category)->table));
             
             $query = Category::with(['media', 'translations'])
@@ -37,10 +39,9 @@ class CategoriesController extends Controller
                         ->where('category_translations.locale', '=', app()->getLocale());
                 })
                 ->select([
-                    'categories.*',
+                    sprintf('%s.*', (new Category)->table),
                     DB::raw("COALESCE(category_translations.name, '---NO TRANSLATION---') as name"),
-                ])
-                ->get();
+                ]);
 
 
 //            foreach ($query->get() as $category) {
@@ -120,7 +121,7 @@ class CategoriesController extends Controller
                 return '';
             });
             
-            $table->rawColumns(['actions', 'placeholder', 'online', 'cover_photo']);
+            $table->rawColumns(['actions', 'placeholder', 'online', 'page_views', 'cover_photo']);
             
             return $table->make(true);
         }
