@@ -69,7 +69,7 @@
     <script>
         Dropzone.options.photoDropzone = {
             url: '{{ route('admin.industries.storeMedia') }}',
-            maxFilesize: 2, // MB
+            maxFilesize: 1, // MB
             acceptedFiles: '.svg',
             maxFiles: 1,
             addRemoveLinks: true,
@@ -77,9 +77,7 @@
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
             },
             params: {
-                size: 2,
-                width: 80,
-                height: 80
+                size: 1,
             },
             success: function (file, response) {
                 $('form').find('input[name="photo"]').remove()

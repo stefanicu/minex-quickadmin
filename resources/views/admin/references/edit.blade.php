@@ -265,17 +265,15 @@
         var uploadedPhotoSquareMap = {}
         Dropzone.options.photoSquareDropzone = {
             url: '{{ route('admin.references.storeMedia') }}',
-            maxFilesize: 2, // MB
+            maxFilesize: 1, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
-            maxFiles: 4,
+            maxFiles: 10,
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
             },
             params: {
-                size: 2,
-                // width: 360,
-                // height: 300
+                size: 1,
             },
             success: function (file, response) {
                 $('form').append('<input type="hidden" name="photo_square[]" value="' + response.name + '">')
@@ -331,7 +329,7 @@
     <script>
         Dropzone.options.photoWideDropzone = {
             url: '{{ route('admin.references.storeMedia') }}',
-            maxFilesize: 2, // MB
+            maxFilesize: 1, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
             maxFiles: 1,
             addRemoveLinks: true,
@@ -339,9 +337,7 @@
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
             },
             params: {
-                size: 2,
-                // width: 750,
-                // height: 300
+                size: 1,
             },
             success: function (file, response) {
                 $('form').find('input[name="photo_wide"]').remove()

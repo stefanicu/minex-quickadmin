@@ -113,7 +113,7 @@
     <script>
         Dropzone.options.coverPhotoDropzone = {
             url: '{{ route('admin.categories.storeMedia') }}',
-            maxFilesize: 4, // MB
+            maxFilesize: 1, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
             maxFiles: 1,
             addRemoveLinks: true,
@@ -121,9 +121,7 @@
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
             },
             params: {
-                size: 4,
-                width: 1920,
-                height: 540
+                size: 1,
             },
             success: function (file, response) {
                 $('form').find('input[name="cover_photo"]').remove()

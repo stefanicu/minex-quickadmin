@@ -156,16 +156,14 @@
         var uploadedLogoMap = {}
         Dropzone.options.logoDropzone = {
             url: '{{ route('admin.testimonials.storeMedia') }}',
-            maxFilesize: 4, // MB
+            maxFilesize: 1, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
             addRemoveLinks: true,
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
             },
             params: {
-                size: 4,
-                width: 360,
-                height: 300
+                size: 1,
             },
             success: function (file, response) {
                 $('form').append('<input type="hidden" name="logo[]" value="' + response.name + '">')

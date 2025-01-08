@@ -297,7 +297,7 @@
         var uploadedPhotoMap = {}
         Dropzone.options.photoDropzone = {
             url: '{{ route('admin.products.storeMedia') }}',
-            maxFilesize: 2, // MB
+            maxFilesize: 1, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
             maxFiles: 20,
             addRemoveLinks: true,
@@ -305,9 +305,7 @@
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
             },
             params: {
-                size: 2,
-                // width: 600,
-                // height: 600
+                size: 1,
             },
             success: function (file, response) {
                 $('form').append('<input type="hidden" name="photo[]" value="' + response.name + '">')
@@ -364,7 +362,7 @@
     <script>
         Dropzone.options.mainPhotoDropzone = {
             url: '{{ route('admin.products.storeMedia') }}',
-            maxFilesize: 2, // MB
+            maxFilesize: 1, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
             maxFiles: 1,
             addRemoveLinks: true,
@@ -372,9 +370,7 @@
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
             },
             params: {
-                size: 2,
-                // width: 600,
-                // height: 600
+                size: 1,
             },
             success: function (file, response) {
                 $('form').find('input[name="main_photo"]').remove()

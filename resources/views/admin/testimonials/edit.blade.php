@@ -188,7 +188,7 @@
     <script>
         Dropzone.options.logoDropzone = {
             url: '{{ route('admin.references.storeMedia') }}',
-            maxFilesize: 2, // MB
+            maxFilesize: 1, // MB
             acceptedFiles: '.jpeg,.jpg,.png,.gif',
             maxFiles: 1,
             addRemoveLinks: true,
@@ -196,9 +196,7 @@
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
             },
             params: {
-                size: 2,
-                // width: 360,
-                // height: 240
+                size: 1,
             },
             success: function (file, response) {
                 $('form').find('input[name="logo"]').remove()
