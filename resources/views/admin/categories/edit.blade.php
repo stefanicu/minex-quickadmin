@@ -97,37 +97,41 @@
 
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-5 align-items-center text-center">
 
-                            <div class="product_image_default m-auto">No Image</div>
+                            <div class="product_image">
+                                <div class="product_image_default m-auto">No Image</div>
 
-                            <div class="h-10 pt-3">
-                                <input
-                                        checked
-                                        type="radio"
-                                        name="product_image_id" value=""
-                                >
-                                <span>Reset</span>
+                                <div class="h-10 pt-3">
+                                    <input
+                                            checked
+                                            type="radio"
+                                            name="product_image_id" value=""
+                                    >
+                                    <span>Reset</span>
+                                </div>
                             </div>
                         </div>
 
                         @foreach($product_images as $product)
                             <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-5 align-items-center text-center">
+                                <div class="product_image">
+                                    @if($product->getMainPhotoAttribute())
+                                        <label for="image-{{ $product->id }}">
+                                            <img src="{{ $product->getMainPhotoAttribute()->getUrl('thumb') }}"
+                                                 alt="{{ $product->name }}"
+                                                 style="width: 100px; height: auto; cursor:pointer;">
+                                        </label>
+                                    @else
+                                        <div class="product_image_default m-auto">No Image</div>
+                                    @endif
 
-                                @if($product->getMainPhotoAttribute())
-                                    <label for="image-{{ $product->id }}">
-                                        <img src="{{ $product->getMainPhotoAttribute()->getUrl('thumb') }}"
-                                             alt="{{ $product->name }}" style="width: 100px; height: auto;">
-                                    </label>
-                                @else
-                                    <div class="product_image_default m-auto">No Image</div>
-                                @endif
-
-                                <div class="h-10 pt-3">
-                                    <input
-                                            {{ (old('product_image_id') ? old('product_image_id') : $category->product_image_id ?? '') == $product->id ? 'checked' : '' }}
-                                            type="radio"
-                                            name="product_image_id" value="{{ $product->id }}"
-                                    >
-                                    <span>{{ $product->name }}</span>
+                                    <div class="h-10 pt-3">
+                                        <input
+                                                {{ (old('product_image_id') ? old('product_image_id') : $category->product_image_id ?? '') == $product->id ? 'checked' : '' }}
+                                                type="radio"
+                                                name="product_image_id" value="{{ $product->id }}"
+                                        >
+                                        <span>{{ $product->name }}</span>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -218,5 +222,32 @@
                     }
                 }
 
+                $(document).ready(function () {
+                    // Add initial border to the checked radio button's parent
+                    $('input[type="radio"]:checked').closest('.product_image').css({
+                        'border': '10px solid #007bff',
+                        'border-radius': '20px'
+                    });
+
+                    // Listen for changes on radio buttons
+                    $('input[type="radio"]').on('change', function () {
+                        // Remove the border from all parent elements
+                        $('.product_image').css('border', 'none');
+
+                        // Add border to the parent of the checked radio button
+                        $(this).closest('.product_image').css({
+                            'border': '10px solid #007bff',
+                            'border-radius': '20px'
+                        });
+                    });
+                    $('.product_image').on('click', function () {
+                        // Find the radio button inside the clicked parent div and check it
+                        $(this).find('input[type="radio"]').prop('checked', true);
+
+                        // Optional: Add border to indicate selection
+                        $('.product_image').removeClass('selected'); // Remove from all
+                        $(this).addClass('selected'); // Add to the current one
+                    });
+                });
             </script>
 @endsection
