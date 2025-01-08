@@ -41,13 +41,27 @@
             <div class="row">
                 @if($products->count() === 0)
                     <div class="col-12">
-                        <h1 class="h2">{{ $category->name }}</h1>
+                        <div class="d-flex justify-content-between">
+                            <h1 class="h2">{{ $category->name }}</h1>
+                            @if(auth()->check())
+                                <a class="position-absolute mr-2"
+                                   href="{{ url('').'/admin/categories/'.$category->id.'/edit' }}"
+                                   target="_blank">Edit</a>
+                            @endif
+                        </div>
                         <hr>
                         <p>No Products</p>
                     </div>
                 @else
                     <div class="col-12 col-md-8">
-                        <h1 class="h2">{{ $category->name }}</h1>
+                        <div class="d-flex justify-content-between">
+                            <h1 class="h2">{{ $category->name }}</h1>
+                            @if(auth()->check())
+                                <a class="position-absolute mr-2"
+                                   href="{{ url('').'/admin/categories/'.$category->id.'/edit' }}"
+                                   target="_blank">Edit</a>
+                            @endif
+                        </div>
                         <hr>
                         <ul id="grid3_borders"
                             class="list-unstyled row justify-content-start assets-row main-row-prod main-row--grid">
@@ -90,6 +104,12 @@
                     </div>
                 @endif
             </div>
+            @if(auth()->check())
+                <a class="position-absolute mr-2" href="{{ url('').'/admin/categories/'.$category->id.'/edit' }}"
+                   target="_blank">Edit</a>
+            @endif
+            <br/>
+            <br/>
         </div>
     </section>
 

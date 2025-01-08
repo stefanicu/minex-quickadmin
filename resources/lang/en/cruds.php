@@ -400,7 +400,7 @@ return [
             'slug' => 'Slug',
             'slug_helper' => ' ',
             'cover_photo' => 'Cover Photo',
-            'cover_photo_helper' => ' ',
+            'cover_photo_helper' => 'Only .jpeg,.jpg,.png,.gif files are allowed. The image must have exact dimensions of 1920x580 pixels (width x height).',
             'product_image' => 'Product Image',
             'product_image_helper' => ' ',
             'page_views' => 'Page Views',

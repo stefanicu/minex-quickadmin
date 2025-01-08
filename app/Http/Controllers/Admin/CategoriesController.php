@@ -141,11 +141,33 @@ class CategoriesController extends Controller
     
     public function store(StoreCategoryRequest $request)
     {
-        $category = Category::create($request->all());
-        $category->applications()->sync($request->input('applications', []));
         if ($request->input('cover_photo', false)) {
-            $category->addMedia(storage_path('tmp/uploads/'.basename($request->input('cover_photo'))))->toMediaCollection('cover_photo');
+            $tempPath = storage_path('tmp/uploads/'.basename($request->input('cover_photo')));
+            // Validate the image dimensions
+            [$width, $height] = getimagesize($tempPath);
+            
+            if ($width != 1920 || $height != 580) {
+                // Delete the temporary file if validation fails
+                if (file_exists($tempPath)) {
+                    unlink($tempPath);
+                }
+                return redirect()->back()->withInput()->withErrors([
+                    'cover_photo' => __("validation.image_dimensions", [
+                        'expected_width' => 1920,
+                        'expected_height' => 580,
+                        'uploaded_width' => $width,
+                        'uploaded_height' => $height
+                    ]),
+                ]);
+            }
         }
+        
+        $category = Category::create($request->all());
+        
+        if ($request->input('cover_photo', false)) {
+            $category->addMedia($tempPath)->toMediaCollection('cover_photo');
+        }
+        
         
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $category->id]);
@@ -169,12 +191,30 @@ class CategoriesController extends Controller
             ->orderByTranslation('name')
             ->get();
         
+        $products_online = Product::whereHas('categories', function ($query) use ($categoryId) {
+            $query->where('categories.id', '=', $categoryId);
+        })
+            ->whereHas('media', function ($query) {
+                $query->where('collection_name', 'main_photo');
+            })
+            ->whereHas('translations', function ($query) {
+                $query->where('locale', app()->getLocale()) // Current language
+                ->where('online', 1); // Filter by online = 1
+            })
+            ->orderByTranslation('name')
+            ->get();
+        
+        $application = null;
+        if ($products_online && count($products_online) > 1) {
+            $product = $products_online->first();
+            $application = $product->applications()->first();
+        }
         
         $applications = ApplicationTranslation::where('locale', app()->getLocale())->pluck('name', 'application_id');
         
         //$category->load('product_image', 'applications');
         
-        return view('admin.categories.edit', compact('applications', 'category', 'product_images'));
+        return view('admin.categories.edit', compact('applications', 'category', 'product_images', 'application'));
     }
     
     public function update(UpdateCategoryRequest $request, Category $category)
@@ -182,12 +222,32 @@ class CategoriesController extends Controller
         $category->update($request->all());
         
         $category->applications()->sync($request->input('applications', []));
+        
         if ($request->input('cover_photo', false)) {
             if ( ! $category->cover_photo || $request->input('cover_photo') !== $category->cover_photo->file_name) {
+                $tempPath = storage_path('tmp/uploads/'.basename($request->input('cover_photo')));
+                // Validate the image dimensions
+                [$width, $height] = getimagesize($tempPath);
+                
+                if ($width != 1920 || $height != 580) {
+                    // Delete the temporary file if validation fails
+                    unlink($tempPath);
+                    
+                    return redirect()->back()->withErrors([
+                        'cover_photo' => __("validation.image_dimensions", [
+                            'expected_width' => 1920,
+                            'expected_height' => 580,
+                            'uploaded_width' => $width,
+                            'uploaded_height' => $height
+                        ]),
+                    ]);
+                }
+                
                 if ($category->cover_photo) {
                     $category->cover_photo->delete();
                 }
-                $category->addMedia(storage_path('tmp/uploads/'.basename($request->input('cover_photo'))))->toMediaCollection('cover_photo');
+                
+                $category->addMedia($tempPath)->toMediaCollection('cover_photo');
             }
         } elseif ($category->cover_photo) {
             $category->cover_photo->delete();

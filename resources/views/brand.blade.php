@@ -32,8 +32,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-8">
-                    <h1 class="h2"><?php
-                                   echo $brand->name; ?></h1>
+                    <div class="d-flex justify-content-between">
+                        <h1 class="h2">{{ $brand->name }}</h1>
+                        @if(auth()->check())
+                            <a class="position-absolute mr-2" href="{{ url('').'/admin/brands/'.$brand->id.'/edit' }}"
+                               target="_blank">Edit</a>
+                        @endif
+                    </div>
                     <hr>
                     @if( count($products) == 0 )
                         <span class="">{{ trans('pages.no_products') }}</span>
@@ -62,6 +67,11 @@
                                 @endif
                             @endforeach
                         </ul>
+                    @endif
+
+                    @if(auth()->check())
+                        <a class="position-absolute mr-2" href="{{ url('').'/admin/brands/'.$brand->id.'/edit' }}"
+                           target="_blank">Edit</a>
                     @endif
                 </div>
                 <div class="col-12 col-md-4 pb-3">
