@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Productfile;
+use App\Traits\HasMetaData;
 use Illuminate\Http\Request;
 
 class ProductBrandController extends Controller
 {
+    use HasMetaData;
+    
     public function index(Request $request)
     {
         if ( ! $request->brand_slug) {
@@ -107,6 +110,8 @@ class ProductBrandController extends Controller
             ->orderBy('brands.name')
             ->get();
         
+        $metaData = $this->getMetaData($product);
+        
         return view(
             'product_brand',
             compact(
@@ -120,6 +125,7 @@ class ProductBrandController extends Controller
                 'brandOfflineMessage',
                 'prod_slugs',
                 'brand_slugs',
+                'metaData'
             )
         );
     }

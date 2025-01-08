@@ -37,8 +37,19 @@
     <div class="container pb-4">
         <div class="row">
             <div class="col-12 col-md-8">
-                <h1 class="h2">{{ $product->name }}</h1>
+
+                <div class="d-flex justify-content-between">
+                    <h1 class="h2">{{ $product->name }}</h1>
+
+                    @if(auth()->check())
+                        <a class="position-absolute mr-2"
+                           href="{{ url('').'/admin/products/' . $product->id . '/edit' }}"
+                           target="_blank">Edit</a>
+                    @endif
+                </div>
+
                 <hr>
+
                 @if(!$brand || $brand->online === 1)
                     {!! $product->description !!}
                 @else
@@ -165,15 +176,13 @@
                             @endforeach
                         </ul>
                     @endif
-                </div>
 
-                <ul>
-                    @if($files)
-                        @foreach($files as $file)
-                            <li><a href='{{ url('') }}/uploads/files/{{ $file->name }}'>{{ $file->title }}</a></li>
-                        @endforeach
+                    @if(auth()->check())
+                        <a class="position-absolute mr-2"
+                           href="{{ url('').'/admin/products/' . $product->id . '/edit' }}"
+                           target="_blank">Edit</a>
                     @endif
-                </ul>
+                </div>
 
                 <p class="text-center">{{ trans('pages.ask_our_experts') }}</p>
                 <div class="panel panel-default">

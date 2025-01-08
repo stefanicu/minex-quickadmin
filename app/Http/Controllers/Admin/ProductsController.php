@@ -171,18 +171,74 @@ class ProductsController extends Controller
     
     public function store(StoreProductRequest $request)
     {
+        if ($request->input('main_photo', false)) {
+            $tempPath = storage_path('tmp/uploads/'.basename($request->input('main_photo')));
+            // Validate the image dimensions
+            [$width, $height] = getimagesize($tempPath);
+            
+            if ($width != 600 || $height != 600) {
+                // Delete the temporary file if validation fails
+                if (file_exists($tempPath)) {
+                    unlink($tempPath);
+                }
+                return redirect()->back()->withInput()->withErrors([
+                    'main_photo' => __("validation.image_dimensions", [
+                        'expected_width' => 600,
+                        'expected_height' => 600,
+                        'uploaded_width' => $width,
+                        'uploaded_height' => $height
+                    ]),
+                ]);
+            }
+        }
+        
+        if ($request->input('photo', false)) {
+            $index = 1;
+            foreach ($request->input('photo', []) as $file) {
+                $tempPath = storage_path('tmp/uploads/'.basename($file));
+                // Validate the image dimensions
+                [$width, $height] = getimagesize($tempPath);
+                
+                if ($width != 600 || $height != 600) {
+                    foreach ($request->input('photo', []) as $file_delete) {
+                        $tempPath = storage_path('tmp/uploads/'.basename($file_delete));
+                        
+                        // Delete the temporary file if validation fails
+                        if (file_exists($tempPath)) {
+                            unlink($tempPath);
+                        }
+                    }
+                    
+                    return redirect()->back()->withInput()->withErrors([
+                        'photo' => __("validation.multi_image_dimensions", [
+                            'expected_width' => 600,
+                            'expected_height' => 600,
+                            'uploaded_width' => $width,
+                            'uploaded_height' => $height,
+                            'index' => $index
+                        ]),
+                    ]);
+                }
+                $index++;
+            }
+        }
+        
         $product = Product::create($request->all());
         
         $product->applications()->sync($request->input('applications', []));
         $product->categories()->sync($request->input('categories', []));
         $product->references()->sync($request->input('references', []));
-        foreach ($request->input('photo', []) as $file) {
-            $product->addMedia(storage_path('tmp/uploads/'.basename($file)))->toMediaCollection('photo');
-        }
         
         if ($request->input('main_photo', false)) {
             $product->addMedia(storage_path('tmp/uploads/'.basename($request->input('main_photo'))))->toMediaCollection('main_photo');
         }
+        
+        if ($request->input('photo', false)) {
+            foreach ($request->input('photo', []) as $file) {
+                $product->addMedia(storage_path('tmp/uploads/'.basename($file)))->toMediaCollection('photo');
+            }
+        }
+        
         
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $product->id]);
@@ -197,6 +253,8 @@ class ProductsController extends Controller
         
         $currentLocale = app()->getLocale();
         
+        $brand = Brand::find($product->brand_id);
+        
         $brands = Brand::orderBy('name', 'asc')->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
         
         $applications = ApplicationTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name',
@@ -210,7 +268,7 @@ class ProductsController extends Controller
         
         //$product->load('brand', 'applications', 'categories', 'references');
         
-        return view('admin.products.edit', compact('product', 'brands', 'applications', 'categories', 'references'));
+        return view('admin.products.edit', compact('product', 'brands', 'applications', 'categories', 'references', 'brand'));
     }
     
     public function update(UpdateProductRequest $request, Product $product)
@@ -220,6 +278,39 @@ class ProductsController extends Controller
         $product->applications()->sync($request->input('applications', []));
         $product->categories()->sync($request->input('categories', []));
         $product->references()->sync($request->input('references', []));
+        
+        
+        if ($request->input('main_photo', false)) {
+            if ( ! $product->main_photo || $request->input('main_photo') !== $product->main_photo->file_name) {
+                if ($product->main_photo) {
+                    $product->main_photo->delete();
+                }
+                
+                $tempPath = storage_path('tmp/uploads/'.basename($request->input('main_photo')));
+                // Validate the image dimensions
+                [$width, $height] = getimagesize($tempPath);
+                
+                if ($width != 600 || $height != 600) {
+                    // Delete the temporary file if validation fails
+                    if (file_exists($tempPath)) {
+                        unlink($tempPath);
+                    }
+                    return redirect()->back()->withInput()->withErrors([
+                        'main_photo' => __("validation.image_dimensions", [
+                            'expected_width' => 600,
+                            'expected_height' => 600,
+                            'uploaded_width' => $width,
+                            'uploaded_height' => $height
+                        ]),
+                    ]);
+                }
+                
+                $product->addMedia($tempPath)->toMediaCollection('main_photo');
+            }
+        } elseif ($product->main_photo) {
+            $product->main_photo->delete();
+        }
+        
         if (count($product->photo) > 0) {
             foreach ($product->photo as $media) {
                 if ( ! in_array($media->file_name, $request->input('photo', []))) {
@@ -227,22 +318,38 @@ class ProductsController extends Controller
                 }
             }
         }
+        
         $media = $product->photo->pluck('file_name')->toArray();
+        $index = 1;
         foreach ($request->input('photo', []) as $file) {
             if (count($media) === 0 || ! in_array($file, $media)) {
+                $tempPath = storage_path('tmp/uploads/'.basename($file));
+                // Validate the image dimensions
+                [$width, $height] = getimagesize($tempPath);
+                
+                if ($width != 600 || $height != 600) {
+                    // Delete the temporary file if validation fails
+                    if (file_exists($tempPath)) {
+                        unlink($tempPath);
+                    }
+                    return redirect()->back()->withErrors([
+                        'photo' => __("validation.multi_image_dimensions", [
+                            'expected_width' => 600,
+                            'expected_height' => 600,
+                            'uploaded_width' => $width,
+                            'uploaded_height' => $height,
+                            'index' => $index
+                        ]),
+                    ]);
+                }
+            }
+            
+            $tempPath = storage_path('tmp/uploads/'.basename($file));
+            if (file_exists($tempPath)) {
                 $product->addMedia(storage_path('tmp/uploads/'.basename($file)))->toMediaCollection('photo');
             }
-        }
-        
-        if ($request->input('main_photo', false)) {
-            if ( ! $product->main_photo || $request->input('main_photo') !== $product->main_photo->file_name) {
-                if ($product->main_photo) {
-                    $product->main_photo->delete();
-                }
-                $product->addMedia(storage_path('tmp/uploads/'.basename($request->input('main_photo'))))->toMediaCollection('main_photo');
-            }
-        } elseif ($product->main_photo) {
-            $product->main_photo->delete();
+            
+            $index++;
         }
         
         return redirect()->route('admin.products.index');
