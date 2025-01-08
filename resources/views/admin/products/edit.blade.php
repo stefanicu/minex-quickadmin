@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-4">
+                    <div class="form-group col-12 col-xl-4">
                         <label class="required" for="name">{{ trans('cruds.product.fields.name') }}</label>
                         <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text"
                                name="name" id="name" value="{{ old('name',$product->name) }}" required>
@@ -52,7 +52,7 @@
                         @endif
                         <span class="help-block">{{ trans('cruds.product.fields.name_helper') }}</span>
                     </div>
-                    <div class="form-group col-4">
+                    <div class="form-group col-12 col-xl-4">
                         <label class="required" for="slug">{{ trans('cruds.product.fields.slug') }}</label>
                         <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text"
                                name="slug" id="slug" value="{{ old('slug',$product->slug) }}" required>
@@ -61,7 +61,7 @@
                         @endif
                         <span class="help-block">{{ trans('cruds.product.fields.slug_helper') }}</span>
                     </div>
-                    <div class="form-group col-4">
+                    <div class="form-group col-12 col-xl-4">
                         <label class="required" for="brand_id">{{ trans('cruds.product.fields.brand') }}</label>
                         <select class="form-control select2 {{ $errors->has('brand') ? 'is-invalid' : '' }}"
                                 name="brand_id" id="brand_id" required>
@@ -78,7 +78,7 @@
 
 
                 <div class="row">
-                    <div id="applications" class="form-group col-6">
+                    <div id="applications" class="form-group col-12 col-xl-6">
                         <label for="applications">{{ trans('cruds.product.fields.applications') }}</label>
                         <div style="padding-bottom: 4px">
                             <span class="btn btn-info btn-xs select-all"
@@ -97,7 +97,7 @@
                         @endif
                         <span class="help-block">{{ trans('cruds.product.fields.applications_helper') }}</span>
                     </div>
-                    <div id="categories" class="form-group col-6">
+                    <div id="categories" class="form-group col-12 col-xl-6">
                         <label for="categories">{{ trans('cruds.product.fields.categories') }}</label>
                         <div style="padding-bottom: 4px">
                             <span class="btn btn-info btn-xs select-all"
@@ -221,7 +221,7 @@
 
                 </div>
                 <div class="row">
-                    <div class="form-group col-4">
+                    <div class="form-group col-12 align-items-center">
                         <label for="main_photo">{{ trans('cruds.product.fields.main_photo') }}</label>
                         <div class="needsclick dropzone {{ $errors->has('main_photo') ? 'is-invalid' : '' }}"
                              id="main_photo-dropzone">
@@ -232,7 +232,7 @@
                         <span class="help-block">{{ trans('cruds.product.fields.main_photo_helper') }}</span>
                     </div>
 
-                    <div class="form-group col-8">
+                    <div class="form-group col-12 align-items-center">
                         <label for="photo">{{ trans('cruds.product.fields.photo') }}</label>
                         <div class="needsclick dropzone {{ $errors->has('photo') ? 'is-invalid' : '' }}"
                              id="photo-dropzone">
