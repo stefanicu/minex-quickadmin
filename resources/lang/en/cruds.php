@@ -114,7 +114,7 @@ return [
             'deleted_at' => 'Deleted at',
             'deleted_at_helper' => ' ',
             'photo' => 'Photo',
-            'photo_helper' => ' ',
+            'photo_helper' => 'Only .jpeg,.jpg,.png,.gif files are allowed. The image must have exact dimensions of 360x240 pixels (width x height).',
             'oldid' => 'Oldid',
             'oldid_helper' => ' ',
             'oldimage' => 'Oldimage',
