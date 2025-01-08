@@ -206,3 +206,15 @@ ul.pagination li.active a {
     width: 90%;
     text-align: right;
 }
+
+.product_image {
+    border: 10px solid #fff;
+    cursor: pointer;
+    user-select: none; /* Prevent text selection */
+    padding: 10px;
+}
+
+.product_image:hover {
+    border: 10px solid #ddd;
+    border-radius: 20px;
+}
