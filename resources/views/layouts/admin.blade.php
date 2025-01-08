@@ -154,25 +154,25 @@
             dom: 'lBfrtip<"actions">',
             buttons: [
                 // {
-                //   extend: 'selectAll',
-                //   className: 'btn-primary',
-                //   text: selectAllButtonTrans,
-                //   exportOptions: {
-                //     columns: ':visible'
-                //   },
-                //   action: function(e, dt) {
-                //     e.preventDefault()
-                //     dt.rows().deselect();
-                //     dt.rows({ search: 'applied' }).select();
-                //   }
+                //     extend: 'selectAll',
+                //     className: 'btn-primary',
+                //     text: selectAllButtonTrans,
+                //     exportOptions: {
+                //         columns: ':visible'
+                //     },
+                //     action: function (e, dt) {
+                //         e.preventDefault()
+                //         dt.rows().deselect();
+                //         dt.rows({search: 'applied'}).select();
+                //     }
                 // },
                 // {
-                //   extend: 'selectNone',
-                //   className: 'btn-primary',
-                //   text: selectNoneButtonTrans,
-                //   exportOptions: {
-                //     columns: ':visible'
-                //   }
+                //     extend: 'selectNone',
+                //     className: 'btn-primary',
+                //     text: selectNoneButtonTrans,
+                //     exportOptions: {
+                //         columns: ':visible'
+                //     }
                 // },
                 // {
                 //   extend: 'copy',
