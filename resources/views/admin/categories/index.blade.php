@@ -88,6 +88,8 @@
                 processing: true,
                 serverSide: true,
                 retrieve: true,
+                bDeferRender: true,
+                bSortClasses: true,
                 aaSorting: [],
                 ajax: "{{ route('admin.categories.index') }}",
                 columns: [
@@ -95,7 +97,7 @@
                     {data: 'id', name: 'id'},
                     // { data: 'online', name: 'online' },
                     {data: 'name', name: 'category_translations.name'},
-                    {data: 'page_views', name: 'page_views'},
+                    {data: 'page_views', name: 'page_views', searchable: false},
                     {
                         data: 'cover_photo',
                         name: 'cover_photo',
