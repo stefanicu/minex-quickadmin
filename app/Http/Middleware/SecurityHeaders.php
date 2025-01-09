@@ -28,7 +28,7 @@ class SecurityHeaders
             return $response;
         }
         
-        if ( ! config('app.debug')) {
+        if (config('app.env') != 'local') {
             $response->headers->set('Content-Security-Policy',
                 "default-src 'none'; ".
                 "connect-src 'self' 'nonce-{$nonce}' https://stats.g.doubleclick.net https://www.googleadservices.com https://region1.analytics.google.com https://www.google-analytics.com/ https://maps.googleapis.com https://cdnjs.cloudflare.com https://maps.googleapis.com https://www.gstatic.com/recaptcha/ https://www.google.com/recaptcha/ https://www.google-analytics.com/ https://www.googletagmanager.com;".
