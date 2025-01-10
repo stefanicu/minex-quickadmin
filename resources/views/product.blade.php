@@ -97,14 +97,16 @@
                     <!-- Tab Buttons -->
                     <div class="nav nav-tabs" role="tablist">
                         @if($product->specifications)
-                            <button class="nav-item nav-link active" id="{{ trans('pages.specifications') }}-btn"
+                            <button class="navprod-item navprod-link active"
+                                    id="{{ trans('pages.specifications') }}-btn"
                                     type="button"
                                     role="tab" aria-controls="{{ trans('pages.specifications') }}" aria-selected="true">
                                 {{ trans('pages.specifications') }}
                             </button>
                         @endif
                         @if($product->advantages)
-                            <button class="nav-item nav-link" id="{{ trans('pages.advantages') }}-btn" type="button"
+                            <button class="navprod-item navprod-link" id="{{ trans('pages.advantages') }}-btn"
+                                    type="button"
                                     role="tab"
                                     aria-controls="{{ trans('pages.advantages') }}"
                                     aria-selected="false">
@@ -112,7 +114,7 @@
                             </button>
                         @endif
                         @if($product->usages)
-                            <button class="nav-item nav-link" id="{{ trans('pages.usages') }}-btn" type="button"
+                            <button class="navprod-item navprod-link" id="{{ trans('pages.usages') }}-btn" type="button"
                                     role="tab"
                                     aria-controls="{{ trans('pages.usages') }}"
                                     aria-selected="false">
@@ -120,7 +122,8 @@
                             </button>
                         @endif
                         @if($product->accessories)
-                            <button class="nav-item nav-link" id="{{ trans('pages.accessories') }}-btn" type="button"
+                            <button class="navprod-item navprod-link" id="{{ trans('pages.accessories') }}-btn"
+                                    type="button"
                                     role="tab"
                                     aria-controls="{{ trans('pages.accessories') }}"
                                     aria-selected="false">
@@ -128,7 +131,8 @@
                             </button>
                         @endif
                         @if($references && $references->count()>0)
-                            <button class="nav-item nav-link" id="{{ trans('pages.references') }}-btn" type="button"
+                            <button class="navprod-item navprod-link" id="{{ trans('pages.references') }}-btn"
+                                    type="button"
                                     role="tab"
                                     aria-controls="{{ trans('pages.references') }}"
                                     aria-selected="false">
@@ -138,7 +142,7 @@
                     </div>
 
                     <!-- Tab Content -->
-                    <div class="tab-content mt-3" id="nav-tabContent">
+                    <div class="tab-content mt-3" id="navprod-tabContent">
                         @if($product->specifications)
                             <div class="tab-pane fade show active" id="{{ trans('pages.specifications') }}"
                                  role="tabpanel" aria-labelledby="{{ trans('pages.specifications') }}-btn">
@@ -265,7 +269,7 @@
 
             @if($categories && $categories->count() >0)
                 <div class="col-12 col-md-4">
-                    <h2 class="h3">{{ trans('pages.product_categories') }}</h2>
+                    <h2 class="h3 mt-0">{{ trans('pages.product_categories') }}</h2>
                     <ul class="list-group">
                         @foreach($categories as $cat)
                             <li class="list-group-item {{ $category->id == $cat->id ? 'active' : '' }}">
