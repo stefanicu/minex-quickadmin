@@ -14,7 +14,7 @@ document.querySelectorAll('.navprod-link').forEach(function (button) {
             this.classList.add('active');
             targetTab.classList.add('show', 'active');
         } else {
-            console.error('No tab found for ID:', targetId); // Debugging log
+            //console.error('No tab found for ID:', targetId); // Debugging log
         }
     });
 });
