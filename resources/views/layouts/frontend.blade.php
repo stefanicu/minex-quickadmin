@@ -70,7 +70,7 @@
     @endforeach
 
     <meta name="robots" content="max-snippet:-1,max-image-preview:large,max-video-preview:-1">
-    <link href="https://www.minexgroup.eu/img/favicon.png" rel="shortcut icon">
+    <link href="/img/favicon.png" rel="shortcut icon">
 
     @if(isset($metaData['meta_title']))
         <title>{{ $metaData['meta_title'] }}</title>
