@@ -145,7 +145,7 @@
     <link href="{{ asset('css/frontend.css') }}" rel="stylesheet">
 </head>
 <body>
-@if(auth()->check())
+@if(auth()->check() && 1==2)
     @if(!isset($metaData['meta_title']))
         <div class="w-100 p-2 text-center sticky-top bg-warning">No SEO meta data</div>
     @else
