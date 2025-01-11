@@ -274,19 +274,20 @@
             }
 
         });
-        {{--function formatItem (item) {--}}
-        {{--    if (item.loading) {--}}
-        {{--        return '{{ trans('global.searching') }}...';--}}
-        {{--    }--}}
-        {{--    var markup = "<div class='searchable-link' href='" + item.url + "'>";--}}
-        {{--    markup += "<div class='searchable-title'>" + item.model + "</div>";--}}
-        {{--    $.each(item.fields, function(key, field) {--}}
-        {{--        markup += "<div class='searchable-fields'>" + item.fields_formated[field] + " : " + item[field] + "</div>";--}}
-        {{--    });--}}
-        {{--    markup += "</div>";--}}
 
-        {{--    return markup;--}}
-        {{--}--}}
+        function formatItem(item) {
+            if (item.loading) {
+                return '{{ trans('global.searching') }}...';
+            }
+            var markup = "<div class='searchable-link' href='" + item.url + "'>";
+            markup += "<div class='searchable-title'>" + item.model + "</div>";
+            $.each(item.fields, function (key, field) {
+                markup += "<div class='searchable-fields'>" + item.fields_formated[field] + " : " + item[field] + "</div>";
+            });
+            markup += "</div>";
+
+            return markup;
+        }
 
         function formatItemSelection(item) {
             if (!item.model) {
