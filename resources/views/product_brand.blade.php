@@ -4,11 +4,11 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="/">{{ trans('menu.home') }}</a></li>
-                <li class="breadcrumb-item"><a
-                            href="{{ route('brands.'.app()->getLocale()) }}">{{ trans('pages.brands') }}</a></li>
+                <li class="breadcrumb-item">
+                    <a href="{{ route('brands.'.app()->getLocale()) }}">{{ trans('pages.brands') }}</a></li>
                 @if($brand)
-                    <li class="breadcrumb-item"><a
-                                href="{{ route('brand.'.app()->getLocale(), ['slug' => $brand->slug]) }}">{{ $brand->name }}</a>
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('brand.'.app()->getLocale(), ['slug' => $brand->slug]) }}">{{ $brand->name }}</a>
                     </li>
                 @endif
                 <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
@@ -26,8 +26,7 @@
                 {{--                <source data-srcset="{{ asset('/img/headers/aplicatie-lg.jpg') }}" media="(min-width: 992px)">--}}
                 {{--                <source data-srcset="{{ asset('/img/headers/aplicatie-md.jpg') }}" media="(min-width: 576px)">--}}
                 {{--                <source data-srcset="{{ asset('/img/headers/aplicatie-sm.jpg') }}" media="(max-width: 576px)">--}}
-                <img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ $cover_image_url }}"
-                     alt="{{ trans('pages.product') }}" data-loaded="true">
+                <img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ $cover_image_url }}" alt="{{ trans('pages.product') }}" data-loaded="true">
                 <noscript>
                     <img class="img-fluid lozad" src="{{ $cover_image_url }}" alt="{{ trans('pages.product') }}">
                 </noscript>
@@ -42,9 +41,7 @@
                     <h1 class="h2">{{ $product->name }}</h1>
 
                     @if(auth()->check())
-                        <a class="position-absolute mr-2"
-                           href="{{ url('').'/admin/products/' . $product->id . '/edit' }}"
-                           target="_blank">Edit</a>
+                        <a class="position-absolute mr-2" href="{{ url('').'/admin/products/' . $product->id . '/edit' }}" target="_blank">Edit</a>
                     @endif
                 </div>
 
@@ -143,26 +140,22 @@
                             </div>
                         @endif
                         @if($product->advantages)
-                            <div class="tab-pane fade" id="{{ trans('pages.advantages') }}" role="tabpanel"
-                                 aria-labelledby="{{ trans('pages.advantages') }}-btn">
+                            <div class="tab-pane fade" id="{{ trans('pages.advantages') }}" role="tabpanel" aria-labelledby="{{ trans('pages.advantages') }}-btn">
                                 {!! $product->advantages !!}
                             </div>
                         @endif
                         @if($product->usages)
-                            <div class="tab-pane fade" id="{{ trans('pages.usages') }}" role="tabpanel"
-                                 aria-labelledby="{{ trans('pages.usages') }}-btn">
+                            <div class="tab-pane fade" id="{{ trans('pages.usages') }}" role="tabpanel" aria-labelledby="{{ trans('pages.usages') }}-btn">
                                 {!! $product->usages !!}
                             </div>
                         @endif
                         @if($product->accessories)
-                            <div class="tab-pane fade" id="{{ trans('pages.accessories') }}" role="tabpanel"
-                                 aria-labelledby="{{ trans('pages.accessories') }}-btn">
+                            <div class="tab-pane fade" id="{{ trans('pages.accessories') }}" role="tabpanel" aria-labelledby="{{ trans('pages.accessories') }}-btn">
                                 {!! $product->accessories !!}
                             </div>
                         @endif
                         @if($references && $references->count()>0)
-                            <div class="tab-pane fade" id="{{ trans('pages.references') }}" role="tabpanel"
-                                 aria-labelledby="{{ trans('pages.references') }}-btn">
+                            <div class="tab-pane fade" id="{{ trans('pages.references') }}" role="tabpanel" aria-labelledby="{{ trans('pages.references') }}-btn">
                                 <ul>
                                     @foreach($references as $reference)
                                         <li>
@@ -182,9 +175,7 @@
                     @endif
 
                     @if(auth()->check())
-                        <a class="position-absolute mr-2"
-                           href="{{ url('').'/admin/products/' . $product->id . '/edit' }}"
-                           target="_blank">Edit</a>
+                        <a class="position-absolute mr-2" href="{{ url('').'/admin/products/' . $product->id . '/edit' }}" target="_blank">Edit</a>
                     @endif
                 </div>
 
@@ -204,8 +195,7 @@
                             <h4 class="panel-title">{{ trans('pages.contact_form') }}</h4>
                         </div>
                         <div class="card-body">
-                            <form class="px-0 px-md-4" id="detaliiprodus" autocomplete="off"
-                                  action="{{ url('') }}/contact/" method="post">
+                            <form class="px-0 px-md-4" id="detaliiprodus" autocomplete="off" action="{{ route('contact.post.'.app()->getLocale() }}" method="post">
                                 @csrf
                                 @include('.partials.form')
 
@@ -217,10 +207,8 @@
                                             <input type="hidden" id="ip" name="ip" value="{{ request()->ip() }}">
 
                                             @if(app()->isProduction())
-                                                <input type="hidden" class="hiddenRecaptcha form-control"
-                                                       name="hiddenRecaptcha" id="hiddenRecaptcha">
-                                                <div class="g-recaptcha"
-                                                     data-sitekey="6Lc-mScTAAAAAIoo8LHTWRuJhPUXdDFJoGV4ptBg"></div>
+                                                <input type="hidden" class="hiddenRecaptcha form-control" name="hiddenRecaptcha" id="hiddenRecaptcha">
+                                                <div class="g-recaptcha" data-sitekey="6Lc-mScTAAAAAIoo8LHTWRuJhPUXdDFJoGV4ptBg"></div>
                                             @endif
 
                                             @foreach($errors as $error)
@@ -233,8 +221,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit"
-                                        class="btn btn-primary btn-lg btn-block">{{ trans('pages.send_form') }}</button>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">{{ trans('pages.send_form') }}</button>
                             </form>
                         </div>
                     </div>
@@ -246,11 +233,9 @@
                     <div class="bxslider-related mx-auto">
                         @foreach($similar_products as $similar_product)
                             <div>
-                                <a href="{{ route('product_brand.'.app()->getLocale(), ['brand_slug' => $brand->slug, 'prod_slug' => $similar_product->slug]) }}"
-                                   class="bwWrapper">
+                                <a href="{{ route('product_brand.'.app()->getLocale(), ['brand_slug' => $brand->slug, 'prod_slug' => $similar_product->slug]) }}" class="bwWrapper">
                                     @if($similar_product->getMainPhotoAttribute())
-                                        <img src="{{ $similar_product->getMainPhotoAttribute()->getUrl() }}"
-                                             alt="{{ $similar_product->name }}" class="mx-auto img-fluid img-hover">
+                                        <img src="{{ $similar_product->getMainPhotoAttribute()->getUrl() }}" alt="{{ $similar_product->name }}" class="mx-auto img-fluid img-hover">
                                     @endif
                                     <p class="h5 assets-title row-icons--desc mt-4">{{ $similar_product->name }}</p>
                                 </a>
@@ -267,10 +252,9 @@
                         @foreach ($brands as $brnd)
                             @if($brnd->cnt >0)
                                 <li class="list-group-item {{ $brand->id == $brnd->id ? 'active' : '' }}">
-                                    <a href="{{ route('brand.'.app()->getLocale(), ['slug' => $brnd->slug]) }}"
-                                       class="d-flex justify-content-between align-items-center">
-                                        {{ $brnd->name }} <span
-                                                class="badge badge-primary badge-pill">{{ $brnd->cnt }}</span>
+                                    <a href="{{ route('brand.'.app()->getLocale(), ['slug' => $brnd->slug]) }}" class="d-flex justify-content-between align-items-center">
+                                        {{ $brnd->name }}
+                                        <span class="badge badge-primary badge-pill">{{ $brnd->cnt }}</span>
                                     </a>
                                 </li>
                             @endif
