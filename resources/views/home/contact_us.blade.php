@@ -10,8 +10,7 @@
     @else
         <div class="row justify-content-center">
             <div class="col-12 col-lg-5">
-                <form class="px-0 px-md-4" id="contactForm" autocomplete="off" action="{{ url('') }}/contact/"
-                      method="post" autocomplete="off">
+                <form class="px-0 px-md-4" id="contactForm" autocomplete="off" action="{{ route('contact.post.'.app()->getLocale() }}" method="post" autocomplete="off">
                     @csrf
                     @include('.partials.form')
 
@@ -23,10 +22,8 @@
                                 <input type="hidden" id="ip" name="ip" value="{{ request()->ip() }}">
 
                                 @if(app()->isProduction())
-                                    <input type="hidden" class="hiddenRecaptcha form-control" name="hiddenRecaptcha"
-                                           id="hiddenRecaptcha">
-                                    <div class="g-recaptcha"
-                                         data-sitekey="6Lc-mScTAAAAAIoo8LHTWRuJhPUXdDFJoGV4ptBg"></div>
+                                    <input type="hidden" class="hiddenRecaptcha form-control" name="hiddenRecaptcha" id="hiddenRecaptcha">
+                                    <div class="g-recaptcha" data-sitekey="6Lc-mScTAAAAAIoo8LHTWRuJhPUXdDFJoGV4ptBg"></div>
                                 @endif
 
                                 @foreach($errors as $error)
