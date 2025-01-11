@@ -195,7 +195,7 @@
                             <h4 class="panel-title">{{ trans('pages.contact_form') }}</h4>
                         </div>
                         <div class="card-body">
-                            <form class="px-0 px-md-4" id="detaliiprodus" autocomplete="off" action="{{ route('contact.post.'.app()->getLocale() }}" method="post">
+                            <form class="px-0 px-md-4" id="detaliiprodus" autocomplete="off" action="{{ route('contact.post.'.app()->getLocale()) }}" method="post">
                                 @csrf
                                 @include('.partials.form')
 
