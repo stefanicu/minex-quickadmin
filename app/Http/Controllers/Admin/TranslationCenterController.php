@@ -80,19 +80,34 @@ class TranslationCenterController extends Controller
                     if ( ! File::exists($langPath)) {
                         File::makeDirectory($langPath, 0755, true);
                     }
-                    File::put("{$langPath}/{$file->getFilename()}", "<?php\n\nreturn ".var_export([], true).";\n");
+                    
+                    // Write an empty structure with keys from English and empty values
+                    $emptyData = $this->emptyValues($englishData);
+                    File::put("{$langPath}/{$file->getFilename()}", "<?php\n\nreturn ".var_export($emptyData, true).";\n");
                 }
                 
-                // Load the language file
+                // Load the existing language file
                 $langData = File::getRequire("{$langPath}/{$file->getFilename()}");
                 
-                // Merge missing keys from English and flatten the data
-                $mergedData = array_replace_recursive($englishData, $langData);
+                // Merge missing keys from English, keeping values empty for missing keys
+                $mergedData = array_replace_recursive($this->emptyValues($englishData), $langData);
                 $translations[$lang][$filename] = $this->flattenArray($mergedData);
             }
         }
         
-        return view('admin.translations.strings', compact('languages', 'translations'));
+        return view('admin.translationCenters.strings', compact('languages', 'translations'));
+    }
+    
+    /**
+     * Recursively convert all values in an array to empty strings, keeping the keys intact.
+     */
+    private function emptyValues(array $array)
+    {
+        $result = [];
+        foreach ($array as $key => $value) {
+            $result[$key] = is_array($value) ? $this->emptyValues($value) : '';
+        }
+        return $result;
     }
     
     /**
