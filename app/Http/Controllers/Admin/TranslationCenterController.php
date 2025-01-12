@@ -95,7 +95,7 @@ class TranslationCenterController extends Controller
             }
         }
         
-        return view('admin.translationCenters.strings', compact('languages', 'translations'));
+        return view('admin.translations.strings', compact('languages', 'translations'));
     }
     
     /**
