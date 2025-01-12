@@ -12,6 +12,7 @@ use App\Models\Brand;
 use App\Models\CategoryTranslation;
 use App\Models\Product;
 use App\Models\ReferenceTranslation;
+use App\Services\ChatGPTService;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,9 +20,17 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
+
 class ProductsController extends Controller
 {
     use MediaUploadingTrait;
+    
+    protected $chatGptService;
+    
+    public function __construct(ChatGPTService $chatGptService)
+    {
+        $this->chatGptService = $chatGptService;
+    }
     
     public function index(Request $request)
     {
@@ -30,37 +39,23 @@ class ProductsController extends Controller
         if ($request->ajax()) {
             $currentLocale = app()->getLocale();
             
-            $query = Product::with(
-                'translations',
-                'media',
-                'brand',
-                'brand.translations',
-                'applications.translations',
-                'applications.media',
-                'categories.translations',
-                'categories.media',
-            )
-                ->leftJoin('product_translations', function ($join) use ($currentLocale) {
-                    $join->on('products.id', '=', 'product_translations.product_id')
-                        ->where('product_translations.locale', $currentLocale);
-                })
-                ->leftJoin('category_product', 'products.id', '=', 'category_product.product_id')
-                ->leftJoin('categories', 'categories.id', '=', 'category_product.category_id')
-                ->leftJoin('category_translations', function ($join) use ($currentLocale) {
-                    $join->on('categories.id', '=', 'category_translations.category_id')
-                        ->where('category_translations.locale', $currentLocale);
-                })
-                ->leftJoin('brands', function ($join) use ($currentLocale) {
-                    $join->on('products.brand_id', '=', 'brands.id')
-                        ->whereNull('brands.deleted_at');
-                })
-                ->select(
-                    'products.id',
-                    'brands.name as brand_name',
-                    DB::raw("COALESCE(product_translations.name, '--- NO TRANSLATION ---') as name"),
-                    DB::raw("GROUP_CONCAT(DISTINCT category_translations.name ORDER BY category_translations.name ASC SEPARATOR ', ') as category_names")
-                )
-                ->groupBy('products.id', 'product_translations.name', 'brands.name');
+            $query = Product::with('translations', 'media', 'brand', 'brand.translations', 'applications.translations',
+                'applications.media', 'categories.translations', 'categories.media',)->leftJoin('product_translations',
+                function ($join) use ($currentLocale) {
+                    $join->on('products.id', '=',
+                        'product_translations.product_id')->where('product_translations.locale', $currentLocale);
+                })->leftJoin('category_product', 'products.id', '=',
+                'category_product.product_id')->leftJoin('categories', 'categories.id', '=',
+                'category_product.category_id')->leftJoin('category_translations',
+                function ($join) use ($currentLocale) {
+                    $join->on('categories.id', '=',
+                        'category_translations.category_id')->where('category_translations.locale', $currentLocale);
+                })->leftJoin('brands', function ($join) use ($currentLocale) {
+                $join->on('products.brand_id', '=', 'brands.id')->whereNull('brands.deleted_at');
+            })->select('products.id', 'brands.name as brand_name',
+                DB::raw("COALESCE(product_translations.name, '--- NO TRANSLATION ---') as name"),
+                DB::raw("GROUP_CONCAT(DISTINCT category_translations.name ORDER BY category_translations.name ASC SEPARATOR ', ') as category_names"))->groupBy('products.id',
+                'product_translations.name', 'brands.name');
             
             $table = Datatables::of($query);
             
@@ -73,13 +68,8 @@ class ProductsController extends Controller
                 $deleteGate = 'product_delete';
                 $crudRoutePart = 'products';
                 
-                return view('partials.datatablesActions', compact(
-                    'viewGate',
-                    'editGate',
-                    'deleteGate',
-                    'crudRoutePart',
-                    'row'
-                ));
+                return view('partials.datatablesActions',
+                    compact('viewGate', 'editGate', 'deleteGate', 'crudRoutePart', 'row'));
             });
             
             $table->editColumn('id', function ($row) {
@@ -114,29 +104,29 @@ class ProductsController extends Controller
                 
                 return implode(' ', $labels);
             });
-//            $table->editColumn('photo', function ($row) {
-//                if (! $row->photo) {
-//                    return '';
-//                }
-//                $links = [];
-//                foreach ($row->photo as $media) {
-//                    $links[] = '<a href="' . $media->getUrl() . '" target="_blank"><img src="' . $media->getUrl('thumb') . '" width="50" height="50px"></a>';
-//                }
-//
-//                return implode(' ', $links);
-//            });
-//
-//            $table->editColumn('main_photo', function ($row) {
-//                if ($photo = $row->main_photo) {
-//                    return sprintf(
-//                        '<a href="%s" target="_blank"><img src="%s" width="auto" height="50px"></a>',
-//                        $photo->url,
-//                        $photo->thumbnail
-//                    );
-//                }
-//
-//                return '';
-//            });
+            //            $table->editColumn('photo', function ($row) {
+            //                if (! $row->photo) {
+            //                    return '';
+            //                }
+            //                $links = [];
+            //                foreach ($row->photo as $media) {
+            //                    $links[] = '<a href="' . $media->getUrl() . '" target="_blank"><img src="' . $media->getUrl('thumb') . '" width="50" height="50px"></a>';
+            //                }
+            //
+            //                return implode(' ', $links);
+            //            });
+            //
+            //            $table->editColumn('main_photo', function ($row) {
+            //                if ($photo = $row->main_photo) {
+            //                    return sprintf(
+            //                        '<a href="%s" target="_blank"><img src="%s" width="auto" height="50px"></a>',
+            //                        $photo->url,
+            //                        $photo->thumbnail
+            //                    );
+            //                }
+            //
+            //                return '';
+            //            });
             
             $table->rawColumns([
                 'actions', 'placeholder', 'online', 'brand', 'applications', 'categories', 'photo', 'main_photo'
@@ -183,9 +173,7 @@ class ProductsController extends Controller
                 }
                 return redirect()->back()->withInput()->withErrors([
                     'main_photo' => __("validation.image_dimensions", [
-                        'expected_width' => 600,
-                        'expected_height' => 600,
-                        'uploaded_width' => $width,
+                        'expected_width' => 600, 'expected_height' => 600, 'uploaded_width' => $width,
                         'uploaded_height' => $height
                     ]),
                 ]);
@@ -211,11 +199,8 @@ class ProductsController extends Controller
                     
                     return redirect()->back()->withInput()->withErrors([
                         'photo' => __("validation.multi_image_dimensions", [
-                            'expected_width' => 600,
-                            'expected_height' => 600,
-                            'uploaded_width' => $width,
-                            'uploaded_height' => $height,
-                            'index' => $index
+                            'expected_width' => 600, 'expected_height' => 600, 'uploaded_width' => $width,
+                            'uploaded_height' => $height, 'index' => $index
                         ]),
                     ]);
                 }
@@ -268,7 +253,13 @@ class ProductsController extends Controller
         
         //$product->load('brand', 'applications', 'categories', 'references');
         
-        return view('admin.products.edit', compact('product', 'brands', 'applications', 'categories', 'references', 'brand'));
+        
+        if (empty($product->name)) {
+            $product->name = $this->chatGptService->translate($product->translate('en')->name, $currentLocale, 'en');
+        }
+        
+        return view('admin.products.edit',
+            compact('product', 'brands', 'applications', 'categories', 'references', 'brand'));
     }
     
     public function update(UpdateProductRequest $request, Product $product)
@@ -297,9 +288,7 @@ class ProductsController extends Controller
                     }
                     return redirect()->back()->withInput()->withErrors([
                         'main_photo' => __("validation.image_dimensions", [
-                            'expected_width' => 600,
-                            'expected_height' => 600,
-                            'uploaded_width' => $width,
+                            'expected_width' => 600, 'expected_height' => 600, 'uploaded_width' => $width,
                             'uploaded_height' => $height
                         ]),
                     ]);
@@ -334,11 +323,8 @@ class ProductsController extends Controller
                     }
                     return redirect()->back()->withErrors([
                         'photo' => __("validation.multi_image_dimensions", [
-                            'expected_width' => 600,
-                            'expected_height' => 600,
-                            'uploaded_width' => $width,
-                            'uploaded_height' => $height,
-                            'index' => $index
+                            'expected_width' => 600, 'expected_height' => 600, 'uploaded_width' => $width,
+                            'uploaded_height' => $height, 'index' => $index
                         ]),
                     ]);
                 }
