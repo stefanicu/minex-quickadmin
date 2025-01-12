@@ -58,19 +58,19 @@ class ReferencesController extends Controller
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
-//            $table->addColumn('industries_online', function ($row) {
-//                return $row->industries ? $row->industries->online : '';
-//            });
-//
-//            $table->editColumn('industries.name', function ($row) {
-//                return $row->industries ? (is_string($row->industries) ? $row->industries : $row->industries->name) : '';
-//            });
+            //            $table->addColumn('industries_online', function ($row) {
+            //                return $row->industries ? $row->industries->online : '';
+            //            });
+            //
+            //            $table->editColumn('industries.name', function ($row) {
+            //                return $row->industries ? (is_string($row->industries) ? $row->industries : $row->industries->name) : '';
+            //            });
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled '.($row->online ? 'checked' : null).'>';
             });
-//            $table->editColumn('language', function ($row) {
-//                return $row->language ? Reference::LANGUAGE_SELECT[$row->language] : '';
-//            });
+            //            $table->editColumn('language', function ($row) {
+            //                return $row->language ? Reference::LANGUAGE_SELECT[$row->language] : '';
+            //            });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });
@@ -130,7 +130,7 @@ class ReferencesController extends Controller
                     unlink($tempPath);
                 }
                 return redirect()->back()->withInput()->withErrors([
-                    'photo_wide' => __("validation.image_dimensions", [
+                    'photo_wide' => __("admin.image_dimensions", [
                         'expected_width' => 750,
                         'expected_height' => 300,
                         'uploaded_width' => $width,
@@ -221,7 +221,7 @@ class ReferencesController extends Controller
                         unlink($tempPath);
                     }
                     return redirect()->back()->withInput()->withErrors([
-                        'photo_wide' => __("validation.image_dimensions", [
+                        'photo_wide' => __("admin.image_dimensions", [
                             'expected_width' => 750,
                             'expected_height' => 300,
                             'uploaded_width' => $width,
