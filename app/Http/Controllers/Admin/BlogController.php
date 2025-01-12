@@ -103,7 +103,7 @@ class BlogController extends Controller
                     unlink($tempPath);
                 }
                 return redirect()->back()->withInput()->withErrors([
-                    'image' => __("validation.image_dimensions", [
+                    'image' => __("admin.image_dimensions", [
                         'expected_width' => 750,
                         'expected_height' => 500,
                         'uploaded_width' => $width,
@@ -130,16 +130,16 @@ class BlogController extends Controller
     public function edit(Blog $blog)
     {
         abort_if(Gate::denies('blog_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-//        $images = Media::where('model_id', $blog->id)
-//            ->where('model_type', Blog::class)
-//            ->get();
-//
-//        if(count($images) == 0) {
-//            if (file_exists(public_path().asset('uploads/images/'.$blog->oldimage))) {
-//                $blog->addMediaFromUrl(url('').asset('uploads/images/'.$blog->oldimage))->toMediaCollection('image');
-//            }
-//        }
+        
+        //        $images = Media::where('model_id', $blog->id)
+        //            ->where('model_type', Blog::class)
+        //            ->get();
+        //
+        //        if(count($images) == 0) {
+        //            if (file_exists(public_path().asset('uploads/images/'.$blog->oldimage))) {
+        //                $blog->addMediaFromUrl(url('').asset('uploads/images/'.$blog->oldimage))->toMediaCollection('image');
+        //            }
+        //        }
         return view('admin.blogs.edit', compact('blog'));
     }
     
@@ -159,7 +159,7 @@ class BlogController extends Controller
                         unlink($tempPath);
                     }
                     return redirect()->back()->withErrors([
-                        'photo' => __("validation.image_dimensions", [
+                        'photo' => __("admin.image_dimensions", [
                             'expected_width' => 750,
                             'expected_height' => 500,
                             'uploaded_width' => $width,
