@@ -97,7 +97,7 @@ class BrandsController extends Controller
                     unlink($tempPath);
                 }
                 return redirect()->back()->withInput()->withErrors([
-                    'photo' => __("validation.image_dimensions", [
+                    'photo' => __("admin.image_dimensions", [
                         'expected_width' => 360,
                         'expected_height' => 240,
                         'uploaded_width' => $width,
@@ -143,7 +143,7 @@ class BrandsController extends Controller
                     unlink($tempPath);
                     
                     return redirect()->back()->withErrors([
-                        'photo' => __("validation.image_dimensions", [
+                        'photo' => __("admin.image_dimensions", [
                             'expected_width' => 360,
                             'expected_height' => 240,
                             'uploaded_width' => $width,
