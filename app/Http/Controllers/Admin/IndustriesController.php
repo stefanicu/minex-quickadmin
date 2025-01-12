@@ -24,10 +24,10 @@ class IndustriesController extends Controller
         abort_if(Gate::denies('industry_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
         if ($request->ajax()) {
-//            $query = Industry::with(['translations', 'media'])
-//                ->leftjoin('industry_translations', 'industries.id', '=', 'industry_translations.industry_id')
-//                ->where('industry_translations.locale', '=', app()->getLocale())
-//                ->select(sprintf('%s.*', (new Industry)->table));
+            //            $query = Industry::with(['translations', 'media'])
+            //                ->leftjoin('industry_translations', 'industries.id', '=', 'industry_translations.industry_id')
+            //                ->where('industry_translations.locale', '=', app()->getLocale())
+            //                ->select(sprintf('%s.*', (new Industry)->table));
             
             $query = Industry::with(['translations', 'media'])
                 ->leftJoin('industry_translations', function ($join) {
@@ -65,9 +65,9 @@ class IndustriesController extends Controller
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled '.($row->online ? 'checked' : null).'>';
             });
-//            $table->editColumn('language', function ($row) {
-//                return $row->language ? Industry::LANGUAGE_SELECT[$row->language] : '';
-//            });
+            //            $table->editColumn('language', function ($row) {
+            //                return $row->language ? Industry::LANGUAGE_SELECT[$row->language] : '';
+            //            });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });
@@ -114,7 +114,7 @@ class IndustriesController extends Controller
                     unlink($tempPath);
                 }
                 return redirect()->back()->withInput()->withErrors([
-                    'photo' => __("validation.image_dimensions", [
+                    'photo' => __("admin.image_dimensions", [
                         'expected_width' => 80,
                         'expected_height' => 80,
                         'uploaded_width' => $width,
@@ -161,7 +161,7 @@ class IndustriesController extends Controller
                         unlink($tempPath);
                     }
                     return redirect()->back()->withErrors([
-                        'photo' => __("validation.image_dimensions", [
+                        'photo' => __("admin.image_dimensions", [
                             'expected_width' => 80,
                             'expected_height' => 80,
                             'uploaded_width' => $width,
