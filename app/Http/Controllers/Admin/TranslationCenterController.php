@@ -64,106 +64,83 @@ class TranslationCenterController extends Controller
         $languages = config('translatable.locales'); // Example: ['en', 'ro', 'bg']
         $basePath = resource_path('lang');
         $translations = [];
-        $englishLangPath = "{$basePath}/en"; // English translations folder
+        
+        $englishPath = "{$basePath}/en";
+        $englishFiles = File::exists($englishPath) ? File::allFiles($englishPath) : [];
         
         foreach ($languages as $lang) {
             $langPath = "{$basePath}/{$lang}";
             
-            // Check if the language folder exists, if not create it
-            if ( ! File::exists($langPath)) {
-                File::makeDirectory($langPath, 0755, true);
-            }
-            
-            // Copy missing files from the English version if the language folder exists
-            $englishFiles = File::allFiles($englishLangPath);
             foreach ($englishFiles as $file) {
-                $destination = "{$langPath}/".$file->getFilename();
-                // Only copy the file if it doesn't already exist in the target language
-                if ( ! File::exists($destination)) {
-                    File::copy($file->getPathname(), $destination);
-                }
-            }
-            
-            // Now load translations for the language (including newly copied files if any)
-            if (File::exists($langPath)) {
-                $files = File::allFiles($langPath);
+                $filename = $file->getFilenameWithoutExtension();
+                $englishData = File::getRequire($file->getPathname());
                 
-                foreach ($files as $file) {
-                    $filename = $file->getFilenameWithoutExtension();
-                    
-                    // Use File::getRequire() to load the translations for the file
-                    $translations[$lang][$filename] = $this->loadTranslationsFromFile($file->getPathname());
+                // Ensure the language file exists; create it if missing
+                if ( ! File::exists("{$langPath}/{$file->getFilename()}")) {
+                    if ( ! File::exists($langPath)) {
+                        File::makeDirectory($langPath, 0755, true);
+                    }
+                    File::put("{$langPath}/{$file->getFilename()}", "<?php\n\nreturn ".var_export([], true).";\n");
                 }
+                
+                // Load the language file
+                $langData = File::getRequire("{$langPath}/{$file->getFilename()}");
+                
+                // Merge missing keys from English and flatten the data
+                $mergedData = array_replace_recursive($englishData, $langData);
+                $translations[$lang][$filename] = $this->flattenArray($mergedData);
             }
         }
         
         return view('admin.translations.strings', compact('languages', 'translations'));
     }
     
-    private function loadTranslationsFromFile($filePath)
+    /**
+     * Flatten a multidimensional array into a dot notation array.
+     */
+    private function flattenArray(array $array, $prefix = '')
     {
-        // Load the translations from the file
-        $translations = require $filePath;
-        
-        // Check if it's a multi-level array and process accordingly
-        return $this->flattenTranslations($translations);
-    }
-    
-    private function flattenTranslations($translations, $prefix = '')
-    {
-        $flattened = [];
-        
-        foreach ($translations as $key => $value) {
-            $newKey = $prefix ? $prefix.'.'.$key : $key;
-            
+        $result = [];
+        foreach ($array as $key => $value) {
+            $newKey = $prefix === '' ? $key : "{$prefix}.{$key}";
             if (is_array($value)) {
-                // Recursively flatten nested arrays
-                $flattened = array_merge($flattened, $this->flattenTranslations($value, $newKey));
+                $result = array_merge($result, $this->flattenArray($value, $newKey));
             } else {
-                // Non-array values, store them directly
-                $flattened[$newKey] = $value;
+                $result[$newKey] = $value;
             }
         }
-        
-        return $flattened;
+        return $result;
     }
     
-    public function updateStrings(Request $request, $lang)
+    
+    public function update(Request $request, $lang)
     {
+        $basePath = resource_path('lang');
         $file = $request->input('file');
-        $translations = $request->input('translations');
+        $translations = $request->input('translations', []);
         
-        // Load the existing file to preserve its structure
-        $filePath = resource_path("lang/{$lang}/{$file}.php");
+        // Retrieve the original data from the file
+        $filePath = "{$basePath}/{$lang}/{$file}.php";
+        $originalData = File::exists($filePath) ? File::getRequire($filePath) : [];
         
-        if (File::exists($filePath)) {
-            $existingTranslations = require $filePath;
-        } else {
-            $existingTranslations = [];
-        }
+        // Rebuild the array structure from dot notation
+        $updatedData = $this->rebuildArray($translations, $originalData);
         
-        // Rebuild the nested array from the flattened input
-        $updatedTranslations = $this->expandTranslations($translations);
+        // Save the updated translations back to the file
+        File::put($filePath, "<?php\n\nreturn ".var_export($updatedData, true).";\n");
         
-        // Merge the updated translations with existing ones
-        $mergedTranslations = array_merge_recursive($existingTranslations, $updatedTranslations);
-        
-        // Export the merged translations back to the file
-        $content = "<?php\n\nreturn ".var_export($mergedTranslations, true).";\n";
-        File::put($filePath, $content);
-        
-        return redirect()->back()->with('success', __('Translations updated successfully.'));
+        return redirect()->back()->with('success', 'Translations updated successfully!');
     }
     
-    private function expandTranslations(array $translations)
+    /**
+     * Rebuild a multidimensional array from a dot notation array.
+     */
+    private function rebuildArray(array $flatArray, array $originalData = [])
     {
-        $expanded = [];
-        
-        foreach ($translations as $key => $value) {
-            // Handle nested keys using dot notation
-            Arr::set($expanded, $key, $value);
+        $rebuilt = $originalData;
+        foreach ($flatArray as $key => $value) {
+            Arr::set($rebuilt, $key, $value);
         }
-        
-        return $expanded;
+        return $rebuilt;
     }
 }
