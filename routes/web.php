@@ -70,8 +70,9 @@ Route::group([
     Route::resource('testimonials', 'TestimonialsController', ['except' => ['show']]);
     
     // Translation Center
-    Route::resource('translation-centers', 'TranslationCenterController',
-        ['except' => ['create', 'store', 'show', 'destroy']]);
+    Route::get('translation/dbmodels', 'TranslationCenterController@index')->name('translation.dbmodels');
+    Route::get('translation/strings', 'TranslationCenterController@strings')->name('translation.strings');
+    Route::post('translation/strings/update', 'TranslationCenterController@updateStrings')->name('translation.strings.update');
     
     // Categories
     Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
