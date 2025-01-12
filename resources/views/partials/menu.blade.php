@@ -152,26 +152,48 @@
                         </a>
                     </li>
                 @endcan
-                @can('translation_center_access')
-                    <li class="nav-item">
-                        <a href="{{ route("admin.translation-centers.index") }}"
-                           class="nav-link {{ request()->is("admin/translation-centers") || request()->is("admin/translation-centers/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-language">
 
-                            </i>
-                            <p>
-                                {{ trans('cruds.translationCenter.title') }}
-                            </p>
+
+
+
+                @can('translation_center_access')
+                    <li class="nav-item has-treeview {{ request()->is("admin/translation*") ? "menu-open" : "" }} {{ request()->is("admin/translation/dbmodels*") ? "menu-open" : "" }} {{ request()->is("admin/translation/strings*") ? "menu-open" : "" }}">
+                        <a class="nav-link nav-dropdown-toggle {{ request()->is("admin/translation*") ? "active" : "" }} {{ request()->is("admin/translation/dbmodels*") ? "active" : "" }} {{ request()->is("admin/translation/strings*") ? "active" : "" }}" href="#"">
+
+                        <i class="fa-fw nav-icon fas fa-language"></i>
+                        <p>
+                            {{ trans('cruds.translationCenter.title') }}
+                            <i class="right fa fa-fw fa-angle-left nav-icon"></i>
+                        </p>
                         </a>
+
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route("admin.translation.dbmodels") }}" class="nav-link {{ request()->is("admin/translation/dbmodels") || request()->is("admin/translation/dbmodels/*") ? "active" : "" }}">
+                                    <i class="fa-fw nav-icon fas fa-unlock-alt"></i>
+                                    <p>{{ trans('admin.translation_db_models') }}</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route("admin.translation.strings") }}" class="nav-link {{ request()->is("admin/translation/strings") || request()->is("admin/translation/strings/*") ? "active" : "" }}">
+                                    <i class="fa-fw nav-icon fas fa-briefcase"></i>
+                                    <p>{{ trans('admin.translation_static_strings') }}</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 @endcan
+
+
+
+
+
+
                 @can('user_management_access')
                     <li class="nav-item has-treeview {{ request()->is("admin/permissions*") ? "menu-open" : "" }} {{ request()->is("admin/roles*") ? "menu-open" : "" }} {{ request()->is("admin/users*") ? "menu-open" : "" }}">
-                        <a class="nav-link nav-dropdown-toggle {{ request()->is("admin/permissions*") ? "active" : "" }} {{ request()->is("admin/roles*") ? "active" : "" }} {{ request()->is("admin/users*") ? "active" : "" }}"
-                           href="#">
-                            <i class="fa-fw nav-icon fas fa-users">
-
-                            </i>
+                        <a class="nav-link nav-dropdown-toggle {{ request()->is("admin/permissions*") ? "active" : "" }} {{ request()->is("admin/roles*") ? "active" : "" }} {{ request()->is("admin/users*") ? "active" : "" }}" href="#">
+                            <i class="fa-fw nav-icon fas fa-users"></i>
                             <p>
                                 {{ trans('cruds.userManagement.title') }}
                                 <i class="right fa fa-fw fa-angle-left nav-icon"></i>
