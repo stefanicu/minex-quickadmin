@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="min-height: 917px;">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
-        <span class="brand-text font-weight-light">{{ trans('panel.site_title') }}</span>
+        <span class="brand-text font-weight-light">{{ trans('admin.site_title') }}</span>
     </a>
 
     <!-- Sidebar -->
@@ -223,7 +223,7 @@
                             <i class="fas fa-fw fa-sign-out-alt nav-icon">
 
                             </i>
-                            <p>{{ trans('global.logout') }}</p>
+                        <p>{{ trans('global.logout') }}</p>
                         </p>
                     </a>
                 </li>
