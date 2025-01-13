@@ -98,17 +98,23 @@ class ProductBrandController extends Controller
         }
         
         $brands = Brand::leftJoin('brand_translations', 'brands.id', '=', 'brand_translations.brand_id')
-            ->leftJoin('products', 'brands.id', '=', 'products.brand_id')
-            ->leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
-            ->selectRaw('brands.id, brands.name, brands.slug, COUNT(products.id) as cnt')
-            //->where('brands.online', '=', 1)
-            //->where('brand_translations.online', '=', 1)
+            ->leftJoin('products', function ($join) {
+                $join->on('brands.id', '=', 'products.brand_id')
+                    ->whereNull('products.deleted_at'); // Exclude soft-deleted products
+            })
+            ->leftJoin('product_translations', function ($join) use ($currentLocale) {
+                $join->on('products.id', '=', 'product_translations.product_id')
+                    ->where('product_translations.locale', '=', $currentLocale);
+            })
+            ->selectRaw('brands.id, brands.name, brands.slug, COUNT(DISTINCT products.id) as cnt')
+            ->where('brand_translations.online', '=', 1)
             ->where('brand_translations.locale', '=', $currentLocale)
-            ->where('product_translations.locale', '=', $currentLocale)
-            ->groupByRaw('brands.id, brands.name, brands.slug')
+            ->groupBy('brands.id', 'brands.name', 'brands.slug')
             ->having('cnt', '>', 0) // Exclude brands with no products
             ->orderBy('brands.name')
-            ->get();
+            ->toRawSql();
+        
+        dd($brands);
         
         $metaData = $this->getMetaData($product);
         
