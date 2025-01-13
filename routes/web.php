@@ -69,6 +69,7 @@ Route::group([
     Route::get('translation/dbmodels', 'TranslationCenterController@index')->name('translation.dbmodels');
     Route::get('translation/strings', 'TranslationCenterController@strings')->name('translation.strings');
     Route::post('translation/{lang}/update/', 'TranslationCenterController@updateStrings')->name('translation.strings.update');
+    Route::post('/translations/translate/{locale}', 'TranslationCenterController@translate')->name('admin.translations.translate');
     
     // Categories
     Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
