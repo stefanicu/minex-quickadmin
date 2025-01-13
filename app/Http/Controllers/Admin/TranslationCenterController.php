@@ -108,7 +108,7 @@ class TranslationCenterController extends Controller
         foreach ($array as $key => $value) {
             $result[$key] = is_array($value) ? $this->emptyValues($value) : '';
         }
-        return $result;
+        return $array;//$result;
     }
     
     /**
