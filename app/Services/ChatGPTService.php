@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-namespace App\Services;
-
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 
@@ -26,9 +24,32 @@ class ChatGPTService
         // Initialize if not already done
         self::init();
         
-        $prompt = "Translate the following text from {$sourceLanguage} to {$targetLanguage}: {$text}";
+        // Prevent translating special HTML entities (like &laquo;, &raquo;)
+        $originalText = $text;
+        $protectedEntities = ['&laquo;', '&raquo;'];
         
-        return self::sendRequest($prompt);
+        // Replace the protected entities with placeholders
+        $placeholders = [];
+        foreach ($protectedEntities as $index => $entity) {
+            $placeholder = "%%PROTECTED_ENTITY_{$index}%%";
+            $placeholders[$entity] = $placeholder;
+            $text = str_replace($entity, $placeholder, $text);
+        }
+        
+        // Prepare the translation prompt
+        $prompt = "Translate the following text from {$sourceLanguage} to {$targetLanguage}. Provide only the translated word/phrase, without any additional explanation:\n\n{$text}";
+        
+        // Get the translated text
+        $translatedText = self::sendRequest($prompt);
+        
+        // Replace placeholders back with the original entities
+        if ($translatedText) {
+            foreach ($placeholders as $entity => $placeholder) {
+                $translatedText = str_replace($placeholder, $entity, $translatedText);
+            }
+        }
+        
+        return $translatedText;
     }
     
     public static function generateSeoMeta($title, $description)
