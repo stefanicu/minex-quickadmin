@@ -44,9 +44,12 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         @foreach(config('panel.available_languages') as $langLocale => $langName)
-                            <a class="dropdown-item"
-                               href="{{ url()->current() }}?change_language={{ $langLocale }}">{{ strtoupper($langLocale) }}
-                                ({{ $langName }})</a>
+                            @if($langLocale != app()->getLocale())
+                                <a class="dropdown-item"
+                                   href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['lang' => $langLocale])) }}">
+                                    {{ strtoupper($langLocale) }}
+                                </a>
+                            @endif
                         @endforeach
                     </div>
                 </li>
