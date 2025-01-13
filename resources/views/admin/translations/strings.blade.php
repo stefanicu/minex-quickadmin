@@ -14,9 +14,6 @@
                     {{ session('success') }}
                 </div>
             @endif
-            <div id="loading-spinner" style="display: none;">
-                <img src="path_to_spinner.gif" alt="Loading..."/>
-            </div>
 
             <ul class="nav nav-tabs">
                 @foreach($languages as $lang)
@@ -54,6 +51,18 @@
 
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>
+
+                            @foreach($languages as $lang)
+                                @if($lang !== 'en')
+                                    {{-- Skip English --}}
+                                    <form method="POST" action="{{ route('admin.translations.translate', $lang) }}" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="btn btn-secondary">
+                                            Translate to {{ strtoupper($lang) }}
+                                        </button>
+                                    </form>
+                                @endif
+                            @endforeach
                         </div>
                     @endforeach
                 </div>
