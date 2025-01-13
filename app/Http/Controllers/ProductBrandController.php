@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Productfile;
 use App\Traits\HasMetaData;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductBrandController extends Controller
 {
@@ -97,22 +98,29 @@ class ProductBrandController extends Controller
             $brand_slugs[$locale] = $slug_brand;
         }
         
+        // Step 1: Count products grouped by brand_id
+        $productCounts = DB::table('products')
+            ->join('product_translations', 'products.id', '=', 'product_translations.product_id')
+            ->selectRaw('products.brand_id, COUNT(*) as cnt')
+            ->where('products.deleted_at', '=', null) // Exclude soft-deleted products
+            ->where('product_translations.locale', '=', $currentLocale)
+            ->groupBy('products.brand_id')
+            ->get();
+        
+        // Step 2: Attach brand details to the counts
         $brands = Brand::leftJoin('brand_translations', 'brands.id', '=', 'brand_translations.brand_id')
-            ->leftJoin('products', function ($join) {
-                $join->on('brands.id', '=', 'products.brand_id')
-                    ->whereNull('products.deleted_at'); // Exclude soft-deleted products
-            })
-            ->leftJoin('product_translations', function ($join) use ($currentLocale) {
-                $join->on('products.id', '=', 'product_translations.product_id')
-                    ->where('product_translations.locale', '=', $currentLocale);
-            })
-            ->selectRaw('brands.id, brands.name, brands.slug, COUNT(DISTINCT products.id) as cnt')
+            ->select('brands.id', 'brands.name', 'brands.slug')
             ->where('brand_translations.online', '=', 1)
             ->where('brand_translations.locale', '=', $currentLocale)
-            ->groupBy('brands.id', 'brands.name', 'brands.slug')
-            ->having('cnt', '>', 0) // Exclude brands with no products
-            ->orderBy('brands.name')
-            ->get();
+            ->get()
+            ->map(function ($brand) use ($productCounts) {
+                $brand->cnt = $productCounts->firstWhere('brand_id', $brand->id)->cnt ?? 0;
+                return $brand;
+            })
+            ->filter(function ($brand) {
+                return $brand->cnt > 0; // Only keep brands with products
+            })
+            ->sortBy('name'); // Order by name
         
         $metaData = $this->getMetaData($product);
         
