@@ -85,7 +85,7 @@
                            value="1" {{ old('checkbox') ? 'checked' : '' }}>
                     {{ trans('form.field_checkbox') }}
                     <a href="{{ route('gdpr.'.app()->getLocale()) }}"
-                       target="_blank"><strong>{{ trans('frontend.gdpr_compliance') }}</strong></a>
+                       target="_blank"><strong>{{ trans('pages.gdpr_compliance') }}</strong></a>
                 </label>
             </div>
         </div>

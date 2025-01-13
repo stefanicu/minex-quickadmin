@@ -21,12 +21,12 @@
 
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('home.'.app()->getLocale()) }}">{{ trans('menu.home') }}</a>
+                <a class="nav-link" href="{{ route('home.'.app()->getLocale()) }}">{{ trans('pages.home') }}</a>
             </li>
 
             <li class="nav-item dropdown has-mega-menu">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-                   aria-expanded="false">{{ trans('menu.products') }}<b class="caret"></b></a>
+                   aria-expanded="false">{{ trans('pages.products') }}<b class="caret"></b></a>
                 <div class="dropdown-menu dropdown-menu--main">
                     <div class="px-0 container-fluid">
                         <div class="container">
@@ -66,27 +66,27 @@
 
             <li class="nav-item">
                 <a class="nav-link"
-                   href="{{ route(  'brands.' . app()->getLocale() ) }}">{{ trans('menu.brands') }}</a>
+                   href="{{ route(  'brands.' . app()->getLocale() ) }}">{{ trans('pages.brands') }}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"
-                   href="{{ route(  'references.' . app()->getLocale() ) }}">{{ trans('menu.references') }}</a>
+                   href="{{ route(  'references.' . app()->getLocale() ) }}">{{ trans('pages.references') }}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"
-                   href="{{ route(  'testimonials.' . app()->getLocale() ) }}">{{ trans('menu.testimonials') }}</a>
+                   href="{{ route(  'testimonials.' . app()->getLocale() ) }}">{{ trans('pages.testimonials') }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route(  'blogs.' . app()->getLocale() ) }}">{{ trans('menu.blog') }}</a>
+                <a class="nav-link" href="{{ route(  'blogs.' . app()->getLocale() ) }}">{{ trans('pages.blog') }}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link"
-                   href="{{ route(  'contact.get.' . app()->getLocale() ) }}">{{ trans('menu.contact') }}</a>
+                   href="{{ route(  'contact.get.' . app()->getLocale() ) }}">{{ trans('pages.contact') }}</a>
             </li>
         </ul>
         <form class="form-inline form-inline__menu my-2 ml-auto searchbox" method="get"
               action="{{ route('search.'.app()->getLocale()) }}">
-            <input type="search" placeholder="{{ trans('menu.search') }}..." name="search"
+            <input type="search" placeholder="{{ trans('pages.search') }}..." name="search"
                    class="form-control searchbox-input"
                    onkeyup="buttonUp();" required autocomplete="off">
 

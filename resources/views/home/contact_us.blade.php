@@ -8,7 +8,7 @@
     </div>
 
     @if(session('success'))
-        <div class="multumim-center">{{ trans('frontend.contact_thank_you') }}</div>
+        <div class="multumim-center">{{ trans('pages.contact_thank_you') }}</div>
     @else
         <div class="row justify-content-center">
             <div class="col-12 col-lg-5">

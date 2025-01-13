@@ -4,7 +4,7 @@
     <div class="container-fluid cover p-0">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="/">{{ trans('menu.home') }}</a></li>
+                <li class="breadcrumb-item"><a href="/">{{ trans('pages.home') }}</a></li>
                 <li class="breadcrumb-item"><a
                             href="{{ route('brands.'.app()->getLocale()) }}">{{ trans('pages.brands') }}</a></li>
                 <li class="breadcrumb-item active" aria-current="page"><?= $brand->name; ?></li>
@@ -75,7 +75,7 @@
                     @endif
                 </div>
                 <div class="col-12 col-md-4 pb-3">
-                    <h2 class="h3">{{ trans('menu.brands') }}</h2>
+                    <h2 class="h3">{{ trans('pages.brands') }}</h2>
                     <ul class="list-group">
                         @foreach ($brands as $brnd)
                             @if($brnd->cnt >0)

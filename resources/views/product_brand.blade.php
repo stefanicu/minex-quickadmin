@@ -3,7 +3,7 @@
     <div class="container-fluid cover p-0">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="/">{{ trans('menu.home') }}</a></li>
+                <li class="breadcrumb-item"><a href="/">{{ trans('pages.home') }}</a></li>
                 <li class="breadcrumb-item"><a
                             href="{{ route('brands.'.app()->getLocale()) }}">{{ trans('pages.brands') }}</a></li>
                 @if($brand)
@@ -197,7 +197,7 @@
 
 
                 @if(session('success'))
-                    <div id="contact" class="multumim-center">{{ trans('frontend.contact_thank_you') }}</div>
+                    <div id="contact" class="multumim-center">{{ trans('pages.contact_thank_you') }}</div>
                 @else
                     <div class="card my-4">
                         <div class="card-header">
@@ -262,7 +262,7 @@
 
             @if($brands && $brands->count() >0)
                 <div class="col-12 col-md-4 pb-3">
-                    <h2 class="h3 mt-0">{{ trans('menu.brands') }}</h2>
+                    <h2 class="h3 mt-0">{{ trans('pages.brands') }}</h2>
                     <ul class="list-group">
                         @foreach ($brands as $brnd)
                             @if($brnd->cnt >0)

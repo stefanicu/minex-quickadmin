@@ -18,7 +18,7 @@
                 <h2 class="h3">{{ $integrated_solutions->name }}</h2>
                 {!! $integrated_solutions->first_text !!}
                 <hr>
-                <p class="text-center">{{ trans('frontend.see_what_we_have_done') }}</p>
+                <p class="text-center">{{ trans('pages.see_what_we_have_done') }}</p>
 
                 <ul class="d-flex mx-auto list-unstyled justify-content-center flex-wrap row-icons">
                     @foreach($integrated_solutions_industries as $integrated_solutions_industry)

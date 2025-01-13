@@ -16,7 +16,7 @@
         <div class="v-alighn px-4">
             @if($consultancy)
                 <h2 class="h3">{{ $consultancy->name }}</h2>
-                <p>{{ trans('frontend.see_what_we_have_done') }}:</p>
+                <p>{{ trans('pages.see_what_we_have_done') }}:</p>
                 <ul>
                     @foreach($consultancy_references as $consultancy_reference)
                         <li>

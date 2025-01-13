@@ -3,7 +3,7 @@
     <div class="container-fluid cover p-0">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="/">{{ trans('menu.home') }}</a></li>
+                <li class="breadcrumb-item"><a href="/">{{ trans('pages.home') }}</a></li>
                 @if($application->slug)
                     <li class="breadcrumb-item"><a
                                 href="{{ route('categories.'.app()->getLocale(), ['app_slug' =>$application->slug]) }}">{{ $application->name }}</a>
@@ -204,7 +204,7 @@
 
 
                 @if(session('success'))
-                    <div id="contact" class="multumim-center">{{ trans('frontend.contact_thank_you') }}</div>
+                    <div id="contact" class="multumim-center">{{ trans('pages.contact_thank_you') }}</div>
                 @else
                     <div class="card my-4">
                         <div class="card-header">
