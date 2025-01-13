@@ -48,7 +48,7 @@ class HomeController extends Controller
             ->where('locale', '=', app()->getLocale())
             ->whereIn('references.id', array(26, 2, 4, 3, 28, 27))
             ->orderByRaw('FIELD(references.id,26,2,4,3,28,27)')
-            ->get();;
+            ->get();
         
         
         $maintenance = FrontPage::leftJoin('front_page_translations', 'front_pages.id', '=',
@@ -80,7 +80,7 @@ class HomeController extends Controller
             ->where('locale', '=', app()->getLocale())
             ->whereIn('references.id', array(3, 5, 6, 7, 10, 12, 14, 15))
             ->orderByRaw('FIELD(references.id,3,5,6,7,10,12,14,15)')
-            ->get();;;
+            ->get();
         
         
         $about_us = FrontPage::leftJoin('front_page_translations', 'front_pages.id', '=',
