@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Symfony\Component\HttpFoundation\Response;
@@ -128,7 +129,7 @@ class TranslationCenterController extends Controller
     }
     
     
-    public function update(Request $request, $lang)
+    public function updateStrings(Request $request, $lang)
     {
         $basePath = resource_path('lang');
         $file = $request->input('file');
@@ -143,6 +144,9 @@ class TranslationCenterController extends Controller
         
         // Save the updated translations back to the file
         File::put($filePath, "<?php\n\nreturn ".var_export($updatedData, true).";\n");
+        
+        // Wait for the file to be written
+        sleep(3); // Wait for 1 second
         
         return redirect()->back()->with('success', 'Translations updated successfully!');
     }
