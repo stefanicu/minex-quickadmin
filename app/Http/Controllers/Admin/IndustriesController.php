@@ -179,7 +179,7 @@ class IndustriesController extends Controller
             $industry->photo->delete();
         }
         
-        return redirect()->route('admin.industries.index');
+        return redirect()->route('admin.industries.edit', $industry)->withInput()->withErrors([]);
     }
     
     public function destroy(Industry $industry)

@@ -177,7 +177,7 @@ class TestimonialsController extends Controller
             $testimonial->logo->delete();
         }
         
-        return redirect()->route('admin.testimonials.index');
+        return redirect()->route('admin.testimonials.edit', $testimonial)->withInput()->withErrors([]);
     }
     
     public function destroy(Testimonial $testimonial)

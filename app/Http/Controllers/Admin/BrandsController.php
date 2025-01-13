@@ -162,7 +162,7 @@ class BrandsController extends Controller
             $brand->photo->delete();
         }
         
-        return redirect()->route('admin.brands.index');
+        return redirect()->route('admin.brands.edit', $brand)->withInput()->withErrors([]);
     }
     
     public function destroy(Brand $brand)

@@ -25,10 +25,10 @@ class ApplicationsController extends Controller
         abort_if(Gate::denies('application_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
         if ($request->ajax()) {
-//            $query = Application::with(['media', 'translations'])
-//                ->join('application_translations', 'applications.id', '=', 'application_translations.application_id')
-//                ->where('application_translations.locale', '=', app()->getLocale())
-//                ->select(sprintf('%s.*', (new Application)->table));
+            //            $query = Application::with(['media', 'translations'])
+            //                ->join('application_translations', 'applications.id', '=', 'application_translations.application_id')
+            //                ->where('application_translations.locale', '=', app()->getLocale())
+            //                ->select(sprintf('%s.*', (new Application)->table));
             
             $query = Application::with(['media', 'translations'])
                 ->leftJoin('application_translations', function ($join) {
@@ -39,21 +39,21 @@ class ApplicationsController extends Controller
                     sprintf('%s.*', (new Application)->getTable()),
                     DB::raw("COALESCE(application_translations.name, '---NO TRANSLATION---') as name")
                 ]);
-
-
-//            foreach ($query->get() as $application) {
-//                $image = Media::where('model_id', $application->id)
-//                    ->where('model_type', Application::class)
-//                    ->get();
-//
-//                if(count($image) == 0) {
-//                    if (file_exists(public_path().asset('uploads/images/'.$application->oldimage))) {
-//                        $application->addMediaFromUrl(
-//                            url('').asset('uploads/images/'.$application->oldimage)
-//                        )->toMediaCollection('image');
-//                    }
-//                }
-//            }
+            
+            
+            //            foreach ($query->get() as $application) {
+            //                $image = Media::where('model_id', $application->id)
+            //                    ->where('model_type', Application::class)
+            //                    ->get();
+            //
+            //                if(count($image) == 0) {
+            //                    if (file_exists(public_path().asset('uploads/images/'.$application->oldimage))) {
+            //                        $application->addMediaFromUrl(
+            //                            url('').asset('uploads/images/'.$application->oldimage)
+            //                        )->toMediaCollection('image');
+            //                    }
+            //                }
+            //            }
             
             
             $table = Datatables::of($query);
@@ -161,7 +161,7 @@ class ApplicationsController extends Controller
             $application->image->delete();
         }
         
-        return redirect()->route('admin.applications.index');
+        return redirect()->route('admin.applications.edit', $application)->withInput()->withErrors([]);
     }
     
     public function destroy(Application $application)

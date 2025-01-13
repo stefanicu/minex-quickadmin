@@ -338,7 +338,7 @@ class ProductsController extends Controller
             $index++;
         }
         
-        return redirect()->route('admin.products.index');
+        return redirect()->route('admin.products.edit', $product)->withInput()->withErrors([]);
     }
     
     public function destroy(Product $product)

@@ -254,7 +254,7 @@ class CategoriesController extends Controller
             $category->cover_photo->delete();
         }
         
-        return redirect()->route('admin.categories.index');
+        return redirect()->route('admin.categories.edit', $category)->withInput()->withErrors([]);
     }
     
     public function destroy(Category $category)
