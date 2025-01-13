@@ -62,7 +62,7 @@
                             </form>
                             @if($lang !== 'en')
                                 {{-- Skip English --}}
-                                <form method="POST" action="{{ route('admin.translations.translate', $lang) }}" class="absolute top-1">
+                                <form id="myForm" method="POST" action="{{ route('admin.translations.translate', $lang) }}" class="absolute top-1">
                                     @csrf
                                     <button type="submit" class="btn btn-success"
                                             onclick="location.href='{{ route('admin.translations.translate', $lang) }}'"
