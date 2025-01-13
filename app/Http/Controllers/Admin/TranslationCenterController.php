@@ -27,6 +27,11 @@ class TranslationCenterController extends Controller
             'applications' => ['table' => 'applications', 'translation_table' => 'application_translations', 'foreign_key' => 'application_id', 'filter' => ['online' => 1]],
             'categories' => ['table' => 'categories', 'translation_table' => 'category_translations', 'foreign_key' => 'category_id', 'filter' => ['online' => 1]],
             'brands' => ['table' => 'brands', 'translation_table' => 'brand_translations', 'foreign_key' => 'brand_id', 'filter' => ['online' => 1]],
+            'products' => ['table' => 'products', 'translation_table' => 'product_translations', 'foreign_key' => 'product_id', 'filter' => ['online' => 1]],
+            'industries' => ['table' => 'industries', 'translation_table' => 'industry_translations', 'foreign_key' => 'industry_id', 'filter' => ['online' => 1]],
+            'references' => ['table' => 'references', 'translation_table' => 'reference_translations', 'foreign_key' => 'reference_id', 'filter' => ['online' => 1]],
+            'testimonials' => ['table' => 'testimonials', 'translation_table' => 'testimonial_translations', 'foreign_key' => 'testimonial_id', 'filter' => ['online' => 1]],
+            'blogs' => ['table' => 'blogs', 'translation_table' => 'blog_translations', 'foreign_key' => 'blog_id', 'filter' => ['online' => 1]],
         ];
         
         $data = [];
