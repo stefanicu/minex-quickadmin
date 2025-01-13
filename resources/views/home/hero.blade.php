@@ -6,10 +6,12 @@
 		</svg>
     </button>
     <div class="animate-area--text text-center">
-        {!! $hero->first_text !!}
-        <p class="animate-area--sub">
-            @php echo strip_tags($hero->second_text,'<br><strong><b>') @endphp
-        </p>
+        @if($hero)
+            {!! $hero->first_text !!}
+            <p class="animate-area--sub">
+                @php echo strip_tags($hero->second_text,'<br><strong><b>') @endphp
+            </p>
+        @endif
     </div>
     <div class="animate-area--cover"></div>
     <div class="animate-area--static"></div>
