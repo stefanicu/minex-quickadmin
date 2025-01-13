@@ -112,28 +112,28 @@ foreach (config('translatable.locales') as $locale) {
         // Translatable routes with language-specific names and slugs
         
         // Blog
-        Route::get(trans('pages_slugs.blog', [], $locale), 'BlogsController@index')->name("blogs.$locale");
-        Route::get(trans('pages_slugs.blog', [], $locale).'/{slug?}', 'BlogController@index')->name("blog.$locale");
+        Route::get(trans('slugs.blog', [], $locale), 'BlogsController@index')->name("blogs.$locale");
+        Route::get(trans('slugs.blog', [], $locale).'/{slug?}', 'BlogController@index')->name("blog.$locale");
         
         // Brands --- Partners
-        Route::get(trans('pages_slugs.brands', [], $locale), 'BrandsController@index')->name("brands.$locale");
-        Route::get(trans('pages_slugs.brand', [], $locale).'/{slug}/', 'BrandController@index')->name("brand.$locale");
+        Route::get(trans('slugs.brands', [], $locale), 'BrandsController@index')->name("brands.$locale");
+        Route::get(trans('slugs.brand', [], $locale).'/{slug}/', 'BrandController@index')->name("brand.$locale");
         
         // Application (categories) ==> Category (products)
-        Route::get(trans('pages_slugs.products', [], $locale).'/{app_slug?}', 'ApplicationController@index')->name("categories.$locale");
-        Route::get(trans('pages_slugs.products', [], $locale).'/{app_slug?}'.'/{cat_slug?}', 'CategoryController@index')->name("products.$locale");
+        Route::get(trans('slugs.products', [], $locale).'/{app_slug?}', 'ApplicationController@index')->name("categories.$locale");
+        Route::get(trans('slugs.products', [], $locale).'/{app_slug?}'.'/{cat_slug?}', 'CategoryController@index')->name("products.$locale");
         
         // Product
-        Route::get(trans('pages_slugs.product', [], $locale).'/{app_slug?}'.'/{cat_slug?}'.'/{prod_slug?}', 'ProductController@index')->name("product.$locale");
+        Route::get(trans('slugs.product', [], $locale).'/{app_slug?}'.'/{cat_slug?}'.'/{prod_slug?}', 'ProductController@index')->name("product.$locale");
         
         // Product in Brand
-        Route::get(trans('pages_slugs.brand', [], $locale).'/{brand_slug?}'.'/{prod_slug?}', 'ProductBrandController@index')->name("product_brand.$locale");
+        Route::get(trans('slugs.brand', [], $locale).'/{brand_slug?}'.'/{prod_slug?}', 'ProductBrandController@index')->name("product_brand.$locale");
         
         // References
-        Route::get(trans('pages_slugs.references', [], $locale), 'ReferencesController@index')->name("references.$locale");
-        Route::get(trans('pages_slugs.reference', [], $locale).'/{slug}', 'ReferenceController@index')->name("reference.$locale");
+        Route::get(trans('slugs.references', [], $locale), 'ReferencesController@index')->name("references.$locale");
+        Route::get(trans('slugs.reference', [], $locale).'/{slug}', 'ReferenceController@index')->name("reference.$locale");
         
         // Testimonials
-        Route::get(trans('pages_slugs.testimonials', [], $locale), 'TestimonialsController@index')->name("testimonials.$locale");
+        Route::get(trans('slugs.testimonials', [], $locale), 'TestimonialsController@index')->name("testimonials.$locale");
     })->where('lang', implode('|', config('translatable.locales')));
 }
