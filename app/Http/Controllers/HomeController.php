@@ -98,8 +98,8 @@ class HomeController extends Controller
             ->first();
         
         $metaData = getStaticMetaData([
-            'meta_title' => trans('seo.home.title'),
-            'meta_description' => trans('seo.home.description'),
+            'meta_title' => trans('seo.home_title'),
+            'meta_description' => trans('seo.home_description'),
             'meta_image_url' => url('').'/img/home/s6/xl-min.jpg',
             'meta_image_width' => 960,
             'meta_image_height' => 815,

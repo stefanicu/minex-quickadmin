@@ -13,7 +13,7 @@ class BrandsController extends Controller
                 //->where('brand_translations.online', '=', 1)
                 ->where('brand_translations.locale', '=', app()->getLocale());
         })
-//            ->whereHas('products')
+            //            ->whereHas('products')
             ->selectRaw('brands.id, brands.name, brands.slug')
             ->groupByRaw('brands.id, brands.name, brands.slug')
             ->orderBy('brands.name')
@@ -31,8 +31,8 @@ class BrandsController extends Controller
         $og_type = 'website';
         
         $metaData = getStaticMetaData([
-            'meta_title' => trans('seo.brands.title'),
-            'meta_description' => trans('seo.brands.description').' description',
+            'meta_title' => trans('seo.brands_title'),
+            'meta_description' => trans('seo.brands_description').' description',
         ]);
         
         

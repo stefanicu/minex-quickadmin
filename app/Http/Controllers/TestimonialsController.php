@@ -15,8 +15,8 @@ class TestimonialsController extends Controller
             ->orderBy('company')->get();
         
         $metaData = getStaticMetaData([
-            'meta_title' => trans('seo.testimonials.title'),
-            'meta_description' => trans('seo.testimonials.description'),
+            'meta_title' => trans('seo.testimonials_title'),
+            'meta_description' => trans('seo.testimonials_description'),
         ]);
         
         return view('testimonials', compact('testimonials', 'metaData'));

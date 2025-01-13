@@ -27,8 +27,8 @@ class ReferencesController extends Controller
         $slug = trans('slugs.references', [], app()->getLocale());
         
         $metaData = getStaticMetaData([
-            'meta_title' => trans('seo.references.title'),
-            'meta_description' => trans('seo.references.description'),
+            'meta_title' => trans('seo.references_title'),
+            'meta_description' => trans('seo.references_description'),
         ]);
         
         return view('references', compact('references', 'slug', 'industries', 'industries_in_tab', 'metaData'));

@@ -42,29 +42,39 @@
                                 @csrf
                                 <input type="hidden" name="file" value="{{ request('file') }}">
 
+                                @php
+                                    // Count empty values for the current language
+                                    $emptyCount = 0;
+                                @endphp
                                 @foreach($translations[$lang][request('file')] as $key => $value)
                                     <div class="form-group">
                                         <label>{{ $key }}</label>
                                         <input type="text" name="translations[{{ $key }}]" value="{{ $value }}" class="form-control">
                                     </div>
+                                    @php
+                                        if($value == ''){
+                                            $emptyCount++;
+                                        }
+                                    @endphp
                                 @endforeach
 
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>
-
-                            @foreach($languages as $lang)
-                                @if($lang !== 'en')
-                                    {{-- Skip English --}}
-                                    <form method="POST" action="{{ route('admin.translations.translate', $lang) }}" class="d-inline">
-                                        @csrf
-                                        <button type="submit" class="btn btn-secondary">
-                                            Translate to {{ strtoupper($lang) }}
-                                        </button>
-                                    </form>
-                                @endif
-                            @endforeach
+                            @if($lang !== 'en')
+                                {{-- Skip English --}}
+                                <form method="POST" action="{{ route('admin.translations.translate', $lang) }}" class="absolute top-1">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success"
+                                            onclick="location.href='{{ route('admin.translations.translate', $lang) }}'"
+                                            @if($emptyCount === 0) disabled @endif
+                                    >
+                                        Translate to {{ strtoupper($lang) }} ({{ $emptyCount }} empty fields)
+                                    </button>
+                                </form>
+                            @endif
                         </div>
                     @endforeach
+
                 </div>
             @endif
 
