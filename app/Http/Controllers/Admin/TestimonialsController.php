@@ -60,9 +60,9 @@ class TestimonialsController extends Controller
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled '.($row->online ? 'checked' : null).'>';
             });
-//            $table->editColumn('language', function ($row) {
-//                return $row->language ? Testimonial::LANGUAGE_SELECT[$row->language] : '';
-//            });
+            //            $table->editColumn('language', function ($row) {
+            //                return $row->language ? Testimonial::LANGUAGE_SELECT[$row->language] : '';
+            //            });
             $table->editColumn('company', function ($row) {
                 return $row->company ? $row->company : '';
             });
@@ -112,7 +112,7 @@ class TestimonialsController extends Controller
                     unlink($tempPath);
                 }
                 return redirect()->back()->withInput()->withErrors([
-                    'logo' => __("validation.image_dimensions", [
+                    'logo' => __("admin.image_dimensions", [
                         'expected_width' => 360,
                         'expected_height' => 240,
                         'uploaded_width' => $width,
@@ -158,7 +158,7 @@ class TestimonialsController extends Controller
                     unlink($tempPath);
                     
                     return redirect()->back()->withErrors([
-                        'logo' => __("validation.image_dimensions", [
+                        'logo' => __("admin.image_dimensions", [
                             'expected_width' => 360,
                             'expected_height' => 240,
                             'uploaded_width' => $width,

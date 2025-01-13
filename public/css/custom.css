@@ -218,3 +218,32 @@ ul.pagination li.active a {
     border: 10px solid #ddd;
     border-radius: 20px;
 }
+
+.table-translations {
+    width: fit-content;
+}
+
+.danger {
+    background-color: rgba(255, 176, 176, 0.3);
+}
+
+.red {
+    color: red;
+}
+
+.red:hover {
+    opacity: 0.6;
+}
+
+.green {
+    color: green;
+}
+
+.green:hover {
+    opacity: 0.7;
+}
+
+#file-select {
+    width: fit-content;
+    background-color: #eee;
+}

@@ -22,8 +22,7 @@ Route::group([
     // Applications
     Route::delete('applications/destroy', 'ApplicationsController@massDestroy')->name('applications.massDestroy');
     Route::post('applications/media', 'ApplicationsController@storeMedia')->name('applications.storeMedia');
-    Route::post('applications/ckmedia',
-        'ApplicationsController@storeCKEditorImages')->name('applications.storeCKEditorImages');
+    Route::post('applications/ckmedia', 'ApplicationsController@storeCKEditorImages')->name('applications.storeCKEditorImages');
     Route::resource('applications', 'ApplicationsController', ['except' => ['show']]);
     
     // Brands
@@ -35,8 +34,7 @@ Route::group([
     // Industries
     Route::delete('industries/destroy', 'IndustriesController@massDestroy')->name('industries.massDestroy');
     Route::post('industries/media', 'IndustriesController@storeMedia')->name('industries.storeMedia');
-    Route::post('industries/ckmedia',
-        'IndustriesController@storeCKEditorImages')->name('industries.storeCKEditorImages');
+    Route::post('industries/ckmedia', 'IndustriesController@storeCKEditorImages')->name('industries.storeCKEditorImages');
     Route::resource('industries', 'IndustriesController', ['except' => ['show']]);
     
     // Products
@@ -48,8 +46,7 @@ Route::group([
     // References
     Route::delete('references/destroy', 'ReferencesController@massDestroy')->name('references.massDestroy');
     Route::post('references/media', 'ReferencesController@storeMedia')->name('references.storeMedia');
-    Route::post('references/ckmedia',
-        'ReferencesController@storeCKEditorImages')->name('references.storeCKEditorImages');
+    Route::post('references/ckmedia', 'ReferencesController@storeCKEditorImages')->name('references.storeCKEditorImages');
     Route::resource('references', 'ReferencesController', ['except' => ['show']]);
     
     // Blog
@@ -65,25 +62,23 @@ Route::group([
     // Testimonials
     Route::delete('testimonials/destroy', 'TestimonialsController@massDestroy')->name('testimonials.massDestroy');
     Route::post('testimonials/media', 'TestimonialsController@storeMedia')->name('testimonials.storeMedia');
-    Route::post('testimonials/ckmedia',
-        'TestimonialsController@storeCKEditorImages')->name('testimonials.storeCKEditorImages');
+    Route::post('testimonials/ckmedia', 'TestimonialsController@storeCKEditorImages')->name('testimonials.storeCKEditorImages');
     Route::resource('testimonials', 'TestimonialsController', ['except' => ['show']]);
     
-    // Translation Center
-    Route::resource('translation-centers', 'TranslationCenterController',
-        ['except' => ['create', 'store', 'show', 'destroy']]);
+    // ==== TRANSLATION CENTER ===============================================================================
+    Route::get('translation/dbmodels', 'TranslationCenterController@index')->name('translation.dbmodels');
+    Route::get('translation/strings', 'TranslationCenterController@strings')->name('translation.strings');
+    Route::post('translation/{lang}/update/', 'TranslationCenterController@updateStrings')->name('translation.strings.update');
     
     // Categories
     Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
     Route::post('categories/media', 'CategoriesController@storeMedia')->name('categories.storeMedia');
-    Route::post('categories/ckmedia',
-        'CategoriesController@storeCKEditorImages')->name('categories.storeCKEditorImages');
+    Route::post('categories/ckmedia', 'CategoriesController@storeCKEditorImages')->name('categories.storeCKEditorImages');
     Route::resource('categories', 'CategoriesController', ['except' => ['show']]);
     
     // Front Page
     Route::post('front_pages/media', 'FrontPageController@storeMedia')->name('front_pages.storeMedia');
-    Route::post('front_pages/ckmedia',
-        'FrontPageController@storeCKEditorImages')->name('front_pages.storeCKEditorImages');
+    Route::post('front_pages/ckmedia', 'FrontPageController@storeCKEditorImages')->name('front_pages.storeCKEditorImages');
     Route::resource('front_pages', 'FrontPageController', ['except' => ['create', 'store', 'show', 'destroy']]);
     
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
@@ -125,27 +120,20 @@ foreach (config('translatable.locales') as $locale) {
         Route::get(trans('pages_slugs.brand', [], $locale).'/{slug}/', 'BrandController@index')->name("brand.$locale");
         
         // Application (categories) ==> Category (products)
-        Route::get(trans('pages_slugs.products', [], $locale).'/{app_slug?}',
-            'ApplicationController@index')->name("categories.$locale");
-        Route::get(trans('pages_slugs.products', [], $locale).'/{app_slug?}'.'/{cat_slug?}',
-            'CategoryController@index')->name("products.$locale");
+        Route::get(trans('pages_slugs.products', [], $locale).'/{app_slug?}', 'ApplicationController@index')->name("categories.$locale");
+        Route::get(trans('pages_slugs.products', [], $locale).'/{app_slug?}'.'/{cat_slug?}', 'CategoryController@index')->name("products.$locale");
         
         // Product
-        Route::get(trans('pages_slugs.product', [], $locale).'/{app_slug?}'.'/{cat_slug?}'.'/{prod_slug?}',
-            'ProductController@index')->name("product.$locale");
+        Route::get(trans('pages_slugs.product', [], $locale).'/{app_slug?}'.'/{cat_slug?}'.'/{prod_slug?}', 'ProductController@index')->name("product.$locale");
         
         // Product in Brand
-        Route::get(trans('pages_slugs.brand', [], $locale).'/{brand_slug?}'.'/{prod_slug?}',
-            'ProductBrandController@index')->name("product_brand.$locale");
+        Route::get(trans('pages_slugs.brand', [], $locale).'/{brand_slug?}'.'/{prod_slug?}', 'ProductBrandController@index')->name("product_brand.$locale");
         
         // References
-        Route::get(trans('pages_slugs.references', [], $locale),
-            'ReferencesController@index')->name("references.$locale");
-        Route::get(trans('pages_slugs.reference', [], $locale).'/{slug}',
-            'ReferenceController@index')->name("reference.$locale");
+        Route::get(trans('pages_slugs.references', [], $locale), 'ReferencesController@index')->name("references.$locale");
+        Route::get(trans('pages_slugs.reference', [], $locale).'/{slug}', 'ReferenceController@index')->name("reference.$locale");
         
         // Testimonials
-        Route::get(trans('pages_slugs.testimonials', [], $locale),
-            'TestimonialsController@index')->name("testimonials.$locale");
+        Route::get(trans('pages_slugs.testimonials', [], $locale), 'TestimonialsController@index')->name("testimonials.$locale");
     })->where('lang', implode('|', config('translatable.locales')));
 }
