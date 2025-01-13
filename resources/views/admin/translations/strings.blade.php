@@ -8,6 +8,16 @@
 
         <div class="card-body">
 
+            <!-- Show success message if any -->
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            <div id="loading-spinner" style="display: none;">
+                <img src="path_to_spinner.gif" alt="Loading..."/>
+            </div>
+
             <ul class="nav nav-tabs">
                 @foreach($languages as $lang)
                     <li class="nav-item">
@@ -16,8 +26,8 @@
                 @endforeach
             </ul>
 
-            <div class="form-group">
-                <label for="file-select">Select File:</label>
+            <div class="form-group my-4 flex">
+                <label for="file-select mt-4">Select File:</label>
                 <select id="file-select" class="form-control" onchange="location.href='?file='+this.value;">
                     <option value="">-- Select File --</option>
                     @foreach($translations[$languages[0]] as $file => $keys)
@@ -55,4 +65,29 @@
 @endsection
 @section('scripts')
     @parent
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Show the loading spinner
+            document.getElementById('loading-spinner').style.display = 'block';
+
+            // Use Ajax to submit the form asynchronously
+            var form = new FormData(this);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', this.action, true);
+
+            xhr.onload = function () {
+                // Hide the loading spinner once the server responds
+                document.getElementById('loading-spinner').style.display = 'none';
+
+                // Optional: refresh the page or handle the response
+                if (xhr.status === 200) {
+                    location.reload();  // Reload the page after the server response
+                }
+            };
+
+            xhr.send(form);
+        });
+    </script>
 @endsection
