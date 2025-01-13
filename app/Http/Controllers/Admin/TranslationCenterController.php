@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\ChatGPTService;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -90,16 +91,16 @@ class TranslationCenterController extends Controller
                         File::makeDirectory($langPath, 0755, true);
                     }
                     
-                    // Write an empty structure with keys from English and empty values
-                    $emptyData = $this->emptyValues($englishData);
-                    File::put("{$langPath}/{$file->getFilename()}", "<?php\n\nreturn ".var_export($emptyData, true).";\n");
+                    // Write an empty structure with keys from English and translated values
+                    $translatedData = $this->translateValues($englishData, $lang);
+                    File::put("{$langPath}/{$file->getFilename()}", "<?php\n\nreturn ".var_export($translatedData, true).";\n");
                 }
                 
                 // Load the existing language file
                 $langData = File::getRequire("{$langPath}/{$file->getFilename()}");
                 
                 // Merge missing keys from English, keeping values empty for missing keys
-                $mergedData = array_replace_recursive($this->emptyValues($englishData), $langData);
+                $mergedData = array_replace_recursive($this->translateValues($englishData, $lang), $langData);
                 $translations[$lang][$filename] = $this->flattenArray($mergedData);
             }
         }
@@ -108,13 +109,19 @@ class TranslationCenterController extends Controller
     }
     
     /**
-     * Recursively convert all values in an array to empty strings, keeping the keys intact.
+     * Translate the values in the array using ChatGPTServide's translate method.
      */
-    private function emptyValues(array $array)
+    private function translateValues(array $array, $locale_to)
     {
         $result = [];
         foreach ($array as $key => $value) {
-            $result[$key] = is_array($value) ? $this->emptyValues($value) : '';
+            // If the value is an array, recursively translate its values
+            if (is_array($value)) {
+                $result[$key] = $this->translateValues($value, $locale_to);
+            } else {
+                // Translate the value using your translation service
+                $result[$key] = ChatGPTService::translate($value, $locale_to, 'en');
+            }
         }
         return $result;
     }
