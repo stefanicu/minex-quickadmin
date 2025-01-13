@@ -151,8 +151,7 @@ class TranslationCenterController extends Controller
         $langPath = "{$basePath}/{$lang}";
         
         // Specific files to translate
-        // $specificFiles = ['form', 'pages', 'pagination', 'seo', 'slugs'];
-        $specificFiles = ['seo'];
+        $specificFiles = ['form', 'pages', 'pagination', 'seo', 'slugs'];
         
         $englishFiles = File::exists($englishPath) ? File::allFiles($englishPath) : [];
         
@@ -189,15 +188,16 @@ class TranslationCenterController extends Controller
     }
     
     /**
-     * Translate an array, preserving its structure.
+     * Translate an array, preserving its structure and only translating empty values.
      */
     private function translateArray(array $data, string $lang): array
     {
         foreach ($data as $key => &$value) {
             if (is_array($value)) {
-                $value = $this->translateArray($value, $lang); // Recursive translation for nested arrays
+                // Recursively translate nested arrays
+                $value = $this->translateArray($value, $lang);
             } elseif (empty($value)) {
-                // Use the ChatGPTService to translate
+                // Translate the value (not the key) if it's empty
                 $value = ChatGPTService::translate($key, $lang, 'en');
             }
         }
