@@ -198,7 +198,7 @@ class ProductsController extends Controller
                     }
                     
                     return redirect()->back()->withInput()->withErrors([
-                        'photo' => __("validation.multi_image_dimensions", [
+                        'photo' => __("admin.multi_image_dimensions", [
                             'expected_width' => 600, 'expected_height' => 600, 'uploaded_width' => $width,
                             'uploaded_height' => $height, 'index' => $index
                         ]),
@@ -322,7 +322,7 @@ class ProductsController extends Controller
                         unlink($tempPath);
                     }
                     return redirect()->back()->withErrors([
-                        'photo' => __("validation.multi_image_dimensions", [
+                        'photo' => __("admin.multi_image_dimensions", [
                             'expected_width' => 600, 'expected_height' => 600, 'uploaded_width' => $width,
                             'uploaded_height' => $height, 'index' => $index
                         ]),
