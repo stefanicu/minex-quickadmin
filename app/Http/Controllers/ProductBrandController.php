@@ -112,9 +112,7 @@ class ProductBrandController extends Controller
             ->groupBy('brands.id', 'brands.name', 'brands.slug')
             ->having('cnt', '>', 0) // Exclude brands with no products
             ->orderBy('brands.name')
-            ->toRawSql();
-        
-        dd($brands);
+            ->get();
         
         $metaData = $this->getMetaData($product);
         
