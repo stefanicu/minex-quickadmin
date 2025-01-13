@@ -24,7 +24,7 @@ class ReferencesController extends Controller
         
         $industries = Industry::whereIn('id', $industries_in_tab)->orderByRaw("FIELD(id, $ind_ids)")->get();
         
-        $slug = trans('pages_slugs.references', [], app()->getLocale());
+        $slug = trans('slugs.references', [], app()->getLocale());
         
         $metaData = getStaticMetaData([
             'meta_title' => trans('seo.references.title'),
