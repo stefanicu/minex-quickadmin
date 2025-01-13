@@ -60,48 +60,41 @@ class TranslationCenterController extends Controller
         ]);
     }
     
-    public function strings(Request $request)
+    public function strings()
     {
         $languages = config('translatable.locales'); // Example: ['en', 'ro', 'bg']
         $basePath = resource_path('lang');
         $translations = [];
         
-        // Specify the specific files you want to include
-        //$specificFiles = ['form', 'pages', 'pagination', 'seo', 'slugs']; // Add your specific file names here
-        $specificFiles = ['pagination']; // Add your specific file names here
-        
         $englishPath = "{$basePath}/en";
         $englishFiles = File::exists($englishPath) ? File::allFiles($englishPath) : [];
         
         foreach ($languages as $lang) {
+            if ($lang === 'en') {
+                continue;
+            } // Skip English since it's the base language
+            
             $langPath = "{$basePath}/{$lang}";
             
             foreach ($englishFiles as $file) {
                 $filename = $file->getFilenameWithoutExtension();
-                
-                // Check if the file is in the list of specific files
-                if ( ! in_array($filename, $specificFiles)) {
-                    continue; // Skip the file if it is not in the specific files list
-                }
                 $englishData = File::getRequire($file->getPathname());
                 
-                // Ensure the language file exists; create it if missing
                 if ( ! File::exists("{$langPath}/{$file->getFilename()}")) {
                     if ( ! File::exists($langPath)) {
                         File::makeDirectory($langPath, 0755, true);
                     }
-                    
-                    // Write an empty structure with keys from English and translated values
-                    $translatedData = $this->translateValues($englishData, $lang);
-                    File::put("{$langPath}/{$file->getFilename()}", "<?php\n\nreturn ".var_export($translatedData, true).";\n");
+                    // Create a new file with empty values based on English keys
+                    $emptyData = $this->emptyValues($englishData);
+                    File::put("{$langPath}/{$file->getFilename()}", "<?php\n\nreturn ".var_export($emptyData, true).";\n");
                 }
                 
-                // Load the existing language file
+                // Merge missing keys into the existing file
                 $langData = File::getRequire("{$langPath}/{$file->getFilename()}");
+                $mergedData = array_replace_recursive($this->emptyValues($englishData), $langData);
+                File::put("{$langPath}/{$file->getFilename()}", "<?php\n\nreturn ".var_export($mergedData, true).";\n");
                 
-                // Merge missing keys from English, keeping values empty for missing keys
-                $mergedData = array_replace_recursive($this->translateValues($englishData, $lang), $langData);
-                $translations[$lang][$filename] = $this->flattenArray($mergedData);
+                $translations[$lang][$filename] = $mergedData;
             }
         }
         
@@ -109,38 +102,61 @@ class TranslationCenterController extends Controller
     }
     
     /**
-     * Translate the values in the array using ChatGPTServide's translate method.
+     * Converts all values in an array to empty strings, keeping the keys intact.
      */
-    private function translateValues(array $array, $locale_to)
+    private function emptyValues(array $array)
     {
         $result = [];
         foreach ($array as $key => $value) {
-            // If the value is an array, recursively translate its values
-            if (is_array($value)) {
-                $result[$key] = $this->translateValues($value, $locale_to);
-            } else {
-                // Translate the value using your translation service
-                $result[$key] = ChatGPTService::translate($value, $locale_to, 'en');
-            }
+            $result[$key] = is_array($value) ? $this->emptyValues($value) : '';
         }
         return $result;
     }
     
-    /**
-     * Flatten a multidimensional array into a dot notation array.
-     */
-    private function flattenArray(array $array, $prefix = '')
+    public function translate($locale)
     {
-        $result = [];
-        foreach ($array as $key => $value) {
-            $newKey = $prefix === '' ? $key : "{$prefix}.{$key}";
+        $basePath = resource_path('lang');
+        $englishPath = "{$basePath}/en";
+        $langPath = "{$basePath}/{$locale}";
+        
+        if ( ! File::exists($englishPath) || ! File::exists($langPath)) {
+            return back()->with('error', "English or {$locale} translations folder is missing.");
+        }
+        
+        $englishFiles = File::allFiles($englishPath);
+        
+        foreach ($englishFiles as $file) {
+            $filename = $file->getFilename();
+            $englishData = File::getRequire($file->getPathname());
+            $langData = File::exists("{$langPath}/{$filename}")
+                ? File::getRequire("{$langPath}/{$filename}")
+                : $this->emptyValues($englishData);
+            
+            // Translate empty values
+            $translatedData = $this->translateRecursive($englishData, $langData, $locale);
+            
+            // Save the translated file
+            File::put("{$langPath}/{$filename}", "<?php\n\nreturn ".var_export($translatedData, true).";\n");
+        }
+        
+        return back()->with('success', "Translations for {$locale} completed.");
+    }
+    
+    /**
+     * Recursively translates empty values in an array.
+     */
+    private function translateRecursive(array $englishData, array $langData, $locale)
+    {
+        foreach ($englishData as $key => $value) {
             if (is_array($value)) {
-                $result = array_merge($result, $this->flattenArray($value, $newKey));
+                $langData[$key] = $this->translateRecursive($value, $langData[$key] ?? [], $locale);
             } else {
-                $result[$newKey] = $value;
+                if (empty($langData[$key])) {
+                    $langData[$key] = ChatGPTService::translate($value, $locale);
+                }
             }
         }
-        return $result;
+        return $langData;
     }
     
     
