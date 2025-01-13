@@ -6,14 +6,6 @@ return [
     'translation_items' => 'Items',
     'translation_db_models' => 'DB models',
     'translation_static_strings' => 'Static strings',
-    
-    'translation_home' => 'Front Page Sections',
-    'translation_applications' => 'Applications',
-    'translation_categories' => 'Categories',
-    'translation_brands' => 'Brands',
-    'translation_products' => 'Products',
-    'translation_references' => 'References',
-    'translation_industries' => 'Industries',
-    'translation_testimonials' => 'Testimonials',
-    'translation_blog' => 'Articles',
+    'image_dimensions' => 'The uploaded image does not meet the required dimensions. Expected: :expected_width x :expected_height pixels. Main Photo uploaded: :uploaded_width x :uploaded_height pixels.',
+    'multi_image_dimensions' => 'The uploaded image does not meet the required dimensions. Expected: :expected_width x :expected_height pixels. Multi Photo #:index uploaded: :uploaded_width x :uploaded_height pixels.',
 ];

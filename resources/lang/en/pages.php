@@ -1,14 +1,13 @@
 <?php
 
 return [
-    'brand' => 'Brand',
+    'home' => 'Home',
+    'contact' => 'Contact',
     'brands' => 'Brands',
-    
     'search' => 'Search',
     'search_for' => 'Search for word',
     'search_error' => 'The word searched must be at least 3 characters long',
     'search_not_found' => 'No results found',
-    
     'product' => 'Product',
     'products' => 'Products',
     'specifications' => 'Specifications',
@@ -21,33 +20,23 @@ return [
     'contact_form' => 'Contact Form',
     'send_form' => 'Send Form',
     'similar_products' => 'Products you might also like',
-    
-    
     'category' => 'Category',
     'categories' => 'Categories',
     'chose_category' => 'Choose a Category',
     'all_categories' => 'All Categories',
-    
     'product_categories' => 'Product Categories',
-    'product_applications' => 'Product Applications',
-    
-    'reference' => 'Reference',
     'references' => 'References',
     'other_references' => 'Other References',
-    
     'no_products' => 'There are currently no products available',
-    
     'no_translated_title' => 'It is not translated into English',
     'no_translated_message' => 'The page is not currently translated into English. For more information, please send us a message and we will contact you as soon as possible.',
-    
     'no_brand_default_message' => 'The product is not available in your country.',
-    
     'testimonials' => 'Testimonials',
     'testimonial_question' => 'What do clients say about us?',
-    
     'blog' => 'Blog',
     'articles' => 'Articles',
-    'next' => 'Next',
-    'previous' => 'Previous',
-    'more_articles' => 'More Articles',
+    'gdpr_compliance' => 'GDPR compliance',
+    'copyright' => 'Minex Group International',
+    'see_what_we_have_done' => 'See what we\'ve done for',
+    'contact_thank_you' => 'Your message was successfully sent, thank you!',
 ];

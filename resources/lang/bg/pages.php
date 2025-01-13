@@ -1,14 +1,13 @@
 <?php
 
 return [
-    'brand' => 'Партньор',
+    'home' => 'Начало',
+    'contact' => 'Контакти',
     'brands' => 'Партньори',
-    
     'search' => 'Search',
     'search_for' => 'Търсене на дума',
     'search_error' => 'Търсената дума трябва да има поне 3 знака',
     'search_not_found' => 'No results found',
-    
     'product' => 'Продукт',
     'products' => 'Продукти',
     'specifications' => 'Спецификации',
@@ -21,32 +20,23 @@ return [
     'contact_form' => 'Контакти',
     'send_form' => 'Формуляр за изпращане',
     'similar_products' => 'Продукти, които може да харесате',
-    
     'category' => 'Категория',
     'categories' => 'Категории',
     'chose_category' => 'Изберете категория',
     'all_categories' => 'Всички категории',
-    
     'product_categories' => 'Продуктови категории',
-    'product_applications' => 'Продуктови Приложения',
-    
-    'reference' => 'Референц',
     'references' => 'Референции',
     'other_references' => 'Други референции',
-    
     'no_products' => 'В момента няма налични продукти',
-    
     'no_translated_title' => 'Тя не е преведена на български език',
     'no_translated_message' => 'За момента страницата не е преведена на български език. За повече информация, моля изпратете ни съобщение и ние ще се свържем с Вас възможно най-скоро.',
-    
     'no_brand_default_message' => 'Продуктът не се предлага във вашата страна.',
-    
     'testimonials' => 'Отзиви',
     'testimonial_question' => 'Какво казват клиентите за нас?',
-    
     'blog' => 'Блог',
     'articles' => 'Статии',
-    'next' => 'Next',
-    'previous' => 'Previous',
-    'more_articles' => 'More Articles',
+    'gdpr_compliance' => 'Съответствие с GDPR',
+    'copyright' => 'Minex Group International',
+    'see_what_we_have_done' => 'Вижте какво сме направили за',
+    'contact_thank_you' => 'Вашето съобщение беше изпратено успешно, благодаря!',
 ];
