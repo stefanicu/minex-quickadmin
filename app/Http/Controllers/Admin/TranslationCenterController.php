@@ -59,12 +59,15 @@ class TranslationCenterController extends Controller
         ]);
     }
     
-    
     public function strings(Request $request)
     {
         $languages = config('translatable.locales'); // Example: ['en', 'ro', 'bg']
         $basePath = resource_path('lang');
         $translations = [];
+        
+        // Specify the specific files you want to include
+        //$specificFiles = ['form', 'pages', 'pagination', 'seo', 'slugs']; // Add your specific file names here
+        $specificFiles = ['pagination']; // Add your specific file names here
         
         $englishPath = "{$basePath}/en";
         $englishFiles = File::exists($englishPath) ? File::allFiles($englishPath) : [];
@@ -74,6 +77,11 @@ class TranslationCenterController extends Controller
             
             foreach ($englishFiles as $file) {
                 $filename = $file->getFilenameWithoutExtension();
+                
+                // Check if the file is in the list of specific files
+                if ( ! in_array($filename, $specificFiles)) {
+                    continue; // Skip the file if it is not in the specific files list
+                }
                 $englishData = File::getRequire($file->getPathname());
                 
                 // Ensure the language file exists; create it if missing
@@ -108,7 +116,7 @@ class TranslationCenterController extends Controller
         foreach ($array as $key => $value) {
             $result[$key] = is_array($value) ? $this->emptyValues($value) : '';
         }
-        return $array;//$result;
+        return $result;
     }
     
     /**
