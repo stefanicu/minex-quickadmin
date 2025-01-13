@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="min-height: 917px;">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
-        <span class="brand-text font-weight-light">{{ trans('panel.site_title') }}</span>
+        <span class="brand-text font-weight-light">{{ trans('admin.site_title') }}</span>
     </a>
 
     <!-- Sidebar -->
@@ -158,13 +158,13 @@
 
                 @can('translation_center_access')
                     <li class="nav-item has-treeview {{ request()->is("admin/translation*") ? "menu-open" : "" }} {{ request()->is("admin/translation/dbmodels*") ? "menu-open" : "" }} {{ request()->is("admin/translation/strings*") ? "menu-open" : "" }}">
-                        <a class="nav-link nav-dropdown-toggle {{ request()->is("admin/translation*") ? "active" : "" }} {{ request()->is("admin/translation/dbmodels*") ? "active" : "" }} {{ request()->is("admin/translation/strings*") ? "active" : "" }}" href="#"">
+                        <a class="nav-link nav-dropdown-toggle {{ request()->is("admin/translation*") ? "active" : "" }} {{ request()->is("admin/translation/dbmodels*") ? "active" : "" }} {{ request()->is("admin/translation/strings*") ? "active" : "" }}" href="#">
 
-                        <i class="fa-fw nav-icon fas fa-language"></i>
-                        <p>
-                            {{ trans('cruds.translationCenter.title') }}
-                            <i class="right fa fa-fw fa-angle-left nav-icon"></i>
-                        </p>
+                            <i class="fa-fw nav-icon fas fa-language"></i>
+                            <p>
+                                {{ trans('cruds.translationCenter.title') }}
+                                <i class="right fa fa-fw fa-angle-left nav-icon"></i>
+                            </p>
                         </a>
 
                         <ul class="nav nav-treeview">

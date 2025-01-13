@@ -48,8 +48,6 @@ return [
         'array' => 'The :attribute must have :value items or more.',
     ],
     'image' => 'The :attribute must be an image.',
-    'image_dimensions' => 'The uploaded image does not meet the required dimensions. Expected: :expected_width x :expected_height pixels. Main Photo uploaded: :uploaded_width x :uploaded_height pixels.',
-    'multi_image_dimensions' => 'The uploaded image does not meet the required dimensions. Expected: :expected_width x :expected_height pixels. Multi Photo #:index uploaded: :uploaded_width x :uploaded_height pixels.',
     'in' => 'The selected :attribute is invalid.',
     'in_array' => 'The :attribute field does not exist in :other.',
     'integer' => 'The :attribute must be an integer.',

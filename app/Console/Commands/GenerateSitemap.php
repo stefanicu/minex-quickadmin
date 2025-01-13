@@ -54,31 +54,31 @@ class GenerateSitemap extends Command
         foreach (config('translatable.locales') as $locale) {
             $sitemap = Sitemap::create()
                 ->add(Url::create('/'.$locale)->setPriority(1.0))
-                ->add(Url::create('/'.$locale.'/'.trans('pages_slugs.brands'))->setPriority(0.8))
-                ->add(Url::create('/'.$locale.'/'.trans('pages_slugs.references'))->setPriority(0.8))
-                ->add(Url::create('/'.$locale.'/'.trans('pages_slugs.testimonials'))->setPriority(0.8))
-                ->add(Url::create('/'.$locale.'/'.trans('pages_slugs.blog'))->setPriority(0.8))
-                ->add(Url::create('/'.$locale.'/'.trans('pages_slugs.brands'))->setPriority(0.8));
+                ->add(Url::create('/'.$locale.'/'.trans('slugs.brands'))->setPriority(0.8))
+                ->add(Url::create('/'.$locale.'/'.trans('slugs.references'))->setPriority(0.8))
+                ->add(Url::create('/'.$locale.'/'.trans('slugs.testimonials'))->setPriority(0.8))
+                ->add(Url::create('/'.$locale.'/'.trans('slugs.blog'))->setPriority(0.8))
+                ->add(Url::create('/'.$locale.'/'.trans('slugs.brands'))->setPriority(0.8));
             
             // Dynamically add URLs (e.g., blog posts)
-//            foreach (\App\Models\Category::all() as $category) {
-//                $sitemap->add(Url::create("/".trans('pages_slugs.category')."/{$category->slug}")->setPriority(0.7));
-//            }
+            //            foreach (\App\Models\Category::all() as $category) {
+            //                $sitemap->add(Url::create("/".trans('slugs.category')."/{$category->slug}")->setPriority(0.7));
+            //            }
             
             foreach (\App\Models\Application::all() as $applications) {
-                $sitemap->add(Url::create("/".$locale.'/'.trans('pages_slugs.products')."/{$applications->slug}")->setPriority(0.7));
+                $sitemap->add(Url::create("/".$locale.'/'.trans('slugs.products')."/{$applications->slug}")->setPriority(0.7));
             }
             
             foreach (\App\Models\Brand::all() as $brand) {
-                $sitemap->add(Url::create("/".$locale.'/'.trans('pages_slugs.brand')."/{$brand->slug}")->setPriority(0.7));
+                $sitemap->add(Url::create("/".$locale.'/'.trans('slugs.brand')."/{$brand->slug}")->setPriority(0.7));
             }
             
             foreach (\App\Models\Blog::all() as $blog) {
-                $sitemap->add(Url::create("/".$locale.'/'.trans('pages_slugs.blog')."/{$blog->slug}")->setPriority(0.7));
+                $sitemap->add(Url::create("/".$locale.'/'.trans('slugs.blog')."/{$blog->slug}")->setPriority(0.7));
             }
             
             foreach (\App\Models\Product::all() as $product) {
-                $sitemap->add(Url::create("/".$locale.'/'.trans('pages_slugs.product')."/{$product->slug}")->setPriority(0.9));
+                $sitemap->add(Url::create("/".$locale.'/'.trans('slugs.product')."/{$product->slug}")->setPriority(0.9));
             }
         }
         $sitemap->writeToFile(public_path('sitemap.xml'));

@@ -14,24 +14,27 @@
     </figure>
     <div class="section--content d-flex align-items-center">
         <div class="v-alighn px-4">
-            <h2 class="h3">{{ $maintenance->name }}</h2>
-            {!! $maintenance->first_text !!}<br>
-            <a href="{{ route('testimonials.'.app()->getLocale()) }}"
-               class="btn btn btn-light">{{ $maintenance->button }}</a>
+            @if($maintenance)
+                <h2 class="h3">{{ $maintenance->name }}</h2>
+                {!! $maintenance->first_text !!}<br>
+                <a href="{{ route('testimonials.'.app()->getLocale()) }}" class="btn btn btn-light">{{ $maintenance->button }}</a>
+            @endif
         </div>
     </div>
 </section>
 <section class="container-fluid section__primary py-4 ">
     <div class="container my-2">
         <div class="row">
-            <div class="col col-lg-8">
-                {!! $maintenance->second_text !!}
-            </div>
-            <div class="col col-lg-4">
-                <blockquote class="blockquote-home blockquote__secondary">
-                    {!! $maintenance->quote !!}
-                </blockquote>
-            </div>
+            @if($maintenance)
+                <div class="col col-lg-8">
+                    {!! $maintenance->second_text !!}
+                </div>
+                <div class="col col-lg-4">
+                    <blockquote class="blockquote-home blockquote__secondary">
+                        {!! $maintenance->quote !!}
+                    </blockquote>
+                </div>
+            @endif
         </div>
     </div>
 </section>

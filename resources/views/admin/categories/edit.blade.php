@@ -20,7 +20,7 @@
                         Preview
                     </a>
                 @else
-                    {{ __('panel.no_page_link_yet') }}
+                    {{ __('admin.no_page_link_yet') }}
                 @endif
             </div>
         </div>

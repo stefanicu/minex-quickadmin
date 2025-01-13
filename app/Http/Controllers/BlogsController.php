@@ -18,8 +18,8 @@ class BlogsController extends Controller
             ->paginate(12);
         
         $metaData = getStaticMetaData([
-            'meta_title' => trans('seo.blogs.title'),
-            'meta_description' => trans('seo.blogs.description'),
+            'meta_title' => trans('seo.blogs_title'),
+            'meta_description' => trans('seo.blogs_description'),
         ]);
         
         return view('blogs', compact('blogs', 'metaData'));

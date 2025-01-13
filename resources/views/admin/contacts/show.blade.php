@@ -1,20 +1,20 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.contact.title') }}
-    </div>
+    <div class="card">
+        <div class="card-header">
+            {{ trans('global.show') }} {{ trans('cruds.contact.title') }}
+        </div>
 
-    <div class="card-body">
-        <div class="form-group">
+        <div class="card-body">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.contacts.index') }}">
-                    {{ trans('global.back_to_list') }}
-                </a>
-            </div>
-            <table class="table table-bordered table-striped">
-                <tbody>
+                <div class="form-group">
+                    <a class="btn btn-default" href="{{ route('admin.contacts.index') }}">
+                        {{ trans('global.back_to_list') }}
+                    </a>
+                </div>
+                <table class="table table-bordered table-striped">
+                    <tbody>
                     <tr>
                         <th>
                             {{ trans('cruds.contact.fields.id') }}
@@ -133,13 +133,14 @@
                                 {{ trans('cruds.contact.fields.product') }}
                             </th>
                             <td>
-                                {{ $product->id }}: <a href="{{ url('') }}/{{ trans('pages_slug.product') }}/{{ $product->slug }}" target="_blank">{{ $product->name }}</a>
+                                {{ $product->id }}:
+                                <a href="{{ url('') }}/{{ trans('pages_slug.product') }}/{{ $product->slug }}" target="_blank">{{ $product->name }}</a>
                             </td>
                         </tr>
                         @if($product->getMainPhotoAttribute())
                             <tr>
                                 <td colspan="2">
-                                    <a href="{{ url('') }}/{{ trans('pages_slugs.product') }}/{{ $product->slug }}" target="_blank">
+                                    <a href="{{ url('') }}/{{ trans('slugs.product') }}/{{ $product->slug }}" target="_blank">
                                         <img srcset="{{ $product->getMainPhotoAttribute()->getUrl('preview') }}" class="mx-auto lozad img-fluid" alt="No Image">
                                     </a>
                                 </td>
@@ -152,17 +153,15 @@
                             </td>
                         </tr>
                     @endif
-                </tbody>
-            </table>
-            <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.contacts.index') }}">
-                    {{ trans('global.back_to_list') }}
-                </a>
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <a class="btn btn-default" href="{{ route('admin.contacts.index') }}">
+                        {{ trans('global.back_to_list') }}
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-
 
 @endsection

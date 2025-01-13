@@ -158,7 +158,7 @@ class ReferencesController extends Controller
                     }
                     
                     return redirect()->back()->withInput()->withErrors([
-                        'photo_square' => __("validation.multi_image_dimensions", [
+                        'photo_square' => __("admin.multi_image_dimensions", [
                             'expected_width' => 360,
                             'expected_height' => 300,
                             'uploaded_width' => $width,
@@ -259,7 +259,7 @@ class ReferencesController extends Controller
                         unlink($tempPath);
                     }
                     return redirect()->back()->withErrors([
-                        'photo_square' => __("validation.multi_image_dimensions", [
+                        'photo_square' => __("admin.multi_image_dimensions", [
                             'expected_width' => 360,
                             'expected_height' => 300,
                             'uploaded_width' => $width,

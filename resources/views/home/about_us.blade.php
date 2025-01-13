@@ -14,8 +14,10 @@
     </figure>
     <div class="section--content d-flex align-items-center">
         <div class="v-alighn px-4">
-            <h2 class="h3">{{ $about_us->name }}</h2>
-            {!! $about_us->first_text !!}
+            @if($about_us)
+                <h2 class="h3">{{ $about_us->name }}</h2>
+                {!! $about_us->first_text !!}
+            @endif
         </div>
     </div>
 </section>
@@ -23,21 +25,28 @@
 <section class="container-fluid section__primary py-4 ">
     <div class="container">
         <div class="bxslider--section">
-            <div class="wysiwyg">
-                {!! $about_us->second_text !!}
-            </div>
+            @if($about_us)
+                <div class="wysiwyg">
+                    {!! $about_us->second_text !!}
+                </div>
+            @endif
             <div class="pl-0 pl-md-4 home-slider">
                 <div class="bxslider">
-                    <div><img src="{{ asset('/img/home/s6/slider/despre-noi1-min.png') }}" class="img-fluid"
-                              alt="Minex 1" title="Minex 1"></div>
-                    <div><img src="{{ asset('/img/home/s6/slider/despre-noi2-min.png') }}" class="img-fluid"
-                              alt="Minex 2" title="Minex 2"></div>
-                    <div><img src="{{ asset('/img/home/s6/slider/despre-noi3-min.png') }}" class="img-fluid"
-                              alt="Minex 3" title="Minex 3"></div>
-                    <div><img src="{{ asset('/img/home/s6/slider/despre-noi4-min.png') }}" class="img-fluid"
-                              alt="Minex 4" title="Minex 4"></div>
-                    <div><img src="{{ asset('/img/home/s6/slider/despre-noi5-min.png') }}" class="img-fluid"
-                              alt="Minex 5" title="Minex 5"></div>
+                    <div>
+                        <img src="{{ asset('/img/home/s6/slider/despre-noi1-min.png') }}" class="img-fluid" alt="Minex 1" title="Minex 1">
+                    </div>
+                    <div>
+                        <img src="{{ asset('/img/home/s6/slider/despre-noi2-min.png') }}" class="img-fluid" alt="Minex 2" title="Minex 2">
+                    </div>
+                    <div>
+                        <img src="{{ asset('/img/home/s6/slider/despre-noi3-min.png') }}" class="img-fluid" alt="Minex 3" title="Minex 3">
+                    </div>
+                    <div>
+                        <img src="{{ asset('/img/home/s6/slider/despre-noi4-min.png') }}" class="img-fluid" alt="Minex 4" title="Minex 4">
+                    </div>
+                    <div>
+                        <img src="{{ asset('/img/home/s6/slider/despre-noi5-min.png') }}" class="img-fluid" alt="Minex 5" title="Minex 5">
+                    </div>
                 </div>
             </div>
         </div>

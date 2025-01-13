@@ -1,12 +1,14 @@
 <section class="container-fluid section--contact py-4 section3">
     <div class="row justify-content-center">
         <div id="contact" class="col-10">
-            <h2 class="h1 px-0 px-md-4">{{ $contact_us->name }}</h2>
+            @if($contact_us)
+                <h2 class="h1 px-0 px-md-4">{{ $contact_us->name }}</h2>
+            @endif
         </div>
     </div>
 
     @if(session('success'))
-        <div class="multumim-center">{{ trans('frontend.contact_thank_you') }}</div>
+        <div class="multumim-center">{{ trans('pages.contact_thank_you') }}</div>
     @else
         <div class="row justify-content-center">
             <div class="col-12 col-lg-5">
@@ -36,7 +38,9 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">{{ $contact_us->button }}</button>
+                    @if($contact_us)
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">{{ $contact_us->button }}</button>
+                    @endif
                 </form>
             </div>
             <div class="col-12 col-lg-5">
