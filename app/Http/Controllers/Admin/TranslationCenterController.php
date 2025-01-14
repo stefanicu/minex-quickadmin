@@ -72,8 +72,8 @@ class TranslationCenterController extends Controller
         $translations = [];
         
         // Specify the specific files you want to include
-        // $specificFiles = ['form', 'pages', 'pagination', 'seo', 'slugs'];
-        $specificFiles = ['seo'];
+        $specificFiles = ['form', 'pages', 'pagination', 'seo', 'slugs'];
+        // $specificFiles = ['seo'];
         
         $englishPath = "{$basePath}/en";
         $englishFiles = File::exists($englishPath) ? File::allFiles($englishPath) : [];
@@ -155,7 +155,8 @@ class TranslationCenterController extends Controller
         $englishPath = "{$basePath}/en";
         $targetPath = "{$basePath}/{$lang}";
         
-        $specificFiles = ['seo']; // Specify files to include
+        $specificFiles = ['form', 'pages', 'pagination', 'seo', 'slugs'];
+        //$specificFiles = ['seo']; // Specify files to include
         $englishFiles = File::exists($englishPath) ? File::allFiles($englishPath) : [];
         
         foreach ($englishFiles as $file) {
