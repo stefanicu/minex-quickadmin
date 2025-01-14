@@ -247,3 +247,9 @@ ul.pagination li.active a {
     width: fit-content;
     background-color: #eee;
 }
+
+#translateButtonForm {
+    position: absolute;
+    bottom: 20px;
+    left: 100px;
+}
