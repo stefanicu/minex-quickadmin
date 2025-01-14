@@ -60,7 +60,7 @@ class ChatGPTService
         $prompt = "Generate an SEO-optimized meta title and meta description based on the following page title and description:\n\n".
             "Page Title: {$title}\n".
             "Page Description: {$description}\n\n".
-            "Provide the result in JSON format with 'meta_title' and 'meta_description' fields.";
+            "Provide the result in JSON format with 'meta_title' and 'meta_description' fields, without any additional explanation";
         
         $response = self::sendRequest($prompt);
         
