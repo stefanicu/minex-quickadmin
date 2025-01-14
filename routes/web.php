@@ -136,5 +136,5 @@ foreach (config('translatable.locales') as $locale) {
         
         // Testimonials
         Route::get(trans('slugs.testimonials', [], $locale), 'TestimonialsController@index')->name("testimonials.$locale");
-    })->where('lang', implode('|', config('translatable.locales')));
+    });
 }
