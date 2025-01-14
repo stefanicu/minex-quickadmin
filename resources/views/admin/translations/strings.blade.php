@@ -65,7 +65,7 @@
                                 </form>
                                 @if($lang !== 'en')
                                     {{-- Skip English --}}
-                                    <form id="myForm" method="POST" action="{{ route('admin.translations.translate', $lang) }}" class="absolute top-1">
+                                    <form id="translateButtonForm" method="POST" action="{{ route('admin.translations.translate', $lang) }}" class="absolute top-1">
                                         @csrf
                                         <button type="submit" class="btn btn-success"
                                                 onclick="location.href='{{ route('admin.translations.translate', $lang) }}'"
@@ -93,7 +93,7 @@
         </script>
     @endif
     <script>
-        document.getElementById('myForm').addEventListener('submit', function (e) {
+        document.getElementById('translateButtonForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
             // Show the loading spinner
