@@ -65,11 +65,14 @@ Route::group([
     Route::post('testimonials/ckmedia', 'TestimonialsController@storeCKEditorImages')->name('testimonials.storeCKEditorImages');
     Route::resource('testimonials', 'TestimonialsController', ['except' => ['show']]);
     
-    // ==== TRANSLATION CENTER ===============================================================================
-    Route::get('translation/dbmodels', 'TranslationCenterController@index')->name('translation.dbmodels');
-    Route::get('translation/strings', 'TranslationCenterController@strings')->name('translation.strings');
-    Route::post('translation/{lang}/update/', 'TranslationCenterController@updateStrings')->name('translation.strings.update');
-    Route::post('/translations/translate/{locale}', 'TranslationCenterController@translate')->name('translations.translate');
+    // ==== TRANSLATION STRINGS ===============================================================================
+    Route::get('translation/strings', 'TranslationStringsController@strings')->name('translation.strings');
+    Route::post('translation/{lang}/update/', 'TranslationStringsController@updateStrings')->name('translation.strings.update');
+    Route::post('/translations/translate/{locale}', 'TranslationStringsController@translate')->name('translations.translate');
+    
+    // ==== TRANSLATION DB MODELS =============================================================================
+    Route::get('translation/dbmodels', 'TranslationDBController@index')->name('translation.dbmodels');
+    Route::post('/translations/dbtranslate/{locale}', 'TranslationDBController@dbtranslate')->name('translations.dbtranslate');
     
     // Categories
     Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
