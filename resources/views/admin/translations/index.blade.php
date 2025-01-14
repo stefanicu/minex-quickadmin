@@ -7,7 +7,12 @@
         </div>
 
         <div class="card-body">
-
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            @if($errors->any())
+                <div class="alert alert-danger">{{ $errors->first() }}</div>
+            @endif
             <div class="table-responsive mt-4">
                 <table class="table table-translations table-bordered table-striped table-hover my-4">
                     <thead>
@@ -44,6 +49,9 @@
                         </tr>
                         @php $odd_even = ($odd_even === 'odd') ? 'even' : 'odd'; @endphp
                     @endforeach
+
+
+                    <!-- Buttons Row -->
                     <tr>
                         <td colspan="2" class="text-right font-weight-bold">{{ __('Translate All') }}</td>
                         @foreach($availableLanguages as $locale)
@@ -51,7 +59,7 @@
                                 $toTranslateCount = $grandTotal - $totals[$locale]; // Calculate remaining translations
                             @endphp
                             <td class="text-center">
-                                <form method="POST" action="#"> @php // {{ route('admin.translations.translate_all', $locale) }} @endphp
+                                <form method="POST" action="{{ route('admin.translations.dbtranslate', ['locale' => $locale]) }}">
                                     @csrf
                                     <button type="submit" class="btn btn-success" @if($toTranslateCount <= 0) disabled @endif>
                                         {{ strtoupper($locale) }} ({{ $toTranslateCount }})
@@ -71,7 +79,6 @@
                         @endforeach
                     </tr>
 
-                    <!-- Buttons Row -->
 
                     </tbody>
                 </table>
