@@ -50,6 +50,12 @@ class ProductsController extends Controller
                 function ($join) use ($currentLocale) {
                     $join->on('categories.id', '=',
                         'category_translations.category_id')->where('category_translations.locale', $currentLocale);
+                })->leftJoin('application_product', 'products.id', '=',
+                'application_product.product_id')->leftJoin('applications', 'applications.id', '=',
+                'application_product.application_id')->leftJoin('application_translations',
+                function ($join) use ($currentLocale) {
+                    $join->on('applications.id', '=',
+                        'application_translations.application_id')->where('application_translations.locale', $currentLocale);
                 })->leftJoin('brands', function ($join) use ($currentLocale) {
                 $join->on('products.brand_id', '=', 'brands.id')->whereNull('brands.deleted_at');
             })->select('products.id', 'brands.name as brand_name',
@@ -258,8 +264,7 @@ class ProductsController extends Controller
             $product->name = $this->chatGptService->translate($product->translate('en')->name, $currentLocale, 'en');
         }
         
-        return view('admin.products.edit',
-            compact('product', 'brands', 'applications', 'categories', 'references', 'brand'));
+        return view('admin.products.edit', compact('product', 'brands', 'applications', 'categories', 'references', 'brand'));
     }
     
     public function update(UpdateProductRequest $request, Product $product)
