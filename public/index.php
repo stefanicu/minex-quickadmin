@@ -3,6 +3,9 @@
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
+// Set the umask
+umask(0002);
+
 define('LARAVEL_START', microtime(true));
 
 /*

@@ -179,7 +179,7 @@ class BlogController extends Controller
             $blog->image->delete();
         }
         
-        return redirect()->route('admin.blogs.index');
+        return redirect()->route('admin.blogs.edit', $blog)->withInput()->withErrors([]);
     }
     
     public function destroy(Blog $blog)

@@ -170,6 +170,7 @@
         @endsection
 
         @section('scripts')
+            <script src="{{ asset('js/slugs.js') }}"></script>
             <script>
                 Dropzone.options.coverPhotoDropzone = {
                     url: '{{ route('admin.categories.storeMedia') }}',
