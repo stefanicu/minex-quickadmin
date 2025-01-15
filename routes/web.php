@@ -68,11 +68,11 @@ Route::group([
     // ==== TRANSLATION STRINGS ===============================================================================
     Route::get('translation/strings', 'TranslationStringsController@strings')->name('translation.strings');
     Route::post('translation/{lang}/update/', 'TranslationStringsController@updateStrings')->name('translation.strings.update');
-    Route::post('/translations/translate/{locale}', 'TranslationStringsController@translate')->name('translations.translate');
+    Route::post('translations/translate/{locale}', 'TranslationStringsController@translate')->name('translations.translate');
     
     // ==== TRANSLATION DB MODELS =============================================================================
     Route::get('translation/dbmodels', 'TranslationDBController@index')->name('translation.dbmodels');
-    Route::post('/translations/dbtranslate/{locale}', 'TranslationDBController@dbtranslate')->name('translations.dbtranslate');
+    Route::post('translation/dbtranslate/{locale}', 'TranslationDBController@dbtranslate')->name('translations.dbtranslate');
     
     // Categories
     Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
