@@ -104,7 +104,7 @@ class TranslationDBController extends Controller
                     ->get();
             }
             
-            $limit = 2;
+            $limit = 2000;
             $index = 1;
             foreach ($records as $record) {
                 if ($index <= $limit) {
