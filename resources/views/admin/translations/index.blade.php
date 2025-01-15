@@ -87,7 +87,37 @@
         </div>
     </div>
 
+    <div id="progress-container" style="border: 1px solid #ccc; padding: 10px; margin-top: 20px;">
+        <h4>Translation Progress</h4>
+        <div id="progress-log" style="height: 200px; overflow-y: auto; font-family: monospace;"></div>
+    </div>
+
 @endsection
 @section('scripts')
     @parent
+    <script src="https://cdn.jsdelivr.net/npm/laravel-echo"></script>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script>
+        // Initialize Pusher and Laravel Echo
+        Pusher.logToConsole = true;
+
+        window.Echo = new Echo({
+            broadcaster: 'pusher',
+            key: '{{ env('PUSHER_APP_KEY') }}',
+            cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
+            forceTLS: true
+        });
+
+        // Listen for TranslationProgress events
+        window.Echo.channel('translation-progress')
+            .listen('.TranslationProgress', (e) => {
+                const logContainer = document.getElementById('progress-log');
+                const message = document.createElement('div');
+                message.textContent = e.message;
+                logContainer.appendChild(message);
+
+                // Auto-scroll to the latest message
+                logContainer.scrollTop = logContainer.scrollHeight;
+            });
+    </script>
 @endsection
