@@ -1,0 +1,26 @@
+<?php
+
+return array (
+  'nume' => 'Įveskite savo vardą',
+  'nume1' => 'Paskutinis vardas turi būti bent 3 simbolių ilgio',
+  'pren' => 'Prašome pateikti savo pavardę',
+  'pren1' => 'Jūsų pavardė turi būti bent 3 simbolių ilgio',
+  'email' => 'Įveskite galiojantį el. pašto adresą',
+  'func' => 'Prašome įvesti savo pareigų pavadinimą',
+  'dom' => 'Įveskite savo pramonės šaką',
+  'cumati' => 'Pasakykite, kaip sužinojote apie mus.',
+  'mesaj' => 'Prašome įvesti žinutę',
+  'field_name' => 'Vardas',
+  'field_surname' => 'Pavardė',
+  'field_company' => 'Įmonė',
+  'field_job' => 'Pareigybės pavadinimas',
+  'field_industry' => 'Pramonė',
+  'field_email' => 'El. paštas',
+  'field_country' => 'Šalis',
+  'field_county' => 'Apskritis',
+  'field_city' => 'Miestas',
+  'field_phone' => 'Telefonas',
+  'field_how_about' => 'Kaip sužinojote apie mus?',
+  'field_messages' => 'Išsami informacija',
+  'field_checkbox' => 'Noriu gauti informaciją apie Minex produktus, paslaugas ir naujienas.',
+);
