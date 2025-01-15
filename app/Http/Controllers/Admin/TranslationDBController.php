@@ -7,6 +7,7 @@ use App\Services\ChatGPTService;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Symfony\Component\HttpFoundation\Response;
 
 class TranslationDBController extends Controller
@@ -24,12 +25,12 @@ class TranslationDBController extends Controller
             'sections' => ['table' => 'front_pages', 'translation_table' => 'front_page_translations', 'foreign_key' => 'front_page_id'],
             'applications' => ['table' => 'applications', 'translation_table' => 'application_translations', 'foreign_key' => 'application_id', 'filter' => ['online' => 1]],
             'categories' => ['table' => 'categories', 'translation_table' => 'category_translations', 'foreign_key' => 'category_id', 'filter' => ['online' => 1]],
-            'brands' => ['table' => 'brands', 'translation_table' => 'brand_translations', 'foreign_key' => 'brand_id', 'filter' => ['online' => 1]],
-            'products' => ['table' => 'products', 'translation_table' => 'product_translations', 'foreign_key' => 'product_id', 'filter' => ['online' => 1]],
-            'industries' => ['table' => 'industries', 'translation_table' => 'industry_translations', 'foreign_key' => 'industry_id', 'filter' => ['online' => 1]],
-            'references' => ['table' => 'references', 'translation_table' => 'reference_translations', 'foreign_key' => 'reference_id', 'filter' => ['online' => 1]],
-            'testimonials' => ['table' => 'testimonials', 'translation_table' => 'testimonial_translations', 'foreign_key' => 'testimonial_id', 'filter' => ['online' => 1]],
-            'blogs' => ['table' => 'blogs', 'translation_table' => 'blog_translations', 'foreign_key' => 'blog_id', 'filter' => ['online' => 1]],
+            'brands' => ['table' => 'brands', 'translation_table' => 'brand_translations', 'foreign_key' => 'brand_id'],
+            'products' => ['table' => 'products', 'translation_table' => 'product_translations', 'foreign_key' => 'product_id'],
+            'industries' => ['table' => 'industries', 'translation_table' => 'industry_translations', 'foreign_key' => 'industry_id'],
+            'references' => ['table' => 'references', 'translation_table' => 'reference_translations', 'foreign_key' => 'reference_id'],
+            'testimonials' => ['table' => 'testimonials', 'translation_table' => 'testimonial_translations', 'foreign_key' => 'testimonial_id'],
+            'blogs' => ['table' => 'blogs', 'translation_table' => 'blog_translations', 'foreign_key' => 'blog_id'],
         ];
         
         $data = [];
@@ -78,27 +79,89 @@ class TranslationDBController extends Controller
         $models = [
             'sections' => ['table' => 'front_pages', 'translation_table' => 'front_page_translations', 'foreign_key' => 'front_page_id'],
             'applications' => ['table' => 'applications', 'translation_table' => 'application_translations', 'foreign_key' => 'application_id', 'filter' => ['online' => 1]],
-            //             'categories' => ['table' => 'categories', 'translation_table' => 'category_translations', 'foreign_key' => 'category_id', 'filter' => ['online' => 1]],
+            'categories' => ['table' => 'categories', 'translation_table' => 'category_translations', 'foreign_key' => 'category_id', 'filter' => ['online' => 1]],
+            'brands' => ['table' => 'brands', 'translation_table' => 'brand_translations', 'foreign_key' => 'brand_id'],
+            'products' => ['table' => 'products', 'translation_table' => 'product_translations', 'foreign_key' => 'product_id'],
+            'industries' => ['table' => 'industries', 'translation_table' => 'industry_translations', 'foreign_key' => 'industry_id'],
+            'references' => ['table' => 'references', 'translation_table' => 'reference_translations', 'foreign_key' => 'reference_id'],
+            'testimonials' => ['table' => 'testimonials', 'translation_table' => 'testimonial_translations', 'foreign_key' => 'testimonial_id'],
+            'blogs' => ['table' => 'blogs', 'translation_table' => 'blog_translations', 'foreign_key' => 'blog_id'],
         ];
         
+        // Loop over each model for translation
+        // Loop through each model for translation
         foreach ($models as $model) {
-            // Fetch records with empty translations for the given locale
-            $records = DB::table($model['translation_table'])
-                ->where('locale', $locale)
-                ->whereNull('name')
-                ->get();
+            // Check if the locale is 'en' (English)
+            if ($locale === 'en') {
+                // If the locale is 'en', we only need Romanian records for translation
+                $records = DB::table($model['translation_table'])
+                    ->whereIn('locale', ['ro']) // Fetch only Romanian records for translation into English
+                    ->get();
+            } else {
+                // Otherwise, fetch both English and the current locale records
+                $records = DB::table($model['translation_table'])
+                    ->whereIn('locale', ['en', $locale]) // Get both English and the current locale records
+                    ->get();
+            }
             
+            $limit = 2;
+            $index = 1;
             foreach ($records as $record) {
-                // Use a translation service to fill empty fields
-                $translatedValue = app(ChatGPTService::class)->translate($record->source_text, $locale);
-                
-                // Update the translation table with the translated value
-                DB::table($model['translation_table'])
-                    ->where('id', $record->id)
-                    ->update(['name' => $translatedValue]);
+                if ($index <= $limit) {
+                    // Get all columns from the translation table dynamically (excluding id, foreign_key, and locale)
+                    $columns = Schema::getColumnListing($model['translation_table']);
+                    $columns = array_diff($columns, ['id', $model['foreign_key'], 'locale', 'online']); // Exclude the unwanted columns
+                    
+                    // Determine source locale based on the current locale
+                    $sourceLocale = ($locale === 'en') ? 'ro' : 'en';
+                    
+                    // Check if the record for the target language exists (current locale)
+                    $existingRecord = DB::table($model['translation_table'])
+                        ->where('locale', $locale)
+                        ->where($model['foreign_key'], $record->{$model['foreign_key']})
+                        ->first();
+                    
+                    if ($existingRecord) {
+                        // Record exists, so update empty fields
+                        foreach ($columns as $column) {
+                            // Check if the target field is empty and the source field is not empty
+                            if (empty($existingRecord->{$column}) && ! empty($record->{$column})) {
+                                // Use the source field value to translate (depending on the source locale)
+                                $translatedValue = app(ChatGPTService::class)->translate($record->{$column}, $locale, $sourceLocale);
+                                // Update the record in the translation table with the translated value
+                                DB::table($model['translation_table'])
+                                    ->where('id', $existingRecord->id)
+                                    ->update([$column => $translatedValue]);
+                            }
+                        }
+                    } else {
+                        $index++;
+                        // No record exists for the current locale, so create a new one
+                        $newRecordData = [
+                            $model['foreign_key'] => $record->{$model['foreign_key']},
+                            'locale' => $locale,
+                        ];
+                        
+                        // For each column, if the source field is not empty, translate and insert the value
+                        foreach ($columns as $column) {
+                            // If the source field exists and has a value, translate it
+                            if ( ! empty($record->{$column})) {
+                                // Translate from source language (Romanian for en, or English for others)
+                                $translatedValue = app(ChatGPTService::class)->translate($record->{$column}, $locale, $sourceLocale);
+                                $newRecordData[$column] = $translatedValue;
+                            } else {
+                                // If there is no value in the source, we can set it to null or some default value if needed
+                                $newRecordData[$column] = null;
+                            }
+                        }
+                        
+                        // Insert the new record with all translated fields
+                        DB::table($model['translation_table'])->insert($newRecordData);
+                    }
+                }
             }
         }
         
-        return redirect()->back()->with('success', __('Translations updated successfully.'));
+        return redirect()->back()->with('success', __('Translations updated successfully for ').$locale);
     }
 }
