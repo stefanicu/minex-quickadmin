@@ -104,8 +104,8 @@ class TranslationStringsController extends Controller
         $englishPath = "{$basePath}/en";
         $targetPath = "{$basePath}/{$lang}";
         
-        $specificFiles = ['form', 'pages', 'pagination', 'seo', 'slugs'];
-        //$specificFiles = ['seo']; // Specify files to include
+        //        $specificFiles = ['form', 'pages', 'pagination', 'seo', 'slugs'];
+        $specificFiles = ['pagination']; // Specify files to include
         $englishFiles = File::exists($englishPath) ? File::allFiles($englishPath) : [];
         
         foreach ($englishFiles as $file) {
