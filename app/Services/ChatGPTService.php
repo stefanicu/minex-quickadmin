@@ -24,30 +24,11 @@ class ChatGPTService
         // Initialize if not already done
         self::init();
         
-        // Prevent translating special HTML entities (like &laquo;, &raquo;)
-        $originalText = $text;
-        $protectedEntities = ['&laquo;', '&raquo;'];
-        
-        // Replace the protected entities with placeholders
-        $placeholders = [];
-        foreach ($protectedEntities as $index => $entity) {
-            $placeholder = "%%PROTECTED_ENTITY_{$index}%%";
-            $placeholders[$entity] = $placeholder;
-            $text = str_replace($entity, $placeholder, $text);
-        }
-        
-        // Prepare the translation prompt
-        $prompt = "Translate the following text from {$sourceLanguage} to {$targetLanguage}. Provide only the translated word/phrase, without any additional explanation:\n\n{$text}";
+        // Prepare the translation prompt to instruct ChatGPT to only translate the visible text inside HTML tags
+        $prompt = "Translate the following text from {$sourceLanguage} to {$targetLanguage}. Provide only the translated word/phrase, without any additional explanation, if the text contain tags only translate the visible text inside the tags. Leave the HTML tags (such as <p>, <strong>, <em>, etc.) intact without any changes. Do not translate the tags or any special characters like entities (e.g., &lt;, &gt;, &amp;, etc.):\n\n{$text}";
         
         // Get the translated text
         $translatedText = self::sendRequest($prompt);
-        
-        // Replace placeholders back with the original entities
-        if ($translatedText) {
-            foreach ($placeholders as $entity => $placeholder) {
-                $translatedText = str_replace($placeholder, $entity, $translatedText);
-            }
-        }
         
         return $translatedText;
     }
@@ -75,7 +56,7 @@ class ChatGPTService
                     'Authorization' => 'Bearer '.self::$apiKey,
                     'Content-Type' => 'application/json',
                 ],
-                'timeout' => 30,
+                'timeout' => 120,
                 'retry' => 3,
                 'json' => [
                     'model' => 'gpt-4o',
