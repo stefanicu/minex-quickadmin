@@ -12,7 +12,7 @@ return [
     'products' => 'Продукти',
     'specifications' => 'Спецификации',
     'advantages' => 'Ползи',
-    'usages' => 'Аксесоари',
+    'usages' => 'Yпотреби',
     'accessories' => 'Аксесоари',
     'ask_our_experts' => 'Попитайте нашите експерти!',
     'call_us' => 'Обадете ни се',
