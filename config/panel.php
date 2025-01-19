@@ -8,7 +8,7 @@ return [
         'en' => 'English',
         'ro' => 'Romanian',
         'bg' => 'Bulgarian',
-        //        'lt' => 'Lithuanian',
+        'lt' => 'Lithuanian',
         //        'lv' => 'Latvian',
         //        'et' => 'Estonian',
         //        'sr' => 'Serbian',
