@@ -31,7 +31,6 @@
 
                 <div class="form-group">
                     <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
-                        <input type="hidden" name="online" value="0">
                         <input class="form-check-input" type="checkbox" name="online" id="online"
                                value="1" {{ old('online', optional($product->translations->firstWhere('locale', app()->getLocale()))->online) ? 'checked' : '' }}>
                         <label class="form-check-label" for="online">{{ trans('cruds.product.fields.online') }}</label>
@@ -264,6 +263,19 @@
                     <button class="btn btn-danger" type="submit">
                         {{ trans('global.save') }}
                     </button>
+                </div>
+            </form>
+
+            <form id="translateButtonForm" method="POST" class="" action="{{ route("admin.translation.granular", [$product->id]) }}" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group">
+                    <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
+                        <input type="hidden" name="id" id="id" value="{{ $product->id }}">
+                        <input type="hidden" name="model_translation" id="model_translation" value="product_translations">
+                        <input type="hidden" name="foreign_key" id="foreign_key" value="product_id">
+                        <input type="hidden" name="language" id="language" value="{{ app()->getLocale() }}">
+                        <button type="submit" class="btn btn-success">{{ trans('admin.translation_button', ['language' => strtoupper(app()->getLocale())]) }}</button>
+                    </div>
                 </div>
             </form>
         </div>
