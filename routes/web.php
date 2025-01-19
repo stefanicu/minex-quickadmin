@@ -73,6 +73,8 @@ Route::group([
     // ==== TRANSLATION DB MODELS =============================================================================
     Route::get('translation/dbmodels', 'TranslationDBController@index')->name('translation.dbmodels');
     Route::post('translation/dbtranslate/{locale}', 'TranslationDBController@dbtranslate')->name('translations.dbtranslate');
+    // Granular Translation
+    Route::post('translation/granular', 'TranslationGranularController@index')->name('translation.granular');
     
     // Categories
     Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
