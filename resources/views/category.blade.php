@@ -50,7 +50,7 @@
                             @endif
                         </div>
                         <hr>
-                        <p>No Products</p>
+                        <p>{{ __('pages.no_products') }}</p>
                     </div>
                 @else
                     <div class="col-12 col-md-8">
