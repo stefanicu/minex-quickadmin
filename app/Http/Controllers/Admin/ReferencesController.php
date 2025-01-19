@@ -35,6 +35,43 @@ class ReferencesController extends Controller
                     DB::raw("COALESCE(reference_translations.name, '--- NO TRANSLATION ---') as name")
                 ]);
             
+            // not for local dev
+            //            foreach ($query->get() as $reference) {
+            //                $images = Media::where('model_id', $reference->id)
+            //                    ->where('model_type', Reference::class)
+            //                    ->get();
+            //
+            //                if (count($images) <= 1) {
+            //                    if (file_exists(public_path().asset('uploads/images/'.$reference->oldimage_1))) {
+            //                        $reference->addMediaFromUrl(url('').asset('uploads/images/'.$reference->oldimage_1))->toMediaCollection(
+            //                            'photo_wide'
+            //                        );
+            //                    }
+            //
+            //                    if (file_exists(public_path().asset('uploads/images/'.$reference->oldimage_2))) {
+            //                        $reference->addMediaFromUrl(url('').asset('uploads/images/'.$reference->oldimage_2))->toMediaCollection(
+            //                            'photo_square'
+            //                        );
+            //                    }
+            //                    if (file_exists(public_path().asset('uploads/images/'.$reference->oldimage_3))) {
+            //                        $reference->addMediaFromUrl(url('').asset('uploads/images/'.$reference->oldimage_3))->toMediaCollection(
+            //                            'photo_square'
+            //                        );
+            //                    }
+            //                    if (file_exists(public_path().asset('uploads/images/'.$reference->oldimage_4))) {
+            //                        $reference->addMediaFromUrl(url('').asset('uploads/images/'.$reference->oldimage_4))->toMediaCollection(
+            //                            'photo_square'
+            //                        );
+            //                    }
+            //                    if (file_exists(public_path().asset('uploads/images/'.$reference->oldimage_5))) {
+            //                        $reference->addMediaFromUrl(url('').asset('uploads/images/'.$reference->oldimage_5))->toMediaCollection(
+            //                            'photo_square'
+            //                        );
+            //                    }
+            //                }
+            //            }
+            //
+            
             $table = Datatables::of($query);
             
             $table->addColumn('placeholder', '&nbsp;');
@@ -278,7 +315,7 @@ class ReferencesController extends Controller
             $index++;
         }
         
-        return redirect()->route('admin.references.edit', $reference)->withInput()->withErrors([]);
+        return redirect()->route('admin.references.edit', $reference)->withErrors([]);
     }
     
     public function destroy(Reference $reference)
