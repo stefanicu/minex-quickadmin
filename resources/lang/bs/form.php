@@ -1,0 +1,26 @@
+<?php
+
+return array (
+  'nume' => '',
+  'nume1' => '',
+  'pren' => '',
+  'pren1' => '',
+  'email' => '',
+  'func' => '',
+  'dom' => '',
+  'cumati' => '',
+  'mesaj' => '',
+  'field_name' => '',
+  'field_surname' => '',
+  'field_company' => '',
+  'field_job' => '',
+  'field_industry' => '',
+  'field_email' => '',
+  'field_country' => '',
+  'field_county' => '',
+  'field_city' => '',
+  'field_phone' => '',
+  'field_how_about' => '',
+  'field_messages' => '',
+  'field_checkbox' => '',
+);
