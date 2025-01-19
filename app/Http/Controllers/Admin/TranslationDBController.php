@@ -104,7 +104,11 @@ class TranslationDBController extends Controller
                     ->get();
             }
             
-            $limit = 2000;
+            if (env('APP_DEBUG') === false && env('APP_ENV') === 'production') {
+                $limit = 1000;
+            } else {
+                $limit = 1;
+            }
             $index = 1;
             foreach ($records as $record) {
                 if ($index <= $limit) {
