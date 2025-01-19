@@ -279,52 +279,51 @@
                 editor.plugins.get('FileRepository').createUploadAdapter = function (loader) {
                     return {
                         upload: function () {
-                            return loader.file
-                                .then(function (file) {
-                                    return new Promise(function (resolve, reject) {
-                                        // Init request
-                                        var xhr = new XMLHttpRequest();
-                                        xhr.open('POST', '{{ route('admin.products.storeCKEditorImages') }}', true);
-                                        xhr.setRequestHeader('x-csrf-token', window._token);
-                                        xhr.setRequestHeader('Accept', 'application/json');
-                                        xhr.responseType = 'json';
+                            return loader.file.then(function (file) {
+                                return new Promise(function (resolve, reject) {
+                                    // Init request
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.open('POST', '{{ route('admin.products.storeCKEditorImages') }}', true);
+                                    xhr.setRequestHeader('x-csrf-token', window._token);
+                                    xhr.setRequestHeader('Accept', 'application/json');
+                                    xhr.responseType = 'json';
 
-                                        // Init listeners
-                                        var genericErrorText = `Couldn't upload file: ${file.name}.`;
-                                        xhr.addEventListener('error', function () {
-                                            reject(genericErrorText)
-                                        });
-                                        xhr.addEventListener('abort', function () {
-                                            reject()
-                                        });
-                                        xhr.addEventListener('load', function () {
-                                            var response = xhr.response;
+                                    // Init listeners
+                                    var genericErrorText = `Couldn't upload file: ${file.name}.`;
+                                    xhr.addEventListener('error', function () {
+                                        reject(genericErrorText)
+                                    });
+                                    xhr.addEventListener('abort', function () {
+                                        reject()
+                                    });
+                                    xhr.addEventListener('load', function () {
+                                        var response = xhr.response;
 
-                                            if (!response || xhr.status !== 201) {
-                                                return reject(response && response.message ? `${genericErrorText}\n${xhr.status} ${response.message}` : `${genericErrorText}\n ${xhr.status} ${xhr.statusText}`);
-                                            }
-
-                                            $('form').append('<input type="hidden" name="ck-media[]" value="' + response.id + '">');
-
-                                            resolve({default: response.url});
-                                        });
-
-                                        if (xhr.upload) {
-                                            xhr.upload.addEventListener('progress', function (e) {
-                                                if (e.lengthComputable) {
-                                                    loader.uploadTotal = e.total;
-                                                    loader.uploaded = e.loaded;
-                                                }
-                                            });
+                                        if (!response || xhr.status !== 201) {
+                                            return reject(response && response.message ? `${genericErrorText}\n${xhr.status} ${response.message}` : `${genericErrorText}\n ${xhr.status} ${xhr.statusText}`);
                                         }
 
-                                        // Send request
-                                        var data = new FormData();
-                                        data.append('upload', file);
-                                        data.append('crud_id', '{{ $product->id ?? 0 }}');
-                                        xhr.send(data);
+                                        $('form').append('<input type="hidden" name="ck-media[]" value="' + response.id + '">');
+
+                                        resolve({default: response.url});
                                     });
-                                })
+
+                                    if (xhr.upload) {
+                                        xhr.upload.addEventListener('progress', function (e) {
+                                            if (e.lengthComputable) {
+                                                loader.uploadTotal = e.total;
+                                                loader.uploaded = e.loaded;
+                                            }
+                                        });
+                                    }
+
+                                    // Send request
+                                    var data = new FormData();
+                                    data.append('upload', file);
+                                    data.append('crud_id', '{{ $product->id ?? 0 }}');
+                                    xhr.send(data);
+                                });
+                            })
                         }
                     };
                 }
@@ -332,11 +331,9 @@
 
             var allEditors = document.querySelectorAll('.ckeditor');
             for (var i = 0; i < allEditors.length; ++i) {
-                ClassicEditor.create(
-                    allEditors[i], {
-                        extraPlugins: [SimpleUploadAdapter]
-                    }
-                );
+                ClassicEditor.create(allEditors[i], {
+                    extraPlugins: [SimpleUploadAdapter]
+                });
             }
         });
     </script>
@@ -344,23 +341,15 @@
     <script>
         var uploadedPhotoMap = {}
         Dropzone.options.photoDropzone = {
-            url: '{{ route('admin.products.storeMedia') }}',
-            maxFilesize: 1, // MB
-            acceptedFiles: '.jpeg,.jpg,.png,.gif',
-            maxFiles: 20,
-            addRemoveLinks: true,
-            headers: {
+            url: '{{ route('admin.products.storeMedia') }}', maxFilesize: 1, // MB
+            acceptedFiles: '.jpeg,.jpg,.png,.gif', maxFiles: 20, addRemoveLinks: true, headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
-            },
-            params: {
+            }, params: {
                 size: 1,
-            },
-            success: function (file, response) {
+            }, success: function (file, response) {
                 $('form').append('<input type="hidden" name="photo[]" value="' + response.name + '">')
                 uploadedPhotoMap[file.name] = response.name
-            },
-            removedfile: function (file) {
-                console.log(file)
+            }, removedfile: function (file) {
                 file.previewElement.remove()
                 var name = ''
                 if (typeof file.file_name !== 'undefined') {
@@ -369,8 +358,7 @@
                     name = uploadedPhotoMap[file.name]
                 }
                 $('form').find('input[name="photo[]"][value="' + name + '"]').remove()
-            },
-            init: function () {
+            }, init: function () {
                 @if(isset($product) && $product->photo)
                 var files = {!! json_encode($product->photo) !!}
                 for(
@@ -382,12 +370,12 @@
                     var file = files[i]
                     this.options.addedfile.call(this, file)
                     this.options.thumbnail.call(this, file, file.preview ?? file.preview_url)
+
                     file.previewElement.classList.add('dz-complete')
                     $('form').append('<input type="hidden" name="photo[]" value="' + file.file_name + '">')
                 }
                 @endif
-            },
-            error: function (file, response) {
+            }, error: function (file, response) {
                 if ($.type(response) === 'string') {
                     var message = response //dropzone sends it's own error messages in string
                 } else {
@@ -409,29 +397,21 @@
 
     <script>
         Dropzone.options.mainPhotoDropzone = {
-            url: '{{ route('admin.products.storeMedia') }}',
-            maxFilesize: 1, // MB
-            acceptedFiles: '.jpeg,.jpg,.png,.gif',
-            maxFiles: 1,
-            addRemoveLinks: true,
-            headers: {
+            url: '{{ route('admin.products.storeMedia') }}', maxFilesize: 1, // MB
+            acceptedFiles: '.jpeg,.jpg,.png,.gif', maxFiles: 1, addRemoveLinks: true, headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
-            },
-            params: {
+            }, params: {
                 size: 1,
-            },
-            success: function (file, response) {
+            }, success: function (file, response) {
                 $('form').find('input[name="main_photo"]').remove()
                 $('form').append('<input type="hidden" name="main_photo" value="' + response.name + '">')
-            },
-            removedfile: function (file) {
+            }, removedfile: function (file) {
                 file.previewElement.remove()
                 if (file.status !== 'error') {
                     $('form').find('input[name="main_photo"]').remove()
                     this.options.maxFiles = this.options.maxFiles + 1
                 }
-            },
-            init: function () {
+            }, init: function () {
                 @if(isset($product) && $product->main_photo)
                 var file = {!! json_encode($product->main_photo) !!}
                 this.options.addedfile.call(this, file)
@@ -440,8 +420,7 @@
                 $('form').append('<input type="hidden" name="main_photo" value="' + file.file_name + '">')
                 this.options.maxFiles = this.options.maxFiles - 1
                 @endif
-            },
-            error: function (file, response) {
+            }, error: function (file, response) {
                 if ($.type(response) === 'string') {
                     var message = response //dropzone sends it's own error messages in string
                 } else {
