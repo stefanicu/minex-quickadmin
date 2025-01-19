@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'translation_button' => 'Translate from EN in :language',
+    'translation_button' => 'Translate to :language',
     'translation_type' => 'The type of translation',
     'translation_total_online_items_count' => 'Total online items',
     'translation_items' => 'Items',
