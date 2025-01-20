@@ -1,14 +1,14 @@
 <?php
 
 return array (
-  'brand' => '',
-  'brands' => '',
-  'product' => '',
-  'products' => '',
-  'category' => '',
-  'categories' => '',
-  'reference' => '',
-  'references' => '',
-  'testimonials' => '',
-  'blog' => '',
+  'brand' => 'partneris',
+  'brands' => 'partneriai',
+  'product' => 'produktas',
+  'products' => 'produktai',
+  'category' => 'kategorija',
+  'categories' => 'kategorijos',
+  'reference' => 'nuoroda',
+  'references' => 'nuorodos',
+  'testimonials' => 'atsiliepimai',
+  'blog' => 'tinklaraštis',
 );
