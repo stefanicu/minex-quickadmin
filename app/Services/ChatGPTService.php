@@ -15,7 +15,7 @@ class ChatGPTService
         // Initialize the client and API key only once
         if (is_null(self::$client)) {
             self::$client = new Client();
-            self::$apiKey = env('OPENAI_API_KEY');
+            self::$apiKey = config('app.openai_api_key');
         }
     }
     
@@ -24,9 +24,13 @@ class ChatGPTService
         // Initialize if not already done
         self::init();
         
-        // Prepare the translation prompt to instruct ChatGPT to only translate the visible text inside HTML tags
-        $prompt = "Translate the following text from {$sourceLanguage} to {$targetLanguage}. Provide only the translated word/phrase, without any additional explanation, if the text contain tags only translate the visible text inside the tags. Leave the HTML tags (such as <p>, <strong>, <em>, etc.) intact without any changes. Do not translate the tags or any special characters like entities (e.g., &lt;, &gt;, &amp;, etc.):\n\n{$text}";
-        
+        if ($targetLanguage === 'rs') {
+            // Prepare the translation prompt to instruct ChatGPT to only translate the visible text inside HTML tags
+            $prompt = "Translate the following text from {$sourceLanguage} to {$targetLanguage} in Latin script. Provide only the translated word/phrase, without any additional explanation, if the text contain tags only translate the visible text inside the tags. Leave the HTML tags (such as <p>, <strong>, <em>, etc.) intact without any changes. Do not translate the tags or any special characters like entities (e.g., &lt;, &gt;, &amp;, etc.):\n\n{$text}";
+        } else {
+            // Prepare the translation prompt to instruct ChatGPT to only translate the visible text inside HTML tags
+            $prompt = "Translate the following text from {$sourceLanguage} to {$targetLanguage}. Provide only the translated word/phrase, without any additional explanation, if the text contain tags only translate the visible text inside the tags. Leave the HTML tags (such as <p>, <strong>, <em>, etc.) intact without any changes. Do not translate the tags or any special characters like entities (e.g., &lt;, &gt;, &amp;, etc.):\n\n{$text}";
+        }
         // Get the translated text
         $translatedText = self::sendRequest($prompt);
         
