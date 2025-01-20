@@ -5,18 +5,18 @@
         <div class="card-header d-flex justify-content-between">
             <div class="w-50">{{ trans('global.edit') }} {{ trans('cruds.blog.title_singular') }}</div>
             <div class="w-50 text-right">
-                <a class="blue" href="{{ route('blog.'.app()->getLocale(), ['slug'=>$blog->slug]) }}"
-                   target="_blank">
-                    <svg class="mr-1" width="20px" height="20px" viewBox="0 0 24 24" fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <g id="Interface / External_Link">
-                            <path id="Vector"
-                                  d="M10.0002 5H8.2002C7.08009 5 6.51962 5 6.0918 5.21799C5.71547 5.40973 5.40973 5.71547 5.21799 6.0918C5 6.51962 5 7.08009 5 8.2002V15.8002C5 16.9203 5 17.4801 5.21799 17.9079C5.40973 18.2842 5.71547 18.5905 6.0918 18.7822C6.5192 19 7.07899 19 8.19691 19H15.8031C16.921 19 17.48 19 17.9074 18.7822C18.2837 18.5905 18.5905 18.2839 18.7822 17.9076C19 17.4802 19 16.921 19 15.8031V14M20 9V4M20 4H15M20 4L13 11"
-                                  stroke="#003eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </g>
-                    </svg>
-                    Preview
-                </a>
+                @if(array_key_exists(app()->getLocale(), config('panel.available_languages')) && $blog->translate(app()->getLocale()))
+                    <a class="blue" href="{{ route('blog.'.app()->getLocale(), ['slug'=>$blog->slug]) }}" target="_blank">
+                        <svg class="mr-1" width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="Interface / External_Link">
+                                <path id="Vector" d="M10.0002 5H8.2002C7.08009 5 6.51962 5 6.0918 5.21799C5.71547 5.40973 5.40973 5.71547 5.21799 6.0918C5 6.51962 5 7.08009 5 8.2002V15.8002C5 16.9203 5 17.4801 5.21799 17.9079C5.40973 18.2842 5.71547 18.5905 6.0918 18.7822C6.5192 19 7.07899 19 8.19691 19H15.8031C16.921 19 17.48 19 17.9074 18.7822C18.2837 18.5905 18.5905 18.2839 18.7822 17.9076C19 17.4802 19 16.921 19 15.8031V14M20 9V4M20 4H15M20 4L13 11" stroke="#003eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                        </svg>
+                        Preview
+                    </a>
+                @else
+                    {{ __('admin.no_page_link_yet') }}
+                @endif
             </div>
         </div>
 
@@ -103,6 +103,19 @@
                     </button>
                 </div>
             </form>
+
+            <form id="translateButtonForm" method="POST" class="" action="{{ route("admin.translation.granular") }}" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group">
+                    <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
+                        <input type="hidden" name="id" id="id" value="{{ $blog->id }}">
+                        <input type="hidden" name="model_translation" id="model_translation" value="blog_translations">
+                        <input type="hidden" name="foreign_key" id="foreign_key" value="blog_id">
+                        <input type="hidden" name="language" id="language" value="{{ app()->getLocale() }}">
+                        <button type="submit" class="btn btn-success">{{ trans('admin.translation_button', ['language' => strtoupper(app()->getLocale())]) }}</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -116,52 +129,51 @@
                 editor.plugins.get('FileRepository').createUploadAdapter = function (loader) {
                     return {
                         upload: function () {
-                            return loader.file
-                                .then(function (file) {
-                                    return new Promise(function (resolve, reject) {
-                                        // Init request
-                                        var xhr = new XMLHttpRequest();
-                                        xhr.open('POST', '{{ route('admin.blogs.storeCKEditorImages') }}', true);
-                                        xhr.setRequestHeader('x-csrf-token', window._token);
-                                        xhr.setRequestHeader('Accept', 'application/json');
-                                        xhr.responseType = 'json';
+                            return loader.file.then(function (file) {
+                                return new Promise(function (resolve, reject) {
+                                    // Init request
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.open('POST', '{{ route('admin.blogs.storeCKEditorImages') }}', true);
+                                    xhr.setRequestHeader('x-csrf-token', window._token);
+                                    xhr.setRequestHeader('Accept', 'application/json');
+                                    xhr.responseType = 'json';
 
-                                        // Init listeners
-                                        var genericErrorText = `Couldn't upload file: ${file.name}.`;
-                                        xhr.addEventListener('error', function () {
-                                            reject(genericErrorText)
-                                        });
-                                        xhr.addEventListener('abort', function () {
-                                            reject()
-                                        });
-                                        xhr.addEventListener('load', function () {
-                                            var response = xhr.response;
+                                    // Init listeners
+                                    var genericErrorText = `Couldn't upload file: ${file.name}.`;
+                                    xhr.addEventListener('error', function () {
+                                        reject(genericErrorText)
+                                    });
+                                    xhr.addEventListener('abort', function () {
+                                        reject()
+                                    });
+                                    xhr.addEventListener('load', function () {
+                                        var response = xhr.response;
 
-                                            if (!response || xhr.status !== 201) {
-                                                return reject(response && response.message ? `${genericErrorText}\n${xhr.status} ${response.message}` : `${genericErrorText}\n ${xhr.status} ${xhr.statusText}`);
-                                            }
-
-                                            $('form').append('<input type="hidden" name="ck-media[]" value="' + response.id + '">');
-
-                                            resolve({default: response.url});
-                                        });
-
-                                        if (xhr.upload) {
-                                            xhr.upload.addEventListener('progress', function (e) {
-                                                if (e.lengthComputable) {
-                                                    loader.uploadTotal = e.total;
-                                                    loader.uploaded = e.loaded;
-                                                }
-                                            });
+                                        if (!response || xhr.status !== 201) {
+                                            return reject(response && response.message ? `${genericErrorText}\n${xhr.status} ${response.message}` : `${genericErrorText}\n ${xhr.status} ${xhr.statusText}`);
                                         }
 
-                                        // Send request
-                                        var data = new FormData();
-                                        data.append('upload', file);
-                                        data.append('crud_id', '{{ $blog->id ?? 0 }}');
-                                        xhr.send(data);
+                                        $('form').append('<input type="hidden" name="ck-media[]" value="' + response.id + '">');
+
+                                        resolve({default: response.url});
                                     });
-                                })
+
+                                    if (xhr.upload) {
+                                        xhr.upload.addEventListener('progress', function (e) {
+                                            if (e.lengthComputable) {
+                                                loader.uploadTotal = e.total;
+                                                loader.uploaded = e.loaded;
+                                            }
+                                        });
+                                    }
+
+                                    // Send request
+                                    var data = new FormData();
+                                    data.append('upload', file);
+                                    data.append('crud_id', '{{ $blog->id ?? 0 }}');
+                                    xhr.send(data);
+                                });
+                            })
                         }
                     };
                 }
