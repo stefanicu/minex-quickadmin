@@ -15,10 +15,12 @@
                     </div>
                 @endif
 
-                <ul class="nav nav-tabs">
+                <ul class="nav nav-tabs" id="languageTabs">
                     @foreach($languages as $lang)
                         <li class="nav-item">
-                            <a class="nav-link @if($loop->first) active @endif" href="#{{ $lang }}" data-toggle="tab">{{ strtoupper($lang) }}</a>
+                            <a class="nav-link {{ $loop->first ? 'active' : '' }}" href="#{{ $lang }}" data-toggle="tab" data-tab-id="{{ $lang }}">
+                                {{ strtoupper($lang) }}
+                            </a>
                         </li>
                     @endforeach
                 </ul>
@@ -67,11 +69,9 @@
                                     {{-- Skip English --}}
                                     <form id="translateButtonForm" method="POST" action="{{ route('admin.translations.translate', $lang) }}" class="absolute top-1">
                                         @csrf
-                                        <button type="submit" class="btn btn-success"
-                                                onclick="location.href='{{ route('admin.translations.translate', $lang) }}'"
-                                                @if($emptyCount === 0) disabled @endif
-                                        >
-                                            Translate to {{ strtoupper($lang) }} ({{ $emptyCount }} empty fields)
+                                        <input type="hidden" name="file" id="file" value="{{ $_GET['file'] }}">
+                                        <button type="submit" class="btn btn-success" onclick="location.href='{{ route('admin.translations.translate', $lang) }}'" @if($emptyCount === 0) disabled @endif >
+                                            Translate to {{ strtoupper($lang) }} ({{ $emptyCount }} empty {{ $emptyCount === 1 ? 'field' : 'fileds' }})
                                         </button>
                                     </form>
                                 @endif
@@ -87,34 +87,70 @@
 @endsection
 @section('scripts')
     @parent
-    @if(!request('file') && count($translations[$languages[0]]) > 0)
-        <script>
-            window.location.href = '?file={{ array_key_first($translations[$languages[0]]) }}';
-        </script>
-    @endif
     <script>
-        document.getElementById('translateButtonForm').addEventListener('submit', function (e) {
-            e.preventDefault();
+        document.addEventListener("DOMContentLoaded", function () {
+            const languageTabs = document.querySelectorAll("#languageTabs .nav-link");
+            const translateButtonForm = document.getElementById('translateButtonForm');
+            const loadingSpinner = document.getElementById('loading-spinner');
 
-            // Show the loading spinner
-            document.getElementById('loading-spinner').style.display = 'block';
+            // Redirect to the first file if no file is selected and translations exist
+            @if(!request('file') && count($translations[$languages[0]]) > 0)
+                window.location.href = '?file={{ array_key_first($translations[$languages[0]]) }}';
+            @endif
 
-            // Use Ajax to submit the form asynchronously
-            var form = new FormData(this);
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', this.action, true);
-
-            xhr.onload = function () {
-                // Hide the loading spinner once the server responds
-                document.getElementById('loading-spinner').style.display = 'none';
-
-                // Optional: refresh the page or handle the response
-                if (xhr.status === 200) {
-                    location.reload();  // Reload the page after the server response
+            // Restore the active tab from localStorage
+            const activeTabId = localStorage.getItem("activeTabId");
+            if (activeTabId) {
+                languageTabs.forEach(tab => {
+                    tab.classList.remove("active");
+                    document.querySelector(tab.getAttribute("href")).classList.remove("show", "active");
+                });
+                const activeTab = document.querySelector(`[href="#${activeTabId}"]`);
+                const activeTabPane = document.querySelector(`#${activeTabId}`);
+                if (activeTab && activeTabPane) {
+                    activeTab.classList.add("active");
+                    activeTabPane.classList.add("show", "active");
                 }
-            };
+            }
 
-            xhr.send(form);
+            // Save the active tab to localStorage on click
+            languageTabs.forEach(tab => {
+                tab.addEventListener("click", function () {
+                    const tabId = this.getAttribute("href").substring(1); // Remove the # from the ID
+                    localStorage.setItem("activeTabId", tabId);
+                });
+            });
+
+            // Handle translate form submission with loading spinner and AJAX
+            if (translateButtonForm) {
+                translateButtonForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    if (loadingSpinner) {
+                        // Show the loading spinner
+                        loadingSpinner.style.display = 'block';
+                    }
+
+                    // Use Ajax to submit the form asynchronously
+                    const form = new FormData(this);
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', this.action, true);
+
+                    xhr.onload = function () {
+                        if (loadingSpinner) {
+                            // Hide the loading spinner once the server responds
+                            loadingSpinner.style.display = 'none';
+                        }
+
+                        // Refresh the page or handle the response
+                        if (xhr.status === 200) {
+                            location.reload(); // Reload the page after the server response
+                        }
+                    };
+
+                    xhr.send(form);
+                });
+            }
         });
     </script>
 @endsection
