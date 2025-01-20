@@ -1,14 +1,14 @@
 <?php
 
 return array (
-  'brand' => '',
-  'brands' => '',
-  'product' => '',
-  'products' => '',
-  'category' => '',
-  'categories' => '',
-  'reference' => '',
-  'references' => '',
-  'testimonials' => '',
-  'blog' => '',
+  'brand' => 'partner',
+  'brands' => 'partnerji',
+  'product' => 'izdelek',
+  'products' => 'izdelki',
+  'category' => 'kategorija',
+  'categories' => 'kategorije',
+  'reference' => 'referenca',
+  'references' => 'reference',
+  'testimonials' => 'pričevanja',
+  'blog' => 'blog',
 );

@@ -1,6 +1,6 @@
 <?php
 
 return array (
-  'previous' => '« Uuemad',
+  'previous' => '&laquo; Uuemad',
   'next' => 'Vanem &raquo;',
 );

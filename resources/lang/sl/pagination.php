@@ -1,6 +1,6 @@
 <?php
 
 return array (
-  'previous' => '',
-  'next' => '',
+  'previous' => '« Novejša',
+  'next' => 'Starejši &raquo;',
 );

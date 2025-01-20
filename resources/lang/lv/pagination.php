@@ -1,6 +1,6 @@
 <?php
 
 return array (
-  'previous' => '&laquo; Jaunāks',
+  'previous' => '« Jaunākas',
   'next' => 'Vecāks &raquo;',
 );

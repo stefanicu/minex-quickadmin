@@ -1,14 +1,14 @@
 <?php
 
 return array (
-  'brand' => '',
-  'brands' => '',
-  'product' => '',
-  'products' => '',
-  'category' => '',
-  'categories' => '',
-  'reference' => '',
-  'references' => '',
-  'testimonials' => '',
-  'blog' => '',
+  'brand' => 'partner',
+  'brands' => 'partnerid',
+  'product' => 'toode',
+  'products' => 'tooted',
+  'category' => 'kategooria',
+  'categories' => 'kategooriad',
+  'reference' => 'viide',
+  'references' => 'viited',
+  'testimonials' => 'soovitused',
+  'blog' => 'blogi',
 );
