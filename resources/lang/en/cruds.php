@@ -76,7 +76,7 @@ return [
             'slug' => 'Slug',
             'slug_helper' => ' ',
             'image' => 'Image',
-            'image_helper' => ' ',
+            'image_helper' => 'Only .jpeg,.jpg,.png,.gif files are allowed. The image must have exact dimensions of 1920x580 pixels (width x height).',
             'created_at' => 'Created at',
             'created_at_helper' => ' ',
             'updated_at' => 'Updated at',
