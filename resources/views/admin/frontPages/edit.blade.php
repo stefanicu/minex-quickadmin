@@ -95,6 +95,19 @@
                     </button>
                 </div>
             </form>
+
+            <form id="translateButtonForm" method="POST" class="" action="{{ route("admin.translation.granular") }}" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group">
+                    <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
+                        <input type="hidden" name="id" id="id" value="{{ $frontPage->id }}">
+                        <input type="hidden" name="model_translation" id="model_translation" value="front_page_translations">
+                        <input type="hidden" name="foreign_key" id="foreign_key" value="front_page_id">
+                        <input type="hidden" name="language" id="language" value="{{ app()->getLocale() }}">
+                        <button type="submit" class="btn btn-success">{{ trans('admin.translation_button', ['language' => strtoupper(app()->getLocale())]) }}</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -107,52 +120,51 @@
                 editor.plugins.get('FileRepository').createUploadAdapter = function (loader) {
                     return {
                         upload: function () {
-                            return loader.file
-                                .then(function (file) {
-                                    return new Promise(function (resolve, reject) {
-                                        // Init request
-                                        var xhr = new XMLHttpRequest();
-                                        xhr.open('POST', '{{ route('admin.front_pages.storeCKEditorImages') }}', true);
-                                        xhr.setRequestHeader('x-csrf-token', window._token);
-                                        xhr.setRequestHeader('Accept', 'application/json');
-                                        xhr.responseType = 'json';
+                            return loader.file.then(function (file) {
+                                return new Promise(function (resolve, reject) {
+                                    // Init request
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.open('POST', '{{ route('admin.front_pages.storeCKEditorImages') }}', true);
+                                    xhr.setRequestHeader('x-csrf-token', window._token);
+                                    xhr.setRequestHeader('Accept', 'application/json');
+                                    xhr.responseType = 'json';
 
-                                        // Init listeners
-                                        var genericErrorText = `Couldn't upload file: ${file.name}.`;
-                                        xhr.addEventListener('error', function () {
-                                            reject(genericErrorText)
-                                        });
-                                        xhr.addEventListener('abort', function () {
-                                            reject()
-                                        });
-                                        xhr.addEventListener('load', function () {
-                                            var response = xhr.response;
+                                    // Init listeners
+                                    var genericErrorText = `Couldn't upload file: ${file.name}.`;
+                                    xhr.addEventListener('error', function () {
+                                        reject(genericErrorText)
+                                    });
+                                    xhr.addEventListener('abort', function () {
+                                        reject()
+                                    });
+                                    xhr.addEventListener('load', function () {
+                                        var response = xhr.response;
 
-                                            if (!response || xhr.status !== 201) {
-                                                return reject(response && response.message ? `${genericErrorText}\n${xhr.status} ${response.message}` : `${genericErrorText}\n ${xhr.status} ${xhr.statusText}`);
-                                            }
-
-                                            $('form').append('<input type="hidden" name="ck-media[]" value="' + response.id + '">');
-
-                                            resolve({default: response.url});
-                                        });
-
-                                        if (xhr.upload) {
-                                            xhr.upload.addEventListener('progress', function (e) {
-                                                if (e.lengthComputable) {
-                                                    loader.uploadTotal = e.total;
-                                                    loader.uploaded = e.loaded;
-                                                }
-                                            });
+                                        if (!response || xhr.status !== 201) {
+                                            return reject(response && response.message ? `${genericErrorText}\n${xhr.status} ${response.message}` : `${genericErrorText}\n ${xhr.status} ${xhr.statusText}`);
                                         }
 
-                                        // Send request
-                                        var data = new FormData();
-                                        data.append('upload', file);
-                                        data.append('crud_id', '{{ $frontPage->id ?? 0 }}');
-                                        xhr.send(data);
+                                        $('form').append('<input type="hidden" name="ck-media[]" value="' + response.id + '">');
+
+                                        resolve({default: response.url});
                                     });
-                                })
+
+                                    if (xhr.upload) {
+                                        xhr.upload.addEventListener('progress', function (e) {
+                                            if (e.lengthComputable) {
+                                                loader.uploadTotal = e.total;
+                                                loader.uploaded = e.loaded;
+                                            }
+                                        });
+                                    }
+
+                                    // Send request
+                                    var data = new FormData();
+                                    data.append('upload', file);
+                                    data.append('crud_id', '{{ $frontPage->id ?? 0 }}');
+                                    xhr.send(data);
+                                });
+                            })
                         }
                     };
                 }
