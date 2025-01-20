@@ -5,7 +5,7 @@
         <div class="card-header d-flex justify-content-between">
             <div class="w-50">{{ trans('global.edit') }} {{ trans('cruds.reference.title_singular') }}</div>
             <div class="w-50 text-right">
-                @if(array_key_exists(app()->getLocale(), config('panel.available_languages')) && $reference->translate(app()->getLocale()))
+                @if(array_key_exists(app()->getLocale(), config('panel.available_languages')) && $reference->translate(app()->getLocale()) && !empty($reference->slug))
                     <a class="blue" href="{{ route('reference.'.app()->getLocale(), ['slug'=>$reference->slug]) }}" target="_blank">
                         <svg class="mr-1" width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="Interface / External_Link">
