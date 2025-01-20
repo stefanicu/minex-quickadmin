@@ -60,12 +60,11 @@ class TranslationGranularController extends Controller
                 
                 if (empty($existingRecord->{$column}) && ! empty($record->{$column})) {
                     // Use the source field value to translate (depending on the source locale)
-                    $translatedValue = ChatGPTService::translate($record->{$column}, $locale, $sourceLocale);
-                    
-                    Log::info('$record->{$column}: '.$record->{$column});
-                    Log::info('$locale: '.$locale);
-                    Log::info('$sourceLocale: '.$sourceLocale);
-                    Log::info('$translatedValue: '.$translatedValue);
+                    if ($column === 'slug') {
+                        $translatedValue = generateSlug($existingRecord->name);
+                    } else {
+                        $translatedValue = ChatGPTService::translate($record->{$column}, $locale, $sourceLocale);
+                    }
                     
                     // Update the record in the translation table with the translated value
                     DB::table($model_translation)
