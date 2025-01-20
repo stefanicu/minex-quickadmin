@@ -98,7 +98,7 @@ class TranslationStringsController extends Controller
     }
     
     
-    public function translate($lang)
+    public function translate(Request $request, $lang)
     {
         $basePath = resource_path('lang');
         $englishPath = "{$basePath}/en";
@@ -107,25 +107,29 @@ class TranslationStringsController extends Controller
         $specificFiles = ['form', 'pages', 'pagination', 'seo', 'slugs'];
         $englishFiles = File::exists($englishPath) ? File::allFiles($englishPath) : [];
         
+        $file_requested = $request->input('file');
+        
         foreach ($englishFiles as $file) {
             $filename = $file->getFilenameWithoutExtension();
             
-            if ( ! in_array($filename, $specificFiles)) {
-                continue; // Skip files not in the specific list
+            if ($filename === $file_requested) {
+                if ( ! in_array($filename, $specificFiles)) {
+                    continue; // Skip files not in the specific list
+                }
+                
+                $englishData = File::getRequire($file->getPathname());
+                $targetFilePath = "{$targetPath}/{$file->getFilename()}";
+                
+                $targetData = File::exists($targetFilePath)
+                    ? File::getRequire($targetFilePath)
+                    : $this->emptyValues($englishData);
+                
+                // Translate using the English data as reference
+                $translatedData = $this->translateArray($targetData, $lang, 'en', $englishData);
+                
+                // Save the translated data back to the target file
+                File::put($targetFilePath, "<?php\n\nreturn ".var_export($translatedData, true).";\n");
             }
-            
-            $englishData = File::getRequire($file->getPathname());
-            $targetFilePath = "{$targetPath}/{$file->getFilename()}";
-            
-            $targetData = File::exists($targetFilePath)
-                ? File::getRequire($targetFilePath)
-                : $this->emptyValues($englishData);
-            
-            // Translate using the English data as reference
-            $translatedData = $this->translateArray($targetData, $lang, 'en', $englishData);
-            
-            // Save the translated data back to the target file
-            File::put($targetFilePath, "<?php\n\nreturn ".var_export($translatedData, true).";\n");
         }
         
         return redirect()->back()->with('success', "Translations for {$lang} updated successfully!");
