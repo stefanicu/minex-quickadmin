@@ -42,7 +42,8 @@
     "files": [
       "app/Helpers/currentRouteChangeName.php",
       "app/Helpers/getStaticMetaData.php",
-      "app/Helpers/getSvgDimensions.php"
+      "app/Helpers/getSvgDimensions.php",
+      "app/Helpers/generateSlug.php"
     ]
   },
   "autoload-dev": {
