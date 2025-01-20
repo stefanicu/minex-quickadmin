@@ -39,4 +39,5 @@ return array (
   'copyright' => 'Minex Group International',
   'see_what_we_have_done' => 'Žiūrėkite, ką mes padarėme dėl',
   'contact_thank_you' => 'Jūsų žinutė sėkmingai išsiųsta, ačiū!',
+  'application' => 'Paraiška',
 );
