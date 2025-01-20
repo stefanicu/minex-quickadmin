@@ -21,6 +21,7 @@ return [
     'send_form' => 'Send Form',
     'similar_products' => 'Products you might also like',
     'category' => 'Category',
+    'application' => 'Application',
     'categories' => 'Categories',
     'chose_category' => 'Choose a Category',
     'all_categories' => 'All Categories',
