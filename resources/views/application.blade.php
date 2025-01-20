@@ -10,18 +10,24 @@
             </ol>
         </nav>
 
+        @php
+            if($application->getImageAttribute()){
+                $cover_image_url = $application->getImageAttribute()->getUrl();
+            }else{
+                $cover_image_url = asset('/img/headers/aplicatie-xl.jpg');
+            }
+        @endphp
+
         <figure class="d-flex align-items-center section--figure">
-            <picture data-alt="Branduri">
-                <source data-srcset="{{ asset('/img/headers/aplicatie-xl.jpg') }}" media="(min-width: 1200px)">
-                <source data-srcset="{{ asset('/img/headers/aplicatie-lg.jpg') }}" media="(min-width: 992px)">
-                <source data-srcset="{{ asset('/img/headers/aplicatie-md.jpg') }}" media="(min-width: 576px)">
-                <source data-srcset="{{ asset('/img/headers/aplicatie-sm.jpg') }}" media="(max-width: 576px)">
-                <img class="lozad img-fluid section--hero-img lazy-fade"
-                     srcset="{{ asset('/img/headers/aplicatie-xl.jpg') }}" alt="{{ trans('pages.categories') }}"
-                     data-loaded="true">
+            <picture data-alt="Category">
+                {{--                <source data-srcset="{{ asset('/img/headers/aplicatie-xl.jpg') }}" media="(min-width: 1200px)">--}}
+                {{--                <source data-srcset="{{ asset('/img/headers/aplicatie-lg.jpg') }}" media="(min-width: 992px)">--}}
+                {{--                <source data-srcset="{{ asset('/img/headers/aplicatie-md.jpg') }}" media="(min-width: 576px)">--}}
+                {{--                <source data-srcset="{{ asset('/img/headers/aplicatie-sm.jpg') }}" media="(max-width: 576px)">--}}
+                <img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ $cover_image_url }}"
+                     alt="{{ trans('pages.application') }}" data-loaded="true">
                 <noscript>
-                    <img class="img-fluid lozad" src="{{ asset('/img/headers/aplicatie-xl.jpg') }}"
-                         alt="{{ trans('pages.categories') }}">
+                    <img class="img-fluid lozad" src="{{ $cover_image_url }}" alt="{{ trans('pages.application') }}">
                 </noscript>
             </picture>
         </figure>
