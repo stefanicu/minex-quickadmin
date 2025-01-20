@@ -43,7 +43,7 @@
                         {{ strtoupper(app()->getLocale()) }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        @foreach(config('panel.available_languages') as $langLocale => $langName)
+                        @foreach(config('translatable.locales') as $langLocale)
                             @if($langLocale != app()->getLocale())
                                 <a class="dropdown-item"
                                    href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['lang' => $langLocale])) }}">
@@ -305,10 +305,10 @@
 </script>
 <script>
     /*!
- * AdminLTE v3.0.0-alpha.2 (https://adminlte.io)
- * Copyright 2014-2018 Abdullah Almsaeed <abdullah@almsaeedstudio.com>
- * Licensed under MIT (https://github.com/almasaeed2010/AdminLTE/blob/master/LICENSE)
- */
+     * AdminLTE v3.0.0-alpha.2 (https://adminlte.io)
+     * Copyright 2014-2018 Abdullah Almsaeed <abdullah@almsaeedstudio.com>
+     * Licensed under MIT (https://github.com/almasaeed2010/AdminLTE/blob/master/LICENSE)
+     */
     !function (e, t) {
         "object" == typeof exports && "undefined" != typeof module ? t(exports) : "function" == typeof define && define.amd ? define(["exports"], t) : t(e.adminlte = {})
     }(this, function (e) {
