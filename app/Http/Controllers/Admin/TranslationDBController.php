@@ -172,4 +172,38 @@ class TranslationDBController extends Controller
         
         return redirect()->back()->with('success', __('Translations updated successfully for ').$locale);
     }
+    
+    public function dbreset(Request $request, $locale)
+    {
+        // Retrieve available locales from configuration
+        $availableLanguages = config('translatable.locales');
+        
+        // Ensure the requested locale is valid
+        if ( ! in_array($locale, $availableLanguages)) {
+            return redirect()->back()->withErrors(['error' => __('Invalid locale.')]);
+        }
+        
+        // Define models and their translation details
+        $models = [
+            'sections' => ['table' => 'front_pages', 'translation_table' => 'front_page_translations', 'foreign_key' => 'front_page_id'],
+            'applications' => ['table' => 'applications', 'translation_table' => 'application_translations', 'foreign_key' => 'application_id', 'filter' => ['online' => 1]],
+            'categories' => ['table' => 'categories', 'translation_table' => 'category_translations', 'foreign_key' => 'category_id', 'filter' => ['online' => 1]],
+            'brands' => ['table' => 'brands', 'translation_table' => 'brand_translations', 'foreign_key' => 'brand_id'],
+            'industries' => ['table' => 'industries', 'translation_table' => 'industry_translations', 'foreign_key' => 'industry_id'],
+            'references' => ['table' => 'references', 'translation_table' => 'reference_translations', 'foreign_key' => 'reference_id'],
+            'testimonials' => ['table' => 'testimonials', 'translation_table' => 'testimonial_translations', 'foreign_key' => 'testimonial_id'],
+            'blogs' => ['table' => 'blogs', 'translation_table' => 'blog_translations', 'foreign_key' => 'blog_id'],
+            'products' => ['table' => 'products', 'translation_table' => 'product_translations', 'foreign_key' => 'product_id'],
+        ];
+        
+        // Loop over each model for translation
+        // Loop through each model for translation
+        foreach ($models as $model) {
+            DB::table($model['translation_table'])
+                ->where('locale', $locale)
+                ->delete();
+        }
+        
+        return redirect()->back()->with('success', __('All translations was deleted successfully for ').strtoupper($locale));
+    }
 }
