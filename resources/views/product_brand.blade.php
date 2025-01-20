@@ -154,7 +154,7 @@
                                 {!! $product->accessories !!}
                             </div>
                         @endif
-                        @if($references && $references->count()>0)
+                        @if($references && $references->filter(function($reference) {return $reference->hasTranslation(app()->getLocale());})->count() > 0)
                             <div class="tab-pane fade" id="{{ trans('pages.references') }}" role="tabpanel" aria-labelledby="{{ trans('pages.references') }}-btn">
                                 <ul>
                                     @foreach($references as $reference)
