@@ -152,16 +152,35 @@ class ApplicationsController extends Controller
         
         if ($request->input('image', false)) {
             if ( ! $application->image || $request->input('image') !== $application->image->file_name) {
+                $tempPath = storage_path('tmp/uploads/'.basename($request->input('image')));
+                // Validate the image dimensions
+                [$width, $height] = getimagesize($tempPath);
+                
+                if ($width != 1920 || $height != 580) {
+                    // Delete the temporary file if validation fails
+                    unlink($tempPath);
+                    
+                    return redirect()->back()->withErrors([
+                        'image' => __("admin.image_dimensions", [
+                            'expected_width' => 1920,
+                            'expected_height' => 580,
+                            'uploaded_width' => $width,
+                            'uploaded_height' => $height
+                        ]),
+                    ]);
+                }
+                
                 if ($application->image) {
                     $application->image->delete();
                 }
-                $application->addMedia(storage_path('tmp/uploads/'.basename($request->input('image'))))->toMediaCollection('image');
+                
+                $application->addMedia($tempPath)->toMediaCollection('image');
             }
         } elseif ($application->image) {
             $application->image->delete();
         }
         
-        return redirect()->route('admin.applications.edit', $application)->withInput()->withErrors([]);
+        return redirect()->route('admin.applications.edit', $application)->withErrors([]);
     }
     
     public function destroy(Application $application)
