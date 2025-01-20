@@ -3,7 +3,8 @@
 
     <div class="card">
         <div class="card-header">
-            {{ trans('cruds.translationCenter.title_singular') }} - <span class="font-weight-bold">DB Models</span>
+            {{ trans('cruds.translationCenter.title_singular') }} -
+            <span class="font-weight-bold">DB Models statistical info</span>
         </div>
 
         <div class="card-body">
@@ -33,7 +34,7 @@
 
                     @foreach($data as $key => $counts)
                         <tr class="{{ $odd_even }}">
-                            <td class="font-weight-bold">{{ ucfirst($key) }}</td>
+                            <td class="font-weight-bold">{{ $key=='sections' ? 'Home Page Sections' : ucfirst($key) }}</td>
                             <td class="text-right font-weight-bold">{{ $counts->count_total }} {{ __('admin.translation_items') }}</td>
                             @foreach($availableLanguages as $locale)
                                 <td class="text-right
@@ -52,22 +53,47 @@
 
 
                     <!-- Buttons Row -->
-                    <tr>
-                        <td colspan="2" class="text-right font-weight-bold">{{ __('Translate All') }}</td>
-                        @foreach($availableLanguages as $locale)
-                            @php
-                                $toTranslateCount = $grandTotal - $totals[$locale]; // Calculate remaining translations
-                            @endphp
-                            <td class="text-center">
-                                <form method="POST" action="{{ route('admin.translations.dbtranslate', ['locale' => $locale]) }}">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success" @if($toTranslateCount <= 0) disabled @endif>
-                                        {{ strtoupper($locale) }} ({{ $toTranslateCount }})
-                                    </button>
-                                </form>
-                            </td>
-                        @endforeach
-                    </tr>
+                    {{--                    <tr>--}}
+                    {{--                        <td colspan="2" class="text-right font-weight-bold">{{ __('Translate All') }}</td>--}}
+                    {{--                        @foreach($availableLanguages as $locale)--}}
+                    {{--                            @php--}}
+                    {{--                                $toTranslateCount = $grandTotal - $totals[$locale]; // Calculate remaining translations--}}
+                    {{--                            @endphp--}}
+                    {{--                            <td class="text-center">--}}
+                    {{--                                <form method="POST" action="{{ route('admin.translations.dbtranslate', ['locale' => $locale]) }}">--}}
+                    {{--                                    @csrf--}}
+                    {{--                                    <button type="submit" class="btn btn-success" @if($toTranslateCount <= 0) disabled @endif>--}}
+                    {{--                                        {{ strtoupper($locale) }} ({{ $toTranslateCount }})--}}
+                    {{--                                    </button>--}}
+                    {{--                                </form>--}}
+                    {{--                            </td>--}}
+                    {{--                        @endforeach--}}
+                    {{--                    </tr>--}}
+
+                    @if(auth()->check() && auth()->user()->id === 1)
+                        {{--                        <tr><td colspan="13">{{ auth()->user()->id }}</td></tr>--}}
+                        <tr>
+                            <td colspan="2" class="text-right font-weight-bold">{{ __('Reset All') }}</td>
+                            @foreach($availableLanguages as $locale)
+                                @if(!in_array($locale,['en','ro','bg']))
+                                    @php
+                                        $toTranslateCount = $totals[$locale]; // Calculate remaining translations
+                                    @endphp
+                                    <td class="text-center">
+                                        <form method="POST" action="{{ route('admin.translations.dbreset', ['locale' => $locale]) }}">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger" @if($toTranslateCount <= 0) disabled @endif>
+                                                {{ strtoupper($locale) }} ({{ $toTranslateCount }})
+                                            </button>
+                                        </form>
+                                    </td>
+                                @else
+                                    <td></td>
+                                @endif
+                            @endforeach
+                        </tr>
+
+                    @endif
 
 
                     <!-- Totals Row -->
@@ -86,12 +112,7 @@
 
         </div>
     </div>
-
-    <div id="progress-container" style="border: 1px solid #ccc; padding: 10px; margin-top: 20px;">
-        <h4>Translation Progress</h4>
-        <div id="progress-log" style="height: 200px; overflow-y: auto; font-family: monospace;"></div>
-    </div>
-
+    
 @endsection
 @section('scripts')
     @parent
@@ -109,15 +130,14 @@
         });
 
         // Listen for TranslationProgress events
-        window.Echo.channel('translation-progress')
-            .listen('.TranslationProgress', (e) => {
-                const logContainer = document.getElementById('progress-log');
-                const message = document.createElement('div');
-                message.textContent = e.message;
-                logContainer.appendChild(message);
+        window.Echo.channel('translation-progress').listen('.TranslationProgress', (e) => {
+            const logContainer = document.getElementById('progress-log');
+            const message = document.createElement('div');
+            message.textContent = e.message;
+            logContainer.appendChild(message);
 
-                // Auto-scroll to the latest message
-                logContainer.scrollTop = logContainer.scrollHeight;
-            });
+            // Auto-scroll to the latest message
+            logContainer.scrollTop = logContainer.scrollHeight;
+        });
     </script>
 @endsection
