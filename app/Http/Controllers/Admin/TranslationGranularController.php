@@ -7,6 +7,7 @@ use App\Services\ChatGPTService;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -31,7 +32,7 @@ class TranslationGranularController extends Controller
         } else {
             // Otherwise, fetch both English and the current locale records
             $record = DB::table($model_translation)
-                ->whereIn('locale', ['en', $locale]) // Get both English and the current locale records
+                ->whereIn('locale', ['en']) // Get both English and the current locale records
                 ->where($foreign_key, '=', $id)
                 ->first();
         }
@@ -53,9 +54,19 @@ class TranslationGranularController extends Controller
             // Record exists, so update empty fields
             foreach ($columns as $column) {
                 // Check if the target field is empty and the source field is not empty
+                Log::info('$existingRecord->'.$column.': '.$existingRecord->{$column});
+                Log::info('$record->'.$column.': '.$record->{$column});
+                Log::info('empty($existingRecord->'.$column.'): '.empty($existingRecord->{$column}));
+                
                 if (empty($existingRecord->{$column}) && ! empty($record->{$column})) {
                     // Use the source field value to translate (depending on the source locale)
                     $translatedValue = ChatGPTService::translate($record->{$column}, $locale, $sourceLocale);
+                    
+                    Log::info('$record->{$column}: '.$record->{$column});
+                    Log::info('$locale: '.$locale);
+                    Log::info('$sourceLocale: '.$sourceLocale);
+                    Log::info('$translatedValue: '.$translatedValue);
+                    
                     // Update the record in the translation table with the translated value
                     DB::table($model_translation)
                         ->where('id', $existingRecord->id)
@@ -74,9 +85,12 @@ class TranslationGranularController extends Controller
                 // If the source field exists and has a value, translate it
                 if ( ! empty($record->{$column})) {
                     // Translate from source language (Romanian for en, or English for others)
-                    $translatedValue = ChatGPTService::translate($record->{$column}, $locale, $sourceLocale);
-                    
-                    $newRecordData[$column] = $translatedValue;
+                    if ($column === 'slug') {
+                        $newRecordData['slug'] = generateSlug($newRecordData['name']);
+                    } else {
+                        $translatedValue = app(ChatGPTService::class)->translate($record->{$column}, $locale, $sourceLocale);
+                        $newRecordData[$column] = $translatedValue;
+                    }
                 } else {
                     // If there is no value in the source, we can set it to null or some default value if needed
                     $newRecordData[$column] = null;
