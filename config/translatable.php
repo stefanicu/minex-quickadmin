@@ -30,7 +30,7 @@ return [
         'lt',
         'lv',
         'et',
-        'sr',
+        'rs',
         'hr',
         'sl',
         'bs',
