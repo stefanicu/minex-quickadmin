@@ -100,7 +100,7 @@ class TranslationDBController extends Controller
             } else {
                 // Otherwise, fetch both English and the current locale records
                 $records = DB::table($model['translation_table'])
-                    ->whereIn('locale', ['en', $locale]) // Get both English and the current locale records
+                    ->whereIn('locale', ['en']) // Get both English and the current locale records
                     ->get();
             }
             
@@ -151,8 +151,12 @@ class TranslationDBController extends Controller
                             // If the source field exists and has a value, translate it
                             if ( ! empty($record->{$column})) {
                                 // Translate from source language (Romanian for en, or English for others)
-                                $translatedValue = app(ChatGPTService::class)->translate($record->{$column}, $locale, $sourceLocale);
-                                $newRecordData[$column] = $translatedValue;
+                                if ($column === 'slug') {
+                                    $newRecordData['slug'] = generateSlug($newRecordData['name']);
+                                } else {
+                                    $translatedValue = app(ChatGPTService::class)->translate($record->{$column}, $locale, $sourceLocale);
+                                    $newRecordData[$column] = $translatedValue;
+                                }
                             } else {
                                 // If there is no value in the source, we can set it to null or some default value if needed
                                 $newRecordData[$column] = null;
