@@ -47,7 +47,7 @@
                             @if($langLocale != app()->getLocale())
                                 <a class="dropdown-item"
                                    href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['lang' => $langLocale])) }}">
-                                    {{ strtoupper($langLocale) }}
+                                    {{ languageToCountryCode($langLocale) }}
                                 </a>
                             @endif
                         @endforeach
