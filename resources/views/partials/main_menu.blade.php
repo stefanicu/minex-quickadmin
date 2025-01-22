@@ -128,7 +128,7 @@
                                         }
                                     @endphp
                                     <li><a class="d-block px-4"
-                                           href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"><strong>{{ strtoupper($langLocale) }}</strong></a>
+                                           href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"><strong>{{ languageToCountryCode($langLocale) }}</strong></a>
                                     </li>
                                 @endif
                             @endforeach
