@@ -10,7 +10,7 @@ if ( ! function_exists('languageToCountryCode')) {
     function languageToCountryCode(string $languageCode): ?string
     {
         $mapping = [
-            'en' => 'US', // English - USA (or use GB for United Kingdom)
+            'en' => 'EN', // English - USA (or use GB for United Kingdom)
             'ro' => 'RO', // Romanian - Romania
             'bg' => 'BG', // Bulgarian - Bulgaria
             'lt' => 'LT', // Lithuanian - Lithuania
