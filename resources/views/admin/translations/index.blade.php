@@ -21,7 +21,7 @@
                         <th>{{ __('admin.translation_type') }}</th>
                         <th>{{ __('admin.translation_total_online_items_count') }}</th>
                         @foreach($availableLanguages as $language)
-                            <th class="text-center">{{ strtoupper($language) }}</th>
+                            <th class="text-center">{{ languageToCountryCode($language) }}</th>
                         @endforeach
                     </tr>
                     </thead>
@@ -83,7 +83,7 @@
                                         <form method="POST" action="{{ route('admin.translations.dbreset', ['locale' => $locale]) }}">
                                             @csrf
                                             <button type="submit" class="btn btn-danger" @if($toTranslateCount <= 0) disabled @endif>
-                                                {{ strtoupper($locale) }} ({{ $toTranslateCount }})
+                                                {{ languageToCountryCode($locale) }} ({{ $toTranslateCount }})
                                             </button>
                                         </form>
                                     </td>
@@ -112,7 +112,7 @@
 
         </div>
     </div>
-    
+
 @endsection
 @section('scripts')
     @parent
