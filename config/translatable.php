@@ -25,18 +25,18 @@ return [
     */
     'locales' => [
         'en',
-        'ro',
         'bg',
+        'bs',
+        'et',
+        'hr',
+        'hu',
         'lt',
         'lv',
-        'et',
-        'rs',
-        'hr',
-        'sl',
-        'bs',
         'mk',
-        'hu',
-        'uk'
+        'ro',
+        'rs',
+        'sl',
+        'uk',
     ],
     
     /*
