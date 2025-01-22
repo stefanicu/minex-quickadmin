@@ -19,7 +19,7 @@
                     @foreach($languages as $lang)
                         <li class="nav-item">
                             <a class="nav-link {{ $loop->first ? 'active' : '' }}" href="#{{ $lang }}" data-toggle="tab" data-tab-id="{{ $lang }}">
-                                {{ strtoupper($lang) }}
+                                {{ languageToCountryCode($lang) }}
                             </a>
                         </li>
                     @endforeach
@@ -71,7 +71,7 @@
                                         @csrf
                                         <input type="hidden" name="file" id="file" value="{{ $_GET['file'] }}">
                                         <button type="submit" class="btn btn-success" onclick="location.href='{{ route('admin.translations.translate', $lang) }}'" @if($emptyCount === 0) disabled @endif >
-                                            Translate to {{ strtoupper($lang) }} ({{ $emptyCount }} empty {{ $emptyCount === 1 ? 'field' : 'fileds' }})
+                                            Translate to {{ languageToCountryCode($lang) }} ({{ $emptyCount }} empty {{ $emptyCount === 1 ? 'field' : 'fileds' }})
                                         </button>
                                     </form>
                                 @endif
