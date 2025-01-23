@@ -51,49 +51,23 @@
                         @php $odd_even = ($odd_even === 'odd') ? 'even' : 'odd'; @endphp
                     @endforeach
 
-
                     <!-- Buttons Row -->
-                    {{--                    <tr>--}}
-                    {{--                        <td colspan="2" class="text-right font-weight-bold">{{ __('Translate All') }}</td>--}}
-                    {{--                        @foreach($availableLanguages as $locale)--}}
-                    {{--                            @php--}}
-                    {{--                                $toTranslateCount = $grandTotal - $totals[$locale]; // Calculate remaining translations--}}
-                    {{--                            @endphp--}}
-                    {{--                            <td class="text-center">--}}
-                    {{--                                <form method="POST" action="{{ route('admin.translations.dbtranslate', ['locale' => $locale]) }}">--}}
-                    {{--                                    @csrf--}}
-                    {{--                                    <button type="submit" class="btn btn-success" @if($toTranslateCount <= 0) disabled @endif>--}}
-                    {{--                                        {{ strtoupper($locale) }} ({{ $toTranslateCount }})--}}
-                    {{--                                    </button>--}}
-                    {{--                                </form>--}}
-                    {{--                            </td>--}}
-                    {{--                        @endforeach--}}
-                    {{--                    </tr>--}}
-
-                    @if(auth()->check() && auth()->user()->id === 1)
-                        {{--                        <tr><td colspan="13">{{ auth()->user()->id }}</td></tr>--}}
-                        <tr>
-                            <td colspan="2" class="text-right font-weight-bold">{{ __('Reset All') }}</td>
-                            @foreach($availableLanguages as $locale)
-                                @if(!in_array($locale,['en','ro','bg']))
-                                    @php
-                                        $toTranslateCount = $totals[$locale]; // Calculate remaining translations
-                                    @endphp
-                                    <td class="text-center">
-                                        <form method="POST" action="{{ route('admin.translations.dbreset', ['locale' => $locale]) }}">
-                                            @csrf
-                                            <button type="submit" class="btn btn-danger" @if($toTranslateCount <= 0) disabled @endif>
-                                                {{ languageToCountryCode($locale) }} ({{ $toTranslateCount }})
-                                            </button>
-                                        </form>
-                                    </td>
-                                @else
-                                    <td></td>
-                                @endif
-                            @endforeach
-                        </tr>
-
-                    @endif
+                    <tr>
+                        <td colspan="2" class="text-right font-weight-bold py-3">{{ __('admin.translation_bulk') }}</td>
+                        @foreach($availableLanguages as $locale)
+                            @php
+                                $toTranslateCount = $grandTotal - $totals[$locale]; // Calculate remaining translations
+                            @endphp
+                            <td class="text-center">
+                                <form method="POST" action="{{ route('admin.translations.dbtranslate', ['locale' => $locale]) }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success" @if($toTranslateCount <= 0) disabled @endif>
+                                        {{ strtoupper($locale) }} ({{ $toTranslateCount }})
+                                    </button>
+                                </form>
+                            </td>
+                        @endforeach
+                    </tr>
 
 
                     <!-- Totals Row -->
@@ -105,6 +79,31 @@
                         @endforeach
                     </tr>
 
+
+                    {{--                    @if(auth()->check() && auth()->user()->id === 1)--}}
+                    {{--                        --}}{{-- <tr><td colspan="13">{{ auth()->user()->id }}</td></tr>--}}
+                    {{--                        <tr>--}}
+                    {{--                            <td colspan="2" class="text-right font-weight-bold">{{ __('admin.translation_reset_language') }}</td>--}}
+                    {{--                            @foreach($availableLanguages as $locale)--}}
+                    {{--                                @if(!in_array($locale,['en','ro','bg']))--}}
+                    {{--                                    @php--}}
+                    {{--                                        $toTranslateCount = $totals[$locale]; // Calculate remaining translations--}}
+                    {{--                                    @endphp--}}
+                    {{--                                    <td class="text-center">--}}
+                    {{--                                        <form method="POST" action="{{ route('admin.translations.dbreset', ['locale' => $locale]) }}">--}}
+                    {{--                                            @csrf--}}
+                    {{--                                            <button type="submit" class="btn btn-danger" @if($toTranslateCount <= 0) disabled @endif>--}}
+                    {{--                                                {{ languageToCountryCode($locale) }} ({{ $toTranslateCount }})--}}
+                    {{--                                            </button>--}}
+                    {{--                                        </form>--}}
+                    {{--                                    </td>--}}
+                    {{--                                @else--}}
+                    {{--                                    <td></td>--}}
+                    {{--                                @endif--}}
+                    {{--                            @endforeach--}}
+                    {{--                        </tr>--}}
+
+                    {{--                    @endif--}}
 
                     </tbody>
                 </table>
