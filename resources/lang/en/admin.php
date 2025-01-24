@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'site_title' => 'Minex Group',
     'no_page_link_yet' => 'No page link yet',
     'translation_button' => 'Translate to :language',
     'translation_type' => 'The type of translation',
