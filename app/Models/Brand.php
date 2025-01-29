@@ -6,7 +6,6 @@ use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -14,7 +13,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Brand extends Model implements HasMedia, TranslatableContract
 {
-    use SoftDeletes, InteractsWithMedia, Translatable;
+    use InteractsWithMedia, Translatable;
     
     public $table = 'brands';
     
