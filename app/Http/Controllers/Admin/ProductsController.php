@@ -57,7 +57,7 @@ class ProductsController extends Controller
                     $join->on('applications.id', '=',
                         'application_translations.application_id')->where('application_translations.locale', $currentLocale);
                 })->leftJoin('brands', function ($join) use ($currentLocale) {
-                $join->on('products.brand_id', '=', 'brands.id')->whereNull('brands.deleted_at');
+                $join->on('products.brand_id', '=', 'brands.id');
             })->select('products.id', 'brands.name as brand_name',
                 DB::raw("COALESCE(product_translations.name, '--- NO TRANSLATION ---') as name"),
                 DB::raw("GROUP_CONCAT(DISTINCT category_translations.name ORDER BY category_translations.name ASC SEPARATOR ', ') as category_names"))->groupBy('products.id',
