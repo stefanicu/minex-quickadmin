@@ -16,7 +16,6 @@ class TranslationAllLanguagesController extends Controller
     {
         abort_if(Gate::denies('translation_center_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
-        $locale = $request->input('language');
         $modelTranslation = $request->input('model_translation');
         $foreignKey = $request->input('foreign_key');
         $id = $request->input('id');
