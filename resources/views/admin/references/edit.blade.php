@@ -182,6 +182,21 @@
 
             </form>
 
+            @if( app()->getLocale() === 'en' )
+                <form id="translateButtonAllForm" method="POST" class="" action="{{ route("admin.translation.languages") }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group">
+                        <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
+                            <input type="hidden" name="id" id="id" value="{{ $reference->id }}">
+                            <input type="hidden" name="model_translation" id="model_translation" value="reference_translations">
+                            <input type="hidden" name="foreign_key" id="foreign_key" value="reference_id">
+                            <input type="hidden" name="language" id="language" value="{{ app()->getLocale() }}">
+                            <button type="submit" class="btn btn-warning">{{ trans('admin.translation_button_all') }}</button>
+                        </div>
+                    </div>
+                </form>
+            @endif
+
             <form id="translateButtonForm" method="POST" class="" action="{{ route("admin.translation.granular") }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
