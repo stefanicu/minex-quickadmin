@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Services\ChatGPTService;
+use App\Traits\TranslateWithQueue;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TranslationDBController extends Controller
 {
+    use TranslateWithQueue;
+    
     public function index(Request $request)
     {
         abort_if(Gate::denies('translation_center_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -37,7 +39,11 @@ class TranslationDBController extends Controller
         
         // Loop through models and build queries dynamically
         foreach ($models as $key => $model) {
-            $query = DB::table($model['table'])->whereNull("{$model['table']}.deleted_at")->selectRaw('COUNT(*) as count_total');
+            if (Schema::hasColumn($model['table'], 'deleted_at')) {
+                $query = DB::table($model['table'])->whereNull("{$model['table']}.deleted_at")->selectRaw('COUNT(*) as count_total');
+            } else {
+                $query = DB::table($model['table'])->selectRaw('COUNT(*) as count_total');
+            }
             
             // Add counts for each available language
             foreach ($availableLanguages as $locale) {
@@ -107,66 +113,14 @@ class TranslationDBController extends Controller
             if (env('APP_DEBUG') === false && env('APP_ENV') === 'production') {
                 $limit = 1000;
             } else {
-                $limit = 1;
+                $limit = 5;
             }
             $index = 1;
             foreach ($records as $record) {
                 if ($index <= $limit) {
-                    // Get all columns from the translation table dynamically (excluding id, foreign_key, and locale)
-                    $columns = Schema::getColumnListing($model['translation_table']);
-                    $columns = array_diff($columns, ['id', $model['foreign_key'], 'locale', 'online']); // Exclude the unwanted columns
-                    
-                    // Determine source locale based on the current locale
-                    $sourceLocale = ($locale === 'en') ? 'ro' : 'en';
-                    
-                    // Check if the record for the target language exists (current locale)
-                    $existingRecord = DB::table($model['translation_table'])
-                        ->where('locale', $locale)
-                        ->where($model['foreign_key'], $record->{$model['foreign_key']})
-                        ->first();
-                    
-                    if ($existingRecord) {
-                        // Record exists, so update empty fields
-                        foreach ($columns as $column) {
-                            // Check if the target field is empty and the source field is not empty
-                            if (empty($existingRecord->{$column}) && ! empty($record->{$column})) {
-                                // Use the source field value to translate (depending on the source locale)
-                                $translatedValue = app(ChatGPTService::class)->translate($record->{$column}, $locale, $sourceLocale);
-                                // Update the record in the translation table with the translated value
-                                DB::table($model['translation_table'])
-                                    ->where('id', $existingRecord->id)
-                                    ->update([$column => $translatedValue]);
-                            }
-                        }
-                    } else {
-                        $index++;
-                        // No record exists for the current locale, so create a new one
-                        $newRecordData = [
-                            $model['foreign_key'] => $record->{$model['foreign_key']},
-                            'locale' => $locale,
-                        ];
-                        
-                        // For each column, if the source field is not empty, translate and insert the value
-                        foreach ($columns as $column) {
-                            // If the source field exists and has a value, translate it
-                            if ( ! empty($record->{$column})) {
-                                // Translate from source language (Romanian for en, or English for others)
-                                if ($column === 'slug') {
-                                    $newRecordData['slug'] = generateSlug($newRecordData['name']);
-                                } else {
-                                    $translatedValue = app(ChatGPTService::class)->translate($record->{$column}, $locale, $sourceLocale);
-                                    $newRecordData[$column] = $translatedValue;
-                                }
-                            } else {
-                                // If there is no value in the source, we can set it to null or some default value if needed
-                                $newRecordData[$column] = null;
-                            }
-                        }
-                        
-                        // Insert the new record with all translated fields
-                        DB::table($model['translation_table'])->insert($newRecordData);
-                    }
+                    $this->translateQueueByColumns($model['translation_table'], $model['foreign_key'], $locale, $record->{$model['foreign_key']});
                 }
+                $index++;
             }
         }
         
