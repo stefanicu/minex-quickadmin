@@ -129,8 +129,7 @@
                     </div>
                 </form>
             @endif
-
-
+            
             <form id="translateButtonForm" method="POST" class="" action="{{ route("admin.translation.granular") }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
