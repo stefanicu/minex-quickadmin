@@ -189,6 +189,8 @@ return [
             'deleted_at_helper' => ' ',
             'categories' => 'Categories',
             'categories_helper' => ' ',
+            'languages' => 'Languages',
+            'languages_helper' => ' ',
             'references' => 'References',
             'references_helper' => ' ',
             'oldid' => 'Oldid',
