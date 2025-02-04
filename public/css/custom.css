@@ -251,5 +251,11 @@ ul.pagination li.active a {
 #translateButtonForm {
     position: absolute;
     bottom: 20px;
-    right: 10px;
+    right: 15px;
+}
+
+#translateButtonAllForm {
+    position: absolute;
+    bottom: 20px;
+    right: 150px;
 }
