@@ -58,10 +58,9 @@ class ProductsController extends Controller
                         'application_translations.application_id')->where('application_translations.locale', $currentLocale);
                 })->leftJoin('brands', function ($join) use ($currentLocale) {
                 $join->on('products.brand_id', '=', 'brands.id');
-            })->select('products.id', 'brands.name as brand_name',
-                DB::raw("COALESCE(product_translations.name, '--- NO TRANSLATION ---') as name"),
-                DB::raw("GROUP_CONCAT(DISTINCT category_translations.name ORDER BY category_translations.name ASC SEPARATOR ', ') as category_names"))->groupBy('products.id',
-                'product_translations.name', 'brands.name');
+            })->select('products.id', 'brands.name as brand_name', 'category_translations.name as category_names',
+                DB::raw("COALESCE(product_translations.name, '--- NO TRANSLATION ---') as name"))
+                ->groupBy('products.id', 'product_translations.name', 'brands.name', 'category_names');
             
             $table = Datatables::of($query);
             
@@ -248,20 +247,21 @@ class ProductsController extends Controller
         
         $brands = Brand::orderBy('name', 'asc')->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
         
-        $applications = ApplicationTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name',
-            'application_id');
+        $applications = ApplicationTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name', 'application_id');
         
-        $categories = CategoryTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name',
-            'category_id');
+        $categories = CategoryTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name', 'category_id');
         
-        $references = ReferenceTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name',
-            'reference_id');
+        $references = ReferenceTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name', 'reference_id');
         
         //$product->load('brand', 'applications', 'categories', 'references');
         
         
         if (empty($product->name)) {
-            $product->name = $this->chatGptService->translate($product->translate('en')->name, $currentLocale, 'en');
+            if ($currentLocale == 'en' || ! isset($product->translate('en')->name)) {
+                $product->name = $this->chatGptService->translate($product->translate('ro')->name, $currentLocale, 'ro');
+            } else {
+                $product->name = $this->chatGptService->translate($product->translate('en')->name, $currentLocale, 'en');
+            }
         }
         
         return view('admin.products.edit', compact('product', 'brands', 'applications', 'categories', 'references', 'brand'));
