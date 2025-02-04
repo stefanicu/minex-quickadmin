@@ -43,6 +43,9 @@
                         {{ trans('cruds.product.fields.categories') }}
                     </th>
                     {{--                    <th>--}}
+                    {{--                        {{ trans('cruds.product.fields.languages') }}--}}
+                    {{--                    </th>--}}
+                    {{--                    <th>--}}
                     {{--                        {{ trans('cruds.product.fields.photo') }}--}}
                     {{--                    </th>--}}
                     <th>
@@ -128,6 +131,7 @@
                     {data: 'name', name: 'product_translations.name'},
                     {data: 'applications', name: 'application_translations.name', sortable: false},
                     {data: 'categories', name: 'category_translations.name', sortable: false},
+                    // {data: 'languages', name: 'category_translations.lang', sortable: false},
                     // { data: 'photo', name: 'photo', sortable: false, searchable: false },
                     {
                         data: 'actions',
@@ -143,8 +147,7 @@
             };
             let table = $('.datatable-Product').DataTable(dtOverrideGlobals);
             $('a[data-toggle="tab"]').on('shown.bs.tab click', function (e) {
-                $($.fn.dataTable.tables(true)).DataTable()
-                    .columns.adjust();
+                $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
             });
 
         });
