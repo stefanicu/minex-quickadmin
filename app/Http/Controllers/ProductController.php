@@ -36,7 +36,11 @@ class ProductController extends Controller
                 ->with('translations')
                 ->first();
             
-            $application->name = trans('pages.no_translated_title');
+            if ($application) {
+                $application->name = trans('pages.no_translated_title');
+            } else {
+                \Log::error('Aplicația nu a fost găsită pentru slug: '.$application_slug);
+            }
         }
         
         $category = Category::whereTranslation('slug', $category_slug)
