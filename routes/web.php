@@ -76,6 +76,8 @@ Route::group([
     Route::post('translation/dbreset/{locale}', 'TranslationDBController@dbreset')->name('translations.dbreset');
     // Granular Translation
     Route::post('translation/granular', 'TranslationGranularController@index')->name('translation.granular');
+    // All Languages Translation by queue
+    Route::post('translation/languages', 'TranslationAllLanguagesController@index')->name('translation.languages');
     
     // Categories
     Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
