@@ -26,10 +26,13 @@ class ChatGPTService
         
         if ($targetLanguage === 'rs') {
             // Prepare the translation prompt to instruct ChatGPT to only translate the visible text inside HTML tags
-            $prompt = "Translate the following text from {$sourceLanguage} to {$targetLanguage} in Latin script. Provide only the translated word/phrase, without any additional explanation, if the text contain tags only translate the visible text inside the tags. Leave the HTML tags (such as <p>, <strong>, <em>, etc.) intact without any changes. Do not translate the tags or any special characters like entities (e.g., &lt;, &gt;, &amp;, etc.):\n\n{$text}";
+            $prompt = "Translate the following text from {$sourceLanguage} to {$targetLanguage} in Latin script. Provide only the translated word/phrase, without any additional explanation, if the text contain tags only translate the visible text inside the tags. Leave the HTML tags (such as <table>, <tr>, <th>, <td>, <p>, <strong>, <em>, etc.) intact without any changes. Do not translate the tags or any special characters like entities (e.g., &lt;, &gt;, &amp;, etc.):\n\n{$text}";
+        } elseif ($targetLanguage === 'ro') {
+            // Prepare the translation prompt to instruct ChatGPT to only translate the visible text inside HTML tags
+            $prompt = "Translate the following text from {$sourceLanguage} to {$targetLanguage} but without diacritics. Provide only the translated word/phrase, without any additional explanation, if the text contain tags only translate the visible text inside the tags. Leave the HTML tags (such as <table>, <tr>, <th>, <td>, <p>, <strong>, <em>, etc.) intact without any changes. Do not translate the tags or any special characters like entities (e.g., &lt;, &gt;, &amp;, etc.):\n\n{$text}";
         } else {
             // Prepare the translation prompt to instruct ChatGPT to only translate the visible text inside HTML tags
-            $prompt = "Translate the following text from {$sourceLanguage} to {$targetLanguage}. Provide only the translated word/phrase, without any additional explanation, if the text contain tags only translate the visible text inside the tags. Leave the HTML tags (such as <p>, <strong>, <em>, etc.) intact without any changes. Do not translate the tags or any special characters like entities (e.g., &lt;, &gt;, &amp;, etc.):\n\n{$text}";
+            $prompt = "Translate the following text from {$sourceLanguage} to {$targetLanguage}. Provide only the translated word/phrase, without any additional explanation, if the text contain tags only translate the visible text inside the tags. Leave the HTML tags (such as <table>, <tr>, <th>, <td>, <p>, <strong>, <em>, etc.) intact without any changes. Do not translate the tags or any special characters like entities (e.g., &lt;, &gt;, &amp;, etc.):\n\n{$text}";
         }
         // Get the translated text
         $translatedText = self::sendRequest($prompt);
