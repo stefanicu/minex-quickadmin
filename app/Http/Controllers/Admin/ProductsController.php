@@ -15,7 +15,6 @@ use App\Models\ReferenceTranslation;
 use App\Services\ChatGPTService;
 use Gate;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
@@ -39,28 +38,34 @@ class ProductsController extends Controller
         if ($request->ajax()) {
             $currentLocale = app()->getLocale();
             
-            $query = Product::with('translations', 'media', 'brand', 'brand.translations', 'applications.translations',
-                'applications.media', 'categories.translations', 'categories.media',)->leftJoin('product_translations',
-                function ($join) use ($currentLocale) {
-                    $join->on('products.id', '=',
-                        'product_translations.product_id')->where('product_translations.locale', $currentLocale);
-                })->leftJoin('category_product', 'products.id', '=',
-                'category_product.product_id')->leftJoin('categories', 'categories.id', '=',
-                'category_product.category_id')->leftJoin('category_translations',
-                function ($join) use ($currentLocale) {
-                    $join->on('categories.id', '=',
-                        'category_translations.category_id')->where('category_translations.locale', $currentLocale);
-                })->leftJoin('application_product', 'products.id', '=',
-                'application_product.product_id')->leftJoin('applications', 'applications.id', '=',
-                'application_product.application_id')->leftJoin('application_translations',
-                function ($join) use ($currentLocale) {
-                    $join->on('applications.id', '=',
-                        'application_translations.application_id')->where('application_translations.locale', $currentLocale);
-                })->leftJoin('brands', function ($join) use ($currentLocale) {
-                $join->on('products.brand_id', '=', 'brands.id');
-            })->select('products.id', 'brands.name as brand_name', 'category_translations.name as category_names',
-                DB::raw("COALESCE(product_translations.name, '--- NO TRANSLATION ---') as name"))
-                ->groupBy('products.id', 'product_translations.name', 'brands.name', 'category_names');
+            $query = Product::with([
+                'translations',
+                'media',
+                'brand.translations',
+                'application.translations',
+                'category.translations'
+            ])
+                ->leftJoin('product_translations', function ($join) use ($currentLocale) {
+                    $join->on('products.id', '=', 'product_translations.product_id')
+                        ->where('product_translations.locale', $currentLocale);
+                })
+                ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
+                ->leftJoin('application_translations', function ($join) use ($currentLocale) {
+                    $join->on('products.application_id', '=', 'application_translations.application_id')
+                        ->where('application_translations.locale', $currentLocale);
+                })
+                ->leftJoin('category_translations', function ($join) use ($currentLocale) {
+                    $join->on('products.category_id', '=', 'category_translations.category_id')
+                        ->where('category_translations.locale', $currentLocale);
+                })
+                ->selectRaw("
+                    products.id,
+                    COALESCE(product_translations.name, '--- NO TRANSLATION ---') as name,
+                    brands.name as brand_name,
+                    application_translations.name as application_name,
+                    category_translations.name as category_name
+                ")
+                ->distinct(); // Use distinct() instead of groupBy if no aggregation is needed
             
             $table = Datatables::of($query);
             
@@ -93,21 +98,11 @@ class ProductsController extends Controller
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });
-            $table->editColumn('applications', function ($row) {
-                $labels = [];
-                foreach ($row->applications as $applicaiton) {
-                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $applicaiton->name);
-                }
-                
-                return implode(' ', $labels);
+            $table->editColumn('application', function ($row) {
+                return $row->application ? $row->application : '';
             });
-            $table->editColumn('categories', function ($row) {
-                $labels = [];
-                foreach ($row->categories as $category) {
-                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $category->name);
-                }
-                
-                return implode(' ', $labels);
+            $table->editColumn('category', function ($row) {
+                return $row->category ? $row->category : '';
             });
             //            $table->editColumn('photo', function ($row) {
             //                if (! $row->photo) {
@@ -121,17 +116,17 @@ class ProductsController extends Controller
             //                return implode(' ', $links);
             //            });
             //
-            //            $table->editColumn('main_photo', function ($row) {
-            //                if ($photo = $row->main_photo) {
-            //                    return sprintf(
-            //                        '<a href="%s" target="_blank"><img src="%s" width="auto" height="50px"></a>',
-            //                        $photo->url,
-            //                        $photo->thumbnail
-            //                    );
-            //                }
-            //
-            //                return '';
-            //            });
+            $table->editColumn('main_photo', function ($row) {
+                if ($photo = $row->main_photo) {
+                    return sprintf(
+                        '<a href="%s" target="_blank"><img src="%s" width="auto" height="50px"></a>',
+                        $photo->url,
+                        $photo->thumbnail
+                    );
+                }
+                
+                return '';
+            });
             
             $table->rawColumns([
                 'actions', 'placeholder', 'online', 'brand', 'applications', 'categories', 'photo', 'main_photo'
