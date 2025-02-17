@@ -72,11 +72,6 @@ class Category extends Model implements HasMedia, TranslatableContract
         //        $this->addMediaConversion('sm_webp')->fit('crop', 425,200)->format(Manipulations::FORMAT_WEBP);
     }
     
-    public function products(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Product::class);
-    }
-    
     public function getCoverPhotoAttribute()
     {
         $file = $this->getMedia('cover_photo')->last();
@@ -110,8 +105,13 @@ class Category extends Model implements HasMedia, TranslatableContract
         return null;
     }
     
-    public function applications(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function application(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsToMany(Application::class);
+        return $this->belongsTo(Application::class);
+    }
+    
+    public function products(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Product::class);
     }
 }
