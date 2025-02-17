@@ -64,14 +64,14 @@ class Product extends Model implements HasMedia, TranslatableContract
         return $this->belongsTo(Brand::class, 'brand_id');
     }
     
-    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsToMany(Category::class, 'category_product', 'product_id', 'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
     
-    public function applications(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function application(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsToMany(Application::class, 'application_product', 'product_id', 'application_id');
+        return $this->belongsTo(Application::class, 'application_id');
     }
     
     public function Productfiles(): \Illuminate\Database\Eloquent\Relations\HasMany
