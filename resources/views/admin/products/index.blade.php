@@ -37,17 +37,17 @@
                         {{ trans('cruds.product.fields.name') }}
                     </th>
                     <th>
-                        {{ trans('cruds.product.fields.applications') }}
+                        {{ trans('cruds.product.fields.application') }}
                     </th>
                     <th>
-                        {{ trans('cruds.product.fields.categories') }}
+                        {{ trans('cruds.product.fields.category') }}
                     </th>
                     {{--                    <th>--}}
                     {{--                        {{ trans('cruds.product.fields.languages') }}--}}
                     {{--                    </th>--}}
-                    {{--                    <th>--}}
-                    {{--                        {{ trans('cruds.product.fields.photo') }}--}}
-                    {{--                    </th>--}}
+                    <th>
+                        {{ trans('cruds.product.fields.main_photo') }}
+                    </th>
                     <th>
                         &nbsp;
                     </th>
@@ -128,11 +128,17 @@
                     {data: 'id', name: 'id'},
                     {data: 'brand_name', name: 'brand.name'},
                     // { data: 'product_translations.slug', name: 'product_translations.slug' },
-                    {data: 'name', name: 'product_translations.name'},
-                    {data: 'applications', name: 'application_translations.name', sortable: false},
-                    {data: 'categories', name: 'category_translations.name', sortable: false},
-                    // {data: 'languages', name: 'category_translations.lang', sortable: false},
-                    // { data: 'photo', name: 'photo', sortable: false, searchable: false },
+                    {data: 'name', name: 'name'},
+                    {data: 'application_name', name: 'application_name', sortable: true},
+                    {data: 'category_name', name: 'category_name', sortable: true},
+                    // {data: 'languages', name: 'lang', sortable: false},
+                    {
+                        data: 'main_photo',
+                        name: 'main_photo',
+                        sortable: false,
+                        searchable: false,
+                        class: "text-nowrap text-center"
+                    },
                     {
                         data: 'actions',
                         name: '{{ trans('global.actions') }}',
