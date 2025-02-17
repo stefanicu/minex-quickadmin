@@ -18,12 +18,12 @@ return new class extends Migration {
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
         });
         
-        Schema::table('product_translations', function (Blueprint $table) {
-            $table->string('application_name')->nullable()->after('locale');
-            $table->string('application_slug')->nullable()->after('application_name');
-            $table->string('category_name')->nullable()->after('application_slug');
-            $table->string('category_slug')->nullable()->after('category_name');
-        });
+        //        Schema::table('product_translations', function (Blueprint $table) {
+        //            $table->string('application_name')->nullable()->after('online');
+        //            $table->string('application_slug')->nullable()->after('application_name');
+        //            $table->string('category_name')->nullable()->after('application_slug');
+        //            $table->string('category_slug')->nullable()->after('category_name');
+        //        });
     }
     
     /**
@@ -37,8 +37,8 @@ return new class extends Migration {
             $table->dropColumn(['application_id', 'category_id']);
         });
         
-        Schema::table('product_translations', function (Blueprint $table) {
-            $table->dropColumn(['application_name', 'application_slug', 'category_name', 'category_slug']);
-        });
+        //        Schema::table('product_translations', function (Blueprint $table) {
+        //            $table->dropColumn(['application_name', 'application_slug', 'category_name', 'category_slug']);
+        //        });
     }
 };
