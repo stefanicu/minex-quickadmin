@@ -127,21 +127,21 @@ foreach (config('translatable.locales') as $locale) {
         Route::get(trans('slugs.brands', [], $locale), 'BrandsController@index')->name("brands.$locale");
         Route::get(trans('slugs.brand', [], $locale).'/{slug}/', 'BrandController@index')->name("brand.$locale");
         
-        // Application (categories) ==> Category (products)
-        Route::get(trans('slugs.products', [], $locale).'/{app_slug?}', 'ApplicationController@index')->name("categories.$locale");
-        Route::get(trans('slugs.products', [], $locale).'/{app_slug?}'.'/{cat_slug?}', 'CategoryController@index')->name("products.$locale");
-        
-        // Product
-        Route::get(trans('slugs.product', [], $locale).'/{app_slug?}'.'/{cat_slug?}'.'/{prod_slug?}', 'ProductController@index')->name("product.$locale");
-        
-        // Product in Brand
-        Route::get(trans('slugs.brand', [], $locale).'/{brand_slug?}'.'/{prod_slug?}', 'ProductBrandController@index')->name("product_brand.$locale");
-        
         // References
         Route::get(trans('slugs.references', [], $locale), 'ReferencesController@index')->name("references.$locale");
         Route::get(trans('slugs.reference', [], $locale).'/{slug}', 'ReferenceController@index')->name("reference.$locale");
         
         // Testimonials
         Route::get(trans('slugs.testimonials', [], $locale), 'TestimonialsController@index')->name("testimonials.$locale");
+        
+        // Product in Brand
+        Route::get(trans('slugs.brand', [], $locale).'/{brand_slug?}'.'/{prod_slug?}', 'ProductBrandController@index')->name("product_brand.$locale");
+        
+        // Application (categories) ==> Category (products)
+        Route::get('{app_slug?}', 'ApplicationController@index')->name("categories.$locale");
+        Route::get('{app_slug?}'.'/{cat_slug?}', 'CategoryController@index')->name("products.$locale");
+        
+        // Product
+        Route::get('{app_slug?}'.'/{cat_slug?}'.'/{prod_slug?}', 'ProductController@index')->name("product.$locale");
     });
 }
