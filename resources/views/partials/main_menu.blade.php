@@ -40,7 +40,7 @@
 
                                         foreach($applications as $application) {
 //                                                echo '<li><a class="d-block my-2">'.$application->name.',  '.$application->application_id.'-'.$application->oldid.', #'.$application->id.'</a></li>';
-                                            echo '<li><a class="d-block my-2" href="' . route('products.'.app()->getLocale(), ['app_slug' => $application->slug]) . '">' . $application->name . '</a></li>';
+                                            echo '<li><a class="d-block my-2" href="' . route('category.'.app()->getLocale(), ['app_slug' => $application->slug]) . '">' . $application->name . '</a></li>';
                                             if ($i == $row) {
                                                 $i = 0;
                                                 if ($t < $cnt) {
