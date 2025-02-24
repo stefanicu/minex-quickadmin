@@ -36,11 +36,7 @@
         @endphp
         @if($langLocale == app()->getLocale())
             @php
-                if(isset($prod_slugs) && isset($brand->slug)){
-                    $canonical = route('product_brand.'.app()->getLocale(), ['brand_slug' => $brand->slug, 'prod_slug' => $product->translateOrDefault(app()->getLocale())->slug ]);
-                }else{
-                    $canonical = route(currentRouteChangeName($langLocale), $parameters);
-                }
+                $canonical = route(currentRouteChangeName($langLocale), $parameters);
             @endphp
 
             <link rel="canonical" href="{{ $canonical }}"/>
@@ -54,19 +50,8 @@
                 $hreflang2 = 'en-'.strtoupper($langLocale);
             }
         @endphp
-        @if(isset($prod_slugs) && isset($brand->slug))
-            <link rel="alternate"
-                  hreflang="{{ $hreflang1 }}"
-                  href="{{ route('product_brand.'.app()->getLocale(), ['brand_slug' => $brand->slug, 'prod_slug' => $product->translateOrDefault(app()->getLocale())->slug ]) }}"/>
-            <link rel="alternate"
-                  hreflang="{{ $hreflang2 }}"
-                  href="{{ route('product_brand.'.app()->getLocale(), ['brand_slug' => $brand->slug, 'prod_slug' => $product->translateOrDefault(app()->getLocale())->slug ]) }}"/>
-        @else
-            <link rel="alternate" hreflang="{{ $hreflang1 }}"
-                  href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>
-            <link rel="alternate" hreflang="{{ $hreflang2 }}"
-                  href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>
-        @endif
+        <link rel="alternate" hreflang="{{ $hreflang1 }}" href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>
+        <link rel="alternate" hreflang="{{ $hreflang2 }}" href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>
     @endforeach
 
     <meta name="robots" content="max-snippet:-1,max-image-preview:large,max-video-preview:-1">
