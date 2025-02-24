@@ -17,7 +17,7 @@ class Category extends Model implements HasMedia, TranslatableContract
     
     public $table = 'categories';
     
-    public array $translatedAttributes = [
+    public $translatedAttributes = [
         'online', 'name', 'slug',
         'meta_title', 'meta_description', 'author', 'robots', 'canonical_url'
     ];
@@ -39,6 +39,7 @@ class Category extends Model implements HasMedia, TranslatableContract
     
     protected $fillable = [
         'online',
+        'application_id',
         'page_views',
         'product_image_id',
         'oldid',
@@ -82,11 +83,6 @@ class Category extends Model implements HasMedia, TranslatableContract
         }
         
         return $file;
-    }
-    
-    public function product_main_image(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(Product::class, 'product_image_id', 'id');
     }
     
     public function getMetaImage(): ?array
