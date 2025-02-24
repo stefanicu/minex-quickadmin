@@ -4,8 +4,8 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="/">{{ trans('pages.home') }}</a></li>
-                <li class="breadcrumb-item"><a
-                            href="{{ route('categories.'.app()->getLocale(), ['app_slug' =>$application->slug]) }}">{{ $application->name }}</a>
+                <li class="breadcrumb-item">
+                    <a href="{{ route('application.'.app()->getLocale(), ['app_slug' =>$application->slug]) }}">{{ $application->name }}</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $category->name }}</li>
             </ol>
@@ -93,7 +93,7 @@
                         <ul class="list-group">
                             @foreach($categories as $cat)
                                 <li class="list-group-item {{ $category->id == $cat->id ? 'active' : '' }}">
-                                    <a href="{{ route('products.'.app()->getLocale(), ['app_slug' => $application->slug,'cat_slug' => $cat->slug]) }}"
+                                    <a href="{{ route('category.'.app()->getLocale(), ['app_slug' => $application->slug,'cat_slug' => $cat->slug]) }}"
                                        class="d-flex justify-content-between align-items-center category_count">
                                         {{ $cat->name }}<span
                                                 class="badge badge-primary badge-pill">{{ $cat->products_count }}</span>
