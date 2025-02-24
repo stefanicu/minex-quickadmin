@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyApplicationRequest;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Models\Application;
+use App\Models\Category;
 use App\Models\CategoryTranslation;
 use Gate;
 use Illuminate\Http\Request;
@@ -25,11 +26,6 @@ class ApplicationsController extends Controller
         abort_if(Gate::denies('application_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
         if ($request->ajax()) {
-            //            $query = Application::with(['media', 'translations'])
-            //                ->join('application_translations', 'applications.id', '=', 'application_translations.application_id')
-            //                ->where('application_translations.locale', '=', app()->getLocale())
-            //                ->select(sprintf('%s.*', (new Application)->table));
-            
             $query = Application::with(['media', 'translations'])
                 ->leftJoin('application_translations', function ($join) {
                     $join->on('applications.id', '=', 'application_translations.application_id')
@@ -88,7 +84,7 @@ class ApplicationsController extends Controller
             $table->editColumn('image', function ($row) {
                 if ($photo = $row->image) {
                     return sprintf(
-                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+                        '<a href="%s" target="_blank"><img src="%s" width="auto" height="50px"></a>',
                         $photo->url,
                         $photo->thumbnail
                     );
@@ -148,7 +144,14 @@ class ApplicationsController extends Controller
     {
         $application->update($request->all());
         
-        $application->categories()->sync($request->input('categories', []));
+        // Get selected category IDs from the form
+        $categoryIds = $request->input('categories', []);
+        
+        // Unassign all previous categories from this application
+        Category::where('application_id', $application->id)->update(['application_id' => null]);
+        
+        // Assign selected categories to the application
+        Category::whereIn('id', $categoryIds)->update(['application_id' => $application->id]);
         
         if ($request->input('image', false)) {
             if ( ! $application->image || $request->input('image') !== $application->image->file_name) {
