@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Application;
 use App\Models\Category;
+use App\Models\Product;
 use App\Traits\HasMetaData;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -23,72 +25,50 @@ class CategoryController extends Controller
         $category_slug = $request->cat_slug;
         
         $application = Application::whereTranslation('slug', $application_slug)
-            ->whereTranslation('locale', $currentLocale)
             ->with('translations')
             ->first();
         
-        if ( ! $application) {
-            $application = Application::whereTranslation('slug', $application_slug)
-                ->whereTranslation('locale', 'en')
-                ->with('translations')
-                ->first();
-            
-            $application->name = trans('pages.no_translated_title');
-        }
-        
-        $category = Category::whereTranslation('slug', $category_slug)
-            ->whereTranslation('locale', $currentLocale)
+        $category = Category::whereTranslation('slug', $category_slug, $currentLocale)
             ->with('translations')
             ->first();
         
-        if ( ! $category) {
-            $category = Category::whereTranslation('slug', $category_slug)
-                ->whereTranslation('locale', 'en')
-                ->with('translations')
-                ->first();
-            $category->name = trans('pages.no_translated_title');
-        }
-        
-        $products = Category::find($category->id)
-            ->products()
+        $products = Product::where('category_id', $category->id)
             ->with('media')
             ->whereHas('translations', function ($query) use ($currentLocale) {
                 $query->where('locale', $currentLocale)
-                    ->where('online', 1);  // Ensure only translations with 'online' = 1 are included
+                    ->where('online', 1);
             })
             ->orderByTranslation('name')
             ->get();
         
-        $categories = Category::whereHas('products', function ($query) use ($application) {
-            // Filter products that belong to the specified category
-            $query->whereHas('applications', function ($query) use ($application) {
-                $query->where('applications.id', $application->id);
-            });
-        })
-            ->with('translations') // Load translations for each application
-            ->orderByTranslation('name')
+        $categories = Category::where('application_id', $application->id)
+            ->with('translations') // Load category translations
+            ->orderByTranslation('name') // Order by translated name
             ->withCount([
                 'products as products_count' => function ($query) use ($currentLocale) {
-                    $query->whereHas('translations', function ($query) use ($currentLocale) {
-                        $query->where('locale', $currentLocale)
-                            ->where('online', 1);
+                    $query->whereExists(function ($subQuery) use ($currentLocale) {
+                        $subQuery->select(DB::raw(1))
+                            ->from('product_translations')
+                            ->whereRaw('product_translations.product_id = products.id')
+                            ->where('product_translations.locale', $currentLocale)
+                            ->where('product_translations.online', 1);
                     });
                 }
             ])
-            ->having('products_count', '>', 0) // Filter out categories with zero products
+            ->whereExists(function ($query) use ($currentLocale) {
+                // Ensures that each category has at least one product with an online translation
+                $query->select(DB::raw(1))
+                    ->from('products')
+                    ->whereRaw('products.category_id = categories.id')
+                    ->whereExists(function ($subQuery) use ($currentLocale) {
+                        $subQuery->select(DB::raw(1))
+                            ->from('product_translations')
+                            ->whereRaw('product_translations.product_id = products.id')
+                            ->where('product_translations.locale', $currentLocale)
+                            ->where('product_translations.online', 1);
+                    });
+            })
             ->get();
-        
-        
-        if ($categories->count() === 0) {
-            //return redirect(url(''));
-        }
-        
-        if ($products->count() == 1) {
-            $product = $products->first();
-            
-            return redirect(route('product.'.app()->getLocale(),
-                ['app_slug' => $application_slug, 'cat_slug' => $category_slug, 'prod_slug' => $product->slug]));
-        }
         
         $app_slugs = null;
         $cat_slugs = null;
@@ -96,7 +76,6 @@ class CategoryController extends Controller
             $app_slugs[$locale] = $application->translate($locale)->slug ?? $application->translate('en')->slug;
             $cat_slugs[$locale] = $category->translate($locale)->slug ?? $category->translate('en')->slug;
         }
-        
         
         $metaData = $this->getMetaData($category);
         
