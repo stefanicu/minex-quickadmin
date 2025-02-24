@@ -6,12 +6,12 @@
                 <li class="breadcrumb-item"><a href="/">{{ trans('pages.home') }}</a></li>
                 @if($application->slug)
                     <li class="breadcrumb-item"><a
-                                href="{{ route('categories.'.app()->getLocale(), ['app_slug' =>$application->slug]) }}">{{ $application->name }}</a>
+                                href="{{ route('application.'.app()->getLocale(), ['app_slug' =>$application->slug]) }}">{{ $application->name }}</a>
                     </li>
                 @endif
                 @if($category->slug)
                     <li class="breadcrumb-item"><a
-                                href="{{ route('products.'.app()->getLocale(), ['app_slug' =>$application->slug, 'cat_slug' => $category->slug]) }}">{{ $category->name }}</a>
+                                href="{{ route('category.'.app()->getLocale(), ['app_slug' =>$application->slug, 'cat_slug' => $category->slug]) }}">{{ $category->name }}</a>
                     </li>
                 @endif
                 <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
@@ -272,7 +272,7 @@
                     <ul class="list-group">
                         @foreach($categories as $cat)
                             <li class="list-group-item {{ $category->id == $cat->id ? 'active' : '' }}">
-                                <a href="{{ route('products.'.app()->getLocale(), ['app_slug' =>$application->slug, 'cat_slug' => $cat->slug]) }}"
+                                <a href="{{ route('category.'.app()->getLocale(), ['app_slug' =>$application->slug, 'cat_slug' => $cat->slug]) }}"
                                    class="d-flex justify-content-between align-items-center category_count">
                                     {{ $cat->name }}<span
                                             class="badge badge-primary badge-pill">{{ $cat->products_count }}</span>
