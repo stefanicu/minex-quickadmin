@@ -73,17 +73,34 @@ class ReferenceController extends Controller
             ->orderBy('reference_translations.name')
             ->get();
         
-        $products = Product::with('translations', 'media', 'brand')
+        $products = Product::with(['translations', 'media', 'brand'])
             ->whereHas('references', function (Builder $query) use ($reference) {
-                $query->where('reference_id', '=', $reference->id);
+                $query->where('reference_id', $reference->id);
             })
-            ->leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
+            ->leftJoin('product_translations', function ($join) {
+                $join->on('products.id', '=', 'product_translations.product_id')
+                    ->where('product_translations.locale', app()->getLocale())
+                    ->where('product_translations.online', 1);
+            })
             ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
-            ->where('products.online', '=', 1)
-            ->where('product_translations.online', '=', 1)
-            ->where('product_translations.locale', '=', app()->getLocale())
-            ->select(sprintf('%s.*', (new Product)->table), 'product_translations.name as name',
-                'product_translations.slug as slug', 'brands.name as brand_name', 'brands.slug as brand_slug')
+            ->leftJoin('application_translations', function ($join) {
+                $join->on('products.application_id', '=', 'application_translations.application_id')
+                    ->where('application_translations.locale', app()->getLocale());
+            })
+            ->leftJoin('category_translations', function ($join) {
+                $join->on('products.category_id', '=', 'category_translations.category_id')
+                    ->where('category_translations.locale', app()->getLocale());
+            })
+            ->where('products.online', 1)
+            ->select(
+                'products.*',
+                'product_translations.name as name',
+                'product_translations.slug as slug',
+                'brands.name as brand_name',
+                'brands.slug as brand_slug',
+                'application_translations.slug as application_slug',
+                'category_translations.slug as category_slug'
+            )
             ->get();
         
         $slugs = null;
