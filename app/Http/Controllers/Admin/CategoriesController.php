@@ -183,7 +183,7 @@ class CategoriesController extends Controller
         
         $categoryId = $category->id;
         
-        $product_images = Product::whereHas('categories', function ($query) use ($categoryId) {
+        $product_images = Product::whereHas('category', function ($query) use ($categoryId) {
             $query->where('categories.id', '=', $categoryId);
         })
             ->whereHas('media', function ($query) {
@@ -192,7 +192,7 @@ class CategoriesController extends Controller
             ->orderByTranslation('name')
             ->get();
         
-        $products_online = Product::whereHas('categories', function ($query) use ($categoryId) {
+        $products_online = Product::whereHas('category', function ($query) use ($categoryId) {
             $query->where('categories.id', '=', $categoryId);
         })
             ->whereHas('media', function ($query) {
@@ -208,7 +208,7 @@ class CategoriesController extends Controller
         $application = null;
         if ($products_online && count($products_online) > 1) {
             $product = $products_online->first();
-            $application = $product->applications()->first();
+            $application = $product->application()->first();
         }
         
         $applications = ApplicationTranslation::where('locale', app()->getLocale())->pluck('name', 'application_id');
@@ -221,8 +221,6 @@ class CategoriesController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $category->update($request->all());
-        
-        $category->applications()->sync($request->input('applications', []));
         
         if ($request->input('cover_photo', false)) {
             if ( ! $category->cover_photo || $request->input('cover_photo') !== $category->cover_photo->file_name) {
