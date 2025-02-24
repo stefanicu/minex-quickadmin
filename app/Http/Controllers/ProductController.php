@@ -26,86 +26,47 @@ class ProductController extends Controller
         $category_slug = $request->cat_slug;
         
         $application = Application::whereTranslation('slug', $application_slug)
-            ->whereTranslation('locale', $currentLocale)
             ->with('translations')
             ->first();
         
-        if ( ! $application) {
-            $application = Application::whereTranslation('slug', $application_slug)
-                ->whereTranslation('locale', 'en')
-                ->with('translations')
-                ->first();
-            
-            if ($application) {
-                $application->name = trans('pages.no_translated_title');
-            } else {
-                \Log::error('Aplicația nu a fost găsită pentru slug: '.$application_slug);
+        $category = Category::whereTranslation('slug', $category_slug, $currentLocale)
+            ->with('translations')
+            ->first();
+        
+        $products = Product::where('category_id', $category->id)
+            ->with('media')
+            ->whereHas('translations', function ($query) use ($currentLocale) {
+                $query->where('locale', $currentLocale)
+                    ->where('online', 1);
+            })
+            ->orderByTranslation('name')
+            ->get();
+        
+        
+        $categories = Category::where('application_id', $application->id) // Direct filter using foreign key
+        ->with('translations') // Load category translations
+        ->orderByTranslation('name') // Order by translated name
+        ->withCount([
+            'products as products_count' => function ($query) use ($currentLocale, $application) {
+                $query->where('application_id', $application->id) // Ensure products belong to the current application
+                ->whereHas('translations', function ($query) use ($currentLocale) {
+                    $query->where('locale', $currentLocale)
+                        ->where('online', 1);
+                });
             }
-        }
-        
-        $category = Category::whereTranslation('slug', $category_slug)
-            ->whereTranslation('locale', $currentLocale)
-            ->with('translations')
-            ->first();
-        
-        if ( ! $category) {
-            $category = Category::whereTranslation('slug', $category_slug)
-                ->whereTranslation('locale', 'en')
-                ->with('translations')
-                ->first();
-            
-            $category->name = trans('pages.no_translated_title');
-        }
-        
-        $application = Application::whereTranslation('slug', $application_slug)
-            ->whereTranslation('locale', $currentLocale)
-            ->first();
-        
-        if ( ! $application) {
-            $application = Application::whereTranslation('slug', $application_slug)
-                ->whereTranslation('locale', 'en')
-                ->first();
-            
-            $application->name = trans('pages.no_translated_title');
-        }
+        ])
+            ->having('products_count', '>', 0) // Only categories with at least one product
+            ->get();
         
         $product_slug = $request->prod_slug;
         
-        if ( ! is_numeric($product_slug)) {
-            $product = Product::leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
-                ->with('translations', 'media')
-                ->where('product_translations.online', '=', 1)
-                ->where('product_translations.slug', '=', $product_slug)
-                ->where('product_translations.locale', '=', $currentLocale)
-                ->select(sprintf('%s.*', (new Product)->table))
-                ->first();
-        } else {
-            $product_id = (int) $product_slug;
-            $product = Product::leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
-                ->with('translations', 'media')
-                ->where('product_translations.online', '=', 1)
-                ->where('products.id', '=', $product_id)
-                ->select(sprintf('%s.*', (new Product)->table))
-                ->first();
-            
-            $product->name = trans('pages.no_translated_title');
-            $product->description = trans('pages.no_translated_message');
-        }
-        
-        if ( ! $product) {
-            $product = Product::leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
-                ->with('translations', 'media')
-                ->where('product_translations.slug', '=', $product_slug)
-                ->select(sprintf('%s.*', (new Product)->table))
-                ->first();
-            
-            if ($product) {
-                $product->name = trans('pages.no_translated_title');
-                $product->description = trans('pages.no_translated_message');
-            } else {
-                abort(404);
-            }
-        }
+        $product = Product::leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
+            ->with('translations', 'media')
+            ->where('product_translations.online', '=', 1)
+            ->where('product_translations.slug', '=', $product_slug)
+            ->where('product_translations.locale', '=', $currentLocale)
+            ->select(sprintf('%s.*', (new Product)->table))
+            ->first();
         
         $brandOfflineMessage = trans('pages.no_brand_default_message');
         
@@ -119,11 +80,10 @@ class ProductController extends Controller
         }
         
         $references = $product->references()
-            ->with([
-                'translations' => function ($query) use ($currentLocale) {
-                    $query->where('locale', $currentLocale);
-                }
-            ])
+            ->whereHas('translations', function ($query) use ($currentLocale) {
+                $query->where('locale', $currentLocale);
+            })
+            ->with('translations') // Load translations after filtering
             ->get();
         
         $files = Productfile::where('product_id', $product->id)
@@ -132,37 +92,13 @@ class ProductController extends Controller
         
         $referrer = $request->headers->get('referer');
         
-        $categories = null;
-        if ($application) {
-            $categories = Category::whereHas('products', function ($query) use ($application) {
-                // Filter products that belong to the specified category
-                $query->whereHas('applications', function ($query) use ($application) {
-                    $query->where('applications.id', $application->id);
-                });
-            })
-                ->with('translations') // Load translations for each application
-                ->orderByTranslation('name')
-                ->withCount([
-                    'products as products_count' => function ($query) use ($currentLocale) {
-                        $query->whereHas('translations', function ($query) use ($currentLocale) {
-                            $query->where('locale', $currentLocale);
-                        });
-                    }
-                ])
-                ->having('products_count', '>', 0)
-                ->get();
-        }
-        
-        $category_id = $category->id;
         $similar_products = Product::select('products.*', 'product_translations.name')
             ->join('product_translations', 'products.id', '=', 'product_translations.product_id')
+            ->where('products.category_id', $category->id) // Direct filter instead of whereHas()
             ->where('product_translations.online', 1)
             ->where('product_translations.locale', app()->getLocale())
-            ->whereHas('categories', function ($query) use ($category_id) {
-                $query->where('category_id', $category_id);
-            })
-            ->where('products.id', '!=', $product->id)
-            ->whereNotNull('products.brand_id')
+            ->where('products.id', '!=', $product->id) // Exclude the current product
+            ->whereNotNull('products.brand_id') // Ensure brand exists
             ->get();
         
         $app_slugs = null;
