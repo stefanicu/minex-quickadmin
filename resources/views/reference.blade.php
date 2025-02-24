@@ -93,7 +93,11 @@
                     <div class="bxslider-related mx-auto">
                         @foreach ($products as $product)
                             <div>
-                                <a href="{{ route('product_brand.'.app()->getLocale(),[ 'brand_slug' => $product->brand_slug, 'prod_slug' => $product->slug ]) }}"
+                                <a href="{{ route('product.'.app()->getLocale(),[
+                                        'app_slug' => $product->application_slug,
+                                        'cat_slug' => $product->category_slug,
+                                        'prod_slug' => $product->slug
+                                    ]) }}"
                                    class="bwWrapper">
                                     @if(!empty($product->getMainPhotoAttribute()))
                                         <img
