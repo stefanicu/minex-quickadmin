@@ -30,9 +30,9 @@
                     <th>
                         {{ trans('cruds.application.fields.name') }}
                     </th>
-                    {{--                    <th>--}}
-                    {{--                        {{ trans('cruds.application.fields.image') }}--}}
-                    {{--                    </th>--}}
+                    <th>
+                        {{ trans('cruds.application.fields.image') }}
+                    </th>
                     <th>
                         &nbsp;
                     </th>
@@ -90,7 +90,7 @@
                     // { data: 'placeholder', name: 'placeholder' },
                     {data: 'id', name: 'applications.id'},
                     {data: 'name', name: 'application_translations.name'},
-                    // { data: 'image', name: 'image', class: 'text-center', sortable: false, searchable: false },
+                    {data: 'image', name: 'image', class: 'text-center', sortable: false, searchable: false},
                     {
                         data: 'actions',
                         name: '{{ trans('global.actions') }}',
@@ -105,8 +105,7 @@
             };
             let table = $('.datatable-Application').DataTable(dtOverrideGlobals);
             $('a[data-toggle="tab"]').on('shown.bs.tab click', function (e) {
-                $($.fn.dataTable.tables(true)).DataTable()
-                    .columns.adjust();
+                $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
             });
 
         });
