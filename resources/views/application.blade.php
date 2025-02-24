@@ -46,15 +46,15 @@
                 <p>{{ trans('pages.chose_category') }}</p>
                 <ul class="list-unstyled row justify-content-start full-row-prod assets-row grid">
                     @foreach($categories as $category)
-                        <li class="col-6 col-sm-4 col-md-3">
+                        <li class="col-12 col-sm-6 col-md-4 py-2">
 
-                            <a href="{{ route('products.'.app()->getLocale(), ['app_slug' => $application->slug ?? null,'cat_slug' => $category->slug ?? null]) }}"
-                               class="d-flex flex-column text-center">
+                            <a href="{{ route('category.'.app()->getLocale(), ['app_slug' => $application->slug ?? null,'cat_slug' => $category->slug ?? null]) }}"
+                               class="d-flex flex-column text-center pb-2">
 
-                                @if($category->product_main_image && $category->product_main_image->getMainPhotoAttribute() !== null)
+                                @if($category->getCoverPhotoAttribute() !== null)
                                     <figure class="category_image">
                                         <img
-                                                srcset="{{ $category->product_main_image->getMainPhotoAttribute()->getUrl() }}"
+                                                srcset="{{ $category->getCoverPhotoAttribute()->getUrl() }}"
                                                 alt="{{ $category->name }}"
                                                 title="{{ $category->name }}"
                                                 class="img-hover lozad img-fluid lazy-fade">
