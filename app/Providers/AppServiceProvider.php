@@ -35,25 +35,17 @@ class AppServiceProvider extends ServiceProvider
             View::composer('*', function ($view) {
                 // Get all applications, or whatever specific data you need
                 
-                $applications = Application::select(
-                    'applications.id',
-                    'application_translations.name',
-                    'application_translations.slug'
-                )
-                    ->leftJoin(
-                        'application_translations',
-                        'application_translations.application_id',
-                        '=',
-                        'applications.id'
-                    )
-                    ->leftJoin('application_product', 'application_product.application_id', '=', 'applications.id')
-                    ->leftJoin('products', 'products.id', '=', 'application_product.product_id')
-                    ->leftJoin('product_translations', 'product_translations.product_id', '=', 'products.id')
-                    ->where('product_translations.locale', app()->getLocale()) // Current locale is set
-                    ->where('application_translations.locale', app()->getLocale()) // Current locale is set
-                    ->groupBy('applications.id', 'application_translations.name', 'application_translations.slug')
-                    ->orderBy('application_translations.name')
+                $applications = Application::whereHas('categories') // Only applications with at least one category
+                ->select('applications.id')
+                    ->with([
+                        'translations' => function ($query) {
+                            $query->where('locale', app()->getLocale());
+                        }
+                    ])
                     ->get();
+                
+                // Now, sort the results manually in PHP if needed:
+                $applications = $applications->sortBy('translations.0.name');
                 
                 $view->with('applications', $applications);  // Share with all views
             });
