@@ -18,19 +18,9 @@ class BrandController extends Controller
         
         $brand_slug = $request->slug;
         
-        if ( ! is_numeric($brand_slug)) {
-            $brand = Brand::select('id', 'name', 'slug')
-                ->where('slug', '=', $brand_slug)
-                ->first();
-        } else {
-            $brand = Brand::select('id', 'name', 'slug')
-                ->where('id', '=', $brand_slug)
-                ->first();
-        }
-        
-        if ( ! $brand) {
-            abort(404);
-        }
+        $brand = Brand::select('id', 'name', 'slug')
+            ->where('slug', '=', $brand_slug)
+            ->first();
         
         // Step 1: Count products grouped by brand_id
         $productCounts = DB::table('products')
@@ -56,20 +46,29 @@ class BrandController extends Controller
             })
             ->sortBy('name'); // Order by name
         
-        $products = Product::leftJoin('product_translations', 'products.id', '=', 'product_translations.product_id')
-            ->where('product_translations.online', '=', 1)
-            ->where('brand_id', '=', $brand->id)
-            ->where('product_translations.locale', '=', $currentLocale)
-            ->select(sprintf('%s.*', (new Product)->table), 'product_translations.name as name',
-                'product_translations.slug as slug')
-            ->orderBy('name')
+        $products = Product::leftJoin('product_translations', function ($join) use ($currentLocale) {
+            $join->on('products.id', '=', 'product_translations.product_id')
+                ->where('product_translations.locale', $currentLocale)
+                ->where('product_translations.online', 1);
+        })
+            ->leftJoin('application_translations', function ($join) use ($currentLocale) {
+                $join->on('products.application_id', '=', 'application_translations.application_id')
+                    ->where('application_translations.locale', $currentLocale);
+            })
+            ->leftJoin('category_translations', function ($join) use ($currentLocale) {
+                $join->on('products.category_id', '=', 'category_translations.category_id')
+                    ->where('category_translations.locale', $currentLocale);
+            })
+            ->where('products.brand_id', $brand->id)
+            ->select(
+                'products.*',
+                'product_translations.name as name',
+                'product_translations.slug as slug',
+                'application_translations.slug as application_slug',
+                'category_translations.slug as category_slug'
+            )
+            ->orderBy('product_translations.name')
             ->get();
-        
-        if ($products->count() == 1) {
-            $product = $products->first();
-            return redirect()->route('product_brand.'.app()->getLocale(),
-                ['brand_slug' => $brand->slug, 'prod_slug' => $product->slug]);
-        }
         
         $slugs = null;
         foreach (config('translatable.locales') as $locale) {
