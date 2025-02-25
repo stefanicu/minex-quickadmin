@@ -60,9 +60,9 @@ class Brand extends Model implements HasMedia, TranslatableContract
         $this->addMediaConversion('preview')->fit(Manipulations::FIT_MAX, 120)->optimize();
     }
     
-    public function products()
+    public function products(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Product::class, 'brand_id', 'id');
+        return $this->hasMany(Product::class);
     }
     
     public function getPhotoAttribute()
