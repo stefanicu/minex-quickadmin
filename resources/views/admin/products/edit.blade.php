@@ -5,8 +5,8 @@
         <div class="card-header d-flex justify-content-between">
             <div class="w-50">{{ trans('global.edit') }} {{ trans('cruds.product.title_singular') }}</div>
             <div class="w-50 text-right">
-                @if(array_key_exists(app()->getLocale(), config('panel.available_languages')) && $product->translate(app()->getLocale()))
-                    <a class="blue" href="{{ route('product_brand.'.app()->getLocale(), ['brand_slug'=>$brand->slug,'prod_slug'=>$product->slug]) }}" target="_blank">
+                @if(array_key_exists(app()->getLocale(), config('panel.available_languages')) && $product->translate(app()->getLocale()) && isset($application->slug) && isset($category->slug))
+                    <a class="blue" href="{{ route('product.'.app()->getLocale(), ['app_slug'=>$application->slug, 'cat_slug'=>$category->slug, 'prod_slug'=>$product->slug]) }}" target="_blank">
                         <svg class="mr-1" width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="Interface / External_Link">
                                 <path id="Vector" d="M10.0002 5H8.2002C7.08009 5 6.51962 5 6.0918 5.21799C5.71547 5.40973 5.40973 5.71547 5.21799 6.0918C5 6.51962 5 7.08009 5 8.2002V15.8002C5 16.9203 5 17.4801 5.21799 17.9079C5.40973 18.2842 5.71547 18.5905 6.0918 18.7822C6.5192 19 7.07899 19 8.19691 19H15.8031C16.921 19 17.48 19 17.9074 18.7822C18.2837 18.5905 18.5905 18.2839 18.7822 17.9076C19 17.4802 19 16.921 19 15.8031V14M20 9V4M20 4H15M20 4L13 11" stroke="#003eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -75,42 +75,38 @@
 
                 <div class="row">
                     <div id="applications" class="form-group col-12 col-xl-6">
-                        <label for="applications">{{ trans('cruds.product.fields.applications') }}</label>
-                        <div style="padding-bottom: 4px">
-                            <span class="btn btn-info btn-xs select-all"
-                                  style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                            <span class="btn btn-info btn-xs deselect-all"
-                                  style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
-                        </div>
-                        <select class="form-control select2 {{ $errors->has('applications') ? 'is-invalid' : '' }}"
-                                name="applications[]" id="applications" multiple>
-                            @foreach($applications as $id => $applicaiton)
-                                <option value="{{ $id }}" {{ (in_array($id, old('applications', [])) || $product->applications->contains($id)) ? 'selected' : '' }}>{{ $applicaiton }}</option>
+                        <label for="applications">{{ trans('cruds.product.fields.application') }}</label>
+                        <select class="form-control select2 {{ $errors->has('application') ? 'is-invalid' : '' }}" name="application_id" id="application_id">
+                            <option value="" disabled {{ old('application_id', $product->application_id) ? '' : 'selected' }}>
+                                -- Select an application --
+                            </option>
+                            @foreach($applications as $id => $application)
+                                <option value="{{ $id }}" {{ (old('application_id', $product->application_id) == $id) ? 'selected' : '' }}>
+                                    {{ $application }}
+                                </option>
                             @endforeach
                         </select>
                         @if($errors->has('applications'))
                             <span class="text-danger">{{ $errors->first('applications') }}</span>
                         @endif
-                        <span class="help-block">{{ trans('cruds.product.fields.applications_helper') }}</span>
+                        <span class="help-block"></span>
                     </div>
                     <div id="categories" class="form-group col-12 col-xl-6">
-                        <label for="categories">{{ trans('cruds.product.fields.categories') }}</label>
-                        <div style="padding-bottom: 4px">
-                            <span class="btn btn-info btn-xs select-all"
-                                  style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                            <span class="btn btn-info btn-xs deselect-all"
-                                  style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
-                        </div>
-                        <select class="form-control select2 {{ $errors->has('categories') ? 'is-invalid' : '' }}"
-                                name="categories[]" id="categories" multiple>
+                        <label for="categories">{{ trans('cruds.product.fields.category') }}</label>
+                        <select class="form-control select2 {{ $errors->has('categories') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
+                            <option value="" disabled {{ old('category_id', $product->category_id) ? '' : 'selected' }}>
+                                -- Select a category --
+                            </option>
                             @foreach($categories as $id => $category)
-                                <option value="{{ $id }}" {{ (in_array($id, old('categories', [])) || $product->categories->contains($id)) ? 'selected' : '' }}>{{ $category }}</option>
+                                <option value="{{ $id }}" {{ (old('category_id', $product->category_id) == $id) ? 'selected' : '' }}>
+                                    {{ $category }}
+                                </option>
                             @endforeach
                         </select>
                         @if($errors->has('categories'))
                             <span class="text-danger">{{ $errors->first('categories') }}</span>
                         @endif
-                        <span class="help-block">{{ trans('cruds.product.fields.categories_helper') }}</span>
+                        <span class="help-block"></span>
                     </div>
                 </div>
 
