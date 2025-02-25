@@ -36,7 +36,7 @@ class CategoryController extends Controller
             ->with('media')
             ->whereHas('translations', function ($query) use ($currentLocale) {
                 $query->where('locale', $currentLocale)
-                    ->where('online', 1);
+                    ->where('product_translations.online', 1);
             })
             ->orderByTranslation('name')
             ->get();
