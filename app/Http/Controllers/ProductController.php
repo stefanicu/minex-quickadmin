@@ -16,47 +16,7 @@ class ProductController extends Controller
     
     public function index(Request $request)
     {
-        if ( ! $request->app_slug || ! $request->cat_slug) {
-            abort(404);
-        }
-        
         $currentLocale = app()->getLocale();
-        
-        $application_slug = $request->app_slug;
-        $category_slug = $request->cat_slug;
-        
-        $application = Application::whereTranslation('slug', $application_slug)
-            ->with('translations')
-            ->first();
-        
-        $category = Category::whereTranslation('slug', $category_slug, $currentLocale)
-            ->with('translations')
-            ->first();
-        
-        $products = Product::where('category_id', $category->id)
-            ->with('media')
-            ->whereHas('translations', function ($query) use ($currentLocale) {
-                $query->where('locale', $currentLocale)
-                    ->where('online', 1);
-            })
-            ->orderByTranslation('name')
-            ->get();
-        
-        
-        $categories = Category::where('application_id', $application->id) // Direct filter using foreign key
-        ->with('translations') // Load category translations
-        ->orderByTranslation('name') // Order by translated name
-        ->withCount([
-            'products as products_count' => function ($query) use ($currentLocale, $application) {
-                $query->where('application_id', $application->id) // Ensure products belong to the current application
-                ->whereHas('translations', function ($query) use ($currentLocale) {
-                    $query->where('locale', $currentLocale)
-                        ->where('online', 1);
-                });
-            }
-        ])
-            ->having('products_count', '>', 0) // Only categories with at least one product
-            ->get();
         
         $product_slug = $request->prod_slug;
         
@@ -78,6 +38,50 @@ class ProductController extends Controller
         if ($brand) {
                 $brand->offline_message ?? $brandOfflineMessage = $brand->offline_message;
         }
+        
+        $application = Application::with([
+            'translations' => function ($query) use ($currentLocale) {
+                $query->where('locale', $currentLocale);
+            }
+        ])->find($product->application_id);
+        
+        $category = Category::with([
+            'translations' => function ($query) use ($currentLocale) {
+                $query->where('locale', $currentLocale);
+            }
+        ])->find($product->category_id);
+        
+        // Prevent error if application_id is null
+        $application_slug = $request->app_slug ?? optional($application)->slug;
+        
+        // Prevent error if category_id is null
+        $category_slug = $request->cat_slug ?? optional($category)->slug;
+        
+        
+        $products = Product::where('category_id', $category->id)
+            ->with('media')
+            ->whereHas('translations', function ($query) use ($currentLocale) {
+                $query->where('locale', $currentLocale)
+                    ->where('online', 1);
+            })
+            ->orderByTranslation('name')
+            ->get();
+        
+        $categories = Category::where('application_id', $application->id) // Direct filter using foreign key
+        ->with('translations') // Load category translations
+        ->orderByTranslation('name') // Order by translated name
+        ->withCount([
+            'products as products_count' => function ($query) use ($currentLocale, $application) {
+                $query->where('application_id', $application->id) // Ensure products belong to the current application
+                ->whereHas('translations', function ($query) use ($currentLocale) {
+                    $query->where('locale', $currentLocale)
+                        ->where('online', 1);
+                });
+            }
+        ])
+            ->having('products_count', '>', 0) // Only categories with at least one product
+            ->get();
+        
         
         $references = $product->references()
             ->whereHas('translations', function ($query) use ($currentLocale) {
@@ -106,9 +110,9 @@ class ProductController extends Controller
         $prod_slugs = null;
         $canonical_product_page_brand_slugs = null;
         foreach (config('translatable.locales') as $locale) {
-            $app_slugs[$locale] = $application->translate($locale)->slug ?? $application->translate('en')->slug;
-            $cat_slugs[$locale] = $category->translate($locale)->slug ?? $category->translate('en')->slug;
-            $prod_slugs[$locale] = $product->translate($locale)->slug ?? $product->id;
+            $app_slugs[$locale] = $application->slug ?? $application->slug;
+            $cat_slugs[$locale] = $category->slug ?? $category->slug;
+            $prod_slugs[$locale] = $product->slug ?? $product->id;
             if (isset($brand->slug)) {
                 $canonical_product_page_brand_slugs[$locale] = $brand->slug;
             }
