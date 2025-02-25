@@ -31,6 +31,12 @@ class ApplicationController extends Controller
         ->whereHas('translations', function ($query) {
             $query->where('online', 1);
         })
+            ->whereHas('products', function ($query) use ($currentLocale) {
+                $query->whereHas('translations', function ($query) use ($currentLocale) {
+                    $query->where('locale', $currentLocale)
+                        ->where('online', 1);
+                });
+            }) // Ensure the category has at least one product with an online translation
             ->orderByTranslation('name') // Order by translated name
             ->get();
         
