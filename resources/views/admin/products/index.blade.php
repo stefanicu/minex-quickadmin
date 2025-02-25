@@ -45,9 +45,9 @@
                     {{--                    <th>--}}
                     {{--                        {{ trans('cruds.product.fields.languages') }}--}}
                     {{--                    </th>--}}
-                    <th>
-                        {{ trans('cruds.product.fields.main_photo') }}
-                    </th>
+                    {{--                    <th>--}}
+                    {{--                        {{ trans('cruds.product.fields.main_photo') }}--}}
+                    {{--                    </th>--}}
                     <th>
                         &nbsp;
                     </th>
@@ -117,8 +117,8 @@
                 processing: true,
                 serverSide: true,
                 // searchDelay: 350,
-                bDeferRender: true,
-                bSortClasses: true,
+                // bDeferRender: true,
+                // bSortClasses: true,
                 retrieve: true,
                 aaSorting: [],
                 ajax: "{{ route('admin.products.index') }}",
@@ -126,19 +126,19 @@
                     // { data: 'placeholder', name: 'placeholder' },
                     {data: 'online', name: 'online', sortable: false, searchable: false},
                     {data: 'id', name: 'id'},
-                    {data: 'brand_name', name: 'brand.name'},
+                    {data: 'brand_name', name: 'brands.name', sortable: true},
                     // { data: 'product_translations.slug', name: 'product_translations.slug' },
-                    {data: 'name', name: 'name'},
-                    {data: 'application_name', name: 'application_name', sortable: true},
-                    {data: 'category_name', name: 'category_name', sortable: true},
+                    {data: 'name', name: 'product_translations.name'},
+                    {data: 'application_name', name: 'application_translations.name', sortable: true},
+                    {data: 'category_name', name: 'category_translations.name', sortable: true},
                     // {data: 'languages', name: 'lang', sortable: false},
-                    {
-                        data: 'main_photo',
-                        name: 'main_photo',
-                        sortable: false,
-                        searchable: false,
-                        class: "text-nowrap text-center"
-                    },
+                    // {
+                    //     data: 'main_photo',
+                    //     name: 'main_photo',
+                    //     sortable: false,
+                    //     searchable: false,
+                    //     class: "text-nowrap text-center"
+                    // },
                     {
                         data: 'actions',
                         name: '{{ trans('global.actions') }}',
@@ -148,8 +148,8 @@
                     }
                 ],
                 orderCellsTop: true,
-                order: [[3, 'desc']],
-                pageLength: 50,
+                order: [[1, 'desc']],
+                pageLength: 25,
             };
             let table = $('.datatable-Product').DataTable(dtOverrideGlobals);
             $('a[data-toggle="tab"]').on('shown.bs.tab click', function (e) {
