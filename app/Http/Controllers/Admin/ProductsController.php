@@ -7,8 +7,10 @@ use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyProductRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Application;
 use App\Models\ApplicationTranslation;
 use App\Models\Brand;
+use App\Models\Category;
 use App\Models\CategoryTranslation;
 use App\Models\Product;
 use App\Models\ReferenceTranslation;
@@ -38,18 +40,11 @@ class ProductsController extends Controller
         if ($request->ajax()) {
             $currentLocale = app()->getLocale();
             
-            $query = Product::with([
-                'translations',
-                'media',
-                'brand.translations',
-                'application.translations',
-                'category.translations'
-            ])
+            $query = Product::with('translations', 'media')
                 ->leftJoin('product_translations', function ($join) use ($currentLocale) {
                     $join->on('products.id', '=', 'product_translations.product_id')
                         ->where('product_translations.locale', $currentLocale);
                 })
-                ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
                 ->leftJoin('application_translations', function ($join) use ($currentLocale) {
                     $join->on('products.application_id', '=', 'application_translations.application_id')
                         ->where('application_translations.locale', $currentLocale);
@@ -58,14 +53,14 @@ class ProductsController extends Controller
                     $join->on('products.category_id', '=', 'category_translations.category_id')
                         ->where('category_translations.locale', $currentLocale);
                 })
-                ->selectRaw("
-                    products.id,
-                    COALESCE(product_translations.name, '--- NO TRANSLATION ---') as name,
-                    brands.name as brand_name,
-                    application_translations.name as application_name,
-                    category_translations.name as category_name
-                ")
-                ->distinct(); // Use distinct() instead of groupBy if no aggregation is needed
+                ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
+                ->select([
+                    'products.id',
+                    'brands.name as brand_name',
+                    'application_translations.name as application_name',
+                    'category_translations.name as category_name'
+                ])
+                ->selectRaw("COALESCE(product_translations.name, '--- NO TRANSLATION ---') as name");
             
             $table = Datatables::of($query);
             
@@ -88,13 +83,10 @@ class ProductsController extends Controller
             $table->editColumn('online', function ($row) {
                 return '<input type="checkbox" disabled '.($row->online ? 'checked' : null).'>';
             });
-            $table->addColumn('brands.name', function ($row) {
-                return $row->brand ? $row->brand->name : '';
+            $table->addColumn('brand', function ($row) {
+                return $row->brand ? $row->brand : '';
             });
             
-            $table->editColumn('brand.slug', function ($row) {
-                return $row->brand ? (is_string($row->brand) ? $row->brand : $row->brand->slug) : '';
-            });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
             });
@@ -248,7 +240,17 @@ class ProductsController extends Controller
         
         $references = ReferenceTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name', 'reference_id');
         
-        //$product->load('brand', 'applications', 'categories', 'references');
+        $application = Application::with([
+            'translations' => function ($query) use ($currentLocale) {
+                $query->where('locale', $currentLocale);
+            }
+        ])->find($product->application_id);
+        
+        $category = Category::with([
+            'translations' => function ($query) use ($currentLocale) {
+                $query->where('locale', $currentLocale);
+            }
+        ])->find($product->category_id);
         
         
         if (empty($product->name)) {
@@ -259,17 +261,12 @@ class ProductsController extends Controller
             }
         }
         
-        return view('admin.products.edit', compact('product', 'brands', 'applications', 'categories', 'references', 'brand'));
+        return view('admin.products.edit', compact('product', 'brands', 'applications', 'categories', 'application', 'category', 'references', 'brand'));
     }
     
     public function update(UpdateProductRequest $request, Product $product)
     {
         $product->update($request->all());
-        
-        $product->applications()->sync($request->input('applications', []));
-        $product->categories()->sync($request->input('categories', []));
-        $product->references()->sync($request->input('references', []));
-        
         
         if ($request->input('main_photo', false)) {
             if ( ! $product->main_photo || $request->input('main_photo') !== $product->main_photo->file_name) {
