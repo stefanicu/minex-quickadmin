@@ -28,6 +28,7 @@ class BrandController extends Controller
             ->selectRaw('products.brand_id, COUNT(*) as cnt')
             ->where('products.deleted_at', '=', null) // Exclude soft-deleted products
             ->where('product_translations.locale', '=', $currentLocale)
+            ->where('product_translations.online', '=', 1)
             ->groupBy('products.brand_id')
             ->get();
         
@@ -46,11 +47,21 @@ class BrandController extends Controller
             })
             ->sortBy('name'); // Order by name
         
-        $products = Product::leftJoin('product_translations', function ($join) use ($currentLocale) {
-            $join->on('products.id', '=', 'product_translations.product_id')
-                ->where('product_translations.locale', $currentLocale)
-                ->where('product_translations.online', 1);
-        })
+        //        $products = Product::where('brand_id', $brand->id)
+        //            ->with('media')
+        //            ->whereHas('translations', function ($query) use ($currentLocale) {
+        //                $query->where('locale', $currentLocale)
+        //                    ->where('product_translations.online', 1);
+        //            })
+        //            ->orderByTranslation('name')
+        //            ->get();
+        
+        $products = Product::with('media')
+            ->leftJoin('product_translations', function ($join) use ($currentLocale) {
+                $join->on('products.id', '=', 'product_translations.product_id')
+                    ->where('product_translations.locale', $currentLocale)
+                    ->where('product_translations.online', 1);
+            })
             ->leftJoin('application_translations', function ($join) use ($currentLocale) {
                 $join->on('products.application_id', '=', 'application_translations.application_id')
                     ->where('application_translations.locale', $currentLocale);
@@ -60,6 +71,7 @@ class BrandController extends Controller
                     ->where('category_translations.locale', $currentLocale);
             })
             ->where('products.brand_id', $brand->id)
+            ->where('product_translations.online', 1)
             ->select(
                 'products.*',
                 'product_translations.name as name',
