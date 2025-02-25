@@ -39,6 +39,8 @@ class Product extends Model implements HasMedia, TranslatableContract
     ];
     
     protected $fillable = [
+        'application_id',
+        'category_id',
         'online',
         'brand_id',
         'oldid',
@@ -61,22 +63,22 @@ class Product extends Model implements HasMedia, TranslatableContract
     
     public function brand(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Brand::class, 'brand_id');
+        return $this->belongsTo(Brand::class);
     }
     
     public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Category::class);
     }
     
     public function application(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Application::class, 'application_id');
+        return $this->belongsTo(Application::class);
     }
     
     public function Productfiles(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Productfile::class, 'product_id', 'id');
+        return $this->hasMany(Productfile::class);
     }
     
     public function getPhotoAttribute(): \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection
