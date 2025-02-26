@@ -87,8 +87,11 @@
 
                 <div class="form-group col-12 col-sm-2">
                     <label class="required" for="brand_id">{{ trans('cruds.product.fields.application') }}</label>
-                    <select class="form-control select2 {{ $errors->has('application') ? 'is-invalid' : '' }}"
-                            name="application_id" id="application_id" required>
+                    <select class="form-control select2 {{ $errors->has('application') ? 'is-invalid' : '' }}" name="application_id" id="application_id" required>
+                        <option value="" {{ old('application_id', $category->application_id ?? '') == '' ? 'selected' : '' }}>
+                            -- Please select --
+                        </option>
+
                         @foreach($applications as $id => $entry)
                             <option value="{{ $id }}" {{ (old('application_id') ? old('application_id') : $category->application_id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                         @endforeach
