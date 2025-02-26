@@ -93,6 +93,7 @@ return [
             'oldid_helper' => ' ',
             'oldimage' => 'Oldimage',
             'oldimage_helper' => ' ',
+            'add_category' => 'Add Category',
         ],
     ],
     'brand' => [
@@ -425,6 +426,7 @@ return [
             'oldproductid_helper' => ' ',
             'oldproductimg' => 'Oldproductimg',
             'oldproductimg_helper' => ' ',
+            'application' => 'Application',
         ],
     ],
     'frontPage' => [
