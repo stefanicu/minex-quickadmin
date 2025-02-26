@@ -39,17 +39,9 @@ class ProductController extends Controller
                 $brand->offline_message ?? $brandOfflineMessage = $brand->offline_message;
         }
         
-        $application = Application::with([
-            'translations' => function ($query) use ($currentLocale) {
-                $query->where('locale', $currentLocale);
-            }
-        ])->find($product->application_id);
+        $application = Application::with('translations')->find($product->application_id);
         
-        $category = Category::with([
-            'translations' => function ($query) use ($currentLocale) {
-                $query->where('locale', $currentLocale);
-            }
-        ])->find($product->category_id);
+        $category = Category::with('translations')->find($product->category_id);
         
         // Prevent error if application_id is null
         $application_slug = $request->app_slug ?? optional($application)->slug;
@@ -109,10 +101,10 @@ class ProductController extends Controller
         $cat_slugs = null;
         $prod_slugs = null;
         $canonical_product_page_brand_slugs = null;
-        foreach (config('translatable.locales') as $locale) {
-            $app_slugs[$locale] = $application->slug ?? $application->slug;
-            $cat_slugs[$locale] = $category->slug ?? $category->slug;
-            $prod_slugs[$locale] = $product->slug ?? $product->id;
+        foreach (config('panel.available_languages') as $locale => $language) {
+            $app_slugs[$locale] = $application->translate($locale)->slug ?? $application->translate('en')->slug;
+            $cat_slugs[$locale] = $category->translate($locale)->slug ?? $category->translate('en')->slug;
+            $prod_slugs[$locale] = $product->translate($locale)->slug ?? $product->id;
             if (isset($brand->slug)) {
                 $canonical_product_page_brand_slugs[$locale] = $brand->slug;
             }
