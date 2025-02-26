@@ -67,6 +67,24 @@
                     </div>
                 </div>
 
+                <div class="form-group col-12 col-sm-2">
+                    <label class="required" for="brand_id">{{ trans('cruds.product.fields.application') }}</label>
+                    <select class="form-control select2 {{ $errors->has('application') ? 'is-invalid' : '' }}" name="application_id" id="application_id" {{ isset($_GET['application_id']) ? 'disabled' : '' }} required>
+                        <option value="" {{ old('application_id', $_GET['application_id'] ?? '') == '' ? 'selected' : '' }}>
+                            -- Please select --
+                        </option>
+
+                        @foreach($applications as $id => $entry)
+                            <option value="{{ $id }}" {{ (old('application_id') ? old('application_id') : $_GET['application_id'] ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                        @endforeach
+                    </select>
+                    @if($errors->has('application'))
+                        <span class="text-danger">{{ $errors->first('application') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.product.fields.application_helper') }}</span>
+                </div>
+
+
                 {{--            <div class="form-group">--}}
                 {{--                <label for="product_image_id">{{ trans('cruds.category.fields.product_image') }}</label>--}}
                 {{--                <select class="form-control select2 {{ $errors->has('product_image') ? 'is-invalid' : '' }}" name="product_image_id" id="product_image_id">--}}
@@ -98,6 +116,10 @@
                 {{--            </div>--}}
 
                 <div class="form-group">
+                    @if(isset($_GET['application_id']))
+                        <input type="hidden" name="application_id" value="{{ $_GET['application_id'] }}">
+                        <input type="hidden" name="form_application" value="1">
+                    @endif
                     <input type="hidden" name="locale" value="{{app()->getLocale()}}">
                     <button class="btn btn-danger" type="submit">
                         {{ trans('global.save') }}
