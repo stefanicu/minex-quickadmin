@@ -31,6 +31,9 @@
                         {{ trans('cruds.category.fields.name') }}
                     </th>
                     <th>
+                        {{ trans('cruds.category.fields.application') }}
+                    </th>
+                    <th>
                         {{ trans('cruds.category.fields.page_views') }}
                     </th>
                     <th>
@@ -97,6 +100,7 @@
                     {data: 'id', name: 'id'},
                     // { data: 'online', name: 'online' },
                     {data: 'name', name: 'category_translations.name'},
+                    {data: 'application_name', name: 'application_translations.name'},
                     {data: 'page_views', name: 'page_views', searchable: false},
                     {
                         data: 'cover_photo',
@@ -119,8 +123,7 @@
             };
             let table = $('.datatable-Category').DataTable(dtOverrideGlobals);
             $('a[data-toggle="tab"]').on('shown.bs.tab click', function (e) {
-                $($.fn.dataTable.tables(true)).DataTable()
-                    .columns.adjust();
+                $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
             });
 
         });
