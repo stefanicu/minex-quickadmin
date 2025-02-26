@@ -132,8 +132,16 @@ class ApplicationsController extends Controller
     {
         abort_if(Gate::denies('application_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
-        $categories = CategoryTranslation::where('locale', app()->getLocale())->orderBy('name', 'asc')->pluck('name',
-            'id');
+        $categories = Category::select('categories.id as id', 'category_translations.name')
+            ->join('category_translations', 'categories.id', '=', 'category_translations.category_id')
+            ->where('category_translations.locale', app()->getLocale())
+            ->where(function ($query) use ($application) {
+                $query->where('categories.application_id', $application->id)
+                    ->orWhereNull('categories.application_id');
+            })
+            ->orderBy('category_translations.name', 'asc')
+            ->get();
+        
         
         $application->load('categories');
         
