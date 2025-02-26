@@ -26,56 +26,20 @@ class CategoriesController extends Controller
         abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
         if ($request->ajax()) {
-            //            $query = Category::with(['media', 'translations'])
-            //                ->join('category_translations', function ($join) {
-            //                    $join->on('categories.id', '=', 'category_translations.category_id')
-            //                        ->where('category_translations.locale', '=', app()->getLocale());
-            //                })
-            //                ->select(sprintf('%s.*', (new Category)->table));
-            
             $query = Category::with(['media', 'translations'])
                 ->leftJoin('category_translations', function ($join) {
                     $join->on('categories.id', '=', 'category_translations.category_id')
                         ->where('category_translations.locale', '=', app()->getLocale());
                 })
+                ->leftJoin('application_translations', function ($join) {
+                    $join->on('categories.application_id', '=', 'application_translations.application_id')
+                        ->where('application_translations.locale', '=', app()->getLocale());
+                })
                 ->select([
                     sprintf('%s.*', (new Category)->table),
                     DB::raw("COALESCE(category_translations.name, '---NO TRANSLATION---') as name"),
+                    'application_translations.name as application_name',
                 ]);
-            
-            
-            //            foreach ($query->get() as $category) {
-            //                if($category->oldproductid){
-            //                    $product_id = Product::find($category->oldproductid);
-            //                    if($product_id){
-            //                        $categ = Category::find($category->id); // Find the product by ID
-            //                        $categ->product_image_id = $category->oldproductid;
-            //                        $categ->save(); // Save the changes
-            //                    }
-            //                }
-            //            }
-            //
-            //
-            //            foreach ($query->get() as $category) {
-            //                $cover_photo = Media::where('model_id', $category->id)
-            //                    ->where('model_type', Category::class)
-            //                    ->get();
-            //
-            //                if(count($cover_photo) === 0) {
-            //                    if ($category->oldimage) {
-            //                        if (file_exists(public_path().asset('uploads/categorii/'.$category->oldimage))) {
-            //                            $category->addMediaFromUrl(
-            //                                url('').asset('uploads/categorii/'.$category->oldimage)
-            //                            )->toMediaCollection('cover_photo');
-            //                        }
-            //                    }else{
-            //                        $category->addMediaFromUrl(
-            //                            url('').asset('img/headers/aplicatie-xl.jpg')
-            //                        )->toMediaCollection('cover_photo');
-            //                    }
-            //                }
-            //            }
-            
             
             $table = Datatables::of($query);
             
@@ -135,7 +99,7 @@ class CategoriesController extends Controller
         
         $product_images = null;
         
-        $applications = ApplicationTranslation::where('locale', app()->getLocale())->orderBy('name', 'asc')->pluck('name', 'id');
+        $applications = ApplicationTranslation::where('locale', app()->getLocale())->orderBy('name', 'asc')->pluck('name', 'application_id');
         
         return view('admin.categories.create', compact('applications', 'product_images'));
     }
@@ -172,6 +136,10 @@ class CategoriesController extends Controller
         
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $category->id]);
+        }
+        
+        if ($request->form_application) {
+            return redirect()->route('admin.applications.edit', ['application' => $request->application_id]);
         }
         
         return redirect()->route('admin.categories.index');
