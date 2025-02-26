@@ -72,17 +72,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="categories">{{ trans('cruds.application.fields.categories') }}</label>
-                    <div style="padding-bottom: 4px">
-                                        <span class="btn btn-info btn-xs select-all"
-                                              style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                        <span class="btn btn-info btn-xs deselect-all"
-                              style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
-                    </div>
-                    <select class="form-control select2 {{ $errors->has('categories') ? 'is-invalid' : '' }}"
-                            name="categories[]" id="categories" multiple>
-                        @foreach($categories as $id => $category)
-                            <option value="{{ $id }}" {{ (in_array($id, old('categories', [])) || $application->categories->contains($id)) ? 'selected' : '' }}>{{ $category }}</option>
+                    <label for="categories">{{ trans('cruds.application.fields.categories') }}</label><a class="pl-4" href="{{ route('admin.categories.create', ['application_id' => $application->id]) }}">{{ trans('cruds.application.fields.add_category') }}</a>
+                    <select class="form-control select2 {{ $errors->has('categories') ? 'is-invalid' : '' }}" name="categories[]" id="categories" multiple>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}"
+                                    {{ $application->categories->contains('id', $category->id) || in_array($category->id, old('categories', [])) ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
                         @endforeach
                     </select>
                     @if($errors->has('categories'))
