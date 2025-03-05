@@ -98,9 +98,9 @@
                     let hasCurrentLocale = false; // Track if the current locale exists
 
                     data['translations'].forEach(function (element) {
-                        if (element['locale'] == '<?= app()->getLocale() ?>') {
+                        if (element['locale'] === "<?= app()->getLocale() ?>") {
                             hasCurrentLocale = true; // Mark that the locale exists
-                            if (element['online'] == 0) {
+                            if (element['online'] === 0) {
                                 $(row).addClass('red_row'); // Add red_row if online is 0
                             }
                         }
