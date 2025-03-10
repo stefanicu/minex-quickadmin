@@ -44,8 +44,7 @@ function initialize() {
         },
         {
             info: `<p><b>Minex Group - Romania - Arad</b><br/><br/>
-                Parc Industrial UTA, Hala 37<br/>
-                Str. Poetului Nr.1C, 310345<br/>
+                Str. II Nr. 3, Zona Industriala N-V, 310491<br/>
                 Arad, Romania</p>
                 <dl>
                 <dt>M:</dt> <dd><a href="tel:+40729019952">+40 (729) 019952</a></dd>
