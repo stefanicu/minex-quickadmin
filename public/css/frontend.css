@@ -485,3 +485,11 @@ figure.image {
 .main-row--grid, .img-grid--item, .card, .list-unstyled li {
     caret-color: transparent;
 }
+
+figure.table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
