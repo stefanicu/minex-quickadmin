@@ -78,8 +78,9 @@
             <p>
                 {{--                <a href="https://maps.google.com/?cid=15534180713851440036" target="_blank">Arad, Romania</a><br/>--}}
                 <b>Arad, Romania</b><br/>
-                A: Parc Industrial UTA, Hala 37<br/>
-                310345 Arad, Romania<br/>
+                A: Str. II Nr. 3,<br/>
+                Zona Industriala N-V<br/>
+                310491 Arad, Romania<br/>
                 M: +40 (729) 019952
             </p>
         </div>
