@@ -43,8 +43,7 @@
                     <div class="dropdown-menu dropdown-menu-right">
                         @foreach(config('translatable.locales') as $langLocale)
                             @if($langLocale != app()->getLocale())
-                                <a class="dropdown-item"
-                                   href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['lang' => $langLocale])) }}">
+                                <a class="dropdown-item" href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['lang' => $langLocale])) }}">
                                     {{ languageToCountryCode($langLocale) }}
                                 </a>
                             @endif
@@ -83,7 +82,7 @@
 
     <footer class="main-footer">
         <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.0.0-alpha
+            <b>Version</b> 3.3.1-alpha
         </div>
         <strong> &copy;</strong> {{ trans('global.allRightsReserved') }}
     </footer>
