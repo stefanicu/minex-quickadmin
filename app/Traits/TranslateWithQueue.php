@@ -11,7 +11,7 @@ trait TranslateWithQueue
 {
     public function translateQueueByColumns($modelTranslation, $foreignKey, $locale, $id)
     {
-        // Determine source locale based on the current locale
+        // Determine source locale based on the current locale __
         $sourceLocale = ($locale === 'en') ? 'ro' : 'en';
         
         // Fetch the source record only once (Romanian or English, depending on the locale)

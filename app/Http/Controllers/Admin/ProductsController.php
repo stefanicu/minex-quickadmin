@@ -188,7 +188,7 @@ class ProductsController extends Controller
                             unlink($tempPath);
                         }
                     }
-                    
+                    # return
                     return redirect()->back()->withInput()->withErrors([
                         'photo' => __("admin.multi_image_dimensions", [
                             'expected_width' => 600, 'expected_height' => 600, 'uploaded_width' => $width,

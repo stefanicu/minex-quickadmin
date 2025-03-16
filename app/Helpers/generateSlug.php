@@ -19,7 +19,7 @@ function generateSlug(string $name, $modelTranslation, $locale): string
     // Trim hyphens from the beginning and end
     $slug = trim($slug, '-');
     
-    // Check if the slug is in the model
+    // Check if the slug is in the model __
     $originalSlug = $slug;
     $count = 1;
     // Check if the slug exists in the database

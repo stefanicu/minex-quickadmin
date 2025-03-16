@@ -358,7 +358,6 @@
             }
         });
     </script>
-
     <script>
         var uploadedPhotoMap = {}
         Dropzone.options.photoDropzone = {
@@ -415,7 +414,6 @@
         }
 
     </script>
-
     <script>
         Dropzone.options.mainPhotoDropzone = {
             url: '{{ route('admin.products.storeMedia') }}', maxFilesize: 1, // MB

@@ -275,7 +275,6 @@
             }
         });
     </script>
-
     <script>
         var uploadedPhotoMap = {}
         Dropzone.options.photoDropzone = {
