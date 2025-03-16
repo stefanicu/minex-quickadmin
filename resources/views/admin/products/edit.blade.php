@@ -114,22 +114,23 @@
                 <div class="row">
 
                     <ul class="nav nav-tabs mt-2 col-12">
-                        <li class="nav-item"><a class="nav-link active" data-toggle="tab"
-                                                href="#description">{{ trans('cruds.product.fields.description') }}</a>
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#description">{{ trans('cruds.product.fields.description') }}</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab"
-                                                href="#specifications">{{ trans('cruds.product.fields.specifications') }}</a>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#specifications">{{ trans('cruds.product.fields.specifications') }}</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab"
-                                                href="#advantages">{{ trans('cruds.product.fields.advantages') }}</a>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#advantages">{{ trans('cruds.product.fields.advantages') }}</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab"
-                                                href="#usages">{{ trans('cruds.product.fields.usages') }}</a></li>
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab"
-                                                href="#accessories">{{ trans('cruds.product.fields.accessories') }}</a>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#usages">{{ trans('cruds.product.fields.usages') }}</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab"
-                                                href="#references">{{ trans('cruds.product.fields.references') }}</a>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#accessories">{{ trans('cruds.product.fields.accessories') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#references">{{ trans('cruds.product.fields.references') }}</a>
                         </li>
                     </ul>
 

@@ -1,6 +1,8 @@
 <?php
 
-function generateSlug(string $name): string
+use Illuminate\Support\Facades\DB;
+
+function generateSlug(string $name, $modelTranslation, $locale): string
 {
     // Transliterate Cyrillic and other characters to Latin script
     $slug = transliterator_transliterate('Any-Latin; Latin-ASCII', $name);
@@ -16,6 +18,15 @@ function generateSlug(string $name): string
     
     // Trim hyphens from the beginning and end
     $slug = trim($slug, '-');
+    
+    // Check if the slug is in the model
+    $originalSlug = $slug;
+    $count = 1;
+    // Check if the slug exists in the database
+    while (DB::table($modelTranslation)->where('slug', $slug)->where('locale', '=', $locale)->exists()) {
+        $slug = $originalSlug.'-'.$count;
+        $count++;
+    }
     
     return $slug;
 }

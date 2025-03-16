@@ -40,7 +40,7 @@ trait TranslateWithQueue
             'locale' => $locale,
         ];
         
-        if ( ! $existingRecord) {
+        if ($existingRecord === null) {
             // If no existing record, prepare to insert
             $translatedName = isset($record->name) ? ChatGPTService::translate($record->name, $locale, $sourceLocale) : null;
             
@@ -51,7 +51,7 @@ trait TranslateWithQueue
             
             // Generate and add the slug if name is set and translated
             if ($translatedName && isset($record->slug)) {
-                $newRecordData['slug'] = generateSlug($translatedName);
+                $newRecordData['slug'] = generateSlug($translatedName, $modelTranslation, $locale);
             }
             
             // Insert the new record (if no existing record)

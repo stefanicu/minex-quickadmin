@@ -47,42 +47,38 @@
 
                 <div class="row">
                     <div id="applications" class="form-group col-12 col-xl-6">
-                        <label for="applications">{{ trans('cruds.product.fields.applications') }}</label>
-                        <div style="padding-bottom: 4px">
-                            <span class="btn btn-info btn-xs select-all"
-                                  style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                            <span class="btn btn-info btn-xs deselect-all"
-                                  style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
-                        </div>
-                        <select class="form-control select2 {{ $errors->has('applications') ? 'is-invalid' : '' }}"
-                                name="applications[]" id="applications" multiple>
-                            @foreach($applications as $id => $applicaiton)
-                                <option value="{{ $id }}" {{ in_array($id, old('applications', [])) ? 'selected' : '' }}>{{ $applicaiton }}</option>
+                        <label for="applications">{{ trans('cruds.product.fields.application') }}</label>
+                        <select class="form-control select2 {{ $errors->has('application') ? 'is-invalid' : '' }}" name="application_id" id="application_id">
+                            <option value="" disabled {{ old('application_id', '') ? '' : 'selected' }}>
+                                -- Select an application --
+                            </option>
+                            @foreach($applications as $id => $application)
+                                <option value="{{ $id }}" {{ (old('application_id', '') == $id) ? 'selected' : '' }}>
+                                    {{ $application }}
+                                </option>
                             @endforeach
                         </select>
                         @if($errors->has('applications'))
                             <span class="text-danger">{{ $errors->first('applications') }}</span>
                         @endif
-                        <span class="help-block">{{ trans('cruds.product.fields.applications_helper') }}</span>
+                        <span class="help-block"></span>
                     </div>
                     <div id="categories" class="form-group col-12 col-xl-6">
-                        <label for="categories">{{ trans('cruds.product.fields.categories') }}</label>
-                        <div style="padding-bottom: 4px">
-                            <span class="btn btn-info btn-xs select-all"
-                                  style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                            <span class="btn btn-info btn-xs deselect-all"
-                                  style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
-                        </div>
-                        <select class="form-control select2 {{ $errors->has('categories') ? 'is-invalid' : '' }}"
-                                name="categories[]" id="categories" multiple>
+                        <label for="categories">{{ trans('cruds.product.fields.category') }}</label>
+                        <select class="form-control select2 {{ $errors->has('categories') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
+                            <option value="" disabled {{ old('category_id', '') ? '' : 'selected' }}>
+                                -- Select a category --
+                            </option>
                             @foreach($categories as $id => $category)
-                                <option value="{{ $id }}" {{ in_array($id, old('categories', [])) ? 'selected' : '' }}>{{ $category }}</option>
+                                <option value="{{ $id }}" {{ (old('category_id', '') == $id) ? 'selected' : '' }}>
+                                    {{ $category }}
+                                </option>
                             @endforeach
                         </select>
                         @if($errors->has('categories'))
                             <span class="text-danger">{{ $errors->first('categories') }}</span>
                         @endif
-                        <span class="help-block">{{ trans('cruds.product.fields.categories_helper') }}</span>
+                        <span class="help-block"></span>
                     </div>
                 </div>
 
@@ -90,32 +86,30 @@
                 <div class="row">
 
                     <ul class="nav nav-tabs mt-2 col-12">
-                        <li class="nav-item"><a class="nav-link active" data-toggle="tab"
-                                                href="#description">{{ trans('cruds.product.fields.description') }}</a>
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#description">{{ trans('cruds.product.fields.description') }}</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab"
-                                                href="#specifications">{{ trans('cruds.product.fields.specifications') }}</a>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#specifications">{{ trans('cruds.product.fields.specifications') }}</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab"
-                                                href="#advantages">{{ trans('cruds.product.fields.advantages') }}</a>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#advantages">{{ trans('cruds.product.fields.advantages') }}</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab"
-                                                href="#usages">{{ trans('cruds.product.fields.usages') }}</a></li>
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab"
-                                                href="#accessories">{{ trans('cruds.product.fields.accessories') }}</a>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#usages">{{ trans('cruds.product.fields.usages') }}</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab"
-                                                href="#references">{{ trans('cruds.product.fields.references') }}</a>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#accessories">{{ trans('cruds.product.fields.accessories') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#references">{{ trans('cruds.product.fields.references') }}</a>
                         </li>
                     </ul>
 
                     <div class="tab-content pt-4 mb-2 col-12">
                         <div id="description" class="form-group tab-pane fade in active show">
                             {{--                    <label for="description">{{ trans('cruds.product.fields.description') }}</label>--}}
-                            <textarea
-                                    class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                                    name="description"
-                                    id="description">{!! old('description', '') !!}</textarea>
+                            <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{!! old('description', '') !!}</textarea>
                             @if($errors->has('description'))
                                 <span class="text-danger">{{ $errors->first('description') }}</span>
                             @endif
@@ -124,10 +118,7 @@
 
                         <div id="specifications" class="form-group tab-pane fade in">
                             {{--                    <label for="specifications">{{ trans('cruds.product.fields.specifications') }}</label>--}}
-                            <textarea
-                                    class="form-control ckeditor {{ $errors->has('specifications') ? 'is-invalid' : '' }}"
-                                    name="specifications"
-                                    id="specifications">{!! old('specifications', '') !!}</textarea>
+                            <textarea class="form-control ckeditor {{ $errors->has('specifications') ? 'is-invalid' : '' }}" name="specifications" id="specifications">{!! old('specifications', '') !!}</textarea>
                             @if($errors->has('specifications'))
                                 <span class="text-danger">{{ $errors->first('specifications') }}</span>
                             @endif
@@ -136,9 +127,7 @@
 
                         <div id="advantages" class="form-group tab-pane fade in">
                             {{--                    <label for="advantages">{{ trans('cruds.product.fields.advantages') }}</label>--}}
-                            <textarea class="form-control ckeditor {{ $errors->has('advantages') ? 'is-invalid' : '' }}"
-                                      name="advantages"
-                                      id="advantages">{!! old('advantages', '') !!}</textarea>
+                            <textarea class="form-control ckeditor {{ $errors->has('advantages') ? 'is-invalid' : '' }}" name="advantages" id="advantages">{!! old('advantages', '') !!}</textarea>
                             @if($errors->has('advantages'))
                                 <span class="text-danger">{{ $errors->first('advantages') }}</span>
                             @endif
@@ -147,8 +136,7 @@
 
                         <div id="usages" class="form-group tab-pane fade in">
                             {{--                    <label for="usages">{{ trans('cruds.product.fields.usages') }}</label>--}}
-                            <textarea class="form-control ckeditor {{ $errors->has('usages') ? 'is-invalid' : '' }}"
-                                      name="usages" id="usages">{!! old('usages', '') !!}</textarea>
+                            <textarea class="form-control ckeditor {{ $errors->has('usages') ? 'is-invalid' : '' }}" name="usages" id="usages">{!! old('usages', '') !!}</textarea>
                             @if($errors->has('usages'))
                                 <span class="text-danger">{{ $errors->first('usage') }}</span>
                             @endif
@@ -169,13 +157,10 @@
                         <div id="references" class="form-group tab-pane fade in">
                             {{--                    <label for="references">{{ trans('cruds.product.fields.references') }}</label>--}}
                             <div style="padding-bottom: 4px">
-                                <span class="btn btn-info btn-xs select-all"
-                                      style="border-radius: 0">{{ trans('global.select_all') }}</span>
-                                <span class="btn btn-info btn-xs deselect-all"
-                                      style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                                <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                                <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
                             </div>
-                            <select class="form-control select2 {{ $errors->has('references') ? 'is-invalid' : '' }}"
-                                    name="references[]" id="references" multiple>
+                            <select class="form-control select2 {{ $errors->has('references') ? 'is-invalid' : '' }}" name="references[]" id="references" multiple>
                                 @foreach($references as $id => $reference)
                                     <option value="{{ $id }}" {{ in_array($id, old('references', [])) ? 'selected' : '' }}>{{ $reference }}</option>
                                 @endforeach
@@ -192,8 +177,7 @@
                     <div class="form-group col-12 align-items-center">
                         <label for="main_photo">{{ trans('cruds.product.fields.main_photo') }}</label>
                         <span class="help-block">{{ trans('cruds.product.fields.main_photo_helper') }}</span>
-                        <div class="needsclick dropzone {{ $errors->has('main_photo') ? 'is-invalid' : '' }}"
-                             id="main_photo-dropzone">
+                        <div class="needsclick dropzone {{ $errors->has('main_photo') ? 'is-invalid' : '' }}" id="main_photo-dropzone">
                         </div>
                         @if($errors->has('main_photo'))
                             <span class="text-danger">{{ $errors->first('main_photo') }}</span>
@@ -203,8 +187,7 @@
                     <div class="form-group col-12 align-items-center">
                         <label for="photo">{{ trans('cruds.product.fields.photo') }}</label>
                         <span class="help-block">{{ trans('cruds.product.fields.photo_helper') }}</span>
-                        <div class="needsclick dropzone {{ $errors->has('photo') ? 'is-invalid' : '' }}"
-                             id="photo-dropzone">
+                        <div class="needsclick dropzone {{ $errors->has('photo') ? 'is-invalid' : '' }}" id="photo-dropzone">
                         </div>
                         @if($errors->has('photo'))
                             <span class="text-danger">{{ $errors->first('photo') }}</span>
@@ -232,52 +215,51 @@
                 editor.plugins.get('FileRepository').createUploadAdapter = function (loader) {
                     return {
                         upload: function () {
-                            return loader.file
-                                .then(function (file) {
-                                    return new Promise(function (resolve, reject) {
-                                        // Init request
-                                        var xhr = new XMLHttpRequest();
-                                        xhr.open('POST', '{{ route('admin.products.storeCKEditorImages') }}', true);
-                                        xhr.setRequestHeader('x-csrf-token', window._token);
-                                        xhr.setRequestHeader('Accept', 'application/json');
-                                        xhr.responseType = 'json';
+                            return loader.file.then(function (file) {
+                                return new Promise(function (resolve, reject) {
+                                    // Init request
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.open('POST', '{{ route('admin.products.storeCKEditorImages') }}', true);
+                                    xhr.setRequestHeader('x-csrf-token', window._token);
+                                    xhr.setRequestHeader('Accept', 'application/json');
+                                    xhr.responseType = 'json';
 
-                                        // Init listeners
-                                        var genericErrorText = `Couldn't upload file: ${file.name}.`;
-                                        xhr.addEventListener('error', function () {
-                                            reject(genericErrorText)
-                                        });
-                                        xhr.addEventListener('abort', function () {
-                                            reject()
-                                        });
-                                        xhr.addEventListener('load', function () {
-                                            var response = xhr.response;
+                                    // Init listeners
+                                    var genericErrorText = `Couldn't upload file: ${file.name}.`;
+                                    xhr.addEventListener('error', function () {
+                                        reject(genericErrorText)
+                                    });
+                                    xhr.addEventListener('abort', function () {
+                                        reject()
+                                    });
+                                    xhr.addEventListener('load', function () {
+                                        var response = xhr.response;
 
-                                            if (!response || xhr.status !== 201) {
-                                                return reject(response && response.message ? `${genericErrorText}\n${xhr.status} ${response.message}` : `${genericErrorText}\n ${xhr.status} ${xhr.statusText}`);
-                                            }
-
-                                            $('form').append('<input type="hidden" name="ck-media[]" value="' + response.id + '">');
-
-                                            resolve({default: response.url});
-                                        });
-
-                                        if (xhr.upload) {
-                                            xhr.upload.addEventListener('progress', function (e) {
-                                                if (e.lengthComputable) {
-                                                    loader.uploadTotal = e.total;
-                                                    loader.uploaded = e.loaded;
-                                                }
-                                            });
+                                        if (!response || xhr.status !== 201) {
+                                            return reject(response && response.message ? `${genericErrorText}\n${xhr.status} ${response.message}` : `${genericErrorText}\n ${xhr.status} ${xhr.statusText}`);
                                         }
 
-                                        // Send request
-                                        var data = new FormData();
-                                        data.append('upload', file);
-                                        data.append('crud_id', '{{ $product->id ?? 0 }}');
-                                        xhr.send(data);
+                                        $('form').append('<input type="hidden" name="ck-media[]" value="' + response.id + '">');
+
+                                        resolve({default: response.url});
                                     });
-                                })
+
+                                    if (xhr.upload) {
+                                        xhr.upload.addEventListener('progress', function (e) {
+                                            if (e.lengthComputable) {
+                                                loader.uploadTotal = e.total;
+                                                loader.uploaded = e.loaded;
+                                            }
+                                        });
+                                    }
+
+                                    // Send request
+                                    var data = new FormData();
+                                    data.append('upload', file);
+                                    data.append('crud_id', '{{ $product->id ?? 0 }}');
+                                    xhr.send(data);
+                                });
+                            })
                         }
                     };
                 }

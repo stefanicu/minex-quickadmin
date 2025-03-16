@@ -202,8 +202,6 @@ class ProductsController extends Controller
         
         $product = Product::create($request->all());
         
-        $product->applications()->sync($request->input('applications', []));
-        $product->categories()->sync($request->input('categories', []));
         $product->references()->sync($request->input('references', []));
         
         if ($request->input('main_photo', false)) {
