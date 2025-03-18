@@ -8,6 +8,9 @@ use App\Traits\HasMetaData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @deprecated
+ */
 class BrandController extends Controller
 {
     use HasMetaData;

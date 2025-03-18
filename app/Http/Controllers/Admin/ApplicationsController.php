@@ -105,20 +105,38 @@ class ApplicationsController extends Controller
     {
         abort_if(Gate::denies('application_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
-        $categories = CategoryTranslation::where('locale', app()->getLocale())->orderBy('name', 'asc')->pluck('name',
-            'id');
+        $categories = CategoryTranslation::where('locale', app()->getLocale())->orderBy('name', 'asc')->pluck('name', 'id');
         
         return view('admin.applications.create', compact('categories'));
     }
     
     public function store(StoreApplicationRequest $request)
     {
+        if ($request->input('image', false)) {
+            $tempPath = storage_path('tmp/uploads/'.basename($request->input('image')));
+            // Validate the image dimensions
+            [$width, $height] = getimagesize($tempPath);
+            
+            if ($width != 1920 || $height != 580) {
+                // Delete the temporary file if validation fails
+                if (file_exists($tempPath)) {
+                    unlink($tempPath);
+                }
+                return redirect()->back()->withInput()->withErrors([
+                    'image' => __("admin.image_dimensions", [
+                        'expected_width' => 1920,
+                        'expected_height' => 580,
+                        'uploaded_width' => $width,
+                        'uploaded_height' => $height
+                    ]),
+                ]);
+            }
+        }
+        
         $application = Application::create($request->all());
         
-        $application->categories()->sync($request->input('categories', []));
-        
         if ($request->input('image', false)) {
-            $application->addMedia(storage_path('tmp/uploads/'.basename($request->input('image'))))->toMediaCollection('image');
+            $application->addMedia($tempPath)->toMediaCollection('image');
         }
         
         if ($media = $request->input('ck-media', false)) {

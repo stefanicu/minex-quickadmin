@@ -12,9 +12,6 @@
     @foreach(config('panel.available_languages') as $langLocale => $langName)
         @php
             $parameters = [];
-            if(isset($app_slugs)) {
-                $parameters['app_slug'] = $app_slugs[$langLocale];
-            }
             if(isset($cat_slugs)) {
                 $parameters['cat_slug'] = $cat_slugs[$langLocale];
             }
@@ -27,6 +24,8 @@
             if(isset($brand_slugs)) {
                 $parameters['brand_slug'] = $brand_slugs[$langLocale];
             }
+
+            //dd($metaData,$parameters);
 
             $page = request()->get('page');
             if ($page && $page > 1) {
@@ -234,7 +233,7 @@
     </ul>
 
     <p class="text-right my-0 m-button">
-        <a href="{{ route('gdpr.'.app()->getLocale()) }}">{{ trans('pages.gdpr_compliance') }}</a><br>&#169; {{ trans('pages.copyright') }}
+        <a href="{{ route('pages.'.app()->getLocale(),['slug'=>'gdpr']) }}">{{ trans('pages.gdpr_compliance') }}</a><br>&#169; {{ trans('pages.copyright') }}
     </p>
 
 </footer>

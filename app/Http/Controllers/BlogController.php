@@ -59,8 +59,7 @@ class BlogController extends Controller
         
         $slugs = null;
         foreach (config('translatable.locales') as $locale) {
-            $slug_blog = $blog->translate($locale)->slug ?? $blog->id;
-            $slugs[$locale] = $slug_blog;
+            $slugs[$locale] = $blog->translate($locale)->slug ?? $blog->id;
         }
         
         $metaData = $this->getMetaData($blog);

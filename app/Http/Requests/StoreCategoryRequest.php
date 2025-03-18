@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Category;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Response;
 
 class StoreCategoryRequest extends FormRequest
 {
@@ -13,7 +11,7 @@ class StoreCategoryRequest extends FormRequest
     {
         return Gate::allows('category_create');
     }
-
+    
     public function rules()
     {
         return [
@@ -25,19 +23,20 @@ class StoreCategoryRequest extends FormRequest
                 'min:0',
                 'max:255',
                 'required',
-                'unique:category_translations',
             ],
             'slug' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                'unique:category_translations',
             ],
-            'applications.*' => [
+            'application_id' => [
                 'integer',
             ],
-            'applications' => [
+            'filters.*' => [
+                'integer',
+            ],
+            'filters' => [
                 'array',
             ],
         ];

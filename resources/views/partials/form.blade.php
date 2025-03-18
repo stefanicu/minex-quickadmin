@@ -84,7 +84,7 @@
                     <input class="form-check-input form-checkbox-min" type="checkbox" id="checkbox" name="checkbox"
                            value="1" {{ old('checkbox') ? 'checked' : '' }}>
                     {{ trans('form.field_checkbox') }}
-                    <a href="{{ route('gdpr.'.app()->getLocale()) }}"
+                    <a href="{{ route('pages.'.app()->getLocale(),['slug'=>'gdpr']) }}"
                        target="_blank"><strong>{{ trans('pages.gdpr_compliance') }}</strong></a>
                 </label>
             </div>

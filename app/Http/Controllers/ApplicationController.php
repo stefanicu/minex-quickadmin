@@ -7,6 +7,9 @@ use App\Models\Category;
 use App\Traits\HasMetaData;
 use Illuminate\Http\Request;
 
+/**
+ * @deprecated
+ */
 class ApplicationController extends Controller
 {
     use HasMetaData;
@@ -41,9 +44,9 @@ class ApplicationController extends Controller
             ->get();
         
         
-        $app_slugs = null;
+        $slugs = null;
         foreach (config('translatable.locales') as $locale) {
-            $app_slugs[$locale] = $application->translate($locale)->slug ?? $application->id;
+            $slugs[$locale] = $application->translate($locale)->slug ?? $application->id;
         }
         
         $metaData = $this->getMetaData($application);
@@ -52,7 +55,7 @@ class ApplicationController extends Controller
             compact(
                 'application',
                 'categories',
-                'app_slugs',
+                'slugs',
                 'metaData'
             )
         );

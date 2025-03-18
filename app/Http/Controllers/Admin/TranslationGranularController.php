@@ -23,6 +23,6 @@ class TranslationGranularController extends Controller
         
         $this->translateQueueByColumns($modelTranslation, $foreignKey, $locale, $id);
         
-        return redirect()->back()->with('success', __('Translations updated successfully for ').$locale);
+        return redirect()->back()->with('success', __("Translation process has been successfully queued for update in the :locale language.", ['locale' => $locale]));
     }
 }

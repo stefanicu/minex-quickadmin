@@ -84,7 +84,7 @@
                         @foreach ($brands as $brnd)
                             @if($brnd->cnt >0)
                                 <li class="list-group-item {{ $brand->id == $brnd->id ? 'active' : '' }}">
-                                    <a href="{{ route('brand.'.app()->getLocale(), ['slug' => $brnd->slug]) }}"
+                                    <a href="{{ route('pages.'.app()->getLocale(), ['slug' => $brnd->slug]) }}"
                                        class="d-flex justify-content-between align-items-center">
                                         {{ $brnd->name }} <span
                                                 class="badge badge-primary badge-pill">{{ $brnd->cnt }}</span>

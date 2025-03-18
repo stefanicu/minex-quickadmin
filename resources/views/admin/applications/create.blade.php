@@ -41,37 +41,50 @@
                     </div>
                 </div>
 
-                {{--                <div class="form-group">--}}
-                {{--                    <label for="image">{{ trans('cruds.application.fields.image') }}</label>--}}
-                {{--                    <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}"--}}
-                {{--                         id="image-dropzone">--}}
-                {{--                    </div>--}}
-                {{--                    @if($errors->has('image'))--}}
-                {{--                        <span class="text-danger">{{ $errors->first('image') }}</span>--}}
-                {{--                    @endif--}}
-                {{--                    <span class="help-block">{{ trans('cruds.application.fields.image_helper') }}</span>--}}
-                {{--                </div>--}}
+                <div class="form-group">
+                    <label for="content">{{ trans('cruds.application.fields.content') }}</label>
+                    <textarea class="form-control ckeditor {{ $errors->has('content') ? 'is-invalid' : '' }}" rows="200"
+                              name="content" id="content">{!! old('content', '') !!}</textarea>
+                    @if($errors->has('content'))
+                        <span class="text-danger">{{ $errors->first('content') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.application.fields.content_helper') }}</span>
+                </div>
 
-                {{--                <div class="form-group">--}}
-                {{--                    <label for="categories">{{ trans('cruds.application.fields.categories') }}</label>--}}
-                {{--                    <div style="padding-bottom: 4px">--}}
-                {{--                        <span class="btn btn-info btn-xs select-all"--}}
-                {{--                              style="border-radius: 0">{{ trans('global.select_all') }}</span>--}}
-                {{--                        <span class="btn btn-info btn-xs deselect-all"--}}
-                {{--                              style="border-radius: 0">{{ trans('global.deselect_all') }}</span>--}}
-                {{--                    </div>--}}
-                {{--                    <select class="form-control select2 {{ $errors->has('categories') ? 'is-invalid' : '' }}"--}}
-                {{--                            name="categories[]" id="categories" multiple>--}}
-                {{--                        @foreach($categories as $id => $category)--}}
-                {{--                            <option value="{{ $id }}" {{ in_array($id, old('categories', [])) ? 'selected' : '' }}>{{ $category }}</option>--}}
-                {{--                        @endforeach--}}
-                {{--                    </select>--}}
-                {{--                    @if($errors->has('categories'))--}}
-                {{--                        <span class="text-danger">{{ $errors->first('categories') }}</span>--}}
-                {{--                    @endif--}}
-                {{--                    <span class="help-block">{{ trans('cruds.application.fields.categories_helper') }}</span>--}}
-                {{--                </div>--}}
+                <div class="row">
+                    <div class="form-group col-12 col-xl-6">
+                        <label for="call_to_action">{{ trans('cruds.application.fields.call_to_action') }}</label>
+                        <input class="form-control {{ $errors->has('call_to_action') ? 'is-invalid' : '' }}" type="text" name="call_to_action" id="call_to_action" value="{{ old('call_to_action', '') }}">
+                        @if($errors->has('call_to_action'))
+                            <span class="text-danger">{{ $errors->first('call_to_action') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.application.fields.call_to_action_helper') }}</span>
+                    </div>
+                    <div class="form-group col-12 col-xl-6">
+                        <label for="call_to_action">{{ trans('cruds.application.fields.call_to_action_link') }}</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">{{ url('') . '/' . app()->getLocale() . '/' }}</span>
+                            </div>
+                            <input class="form-control {{ $errors->has('call_to_action_link') ? 'is-invalid' : '' }}" type="text" name="call_to_action_link" id="call_to_action_link" value="{{ old('call_to_action_link', '') }}">
+                        </div>
+                        @if($errors->has('call_to_action_link'))
+                            <span class="text-danger">{{ $errors->first('call_to_action_link') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.application.fields.call_to_action_link_helper') }}</span>
+                    </div>
+                </div>
 
+                <div class="row align-items-center">
+                    <div class="form-group col-12 align-items-center">
+                        <label for="image">{{ trans('cruds.application.fields.image') }}</label>
+                        <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}" id="image-dropzone"></div>
+                        @if($errors->has('image'))
+                            <span class="text-danger">{{ $errors->first('image') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.application.fields.image_helper') }}</span>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <input type="hidden" name="locale" value="{{app()->getLocale()}}">
@@ -87,6 +100,72 @@
 
 @section('scripts')
     <script src="{{ asset('js/slugs.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            function SimpleUploadAdapter(editor) {
+                editor.plugins.get('FileRepository').createUploadAdapter = function (loader) {
+                    return {
+                        upload: function () {
+                            return loader.file.then(function (file) {
+                                return new Promise(function (resolve, reject) {
+                                    // Init request
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.open('POST', '{{ route('admin.applications.storeCKEditorImages') }}', true);
+                                    xhr.setRequestHeader('x-csrf-token', window._token);
+                                    xhr.setRequestHeader('Accept', 'application/json');
+                                    xhr.responseType = 'json';
+
+                                    // Init listeners
+                                    var genericErrorText = `Couldn't upload file: ${file.name}.`;
+                                    xhr.addEventListener('error', function () {
+                                        reject(genericErrorText)
+                                    });
+                                    xhr.addEventListener('abort', function () {
+                                        reject()
+                                    });
+                                    xhr.addEventListener('load', function () {
+                                        var response = xhr.response;
+
+                                        if (!response || xhr.status !== 201) {
+                                            return reject(response && response.message ? `${genericErrorText}\n${xhr.status} ${response.message}` : `${genericErrorText}\n ${xhr.status} ${xhr.statusText}`);
+                                        }
+
+                                        $('form').append('<input type="hidden" name="ck-media[]" value="' + response.id + '">');
+
+                                        resolve({default: response.url});
+                                    });
+
+                                    if (xhr.upload) {
+                                        xhr.upload.addEventListener('progress', function (e) {
+                                            if (e.lengthComputable) {
+                                                loader.uploadTotal = e.total;
+                                                loader.uploaded = e.loaded;
+                                            }
+                                        });
+                                    }
+
+                                    // Send request
+                                    var data = new FormData();
+                                    data.append('upload', file);
+                                    data.append('crud_id', '{{ $application->id ?? 0 }}');
+                                    xhr.send(data);
+                                });
+                            })
+                        }
+                    };
+                }
+            }
+
+            var allEditors = document.querySelectorAll('.ckeditor');
+            for (var i = 0; i < allEditors.length; ++i) {
+                ClassicEditor.create(
+                    allEditors[i], {
+                        extraPlugins: [SimpleUploadAdapter]
+                    }
+                );
+            }
+        });
+    </script>
     <script>
         Dropzone.options.imageDropzone = {
             url: '{{ route('admin.applications.storeMedia') }}',

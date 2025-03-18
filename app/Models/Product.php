@@ -41,6 +41,7 @@ class Product extends Model implements HasMedia, TranslatableContract
     protected $fillable = [
         'application_id',
         'category_id',
+        'filter_id',
         'online',
         'brand_id',
         'oldid',
@@ -66,14 +67,19 @@ class Product extends Model implements HasMedia, TranslatableContract
         return $this->belongsTo(Brand::class);
     }
     
+    public function application(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Application::class);
+    }
+    
     public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
     
-    public function application(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function filter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Application::class);
+        return $this->belongsTo(Filter::class);
     }
     
     public function Productfiles(): \Illuminate\Database\Eloquent\Relations\HasMany

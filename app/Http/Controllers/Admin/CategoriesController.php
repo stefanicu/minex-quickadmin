@@ -9,7 +9,7 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\ApplicationTranslation;
 use App\Models\Category;
-use App\Models\Product;
+use App\Models\Filter;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -97,11 +97,9 @@ class CategoriesController extends Controller
     {
         abort_if(Gate::denies('category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
-        $product_images = null;
-        
         $applications = ApplicationTranslation::where('locale', app()->getLocale())->orderBy('name', 'asc')->pluck('name', 'application_id');
         
-        return view('admin.categories.create', compact('applications', 'product_images'));
+        return view('admin.categories.create', compact('applications'));
     }
     
     public function store(StoreCategoryRequest $request)
@@ -133,7 +131,6 @@ class CategoriesController extends Controller
             $category->addMedia($tempPath)->toMediaCollection('cover_photo');
         }
         
-        
         if ($media = $request->input('ck-media', false)) {
             Media::whereIn('id', $media)->update(['model_id' => $category->id]);
         }
@@ -149,46 +146,37 @@ class CategoriesController extends Controller
     {
         abort_if(Gate::denies('category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
-        $categoryId = $category->id;
-        
-        $product_images = Product::whereHas('category', function ($query) use ($categoryId) {
-            $query->where('categories.id', '=', $categoryId);
-        })
-            ->whereHas('media', function ($query) {
-                $query->where('collection_name', 'main_photo');
+        $filters = Filter::select('filters.id as id', 'filter_translations.name')
+            ->join('filter_translations', 'filters.id', '=', 'filter_translations.filter_id')
+            ->where('filter_translations.locale', app()->getLocale())
+            ->where(function ($query) use ($category) {
+                $query->where('filters.category_id', $category->id)
+                    ->orWhereNull('filters.category_id');
             })
-            ->orderByTranslation('name')
+            ->orderBy('filter_translations.name', 'asc')
             ->get();
-        
-        $products_online = Product::whereHas('category', function ($query) use ($categoryId) {
-            $query->where('categories.id', '=', $categoryId);
-        })
-            ->whereHas('media', function ($query) {
-                $query->where('collection_name', 'main_photo');
-            })
-            ->whereHas('translations', function ($query) {
-                $query->where('locale', app()->getLocale()) // Current language
-                ->where('online', 1); // Filter by online = 1
-            })
-            ->orderByTranslation('name')
-            ->get();
-        
-        $application = null;
-        if ($products_online && count($products_online) > 1) {
-            $product = $products_online->first();
-            $application = $product->application()->first();
-        }
         
         $applications = ApplicationTranslation::where('locale', app()->getLocale())->pluck('name', 'application_id');
         
-        //$category->load('product_image', 'applications');
+        $application = ApplicationTranslation::where('locale', app()->getLocale())->where('application_id', $category->application_id)->first();
         
-        return view('admin.categories.edit', compact('applications', 'category', 'product_images', 'application'));
+        $category->load('filters');
+        
+        return view('admin.categories.edit', compact('category', 'filters', 'applications', 'application'));
     }
     
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $category->update($request->all());
+        
+        // Get selected category IDs from the form
+        $filterIds = $request->input('filters', []);
+        
+        // Unassign all previous categories from this application
+        Filter::where('category_id', $category->id)->update(['category_id' => null]);
+        
+        // Assign selected categories to the category
+        Filter::whereIn('id', $filterIds)->update(['category_id' => $category->id]);
         
         if ($request->input('cover_photo', false)) {
             if ( ! $category->cover_photo || $request->input('cover_photo') !== $category->cover_photo->file_name) {

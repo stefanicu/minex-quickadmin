@@ -14,11 +14,6 @@ class TranslateBulkUpdate implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     
-    /**
-     * Create a new job instance.
-     */
-    use InteractsWithQueue, Queueable, SerializesModels;
-    
     protected $modelTranslation;
     protected $foreignKey;
     protected $id;
@@ -38,15 +33,28 @@ class TranslateBulkUpdate implements ShouldQueue
     
     public function handle()
     {
-        // Determine source locale based on the current locale
-        $sourceLocale = ($this->locale === 'en') ? 'ro' : 'en';
-        
-        $translatedValue = ChatGPTService::translate($this->value, $this->locale, $sourceLocale);
-        
-        // Update the value in the translation table with the translated value
-        DB::table($this->modelTranslation)
-            ->where('locale', $this->locale)
-            ->where($this->foreignKey, $this->id)
-            ->update([$this->column => $translatedValue]);
+        try {
+            // Determine source locale based on the current locale
+            $sourceLocale = ($this->locale === 'en') ? 'ro' : 'en';
+            
+            // Call ChatGPT API
+            $translatedValue = ChatGPTService::translate($this->value, $this->locale, $sourceLocale);
+            
+            // Ensure translation is valid
+            if (empty($translatedValue)) {
+                throw new \Exception('Translation failed: Empty response from API');
+            }
+            
+            // Update translation in the database
+            DB::table($this->modelTranslation)
+                ->where('locale', $this->locale)
+                ->where($this->foreignKey, $this->id)
+                ->update([$this->column => $translatedValue]);
+        } catch (\Throwable $e) {
+            \Log::error('TranslateBulkUpdate failed: '.$e->getMessage());
+            
+            // Release the job back into the queue with delay
+            $this->release(10); // Retry after 10 seconds
+        }
     }
 }

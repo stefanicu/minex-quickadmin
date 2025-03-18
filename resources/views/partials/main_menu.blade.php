@@ -111,9 +111,6 @@
                                 @if($langLocale != app()->getLocale())
                                     @php
                                         $parameters = [];
-                                        if(isset($app_slugs)) {
-                                            $parameters['app_slug'] = $app_slugs[$langLocale];
-                                        }
                                         if(isset($cat_slugs)) {
                                             $parameters['cat_slug'] = $cat_slugs[$langLocale];
                                         }

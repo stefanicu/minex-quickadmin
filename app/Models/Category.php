@@ -18,7 +18,7 @@ class Category extends Model implements HasMedia, TranslatableContract
     public $table = 'categories';
     
     public $translatedAttributes = [
-        'online', 'name', 'slug',
+        'online', 'name', 'slug', 'content', 'call_to_action', 'call_to_action_link',
         'meta_title', 'meta_description', 'author', 'robots', 'canonical_url'
     ];
     
@@ -104,6 +104,11 @@ class Category extends Model implements HasMedia, TranslatableContract
     public function application(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Application::class);
+    }
+    
+    public function filters(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Filter::class);
     }
     
     public function products(): \Illuminate\Database\Eloquent\Relations\HasMany

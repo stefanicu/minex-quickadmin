@@ -6,7 +6,7 @@
                 <li class="breadcrumb-item"><a href="/">{{ trans('pages.home') }}</a></li>
                 @if($application->slug)
                     <li class="breadcrumb-item"><a
-                                href="{{ route('application.'.app()->getLocale(), ['app_slug' =>$application->slug]) }}">{{ $application->name }}</a>
+                                href="{{ route('pages.'.app()->getLocale(), ['slug' =>$application->slug]) }}">{{ $application->name }}</a>
                     </li>
                 @endif
                 @if($category->slug)

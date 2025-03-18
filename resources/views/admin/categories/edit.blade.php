@@ -39,7 +39,7 @@
 
                 <div class="row">
 
-                    <div class="form-group col-12 col-xl-5">
+                    <div class="form-group col-12 col-xl-4">
                         <label class="required" for="name">{{ trans('cruds.category.fields.name') }}</label>
                         <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text"
                                name="name" id="name" value="{{ old('name', $category->name) }}" required>
@@ -49,7 +49,7 @@
                         <span class="help-block">{{ trans('cruds.category.fields.name_helper') }}</span>
                     </div>
 
-                    <div class="form-group col-12 col-xl-5">
+                    <div class="form-group col-12 col-xl-4">
                         <label class="required" for="slug">{{ trans('cruds.category.fields.slug') }}</label>
                         <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text"
                                name="slug" id="slug" value="{{ old('slug', $category->slug) }}" required>
@@ -57,6 +57,23 @@
                             <span class="text-danger">{{ $errors->first('slug') }}</span>
                         @endif
                         <span class="help-block">{{ trans('cruds.category.fields.slug_helper') }}</span>
+                    </div>
+
+                    <div class="form-group col-12 col-xl-2">
+                        <label class="required" for="brand_id">{{ trans('cruds.product.fields.application') }}</label>
+                        <select class="form-control select2 {{ $errors->has('application') ? 'is-invalid' : '' }}" name="application_id" id="application_id" required>
+                            <option value="" {{ old('application_id', $category->application_id ?? '') == '' ? 'selected' : '' }}>
+                                -- Please select --
+                            </option>
+
+                            @foreach($applications as $id => $entry)
+                                <option value="{{ $id }}" {{ (old('application_id') ? old('application_id') : $category->application_id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('application'))
+                            <span class="text-danger">{{ $errors->first('application') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.product.fields.application_helper') }}</span>
                     </div>
 
                     <div class="form-group col-12 col-xl-2">
@@ -69,7 +86,40 @@
                         @endif
                         <span class="help-block">{{ trans('cruds.category.fields.page_views_helper') }}</span>
                     </div>
+                </div>
 
+
+                <div class="form-group">
+                    <label for="content">{{ trans('cruds.category.fields.content') }}</label>
+                    <textarea class="form-control ckeditor {{ $errors->has('content') ? 'is-invalid' : '' }}" rows="200" name="content" id="content">{!! old('content', $category->content) !!}</textarea>
+                    @if($errors->has('content'))
+                        <span class="text-danger">{{ $errors->first('content') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.category.fields.content_helper') }}</span>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-12 col-xl-4">
+                        <label for="call_to_action">{{ trans('cruds.category.fields.call_to_action') }}</label>
+                        <input class="form-control {{ $errors->has('call_to_action') ? 'is-invalid' : '' }}" type="text" name="call_to_action" id="call_to_action" value="{{ old('call_to_action', $category->call_to_action ?? '') }}">
+                        @if($errors->has('call_to_action'))
+                            <span class="text-danger">{{ $errors->first('call_to_action') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.category.fields.call_to_action_helper') }}</span>
+                    </div>
+                    <div class="form-group col-12 col-xl-8">
+                        <label for="call_to_action_link">{{ trans('cruds.category.fields.call_to_action_link') }}</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">{{ url('') . '/' . app()->getLocale() . '/' }}</span>
+                            </div>
+                            <input class="form-control {{ $errors->has('call_to_action_link') ? 'is-invalid' : '' }}" type="text" name="call_to_action_link" id="call_to_action_link" value="{{ old('call_to_action_link', $category->call_to_action_link ?? '') }}">
+                        </div>
+                        @if($errors->has('call_to_action_link'))
+                            <span class="text-danger">{{ $errors->first('call_to_action_link') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.category.fields.call_to_action_link_helper') }}</span>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -85,21 +135,20 @@
                     </div>
                 </div>
 
-                <div class="form-group col-12 col-sm-2">
-                    <label class="required" for="brand_id">{{ trans('cruds.product.fields.application') }}</label>
-                    <select class="form-control select2 {{ $errors->has('application') ? 'is-invalid' : '' }}" name="application_id" id="application_id" required>
-                        <option value="" {{ old('application_id', $category->application_id ?? '') == '' ? 'selected' : '' }}>
-                            -- Please select --
-                        </option>
-
-                        @foreach($applications as $id => $entry)
-                            <option value="{{ $id }}" {{ (old('application_id') ? old('application_id') : $category->application_id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                <div class="form-group">
+                    <label for="filters">{{ trans('cruds.category.fields.filters') }}</label><a class="pl-4" href="{{ route('admin.filters.create', ['category_id' => $category->id]) }}">{{ trans('cruds.category.fields.add_filter') }}</a>
+                    <select class="form-control select2 {{ $errors->has('filters') ? 'is-invalid' : '' }}" name="filters[]" id="filters" multiple>
+                        @foreach($filters as $filter)
+                            <option value="{{ $filter->id }}"
+                                    {{ $category->filters->contains('id', $filter->id) || in_array($filter->id, old('filters', [])) ? 'selected' : '' }}>
+                                {{ $filter->name }}
+                            </option>
                         @endforeach
                     </select>
-                    @if($errors->has('application'))
-                        <span class="text-danger">{{ $errors->first('application') }}</span>
+                    @if($errors->has('filters'))
+                        <span class="text-danger">{{ $errors->first('filters') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.product.fields.application_helper') }}</span>
+                    <span class="help-block">{{ trans('cruds.category.fields.filters_helper') }}</span>
                 </div>
 
                 <!-- SEO fields -->
@@ -160,6 +209,72 @@
 
         @section('scripts')
             <script src="{{ asset('js/slugs.js') }}"></script>
+            <script>
+                $(document).ready(function () {
+                    function SimpleUploadAdapter(editor) {
+                        editor.plugins.get('FileRepository').createUploadAdapter = function (loader) {
+                            return {
+                                upload: function () {
+                                    return loader.file.then(function (file) {
+                                        return new Promise(function (resolve, reject) {
+                                            // Init request
+                                            var xhr = new XMLHttpRequest();
+                                            xhr.open('POST', '{{ route('admin.categories.storeCKEditorImages') }}', true);
+                                            xhr.setRequestHeader('x-csrf-token', window._token);
+                                            xhr.setRequestHeader('Accept', 'application/json');
+                                            xhr.responseType = 'json';
+
+                                            // Init listeners
+                                            var genericErrorText = `Couldn't upload file: ${file.name}.`;
+                                            xhr.addEventListener('error', function () {
+                                                reject(genericErrorText)
+                                            });
+                                            xhr.addEventListener('abort', function () {
+                                                reject()
+                                            });
+                                            xhr.addEventListener('load', function () {
+                                                var response = xhr.response;
+
+                                                if (!response || xhr.status !== 201) {
+                                                    return reject(response && response.message ? `${genericErrorText}\n${xhr.status} ${response.message}` : `${genericErrorText}\n ${xhr.status} ${xhr.statusText}`);
+                                                }
+
+                                                $('form').append('<input type="hidden" name="ck-media[]" value="' + response.id + '">');
+
+                                                resolve({default: response.url});
+                                            });
+
+                                            if (xhr.upload) {
+                                                xhr.upload.addEventListener('progress', function (e) {
+                                                    if (e.lengthComputable) {
+                                                        loader.uploadTotal = e.total;
+                                                        loader.uploaded = e.loaded;
+                                                    }
+                                                });
+                                            }
+
+                                            // Send request
+                                            var data = new FormData();
+                                            data.append('upload', file);
+                                            data.append('crud_id', '{{ $category->id ?? 0 }}');
+                                            xhr.send(data);
+                                        });
+                                    })
+                                }
+                            };
+                        }
+                    }
+
+                    var allEditors = document.querySelectorAll('.ckeditor');
+                    for (var i = 0; i < allEditors.length; ++i) {
+                        ClassicEditor.create(
+                            allEditors[i], {
+                                extraPlugins: [SimpleUploadAdapter]
+                            }
+                        );
+                    }
+                });
+            </script>
             <script>
                 Dropzone.options.coverPhotoDropzone = {
                     url: '{{ route('admin.categories.storeMedia') }}',

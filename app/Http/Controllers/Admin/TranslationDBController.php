@@ -25,6 +25,7 @@ class TranslationDBController extends Controller
         // Define models and their corresponding translation tables and foreign keys
         $models = [
             'sections' => ['table' => 'front_pages', 'translation_table' => 'front_page_translations', 'foreign_key' => 'front_page_id'],
+            'pages' => ['table' => 'pages', 'translation_table' => 'page_translations', 'foreign_key' => 'page_id'],
             'applications' => ['table' => 'applications', 'translation_table' => 'application_translations', 'foreign_key' => 'application_id', 'filter' => ['online' => 1]],
             'categories' => ['table' => 'categories', 'translation_table' => 'category_translations', 'foreign_key' => 'category_id', 'filter' => ['online' => 1]],
             'brands' => ['table' => 'brands', 'translation_table' => 'brand_translations', 'foreign_key' => 'brand_id'],
@@ -84,6 +85,7 @@ class TranslationDBController extends Controller
         // Define models and their translation details
         $models = [
             'sections' => ['table' => 'front_pages', 'translation_table' => 'front_page_translations', 'foreign_key' => 'front_page_id'],
+            'pages' => ['table' => 'pages', 'translation_table' => 'page_translations', 'foreign_key' => 'page_id'],
             'applications' => ['table' => 'applications', 'translation_table' => 'application_translations', 'foreign_key' => 'application_id', 'filter' => ['online' => 1]],
             'categories' => ['table' => 'categories', 'translation_table' => 'category_translations', 'foreign_key' => 'category_id', 'filter' => ['online' => 1]],
             'brands' => ['table' => 'brands', 'translation_table' => 'brand_translations', 'foreign_key' => 'brand_id'],
@@ -140,6 +142,7 @@ class TranslationDBController extends Controller
         // Define models and their translation details
         $models = [
             'sections' => ['table' => 'front_pages', 'translation_table' => 'front_page_translations', 'foreign_key' => 'front_page_id'],
+            'pages' => ['table' => 'pages', 'translation_table' => 'page_translations', 'foreign_key' => 'page_id'],
             'applications' => ['table' => 'applications', 'translation_table' => 'application_translations', 'foreign_key' => 'application_id', 'filter' => ['online' => 1]],
             'categories' => ['table' => 'categories', 'translation_table' => 'category_translations', 'foreign_key' => 'category_id', 'filter' => ['online' => 1]],
             'brands' => ['table' => 'brands', 'translation_table' => 'brand_translations', 'foreign_key' => 'brand_id'],

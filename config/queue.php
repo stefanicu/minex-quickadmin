@@ -75,7 +75,7 @@ return [
     
     'worker' => [
         'tries' => env('QUEUE_WORKER_TRIES', 3),
-        'timeout' => env('QUEUE_WORKER_TIMEOUT', 180),
+        'timeout' => env('QUEUE_WORKER_TIMEOUT', 300),
     ],
     
     /*

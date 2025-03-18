@@ -12,6 +12,8 @@ use App\Models\ApplicationTranslation;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\CategoryTranslation;
+use App\Models\Filter;
+use App\Models\FilterTranslation;
 use App\Models\Product;
 use App\Models\ReferenceTranslation;
 use App\Services\ChatGPTService;
@@ -219,7 +221,7 @@ class ProductsController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $product->id]);
         }
         
-        return redirect()->route('admin.products.index');
+        return redirect()->route('admin.products.edit', ['product' => $product->id]);
     }
     
     public function edit(Product $product)
@@ -236,6 +238,8 @@ class ProductsController extends Controller
         
         $categories = CategoryTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name', 'category_id');
         
+        $filters = FilterTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name', 'filter_id');
+        
         $references = ReferenceTranslation::where('locale', $currentLocale)->orderBy('name', 'asc')->pluck('name', 'reference_id');
         
         $application = Application::with([
@@ -250,6 +254,12 @@ class ProductsController extends Controller
             }
         ])->find($product->category_id);
         
+        $filter = Filter::with([
+            'translations' => function ($query) use ($currentLocale) {
+                $query->where('locale', $currentLocale);
+            }
+        ])->find($product->filter_id);
+        
         
         if (empty($product->name)) {
             if ($currentLocale == 'en' || ! isset($product->translate('en')->name)) {
@@ -259,7 +269,7 @@ class ProductsController extends Controller
             }
         }
         
-        return view('admin.products.edit', compact('product', 'brands', 'applications', 'categories', 'application', 'category', 'references', 'brand'));
+        return view('admin.products.edit', compact('product', 'brands', 'applications', 'categories', 'filters', 'application', 'category', 'filter', 'references', 'brand'));
     }
     
     public function update(UpdateProductRequest $request, Product $product)

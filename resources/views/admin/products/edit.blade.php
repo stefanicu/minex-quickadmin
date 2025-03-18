@@ -20,6 +20,25 @@
             </div>
         </div>
 
+
+        @if(session('success'))
+            <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success! 🎉</strong> {{ session('success') }}
+            </div>
+
+            <script>
+                setTimeout(function () {
+                    let alert = document.getElementById('success-alert');
+                    if (alert) {
+                        alert.classList.remove('show');
+                        alert.classList.add('fade');
+                        setTimeout(() => alert.remove(), 500); // Remove it completely after fading
+                    }
+                }, 5000); // 3 seconds
+            </script>
+        @endif
+
+
         <div class="card-body">
             <form method="POST" action="{{ route("admin.products.update", [$product->id]) }}"
                   enctype="multipart/form-data">
@@ -28,8 +47,7 @@
 
                 <div class="form-group">
                     <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
-                        <input class="form-check-input" type="checkbox" name="online" id="online"
-                               value="1" {{ old('online', optional($product->translations->firstWhere('locale', app()->getLocale()))->online) ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="online" id="online" value="1" {{ old('online', optional($product->translations->firstWhere('locale', app()->getLocale()))->online) ? 'checked' : '' }}>
                         <label class="form-check-label" for="online">{{ trans('cruds.product.fields.online') }}</label>
                     </div>
                     @if($errors->has('online'))
@@ -41,8 +59,7 @@
                 <div class="row">
                     <div class="form-group col-12 col-xl-4">
                         <label class="required" for="name">{{ trans('cruds.product.fields.name') }}</label>
-                        <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text"
-                               name="name" id="name" value="{{ old('name',$product->name) }}" required>
+                        <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name',$product->name) }}" required>
                         @if($errors->has('name'))
                             <span class="text-danger">{{ $errors->first('name') }}</span>
                         @endif
@@ -50,8 +67,7 @@
                     </div>
                     <div class="form-group col-12 col-xl-4">
                         <label class="required" for="slug">{{ trans('cruds.product.fields.slug') }}</label>
-                        <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text"
-                               name="slug" id="slug" value="{{ old('slug',$product->slug) }}" required>
+                        <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug',$product->slug) }}" required>
                         @if($errors->has('slug'))
                             <span class="text-danger">{{ $errors->first('slug') }}</span>
                         @endif
@@ -74,7 +90,7 @@
 
 
                 <div class="row">
-                    <div id="applications" class="form-group col-12 col-xl-6">
+                    <div id="applications" class="form-group col-12 col-xl-4">
                         <label for="applications">{{ trans('cruds.product.fields.application') }}</label>
                         <select class="form-control select2 {{ $errors->has('application') ? 'is-invalid' : '' }}" name="application_id" id="application_id">
                             <option value="" disabled {{ old('application_id', $product->application_id) ? '' : 'selected' }}>
@@ -91,7 +107,7 @@
                         @endif
                         <span class="help-block"></span>
                     </div>
-                    <div id="categories" class="form-group col-12 col-xl-6">
+                    <div id="categories" class="form-group col-12 col-xl-4">
                         <label for="categories">{{ trans('cruds.product.fields.category') }}</label>
                         <select class="form-control select2 {{ $errors->has('categories') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
                             <option value="" disabled {{ old('category_id', $product->category_id) ? '' : 'selected' }}>
@@ -108,11 +124,27 @@
                         @endif
                         <span class="help-block"></span>
                     </div>
+                    <div id="filters" class="form-group col-12 col-xl-4">
+                        <label for="filters">{{ trans('cruds.product.fields.filter') }}</label>
+                        <select class="form-control select2 {{ $errors->has('filters') ? 'is-invalid' : '' }}" name="filter_id" id="filter_id">
+                            <option value="" disabled {{ old('filter_id', $product->filter_id) ? '' : 'selected' }}>
+                                -- Select a filter --
+                            </option>
+                            @foreach($filters as $id => $filter)
+                                <option value="{{ $id }}" {{ (old('filter_id', $product->filter_id) == $id) ? 'selected' : '' }}>
+                                    {{ $filter }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('filters'))
+                            <span class="text-danger">{{ $errors->first('filters') }}</span>
+                        @endif
+                        <span class="help-block"></span>
+                    </div>
                 </div>
 
 
                 <div class="row">
-
                     <ul class="nav nav-tabs mt-2 col-12">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#description">{{ trans('cruds.product.fields.description') }}</a>
@@ -211,8 +243,8 @@
                             <span class="help-block">{{ trans('cruds.product.fields.references_helper') }}</span>
                         </div>
                     </div>
-
                 </div>
+
                 <div class="row">
                     <div class="form-group col-12 align-items-center">
                         <label for="main_photo">{{ trans('cruds.product.fields.main_photo') }}</label>
@@ -294,6 +326,81 @@
 
 @section('scripts')
     <script src="{{ asset('js/slugs.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            var selectedCategoryId = "{{ $product->category_id }}";
+            var selectedFilterId = "{{ $product->filter_id }}";
+
+            // Function to fetch categories based on application
+            function fetchCategories(applicationId, selectedCategoryId = null, callback = null) {
+                $('#category_id').html('<option value="">-- Select a category --</option>'); // Reset categories
+                $('#filter_id').html('<option value="">-- Select a filter --</option>'); // Reset filters
+
+                if (applicationId) {
+                    $.ajax({
+                        url: "{{ route('admin.get.categories') }}",
+                        type: "GET",
+                        data: {application_id: applicationId},
+                        success: function (data) {
+                            $.each(data, function (key, category) {
+                                $('#category_id').append('<option value="' + category.category_id + '">' + category.name + '</option>');
+                            });
+
+                            if (selectedCategoryId) {
+                                $('#category_id').val(selectedCategoryId).trigger('change'); // Select stored category
+                            }
+
+                            if (callback) callback(); // Run callback after categories are loaded
+                        }
+                    });
+                }
+            }
+
+            // Function to fetch filters based on category
+            function fetchFilters(categoryId, selectedFilterId = null) {
+                $('#filter_id').html('<option value="">-- Select a filter --</option>');
+
+                if (categoryId) {
+                    $.ajax({
+                        url: "{{ route('admin.get.filters') }}",
+                        type: "GET",
+                        data: {category_id: categoryId},
+                        success: function (data) {
+                            $.each(data, function (key, filter) {
+                                $('#filter_id').append('<option value="' + filter.filter_id + '">' + filter.name + '</option>');
+                            });
+
+                            if (selectedFilterId) {
+                                $('#filter_id').val(selectedFilterId).trigger('change'); // Select stored filter
+                            }
+                        }
+                    });
+                }
+            }
+
+            // On application change, fetch categories
+            $('#application_id').on('change', function () {
+                var applicationId = $(this).val();
+                fetchCategories(applicationId);
+            });
+
+            // On category change, fetch filters
+            $('#category_id').on('change', function () {
+                var categoryId = $(this).val();
+                fetchFilters(categoryId);
+            });
+
+            // Load initial values from database
+            var selectedApplicationId = $('#application_id').val();
+            if (selectedApplicationId) {
+                fetchCategories(selectedApplicationId, selectedCategoryId, function () {
+                    if (selectedCategoryId) {
+                        fetchFilters(selectedCategoryId, selectedFilterId);
+                    }
+                });
+            }
+        });
+    </script>
     <script>
         $(document).ready(function () {
             function SimpleUploadAdapter(editor) {

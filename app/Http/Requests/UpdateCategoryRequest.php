@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateCategoryRequest extends FormRequest
 {
@@ -24,20 +23,12 @@ class UpdateCategoryRequest extends FormRequest
                 'min:0',
                 'max:255',
                 'required',
-                Rule::unique('category_translations', 'name')
-                    ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('category')->id, 'category_id')
-            
             ],
             'slug' => [
                 'string',
                 'min:0',
                 'max:255',
                 'required',
-                Rule::unique('category_translations', 'slug')
-                    ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('category')->id, 'category_id')
-            
             ],
             'page_views' => [
                 'nullable',
@@ -45,11 +36,8 @@ class UpdateCategoryRequest extends FormRequest
                 'min:-2147483648',
                 'max:2147483647',
             ],
-            'applications.*' => [
+            'application_id' => [
                 'integer',
-            ],
-            'applications' => [
-                'array',
             ],
             'meta_title' => [
                 'string',

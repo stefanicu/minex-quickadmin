@@ -34,7 +34,7 @@
                 <ul id="brd_id" class="justify-content-md list-group list-group-flush row flex-row flex-wrap">
                     @foreach($brands as $brand)
                         <li class="col-6 col-md-4 col-lg-3 text-center d-flex align-items-center list-group-item">
-                            <a href="{{ route('brand.'.app()->getLocale(), ['slug' => $brand->slug]) }}" class="w-100">
+                            <a href="{{ route('pages.'.app()->getLocale(), ['slug' => $brand->slug]) }}" class="w-100">
                                 @if($brand->getPhotoAttribute() !== null)
                                     <figure class="brand_image">
                                         <img

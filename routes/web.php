@@ -85,12 +85,27 @@ Route::group([
     Route::post('categories/ckmedia', 'CategoriesController@storeCKEditorImages')->name('categories.storeCKEditorImages');
     Route::resource('categories', 'CategoriesController', ['except' => ['show']]);
     
+    // Filters
+    Route::delete('filters/destroy', 'FiltersController@massDestroy')->name('filters.massDestroy');
+    Route::post('filters/media', 'FiltersController@storeMedia')->name('filters.storeMedia');
+    Route::post('filters/ckmedia', 'FiltersController@storeCKEditorImages')->name('filters.storeCKEditorImages');
+    Route::resource('filters', 'FiltersController', ['except' => ['show']]);
+    
     // Front Page
     Route::post('front_pages/media', 'FrontPageController@storeMedia')->name('front_pages.storeMedia');
     Route::post('front_pages/ckmedia', 'FrontPageController@storeCKEditorImages')->name('front_pages.storeCKEditorImages');
     Route::resource('front_pages', 'FrontPageController', ['except' => ['create', 'store', 'show', 'destroy']]);
     
+    // Page
+    Route::delete('pages/destroy', 'PageController@massDestroy')->name('pages.massDestroy');
+    Route::post('pages/media', 'PageController@storeMedia')->name('pages.storeMedia');
+    Route::post('pages/ckmedia', 'PageController@storeCKEditorImages')->name('pages.storeCKEditorImages');
+    Route::resource('pages', 'PageController', ['except' => ['show']]);
+    
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
+    
+    Route::get('/get-categories', 'DropdownController@getCategories')->name('get.categories');
+    Route::get('/get-filters', 'DropdownController@getFilters')->name('get.filters');
 });
 
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
@@ -112,7 +127,9 @@ Route::get('/', function () {
 foreach (config('translatable.locales') as $locale) {
     Route::group(['prefix' => $locale, 'middleware' => 'setFrontendLocale'], function () use ($locale) {
         Route::get('/', 'HomeController@index')->name("home.$locale");
-        Route::get('gdpr', 'GdprController@index')->name("gdpr.$locale");
+        
+        
+        //        Route::get('gdpr', 'GdprController@index')->name("gdpr.$locale");
         Route::post('contact', 'ContactController@index')->name("contact.post.$locale");
         Route::get('contact', 'ContactController@index')->name("contact.get.$locale");
         Route::get('search', 'SearchController@index')->name("search.$locale");
@@ -125,7 +142,7 @@ foreach (config('translatable.locales') as $locale) {
         
         // Brands --- Partners
         Route::get(trans('slugs.brands', [], $locale), 'BrandsController@index')->name("brands.$locale");
-        Route::get(trans('slugs.brands', [], $locale).'/{slug}/', 'BrandController@index')->name("brand.$locale");
+        //        Route::get(trans('slugs.brands', [], $locale).'/{slug}/', 'BrandController@index')->name("brand.$locale");
         
         // References
         Route::get(trans('slugs.references', [], $locale), 'ReferencesController@index')->name("references.$locale");
@@ -134,8 +151,12 @@ foreach (config('translatable.locales') as $locale) {
         // Testimonials
         Route::get(trans('slugs.testimonials', [], $locale), 'TestimonialsController@index')->name("testimonials.$locale");
         
+        
+        // Dynamic Applications Pages Brands
+        Route::get('{slug}', 'AppPageBrandDynamicController@index')->name("pages.$locale");
+        
         // Application (categories) ==> Category (products)
-        Route::get('{app_slug?}', 'ApplicationController@index')->name("application.$locale");
+        //        Route::get('{app_slug?}', 'ApplicationController@index')->name("application.$locale");
         Route::get('{app_slug?}'.'/{cat_slug?}', 'CategoryController@index')->name("category.$locale");
         
         // Product
