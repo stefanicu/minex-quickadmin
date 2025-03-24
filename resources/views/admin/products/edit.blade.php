@@ -40,13 +40,12 @@
 
 
         <div class="card-body">
-            <form method="POST" action="{{ route("admin.products.update", [$product->id]) }}"
-                  enctype="multipart/form-data">
+            <form method="POST" action="{{ route("admin.products.update", [$product->id]) }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
-
                 <div class="form-group">
                     <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
+                        <input type="hidden" name="online" value="0">
                         <input class="form-check-input" type="checkbox" name="online" id="online" value="1" {{ old('online', optional($product->translations->firstWhere('locale', app()->getLocale()))->online) ? 'checked' : '' }}>
                         <label class="form-check-label" for="online">{{ trans('cruds.product.fields.online') }}</label>
                     </div>

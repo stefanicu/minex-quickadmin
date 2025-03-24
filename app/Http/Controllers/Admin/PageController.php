@@ -93,15 +93,15 @@ class PageController extends Controller
             // Validate the image dimensions
             [$width, $height] = getimagesize($tempPath);
             
-            if ($width != 750 || $height != 500) {
+            if ($width != 1920 || $height != 540) {
                 // Delete the temporary file if validation fails
                 if (file_exists($tempPath)) {
                     unlink($tempPath);
                 }
                 return redirect()->back()->withInput()->withErrors([
                     'image' => __("admin.image_dimensions", [
-                        'expected_width' => 750,
-                        'expected_height' => 500,
+                        'expected_width' => 1920,
+                        'expected_height' => 540,
                         'uploaded_width' => $width,
                         'uploaded_height' => $height
                     ]),
@@ -149,15 +149,15 @@ class PageController extends Controller
                 // Validate the image dimensions
                 [$width, $height] = getimagesize($tempPath);
                 
-                if ($width != 750 || $height != 500) {
+                if ($width != 1920 || $height != 580) {
                     // Delete the temporary file if validation fails
                     if (file_exists($tempPath)) {
                         unlink($tempPath);
                     }
                     return redirect()->back()->withErrors([
                         'photo' => __("admin.image_dimensions", [
-                            'expected_width' => 750,
-                            'expected_height' => 500,
+                            'expected_width' => 1920,
+                            'expected_height' => 580,
                             'uploaded_width' => $width,
                             'uploaded_height' => $height
                         ]),

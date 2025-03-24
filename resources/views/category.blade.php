@@ -42,7 +42,10 @@
                 @if($products->count() === 0)
                     <div class="col-12">
                         <div class="d-flex justify-content-between">
-                            <h1 class="h2">{{ $category->name }}</h1>
+                            <h1 class="h2">
+                                {{ $category->name }}
+                                <small class="catapp font-weight-lighter">{{ trans('pages.category') }}</small>
+                            </h1>
                             @if(auth()->check())
                                 <a class="position-absolute mr-2"
                                    href="{{ url('').'/admin/categories/'.$category->id.'/edit' }}"
@@ -50,12 +53,19 @@
                             @endif
                         </div>
                         <hr>
+                        <div class="py-4">
+                            {!! $category->content !!}
+                        </div>
                         <p>{{ __('pages.no_products') }}</p>
+
                     </div>
                 @else
                     <div class="col-12 col-md-8">
                         <div class="d-flex justify-content-between">
-                            <h1 class="h2">{{ $category->name }}</h1>
+                            <h1 class="h2">
+                                {{ $category->name }}
+                                <small class="catapp font-weight-lighter">{{ trans('pages.category') }}</small>
+                            </h1>
                             @if(auth()->check())
                                 <a class="position-absolute mr-2"
                                    href="{{ url('').'/admin/categories/'.$category->id.'/edit' }}"
@@ -63,8 +73,10 @@
                             @endif
                         </div>
                         <hr>
-                        <ul id="grid3_borders"
-                            class="list-unstyled row justify-content-start assets-row main-row-prod main-row--grid">
+                        <div class="py-4">
+                            {!! $category->content !!}
+                        </div>
+                        <ul id="grid3_borders" class="list-unstyled row justify-content-start assets-row main-row-prod main-row--grid">
                             @foreach($products as $product)
                                 @if($product->translateOrDefault(app()->getLocale()))
                                     <li class="col-12 col-md-6 col-lg-4 d-flex align-items-center list-group-item py-3">
@@ -87,6 +99,14 @@
                                 @endif
                             @endforeach
                         </ul>
+
+                        @if($category->call_to_action)
+                            <div class="w-100 py-4">
+                                <p class="text-center py-2 px-4 my-4">
+                                    <a href="{{ url('') . '/' . app()->getLocale() . '/' . $category->call_to_action_link }}" target="_blank" class="btn btn-primary btn-lg p-4 mx-auto">{{ $category->call_to_action }}</a>
+                                </p>
+                            </div>
+                        @endif
                     </div>
                     <div id="categories_list" class="col-12 col-md-4">
                         <h2 class="h3">{{ trans('pages.product_categories') }}</h2>

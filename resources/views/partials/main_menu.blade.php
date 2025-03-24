@@ -120,6 +120,9 @@
                                         if(isset($slugs)) {
                                             $parameters['slug'] = $slugs[$langLocale];
                                         }
+                                        if(isset($app_slugs)) {
+                                            $parameters['app_slug'] = $app_slugs[$langLocale];
+                                        }
                                         if(isset($brand_slugs)) {
                                             $parameters['brand_slug'] = $brand_slugs[$langLocale];
                                         }

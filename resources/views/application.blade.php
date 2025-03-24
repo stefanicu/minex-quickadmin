@@ -38,11 +38,13 @@
             <div class="col-xs-12">
                 <h1 class="h2">
                     {{ $application->name }}
-                    @if($application)
-                        <small class="catapp font-weight-lighter">{{ trans('pages.categories') }}</small>
-                    @endif
+                    <small class="catapp font-weight-lighter">{{ trans('pages.application') }}</small>
                 </h1>
-                <hr/>
+                <hr>
+                <div class="py-4">
+                    {!! $application->content !!}
+                </div>
+
                 <p>{{ trans('pages.chose_category') }}</p>
                 <ul class="list-unstyled row justify-content-start full-row-prod assets-row grid">
                     @foreach($categories as $category)
@@ -69,6 +71,14 @@
                     @endforeach
                 </ul>
             </div>
+
+            @if($application->call_to_action)
+                <div class="w-100 py-4">
+                    <p class="text-center py-2 px-4 my-4">
+                        <a href="{{ url('') . '/' . app()->getLocale() . '/' . $application->call_to_action_link }}" target="_blank" class="btn btn-primary btn-lg p-4 mx-auto">{{ $application->call_to_action }}</a>
+                    </p>
+                </div>
+            @endif
         </div>
     </section>
 

@@ -145,6 +145,7 @@ class BlogController extends Controller
     
     public function update(UpdateBlogRequest $request, Blog $blog)
     {
+        dd($request->all());
         $blog->update($request->all());
         
         if ($request->input('image', false)) {

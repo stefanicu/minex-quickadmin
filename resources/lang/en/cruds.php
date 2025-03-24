@@ -522,7 +522,7 @@ return [
             'call_to_action_link' => 'Call to Action LINK',
             'call_to_action_link_helper' => ' ',
             'image' => 'Image',
-            'image_helper' => 'Only .jpeg,.jpg,.png,.gif files are allowed. The image must have exact dimensions of 750x500 pixels (width x height).',
+            'image_helper' => 'Only .jpeg,.jpg,.png,.gif files are allowed. The image must have exact dimensions of 1920x580 pixels (width x height).',
             'created_at' => 'Created at',
             'created_at_helper' => ' ',
             'updated_at' => 'Updated at',

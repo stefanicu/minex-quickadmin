@@ -33,7 +33,10 @@
             <div class="row">
                 <div class="col-12 col-md-8">
                     <div class="d-flex justify-content-between">
-                        <h1 class="h2">{{ $brand->name }}</h1>
+                        <h1 class="h2">
+                            {{ $brand->name }}
+                            <small class="catapp font-weight-lighter">{{ trans('pages.brand') }}</small>
+                        </h1>
                         @if(auth()->check())
                             <a class="position-absolute mr-2" href="{{ url('').'/admin/brands/'.$brand->id.'/edit' }}"
                                target="_blank">Edit</a>

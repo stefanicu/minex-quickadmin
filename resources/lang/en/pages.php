@@ -4,6 +4,7 @@ return [
     'home' => 'Home',
     'contact' => 'Contact',
     'brands' => 'Brands',
+    'brand' => 'Brand',
     'search' => 'Search',
     'search_for' => 'Search for word',
     'search_error' => 'The word searched must be at least 3 characters long',

@@ -3,21 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Page;
 
 class BrandsController extends Controller
 {
     public function index()
     {
-        $brands = Brand::join('brand_translations', function ($join) {
-            $join->on('brands.id', '=', 'brand_translations.brand_id')
-                //->where('brand_translations.online', '=', 1)
-                ->where('brand_translations.locale', '=', app()->getLocale());
-        })
+        $currentLocale = app()->getLocale();
+        $brands = Brand::with('media')
+            ->join('brand_translations', function ($join) use ($currentLocale) {
+                $join->on('brands.id', '=', 'brand_translations.brand_id')
+                    //->where('brand_translations.online', '=', 1)
+                    ->where('brand_translations.locale', '=', $currentLocale);
+            })
             //            ->whereHas('products')
             ->selectRaw('brands.id, brands.name, brands.slug')
             ->groupByRaw('brands.id, brands.name, brands.slug')
             ->orderBy('brands.name')
             ->get();
+        
+        $page = Page::with('translations', 'media')
+            ->leftJoin('page_translations', 'pages.id', '=', 'page_translations.page_id')
+            ->where('page_translations.slug', '=', 'partners')
+            ->where('locale', '=', $currentLocale)
+            ->where('page_translations.online', '=', 1)
+            ->orderBy('created_at', 'desc')
+            ->first();
         
         $meta_title = trans('pages.brands');
         $meta_description = trans('pages.brands');
@@ -40,6 +51,7 @@ class BrandsController extends Controller
             'brands',
             compact(
                 'brands',
+                'page',
                 'metaData'
             )
         );

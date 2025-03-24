@@ -74,11 +74,18 @@ class Page extends Model implements HasMedia, TranslatableContract
             }
             $this->addMediaConversion('preview')->width(288);
         } else {
-            $this->addMediaConversion('thumb')->width(75);
-            $this->addMediaConversion('preview')->width(288);
-            $this->addMediaConversion('thumb_webp')->width(75)->format(Manipulations::FORMAT_WEBP);
-            $this->addMediaConversion('preview_webp')->width(288)->format(Manipulations::FORMAT_WEBP);
-            $this->addMediaConversion('original_webp')->format(Manipulations::FORMAT_WEBP);
+            $this->addMediaConversion('thumb')->width(100);
+            $this->addMediaConversion('preview')->width(432);
+            
+            $this->addMediaConversion('xl')->fit('crop', 1920, 580);
+            //        $this->addMediaConversion('lg')->fit( 'crop',1366,400);
+            //        $this->addMediaConversion('md')->fit( 'crop',768,400);
+            //        $this->addMediaConversion('sm')->fit('crop', 425,200);
+            
+            $this->addMediaConversion('xl_webp')->fit('crop', 1920, 580)->format(Manipulations::FORMAT_WEBP);
+            //        $this->addMediaConversion('lg_webp')->fit( 'crop',1366,400)->format(Manipulations::FORMAT_WEBP);
+            //        $this->addMediaConversion('md_webp')->fit( 'crop',768,400)->format(Manipulations::FORMAT_WEBP);
+            //        $this->addMediaConversion('sm_webp')->fit('crop', 425,200)->format(Manipulations::FORMAT_WEBP);
         }
     }
     
