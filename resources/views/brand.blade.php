@@ -43,6 +43,9 @@
                         @endif
                     </div>
                     <hr>
+                    <div class="py-4">
+                        {!! $brand->content !!}
+                    </div>
                     @if( count($products) == 0 )
                         <span class="">{{ trans('pages.no_products') }}</span>
                     @else
@@ -74,6 +77,14 @@
                                 @endif
                             @endforeach
                         </ul>
+                    @endif
+
+                    @if($brand->call_to_action)
+                        <div class="w-100 py-4">
+                            <p class="text-center py-2 px-4 my-4">
+                                <a href="{{ url('') . '/' . app()->getLocale() . '/' . $brand->call_to_action_link }}" target="_blank" class="btn btn-primary btn-lg p-4 mx-auto">{{ $brand->call_to_action }}</a>
+                            </p>
+                        </div>
                     @endif
 
                     @if(auth()->check())
