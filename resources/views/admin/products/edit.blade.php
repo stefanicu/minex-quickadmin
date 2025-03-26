@@ -5,7 +5,7 @@
         <div class="card-header d-flex justify-content-between">
             <div class="w-50">{{ trans('global.edit') }} {{ trans('cruds.product.title_singular') }}</div>
             <div class="w-50 text-right">
-                @if(array_key_exists(app()->getLocale(), config('panel.available_languages')) && $product->translate(app()->getLocale()) && isset($application->slug) && isset($category->slug))
+                @if(array_key_exists(app()->getLocale(), config('panel.available_languages')) && $product->translate(app()->getLocale()) && isset($application->slug) && isset($category->slug) && $product->online)
                     <a class="blue" href="{{ route('product.'.app()->getLocale(), ['app_slug'=>$application->slug, 'cat_slug'=>$category->slug, 'prod_slug'=>$product->slug]) }}" target="_blank">
                         <svg class="mr-1" width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="Interface / External_Link">
