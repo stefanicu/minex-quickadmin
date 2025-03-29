@@ -21,12 +21,6 @@ jobs:
       - name: Composer Update Dependencies
         run: composer update --ignore-platform-reqs
 
-      - name: Generate key
-        run: php artisan key:generate
-
-      - name: Generate storage link
-        run: php artisan storage:link
-
       - name: Migrate database changes
         run: php artisan migrate
 
