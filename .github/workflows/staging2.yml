@@ -18,10 +18,13 @@ jobs:
         with:
           php-version: 8.3
 
-      - name: Install Dependencies
+      - name: Composer Install Dependencies
         run: composer install --no-dev --prefer-dist --no-progress --no-interaction
 
-      - name: Install Dependencies
+      - name: Composer Install Laravel/UI Dependency
+        run: composer require laravel/ui --dev
+
+      - name: Composer Update Dependencies
         run: composer update --ignore-platform-reqs
 
       - name: Generate key
