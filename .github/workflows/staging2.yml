@@ -49,7 +49,7 @@ jobs:
         run: php artisan optimize
 
       - name: Sync files to SFTP Server
-        uses: appleboy/scp-action@v0.x
+        uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USERNAME }}
