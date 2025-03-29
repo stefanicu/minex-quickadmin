@@ -42,9 +42,6 @@ jobs:
       - name: Reset config
         run: php artisan config:clear
 
-      - name: Composer dump autoload
-        run: php composer.phar dump-autoload
-
       - name: Optimize
         run: php artisan optimize
 
