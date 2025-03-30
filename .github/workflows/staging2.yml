@@ -21,6 +21,9 @@ jobs:
       - name: Composer Update Dependencies
         run: composer update --ignore-platform-reqs
 
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
       - name: Migrate database changes
         run: php artisan migrate
 
