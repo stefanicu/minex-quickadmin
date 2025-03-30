@@ -1,5 +1,6 @@
 @extends('layouts.frontend')
 @section('content')
+    
     <div class="container-fluid cover p-0">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
