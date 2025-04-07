@@ -28,8 +28,6 @@
                 $parameters['brand_slug'] = $brand_slugs[$langLocale];
             }
 
-            //dd($metaData,$parameters);
-
             $page = request()->get('page');
             if ($page && $page > 1) {
                 $parameters['page'] = $page;
@@ -43,17 +41,17 @@
 
             <link rel="canonical" href="{{ $canonical }}"/>
         @endif
-        @php
-            if($langLocale == 'en'){
-                $hreflang1 = 'en-US';
-                $hreflang2 = 'en-GB';
-            } else {
-                $hreflang1 = $langLocale.'-'.strtoupper($langLocale);
-                $hreflang2 = 'en-'.strtoupper($langLocale);
-            }
-        @endphp
-        <link rel="alternate" hreflang="{{ $hreflang1 }}" href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>
-        <link rel="alternate" hreflang="{{ $hreflang2 }}" href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>
+        {{--        @php--}}
+        {{--            if($langLocale == 'en'){--}}
+        {{--                $hreflang1 = 'en-US';--}}
+        {{--                $hreflang2 = 'en-GB';--}}
+        {{--            } else {--}}
+        {{--                $hreflang1 = $langLocale.'-'.strtoupper($langLocale);--}}
+        {{--                $hreflang2 = 'en-'.strtoupper($langLocale);--}}
+        {{--            }--}}
+        {{--        @endphp--}}
+        {{--        <link rel="alternate" hreflang="{{ $hreflang1 }}" href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>--}}
+        {{--        <link rel="alternate" hreflang="{{ $hreflang2 }}" href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>--}}
     @endforeach
 
     <meta name="robots" content="max-snippet:-1,max-image-preview:large,max-video-preview:-1">
