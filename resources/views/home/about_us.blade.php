@@ -1,14 +1,14 @@
 <section class="container-fluid px-0 mx-0 section section__right section__primary pt-4 section6">
     <figure class="d-flex align-items-center section--figure">
         <picture data-alt="s6">
-            <source data-srcset="{{ asset('/img/home/s6/xl-min.jpg') }}" media="(min-width: 1200px)">
-            <source data-srcset="{{ asset('/img/home/s6/lg-min.jpg') }}" media="(min-width: 992px)">
-            <source data-srcset="{{ asset('/img/home/s6/md-min.jpg') }}" media="(min-width: 576px)">
-            <source data-srcset="{{ asset('/img/home/s6/sm-min.jpg') }}" media="(max-width: 576px)">
-            <img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ asset('/img/home/s6/xl-min.jpg') }}"
+            {{--            <source data-srcset="{{ asset('/img/home/s6/minex-group-office.jpg') }}" media="(min-width: 1200px)">--}}
+            {{--            <source data-srcset="{{ asset('/img/home/s6/lg-min.jpg') }}" media="(min-width: 992px)">--}}
+            {{--            <source data-srcset="{{ asset('/img/home/s6/md-min.jpg') }}" media="(min-width: 576px)">--}}
+            {{--            <source data-srcset="{{ asset('/img/home/s6/sm-min.jpg') }}" media="(max-width: 576px)">--}}
+            <img class="lozad img-fluid section--hero-img lazy-fade" srcset="{{ asset('/img/home/s6/minex-group-office.jpg') }}"
                  alt="s6" data-loaded="true">
             <noscript>
-                <img class="img-fluid lozad" src="{{ asset('/img/home/s6/xl-min.jpg') }}" alt="s6">
+                <img class="img-fluid lozad" src="{{ asset('/img/home/s6/minex-group-office.jpg') }}" alt="s6">
             </noscript>
         </picture>
     </figure>
