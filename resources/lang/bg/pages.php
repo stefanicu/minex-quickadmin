@@ -4,6 +4,7 @@ return [
     'home' => 'Начало',
     'contact' => 'Контакти',
     'brands' => 'Партньори',
+    'brand' => 'Марка',
     'search' => 'Search',
     'search_for' => 'Търсене на дума',
     'search_error' => 'Търсената дума трябва да има поне 3 знака',
@@ -21,6 +22,7 @@ return [
     'send_form' => 'Формуляр за изпращане',
     'similar_products' => 'Продукти, които може да харесате',
     'category' => 'Категория',
+    'application' => 'Приложение',
     'categories' => 'Категории',
     'chose_category' => 'Изберете категория',
     'all_categories' => 'Всички категории',
@@ -39,4 +41,6 @@ return [
     'copyright' => 'Minex Group International',
     'see_what_we_have_done' => 'Вижте какво сме направили за',
     'contact_thank_you' => 'Вашето съобщение беше изпратено успешно, благодаря!',
+    'other' => 'Друго',
+    'no_image' => 'Няма изображение',
 ];
