@@ -4,6 +4,7 @@ return [
     'home' => 'Home',
     'contact' => 'Contact',
     'brands' => 'Branduri',
+    'brand' => 'Brand',
     'search' => 'Search',
     'search_for' => 'Cautare dupa cuvantul',
     'search_error' => 'Cuvantul cautat trebuie sa aiba cel putin 3 caractere',
@@ -21,6 +22,7 @@ return [
     'send_form' => 'Trimite Formularul',
     'similar_products' => 'Alte produse care te-ar putea interesa',
     'category' => 'Categorie',
+    'application' => 'Aplicatie',
     'categories' => 'Categorii',
     'chose_category' => 'Alege o categorie',
     'all_categories' => 'Toate Categoriile',
@@ -39,4 +41,6 @@ return [
     'copyright' => 'Minex Group International',
     'see_what_we_have_done' => 'Vezi ce am facut pentru',
     'contact_thank_you' => 'Mesajul dumneavoastra a fost trimis cu succes, va multumim!',
+    'other' => 'Altele',
+    'no_image' => 'Fara Imagine',
 ];
