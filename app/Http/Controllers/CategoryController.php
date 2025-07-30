@@ -55,6 +55,7 @@ class CategoryController extends Controller
                     });
                 }
             ])
+            ->having('products_count', '>', 0) // ✅ ensures only categories with products
             ->whereExists(function ($query) use ($currentLocale) {
                 // Ensures that each category has at least one product with an online translation
                 $query->select(DB::raw(1))
