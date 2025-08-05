@@ -58,7 +58,7 @@ class Reference extends Model implements HasMedia, TranslatableContract
         $this->addMediaConversion('preview')->height(120);
     }
     
-    public function Products()
+    public function Products(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'product_reference', 'reference_id', 'product_id');
     }
