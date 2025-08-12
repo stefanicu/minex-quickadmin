@@ -94,5 +94,3 @@ class CategoryController extends Controller
         );
     }
 }
-
-// todo: optimize quick, we will start the project again soon
