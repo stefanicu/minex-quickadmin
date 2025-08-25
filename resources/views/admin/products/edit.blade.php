@@ -329,74 +329,63 @@
         $(document).ready(function () {
             var selectedCategoryId = "{{ $product->category_id }}";
             var selectedFilterId = "{{ $product->filter_id }}";
+            var isInitialLoad = true;
 
-            // Function to fetch categories based on application
-            function fetchCategories(applicationId, selectedCategoryId = null, callback = null) {
-                $('#category_id').html('<option value="">-- Select a category --</option>'); // Reset categories
-                $('#filter_id').html('<option value="">-- Select a filter --</option>'); // Reset filters
+            // Fetch categories based on application
+            function fetchCategories(applicationId, selectedCategoryId = null) {
+                $('#category_id').html('<option value="">-- Select a category --</option>');
+                $('#filter_id').html('<option value="">-- Select a filter --</option>');
 
-                if (applicationId) {
-                    $.ajax({
-                        url: "{{ route('admin.get.categories') }}",
-                        type: "GET",
-                        data: {application_id: applicationId},
-                        success: function (data) {
-                            $.each(data, function (key, category) {
-                                $('#category_id').append('<option value="' + category.category_id + '">' + category.name + '</option>');
-                            });
+                if (!applicationId) return;
 
-                            if (selectedCategoryId) {
-                                $('#category_id').val(selectedCategoryId).trigger('change'); // Select stored category
-                            }
-
-                            if (callback) callback(); // Run callback after categories are loaded
-                        }
+                $.get("{{ route('admin.get.categories') }}", {application_id: applicationId}, function (data) {
+                    data.forEach(function (category) {
+                        $('#category_id').append(
+                            `<option value="${category.category_id}">${category.name}</option>`
+                        );
                     });
-                }
+
+                    if (selectedCategoryId) {
+                        $('#category_id').val(selectedCategoryId).trigger('change');
+                    }
+                });
             }
 
-            // Function to fetch filters based on category
+            // Fetch filters based on category
             function fetchFilters(categoryId, selectedFilterId = null) {
                 $('#filter_id').html('<option value="">-- Select a filter --</option>');
 
-                if (categoryId) {
-                    $.ajax({
-                        url: "{{ route('admin.get.filters') }}",
-                        type: "GET",
-                        data: {category_id: categoryId},
-                        success: function (data) {
-                            $.each(data, function (key, filter) {
-                                $('#filter_id').append('<option value="' + filter.filter_id + '">' + filter.name + '</option>');
-                            });
+                if (!categoryId) return;
 
-                            if (selectedFilterId) {
-                                $('#filter_id').val(selectedFilterId).trigger('change'); // Select stored filter
-                            }
-                        }
+                $.get("{{ route('admin.get.filters') }}", {category_id: categoryId}, function (data) {
+                    data.forEach(function (filter) {
+                        $('#filter_id').append(
+                            `<option value="${filter.filter_id}">${filter.name}</option>`
+                        );
                     });
-                }
-            }
 
-            // On application change, fetch categories
-            $('#application_id').on('change', function () {
-                var applicationId = $(this).val();
-                fetchCategories(applicationId);
-            });
-
-            // On category change, fetch filters
-            $('#category_id').on('change', function () {
-                var categoryId = $(this).val();
-                fetchFilters(categoryId);
-            });
-
-            // Load initial values from database
-            var selectedApplicationId = $('#application_id').val();
-            if (selectedApplicationId) {
-                fetchCategories(selectedApplicationId, selectedCategoryId, function () {
-                    if (selectedCategoryId) {
-                        fetchFilters(selectedCategoryId, selectedFilterId);
+                    if (selectedFilterId) {
+                        $('#filter_id').val(selectedFilterId);
                     }
                 });
+            }
+
+            // On application change
+            $('#application_id').on('change', function () {
+                fetchCategories($(this).val());
+            });
+
+            // On category change
+            $('#category_id').on('change', function () {
+                var categoryId = $(this).val();
+                fetchFilters(categoryId, isInitialLoad ? selectedFilterId : null);
+                isInitialLoad = false;
+            });
+
+            // Initial load
+            var selectedApplicationId = $('#application_id').val();
+            if (selectedApplicationId) {
+                fetchCategories(selectedApplicationId, selectedCategoryId);
             }
         });
     </script>
