@@ -31,17 +31,17 @@ function initialize() {
             lat: 44.368939,
             lng: 26.137053,
         },
-        {
-            info: `<p><b>Minex Group - Romania - Craiova</b></p>
-                <dl>
-                <dt>M:</dt> <dd><a href="tel:+40730600072">+40 (730) 600072</a></dd>
-                <dt>T:</dt> <dd><a href="tel:+40213060281">+40 (21) 306 0281</a></dd>
-                <dt>F:</dt> <dd>+40 (21) 3060284</dd>
-                <dt>E:</dt> <dd><a href="mail:office@minexgroup.eu">office@minexgroup.eu</a></dd>
-                </dl>`,
-            lat: 44.31721,
-            lng: 23.79475,
-        },
+        // {
+        //     info: `<p><b>Minex Group - Romania - Craiova</b></p>
+        //         <dl>
+        //         <dt>M:</dt> <dd><a href="tel:+40730600072">+40 (730) 600072</a></dd>
+        //         <dt>T:</dt> <dd><a href="tel:+40213060281">+40 (21) 306 0281</a></dd>
+        //         <dt>F:</dt> <dd>+40 (21) 3060284</dd>
+        //         <dt>E:</dt> <dd><a href="mail:office@minexgroup.eu">office@minexgroup.eu</a></dd>
+        //         </dl>`,
+        //     lat: 44.31721,
+        //     lng: 23.79475,
+        // },
         {
             info: `<p><b>Minex Group - Romania - Arad</b><br/><br/>
                 Str. II Nr. 3, Zona Industriala N-V, 310491<br/>
@@ -73,17 +73,17 @@ function initialize() {
             lat: 45.78879478,
             lng: 24.18916333, // 6
         },
-        {
-            info: `<p><b>Minex Group - Romania - Iasi</b></p>
-                    <dl>
-                    <dt>M:</dt> <dd><a href="tel:+40730011240">+40 (730) 011240</a></dd>
-                    <dt>T:</dt> <dd><a href="tel:+40213060281">+40 (21) 3060281</a></dd>
-                    <dt>F:</dt> <dd>+40 (21) 3060284</dd>
-                    <dt>E:</dt> <dd><a href="mail:office@minexgroup.eu">office@minexgroup.eu</a></dd>
-                    </dl>`,
-            lat: 47.15984827,
-            lng: 27.59766881, // 7
-        },
+        // {
+        //     info: `<p><b>Minex Group - Romania - Iasi</b></p>
+        //             <dl>
+        //             <dt>M:</dt> <dd><a href="tel:+40730011240">+40 (730) 011240</a></dd>
+        //             <dt>T:</dt> <dd><a href="tel:+40213060281">+40 (21) 3060281</a></dd>
+        //             <dt>F:</dt> <dd>+40 (21) 3060284</dd>
+        //             <dt>E:</dt> <dd><a href="mail:office@minexgroup.eu">office@minexgroup.eu</a></dd>
+        //             </dl>`,
+        //     lat: 47.15984827,
+        //     lng: 27.59766881, // 7
+        // },
         {
             info: `<p><b>Minex Group - Bulgaria</b><br/><br/>
                     Logic Park STAD: 467 Okolovrasten pat St. 1532<br />
@@ -105,6 +105,7 @@ function initialize() {
                     <dt>T:</dt> <dd><a href="tel:+381113088626">+381 (11) 3088626</a></dd>
                     <dt>F:</dt> <dd>+381 (11) 3088626</dd>
                     <dt>E:</dt> <dd><a href="mail:office@minexgroup.eu">office@minexgroup.eu</a></dd>
+                    <dt></dt> <dd><a href="mail:musan.imamovic@minexgroup.eu">musan.imamovic@minexgroup.eu</a></dd>
                     </dl>
                     <a href="https://maps.app.goo.gl/7YBvcQbvGjsCVjNV9" target="_blank">View in Google Maps</a> </p>`,
             lat: 44.817604,
