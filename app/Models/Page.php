@@ -103,7 +103,7 @@ class Page extends Model implements HasMedia, TranslatableContract
     
     public function getMetaImage(): ?array
     {
-        $mainPhoto = $this->getImageAttribute(); // Replace with your logic to get the main photo
+        $mainPhoto = $this->getImageAttribute();
         
         if ($mainPhoto) {
             $image = Image::make($mainPhoto->getPath());
