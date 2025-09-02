@@ -79,7 +79,7 @@ class Brand extends Model implements HasMedia, TranslatableContract
     
     public function getMetaImage(): ?array
     {
-        $mainPhoto = $this->getPhotoAttribute(); // Replace with your logic to get the main photo
+        $mainPhoto = $this->getPhotoAttribute();
         
         if ($mainPhoto) {
             return [
