@@ -87,7 +87,7 @@ class Category extends Model implements HasMedia, TranslatableContract
     
     public function getMetaImage(): ?array
     {
-        $mainPhoto = $this->getCoverPhotoAttribute(); // Replace with your logic to get the main photo
+        $mainPhoto = $this->getCoverPhotoAttribute();
         
         if ($mainPhoto) {
             return [
