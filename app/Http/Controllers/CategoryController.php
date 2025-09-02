@@ -32,6 +32,10 @@ class CategoryController extends Controller
             ->with('translations')
             ->first();
         
+        if ( ! $category) {
+            abort(404);
+        }
+        
         $products = Product::where('category_id', $category->id)
             ->with('media')
             ->whereHas('translations', function ($query) use ($currentLocale) {
