@@ -106,7 +106,7 @@ class Reference extends Model implements HasMedia, TranslatableContract
     
     public function getMetaImage(): ?array
     {
-        $mainPhoto = $this->getPhotoWideAttribute(); // Replace with your logic to get the main photo
+        $mainPhoto = $this->getPhotoWideAttribute();
         
         if ($mainPhoto) {
             $image = Image::make($mainPhoto->getPath());
