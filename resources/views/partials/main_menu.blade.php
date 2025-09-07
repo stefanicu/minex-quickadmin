@@ -1,5 +1,5 @@
 <nav class="navbar fixed--top stickys-top navbar-expand-lg navbar-dark bg-primary navbar--minex navbar-hidden">
-    <a class="navbar-brand" href="{{ url('') }}" title="Minex Group">
+    <a class="navbar-brand" href="{{ url('').'/'.app()->getLocale() }}" title="Minex Group">
         <svg class="logo-svg" version="1" viewBox="0 0 139 100">
             <path fill="#FFF"
                   d="M117 91l7 9h-7l-4-5-6 5h-9l12-10-7-9h8l3 5 6-5h8l-11 10zm-84 9h8l5-19h-7l-6 19zm32-8l-6-11h-7l-5 19h6l4-11 6 11h7l5-19h-7l-3 11zm31 0l2-4H86l1-3h12l1-4H80l-5 19h21l1-4H83l2-4h11zM24 81l-8 12-1-12H6l-5 19h5l4-14 1 14h6l9-14-4 14h6l5-19h-9z"></path>
@@ -13,6 +13,7 @@
             <path fill="#FFF"
                   d="M129 78H0v-6h129v6zM30 57c1 5 8 6 8 6l2-2-2-20s-4-2-8-1-7 4-7 4l4 8 2 2 2 1s-2 1-1 2zM20 28l2-12 17 13s-5-4-12-4c-5 0-7 3-7 3zm19-1L22 15l1-2 17 12-1 2zm1-4L24 12l1-6c5 0 14 2 18 5l-1 1h-1l-2 8 1 1v2zm2-2l1-8h4l-2 9-3-1zm1-11c-5-4-17-5-17-5s3-6 10-5c6 2 7 7 7 10zM30 61v2h-5l-6-1c1-1 1-2 3-1h8zm15 0l3 8H15s2-7 4-6c4 2 10 2 12 1 1-1 1-2 5 1 3 2 4 0 4 0l5-4zm27-17l-3-2h-5l-15-4-1 7h4l-1 3-3-2v3l-5 1v-4l3 2 2-10-3-1s-8-10-17-10-13 13-13 17l4 12c2 5 6 4 10 4v-5c-2 0-4-3-4-3l-3-9s1-3 7-5c5-1 10 2 10 2l3 22 13-11h2l1 1c1 2 4 0 4 0s1-1 5-1c3 1 2-2 2-2h2c2 0 2-2 2-2h8v-3h-9zm-6-2v1h-5v-1h5zm-5 6l-4 2h-2v-1a84 84 0 0 1 6-1zm6-1v-1l-13 2-1-1v-2l3-1h11v3z"></path>
         </svg>
+        <span class="sr-only">{{ trans('pages.home') }}</span>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"><span
@@ -81,7 +82,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link"
-                   href="{{ route(  'contact.get.' . app()->getLocale() ) }}">{{ trans('pages.contact') }}</a>
+                   href="{{ url('') . '/' . app()->getLocale() . '#contact' }}">{{ trans('pages.contact')}}</a>
             </li>
         </ul>
         <form class="form-inline form-inline__menu my-2 ml-auto searchbox" method="get"
