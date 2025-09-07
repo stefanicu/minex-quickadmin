@@ -1,10 +1,11 @@
 @extends('layouts.frontend')
 @section('content')
-    
+
     <div class="container-fluid cover p-0">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="/">{{ trans('pages.home') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('').'/'.app()->getLocale() }}">{{ trans('pages.home') }}</a>
+                </li>
                 <li class="breadcrumb-item">
                     <a href="{{ route('blogs.'.app()->getLocale()) }}">{{ trans('pages.blog') }}</a>
                 </li>
@@ -49,7 +50,7 @@
                 @endif
             </div>
             <div class="d-none d-lg-block col-md-4 pb-4 mb-4">
-                <h2 class="h3">{{ trans('pages.articles') }}</h2>
+                <div class="h3 sidebar-title">{{ trans('pages.articles') }}</div>
                 <ul class="list-group">
                     @foreach ($blogs as $blg)
                         <li class="list-group-item flex-row {{ $blog->id === $blg->id ? 'active' : '' }}">
