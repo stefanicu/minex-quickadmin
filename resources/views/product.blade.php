@@ -3,7 +3,8 @@
     <div class="container-fluid cover p-0">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="/">{{ trans('pages.home') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('').'/'.app()->getLocale() }}">{{ trans('pages.home') }}</a>
+                </li>
                 @if($application->slug)
                     <li class="breadcrumb-item"><a
                                 href="{{ route('pages.'.app()->getLocale(), ['slug' =>$application->slug]) }}">{{ $application->name }}</a>
@@ -208,7 +209,7 @@
                 @else
                     <div class="card my-4">
                         <div class="card-header">
-                            <h4 class="panel-title">{{ trans('pages.contact_form') }}</h4>
+                            <div class="h4 panel-title">{{ trans('pages.contact_form') }}</div>
                         </div>
                         <div class="card-body">
                             <form class="px-0 px-md-4" id="detaliiprodus" autocomplete="off" action="{{ route('contact.post.'.app()->getLocale()) }}" method="post">
@@ -248,7 +249,7 @@
 
 
                 @if($similar_products && $similar_products->count() > 0)
-                    <h4>{{ trans('pages.similar_products') }}</h4>
+                    <div class="h4">{{ trans('pages.similar_products') }}</div>
                     <div class="bxslider-related mx-auto">
                         @foreach($similar_products as $similar_product)
                             <div>
@@ -268,7 +269,7 @@
 
             @if($categories && $categories->count() >0)
                 <div class="col-12 col-md-4">
-                    <h2 class="h3 mt-0">{{ trans('pages.product_categories') }}</h2>
+                    <div class="h3 mt-0">{{ trans('pages.product_categories') }}</div>
                     <ul class="list-group">
                         @foreach($categories as $cat)
                             <li class="list-group-item {{ $category->id == $cat->id ? 'active' : '' }}">
