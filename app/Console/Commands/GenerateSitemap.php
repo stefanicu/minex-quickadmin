@@ -58,7 +58,7 @@ class GenerateSitemap extends Command
                 
                 // Determine the `lastmod`, `changefreq`, and `priority`
                 $lastmod = now(); // Replace this with your actual updated_date logic.
-                $changefreq = 'monthly'; // Use dynamic logic if needed
+                $changefreq = 'weekly'; // Use dynamic logic if needed
                 $priority = 0.5; // Define a priority based on your logic
                 
                 // Set additional metadata
