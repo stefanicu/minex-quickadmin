@@ -53,7 +53,7 @@ class GenerateSitemap extends Command
                     $alternateUrl = url(implode('/', $segments));
                     
                     // Add the alternate hreflang attribute
-                    $url->addAlternate($alternateUrl, $lang);
+                    // $url->addAlternate($alternateUrl, $lang); ============================================================== TODO: de creat hreflang tradus in sitemap
                 }
                 
                 // Determine the `lastmod`, `changefreq`, and `priority`
@@ -70,7 +70,6 @@ class GenerateSitemap extends Command
                 return $url;
             })
             ->writeToFile(public_path('sitemap2.xml'));
-        
         
         $this->info('Sitemap generated successfully!');
     }
