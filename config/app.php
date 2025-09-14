@@ -54,7 +54,7 @@ return [
     |
     */
     
-    'url' => env('APP_URL', 'https://www.minexgroup.eu'),
+    'url' => env('APP_URL', 'https://minex-quickadmin.test'),
     
     'asset_url' => env('ASSET_URL', '/'),
     
