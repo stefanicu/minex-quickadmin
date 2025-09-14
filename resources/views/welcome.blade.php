@@ -30,6 +30,6 @@
     <script nonce="{{ session('csp_nonce') }}"
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRHi8eiqWm--iQQ-fNTq3AWKev7xCj2RA&callback=initialize&v=weekly&libraries=marker"
             async defer></script>
-    <script src="{{ asset('/js/map.js?v=274623') }}"></script>
+    <script src="{{ asset('/js/map.js?v=274624') }}"></script>
     <script src="{{ asset('/js/bxSlider/home_setup.js') }}"></script>
 @endsection
