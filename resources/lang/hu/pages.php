@@ -27,6 +27,7 @@ return array(
     'chose_category' => 'Válasszon kategóriát',
     'all_categories' => 'Minden kategória',
     'product_categories' => 'Termékkategóriák',
+    'product_filters' => 'Product Filters',
     'references' => 'Hivatkozások',
     'other_references' => 'Egyéb hivatkozások',
     'no_products' => 'Jelenleg nincsenek elérhető termékek',
