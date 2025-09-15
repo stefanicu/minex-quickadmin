@@ -27,6 +27,7 @@ return [
     'chose_category' => 'Alege o categorie',
     'all_categories' => 'Toate Categoriile',
     'product_categories' => 'Categorii Produse',
+    'product_filters' => 'Filtre Produse',
     'references' => 'Referinte',
     'other_references' => 'Alte referinte',
     'no_products' => 'Nu sunt produse disponibile',
