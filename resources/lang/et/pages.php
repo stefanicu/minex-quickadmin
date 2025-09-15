@@ -27,6 +27,7 @@ return array(
     'chose_category' => 'Valige kategooria',
     'all_categories' => 'Kõik kategooriad',
     'product_categories' => 'Tootekategooriad',
+    'product_filters' => 'Product Filters',
     'references' => 'Viited',
     'other_references' => 'Muud viited',
     'no_products' => 'Praegu pole saadaval tooteid',
