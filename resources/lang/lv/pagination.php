@@ -1,6 +1,7 @@
 <?php
 
-return array (
-  'previous' => '« Jaunākas',
-  'next' => 'Vecāks &raquo;',
+return array(
+    'previous' => '« Jaunākas',
+    'next' => 'Vecāks &raquo;',
+    'page' => '',
 );
