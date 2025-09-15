@@ -27,6 +27,7 @@ return [
     'chose_category' => 'Изберете категория',
     'all_categories' => 'Всички категории',
     'product_categories' => 'Продуктови категории',
+    'product_filters' => 'Product Filters',
     'references' => 'Референции',
     'other_references' => 'Други референции',
     'no_products' => 'В момента няма налични продукти',
