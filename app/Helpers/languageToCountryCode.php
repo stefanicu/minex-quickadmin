@@ -16,7 +16,7 @@ if ( ! function_exists('languageToCountryCode')) {
             'lt' => 'LT', // Lithuanian - Lithuania
             'lv' => 'LV', // Latvian - Latvia
             'et' => 'EE', // Estonian - Estonia
-            'rs' => 'RS', // Serbian - Serbia
+            'sr' => 'RS', // Serbian - Serbia
             'hr' => 'HR', // Croatian - Croatia
             'sl' => 'SI', // Slovenian - Slovenia
             'bs' => 'BA', // Bosnian - Bosnia and Herzegovina
