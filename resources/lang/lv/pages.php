@@ -27,6 +27,7 @@ return array(
     'chose_category' => 'Izvēlieties kategoriju',
     'all_categories' => 'Visas kategorijas',
     'product_categories' => 'Produktu kategorijas',
+    'product_filters' => 'Product Filters',
     'references' => 'Atsauces',
     'other_references' => 'Citas atsauces',
     'no_products' => 'Pašlaik nav pieejami produkti',
