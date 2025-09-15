@@ -38,7 +38,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        {{ strtoupper(app()->getLocale()) }}
+                        {{ languageToCountryCode(app()->getLocale()) }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         @foreach(config('translatable.locales') as $langLocale)
