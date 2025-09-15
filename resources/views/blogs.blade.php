@@ -34,7 +34,8 @@
                 <h1 class="h2">
                     {{ trans('pages.blog') }}
                     @if(request()->has('page') && request('page') > 1)
-                        &nbsp;&nbsp;&nbsp;<small class="catapp font-weight-lighter">page {{ request('page') }}</small>
+                        &nbsp;
+                        <small class="catapp font-weight-lighter">{{ trans('pagination.page') . ' ' . request('page') }}</small>
                     @endif
                 </h1>
             </div>
