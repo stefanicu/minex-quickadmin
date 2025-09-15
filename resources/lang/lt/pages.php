@@ -27,6 +27,7 @@ return array(
     'chose_category' => 'Pasirinkite kategoriją',
     'all_categories' => 'Visos kategorijos',
     'product_categories' => 'Produktų kategorijos',
+    'product_filters' => 'Product Filters',
     'references' => 'Nuorodos',
     'other_references' => 'Kiti šaltiniai',
     'no_products' => 'Šiuo metu nėra galimų produktų',
