@@ -34,7 +34,7 @@ return [
         'lv',
         'mk',
         'ro',
-        'rs',
+        'sr',
         'sl',
         'uk',
     ],
