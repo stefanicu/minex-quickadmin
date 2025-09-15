@@ -27,6 +27,7 @@ return array(
     'chose_category' => 'Изберете категорија',
     'all_categories' => 'Сите категории',
     'product_categories' => 'Категории на производи',
+    'product_filters' => 'Product Filters',
     'references' => 'Референци',
     'other_references' => 'Други референци',
     'no_products' => 'Во моментот нема производи достапни',
