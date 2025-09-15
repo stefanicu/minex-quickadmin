@@ -27,6 +27,7 @@ return array(
     'chose_category' => 'Izberite kategorijo',
     'all_categories' => 'Vse kategorije',
     'product_categories' => 'Kategorije izdelkov',
+    'product_filters' => 'Product Filters',
     'references' => 'Reference',
     'other_references' => 'Druge reference',
     'no_products' => 'Trenutno ni izdelkov na voljo',
