@@ -2,5 +2,6 @@
 
 return [
     'previous' => '&laquo; Mai noi',
-    'next'     => 'Mai vechi &raquo;',
+    'next' => 'Mai vechi &raquo;',
+    'page' => '',
 ];
