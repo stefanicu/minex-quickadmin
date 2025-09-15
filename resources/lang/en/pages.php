@@ -27,6 +27,7 @@ return [
     'chose_category' => 'Choose a Category',
     'all_categories' => 'All Categories',
     'product_categories' => 'Product Categories',
+    'product_filters' => 'Product Filters',
     'references' => 'References',
     'other_references' => 'Other References',
     'no_products' => 'There are currently no products available',
