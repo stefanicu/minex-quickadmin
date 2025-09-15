@@ -1,7 +1,7 @@
 <?php
 
-return [
-    'previous' => '&laquo; Mai noi',
-    'next' => 'Mai vechi &raquo;',
-    'page' => '',
-];
+return array (
+  'previous' => '&laquo; Mai noi',
+  'next' => 'Mai vechi &raquo;',
+  'page' => 'Pagina',
+);
