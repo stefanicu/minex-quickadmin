@@ -15,7 +15,7 @@ return [
         'lv' => 'Latvian',
         'mk' => 'Macedonian',
         'ro' => 'Romanian',
-        'rs' => 'Serbian',
+        'sr' => 'Serbian',
         'sl' => 'Slovenian',
         'uk' => 'Ukrainian',
     ],
