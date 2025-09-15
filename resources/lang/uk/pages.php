@@ -27,6 +27,7 @@ return array(
     'chose_category' => 'Виберіть категорію',
     'all_categories' => 'Всі категорії',
     'product_categories' => 'Категорії товарів',
+    'product_filters' => 'Product Filters',
     'references' => 'Посилання',
     'other_references' => 'Інші посилання',
     'no_products' => 'На даний момент немає доступних товарів',
