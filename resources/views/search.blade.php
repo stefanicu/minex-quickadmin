@@ -3,7 +3,8 @@
     <div class="container-fluid cover p-0">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="/">{{ trans('pages.home') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('').'/'.app()->getLocale() }}">{{ trans('pages.home') }}</a>
+                </li>
                 <li class="breadcrumb-item active" aria-current="page">{{ trans('pages.search') }}</li>
             </ol>
         </nav>

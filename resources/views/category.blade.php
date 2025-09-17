@@ -1,9 +1,11 @@
 @extends('layouts.frontend')
 @section('content')
+
     <div class="container-fluid cover p-0">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="/">{{ trans('pages.home') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('').'/'.app()->getLocale() }}">{{ trans('pages.home') }}</a>
+                </li>
                 <li class="breadcrumb-item">
                     <a href="{{ route('pages.'.app()->getLocale(), ['slug' =>$application->slug]) }}">{{ $application->name }}</a>
                 </li>
@@ -109,7 +111,7 @@
                         @endif
                     </div>
                     <div id="categories_list" class="col-12 col-md-4">
-                        <h2 class="h3">{{ trans('pages.product_categories') }}</h2>
+                        <div class="h3 sidebar-title">{{ trans('pages.product_categories') }}</div>
                         <ul class="list-group">
                             @foreach($categories as $cat)
                                 <li class="list-group-item {{ $category->id == $cat->id ? 'active' : '' }}">

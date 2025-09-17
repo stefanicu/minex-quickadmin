@@ -21,7 +21,7 @@ return [
     'field_county' => 'County',
     'field_city' => 'City',
     'field_phone' => 'Phone',
-    'field_how_about' => 'How did you hear abut us',
+    'field_how_about' => 'How did you hear about us',
     'field_messages' => 'Details',
     'field_checkbox' => 'I want to receive information about Minex products, services and news',
 

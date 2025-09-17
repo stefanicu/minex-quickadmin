@@ -1,33 +1,9 @@
 <?php
 
-//namespace App\Console\Commands;
-//
-//use Illuminate\Console\Command;
-//use Spatie\Sitemap\SitemapGenerator;
-//use Spatie\Sitemap\Tags\Url;
-//
-//class GenerateSitemap extends Command
-//{
-//    protected $signature = 'sitemap:generate';
-//
-//    protected $description = 'Generate sitemap';
-//
-//    public function handle()
-//    {
-//        // The Crawler
-//        SitemapGenerator::create(url(''))
-//            ->hasCrawled(function (Url $url) {
-//                // Some logic here
-//                return $url;
-//            })
-//            ->writeToFile(public_path('sitemap.xml'));
-//    }
-//}
-
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\SitemapGenerator;
 use Spatie\Sitemap\Tags\Url;
 
 class GenerateSitemap extends Command
@@ -51,37 +27,49 @@ class GenerateSitemap extends Command
      */
     public function handle()
     {
-        foreach (config('translatable.locales') as $locale) {
-            $sitemap = Sitemap::create()
-                ->add(Url::create('/'.$locale)->setPriority(1.0))
-                ->add(Url::create('/'.$locale.'/'.trans('slugs.brands'))->setPriority(0.8))
-                ->add(Url::create('/'.$locale.'/'.trans('slugs.references'))->setPriority(0.8))
-                ->add(Url::create('/'.$locale.'/'.trans('slugs.testimonials'))->setPriority(0.8))
-                ->add(Url::create('/'.$locale.'/'.trans('slugs.blog'))->setPriority(0.8))
-                ->add(Url::create('/'.$locale.'/'.trans('slugs.brands'))->setPriority(0.8));
-            
-            // Dynamically add URLs (e.g., blog posts)
-            //            foreach (\App\Models\Category::all() as $category) {
-            //                $sitemap->add(Url::create("/".trans('slugs.category')."/{$category->slug}")->setPriority(0.7));
-            //            }
-            
-            foreach (\App\Models\Application::all() as $applications) {
-                $sitemap->add(Url::create("/".$locale.'/'.trans('slugs.products')."/{$applications->slug}")->setPriority(0.7));
-            }
-            
-            foreach (\App\Models\Brand::all() as $brand) {
-                $sitemap->add(Url::create("/".$locale.'/'.trans('slugs.brand')."/{$brand->slug}")->setPriority(0.7));
-            }
-            
-            foreach (\App\Models\Blog::all() as $blog) {
-                $sitemap->add(Url::create("/".$locale.'/'.trans('slugs.blog')."/{$blog->slug}")->setPriority(0.7));
-            }
-            
-            foreach (\App\Models\Product::all() as $product) {
-                $sitemap->add(Url::create("/".$locale.'/'.trans('slugs.product')."/{$product->slug}")->setPriority(0.9));
-            }
-        }
-        $sitemap->writeToFile(public_path('sitemap.xml'));
+        SitemapGenerator::create(config("app.url"))
+            ->hasCrawled(function (Url $url) {
+                // Supported languages
+                $languages = array_keys(config('panel.available_languages'));
+                
+                // Get the current URL and parse its path
+                $parsedUrl = parse_url($url->url);
+                $path = $parsedUrl['path'] ?? ''; // Extract the path (e.g., /en/page)
+                
+                // Split the path into segments and replace the first segment (language)
+                $segments = explode('/', trim($path, '/'));
+                
+                if ( ! empty($segments[0]) && in_array($segments[0], $languages)) {
+                    $currentLang = $segments[0]; // First segment is language
+                } else {
+                    $currentLang = null; // Default, no language in URL
+                }
+                
+                foreach ($languages as $lang) {
+                    // Replace the first segment with the target language
+                    $segments[0] = $lang;
+                    
+                    // Rebuild the alternate URL
+                    $alternateUrl = url(implode('/', $segments));
+                    
+                    // Add the alternate hreflang attribute
+                    // $url->addAlternate($alternateUrl, $lang); ============================================================== TODO: de creat hreflang tradus in sitemap
+                }
+                
+                // Determine the `lastmod`, `changefreq`, and `priority`
+                $lastmod = now(); // Replace this with your actual updated_date logic.
+                $changefreq = 'weekly'; // Use dynamic logic if needed
+                $priority = 0.5; // Define a priority based on your logic
+                
+                // Set additional metadata
+                $url->setLastModificationDate($lastmod) // Sets the last modification date
+                ->setChangeFrequency($changefreq)  // Sets the change frequency
+                ->setPriority($priority);          // Sets the priority
+                
+                
+                return $url;
+            })
+            ->writeToFile(public_path('sitemap2.xml'));
         
         $this->info('Sitemap generated successfully!');
     }

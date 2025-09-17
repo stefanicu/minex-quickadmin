@@ -32,6 +32,10 @@ class CategoryController extends Controller
             ->with('translations')
             ->first();
         
+        if ( ! $category) {
+            abort(404);
+        }
+        
         $products = Product::where('category_id', $category->id)
             ->with('media')
             ->whereHas('translations', function ($query) use ($currentLocale) {
@@ -55,6 +59,7 @@ class CategoryController extends Controller
                     });
                 }
             ])
+            ->having('products_count', '>', 0) // ✅ ensures only categories with products
             ->whereExists(function ($query) use ($currentLocale) {
                 // Ensures that each category has at least one product with an online translation
                 $query->select(DB::raw(1))
@@ -93,3 +98,5 @@ class CategoryController extends Controller
         );
     }
 }
+
+// todo: optimize quick, we will start the project again soon   again

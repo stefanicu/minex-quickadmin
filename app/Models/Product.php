@@ -125,7 +125,7 @@ class Product extends Model implements HasMedia, TranslatableContract
     
     public function getMetaImage(): ?array
     {
-        $mainPhoto = $this->getMainPhotoAttribute(); // Replace with your logic to get the main photo
+        $mainPhoto = $this->getMainPhotoAttribute();
         
         if ($mainPhoto) {
             return [

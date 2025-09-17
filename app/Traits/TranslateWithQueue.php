@@ -70,5 +70,13 @@ trait TranslateWithQueue
                 TranslateBulkUpdate::dispatch($modelTranslation, $foreignKey, $id, $locale, $column, $value);
             }
         }
+        
+        // ✅ După ce ai determinat coloanele care trebuie traduse
+        if ( ! empty($columnsToUpdate) && $modelTranslation === 'blog_translations') {
+            DB::table($modelTranslation)
+                ->where($foreignKey, $id)
+                ->where('locale', $locale)
+                ->update(['online' => 1]);
+        }
     }
 }

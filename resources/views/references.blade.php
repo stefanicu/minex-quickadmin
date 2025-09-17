@@ -3,7 +3,8 @@
     <div class="container-fluid cover p-0">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="/">{{ trans('pages.home') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('').'/'.app()->getLocale() }}">{{ trans('pages.home') }}</a>
+                </li>
                 <li class="breadcrumb-item active" aria-current="page">{{ trans('pages.references') }}</li>
             </ol>
         </nav>
@@ -43,7 +44,7 @@
                         @endforeach
 
                         <li class="nav-item"><a class="nav-link" id="tab-alte-tab" data-toggle="tab" href="#ind_0"
-                                                role="tab" aria-controls="tab-alte">Altele</a></li>
+                                                role="tab" aria-controls="tab-alte">{{ trans('pages.other') }}</a></li>
                     </ul>
 
                     <div class="tab-content py-4" id="myTabContent">
@@ -66,7 +67,7 @@
                                                                 title="{{ $reference->name }}"
                                                                 class="mx-auto img-fluid lozad img-hover">
                                                     @else
-                                                        <div class="reference_image_default">No image</div>
+                                                        <div class="reference_image_default">{{ trans('pages.no_image') }}</div>
                                                     @endif
                                                     <p class="my-4">{{ $reference->name }}</p>
                                                 </a>

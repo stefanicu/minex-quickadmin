@@ -38,30 +38,33 @@ class TranslationDBController extends Controller
         
         $data = [];
         
-        // Loop through models and build queries dynamically
         foreach ($models as $key => $model) {
+            $query = DB::table($model['table']);
+            
             if (Schema::hasColumn($model['table'], 'deleted_at')) {
-                $query = DB::table($model['table'])->whereNull("{$model['table']}.deleted_at")->selectRaw('COUNT(*) as count_total');
-            } else {
-                $query = DB::table($model['table'])->selectRaw('COUNT(*) as count_total');
+                $query->whereNull("{$model['table']}.deleted_at");
             }
             
-            // Add counts for each available language
+            $query->leftJoin("{$model['translation_table']}", "{$model['translation_table']}.{$model['foreign_key']}", '=', "{$model['table']}.id");
+            
+            $selectRaw = "COUNT(DISTINCT {$model['table']}.id) as count_total";
+            
             foreach ($availableLanguages as $locale) {
-                $query->leftJoin("{$model['translation_table']} as t_{$locale}", function ($join) use ($locale, $model) {
-                    $join->on("{$model['table']}.id", '=', "t_{$locale}.{$model['foreign_key']}")
-                        ->where("t_{$locale}.locale", '=', $locale);
-                    
-                    // Apply additional filters if defined
-                    if (isset($model['filter'])) {
-                        foreach ($model['filter'] as $column => $value) {
-                            $join->where("t_{$locale}.{$column}", '=', $value);
-                        }
+                $case = "CASE WHEN {$model['translation_table']}.locale = '{$locale}'";
+                
+                if (isset($model['filter'])) {
+                    foreach ($model['filter'] as $column => $value) {
+                        $case .= " AND {$model['translation_table']}.{$column} = '{$value}'";
                     }
-                })->selectRaw("COUNT(t_{$locale}.id) as count_{$locale}");
+                }
+                
+                $case .= " THEN {$model['table']}.id END";
+                
+                $selectRaw .= ", COUNT(DISTINCT {$case}) as count_{$locale}";
             }
             
-            // Execute the query and store the result
+            $query->selectRaw($selectRaw);
+            
             $data[$key] = $query->first();
         }
         

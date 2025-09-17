@@ -58,7 +58,7 @@ class Reference extends Model implements HasMedia, TranslatableContract
         $this->addMediaConversion('preview')->height(120);
     }
     
-    public function Products()
+    public function Products(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'product_reference', 'reference_id', 'product_id');
     }
@@ -106,7 +106,7 @@ class Reference extends Model implements HasMedia, TranslatableContract
     
     public function getMetaImage(): ?array
     {
-        $mainPhoto = $this->getPhotoWideAttribute(); // Replace with your logic to get the main photo
+        $mainPhoto = $this->getPhotoWideAttribute();
         
         if ($mainPhoto) {
             $image = Image::make($mainPhoto->getPath());

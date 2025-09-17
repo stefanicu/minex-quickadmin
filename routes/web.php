@@ -141,7 +141,7 @@ foreach (config('translatable.locales') as $locale) {
         
         // Brands --- Partners
         Route::get(trans('slugs.brands', [], $locale), 'BrandsController@index')->name("brands.$locale");
-        // Route::get(trans('slugs.brands', [], $locale).'/{slug}/', 'BrandController@index')->name("brand.$locale");
+        Route::get(trans('slugs.brands', [], $locale).'/{slug}', 'BrandController@index')->name("brand.$locale");
         
         // References
         Route::get(trans('slugs.references', [], $locale), 'ReferencesController@index')->name("references.$locale");
@@ -151,7 +151,7 @@ foreach (config('translatable.locales') as $locale) {
         Route::get(trans('slugs.testimonials', [], $locale), 'TestimonialsController@index')->name("testimonials.$locale");
         
         // Dynamic Applications Pages Brands
-        Route::get('{slug}', 'AppPageBrandDynamicController@index')->name("pages.$locale");
+        Route::get('{slug}', 'AppPageDynamicController@index')->name("pages.$locale");
         
         // Application (categories) ==> Category (products)
         // Route::get('{app_slug?}', 'ApplicationController@index')->name("application.$locale");

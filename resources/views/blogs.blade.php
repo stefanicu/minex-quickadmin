@@ -1,12 +1,11 @@
 @extends('layouts.frontend')
 @section('content')
-    {{--    @dd($blog, $blogs)--}}
-
 
     <div class="container-fluid cover p-0">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="/">{{ trans('pages.home') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('').'/'.app()->getLocale() }}">{{ trans('pages.home') }}</a>
+                </li>
                 <li class="breadcrumb-item">{{ trans('pages.blog') }}</li>
             </ol>
         </nav>
@@ -32,7 +31,13 @@
     <div class="container content">
         <div class="row">
             <div class="col-12 pb-4 mb-4">
-                <h1 class="h2">{{ trans('pages.blog') }}</h1>
+                <h1 class="h2">
+                    {{ trans('pages.blog') }}
+                    @if(request()->has('page') && request('page') > 1)
+                        &nbsp;
+                        <small class="catapp font-weight-lighter">{{ trans('pagination.page') . ' ' . request('page') }}</small>
+                    @endif
+                </h1>
             </div>
         </div>
         <div class="row blog">

@@ -39,6 +39,10 @@ class ProductController extends Controller
                 $brand->offline_message ?? $brandOfflineMessage = $brand->offline_message;
         }
         
+        if ( ! $product) {
+            abort(404);
+        }
+        
         $application = Application::with('translations')->find($product->application_id);
         
         $category = Category::with('translations')->find($product->category_id);

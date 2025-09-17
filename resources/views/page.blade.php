@@ -5,7 +5,8 @@
     <div class="container-fluid cover p-0">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="/">{{ trans('pages.home') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('').'/'.app()->getLocale() }}">{{ trans('pages.home') }}</a>
+                </li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $page->name }}</li>
             </ol>
         </nav>
@@ -66,5 +67,4 @@
 @endsection
 @section('scripts')
     @parent
-    <script src="{{ asset('/js/bxSlider/page_setup.js') }}"></script>
 @endsection

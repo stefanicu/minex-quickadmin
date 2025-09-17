@@ -276,6 +276,9 @@ class ProductsController extends Controller
     {
         $product->update($request->all());
         
+        // Update pe relația many-to-many
+        $product->references()->sync($request->input('references', []));
+        
         if ($request->input('main_photo', false)) {
             if ( ! $product->main_photo || $request->input('main_photo') !== $product->main_photo->file_name) {
                 if ($product->main_photo) {

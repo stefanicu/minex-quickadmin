@@ -3,7 +3,8 @@
     <div class="container-fluid cover p-0">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="/">{{ trans('pages.home') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('').'/'.app()->getLocale() }}">{{ trans('pages.home') }}</a>
+                </li>
                 <li class="breadcrumb-item"><a
                             href="{{ route('references.'.app()->getLocale()) }}">{{ trans('pages.references') }}</a>
                 </li>
@@ -52,7 +53,7 @@
                 @endif
             </div>
             <div class="col-12 col-md-4">
-                <h2 class="h3">{{ trans('pages.other_references') }}</h2>
+                <div class="h3 sidebar-title">{{ trans('pages.other_references') }}</div>
                 <div class="list-group references--other">
                     @foreach($references as $ref)
                         <a href="{{ route('reference.'.app()->getLocale(), ['slug' => $ref->slug]) }}"

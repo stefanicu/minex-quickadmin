@@ -56,7 +56,7 @@
 
 <section class="container my-4 p-4 mx-auto">
     <div id="addresses" class="row justify-content-center">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center text-sm-left">
+        <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
             <p>
                 {{--                <a href="https://maps.google.com/?cid=12183351190759340993" target="_blank">Bucuresti, Romania</a><br/>--}}
                 <b>Bucuresti, Romania</b><br/>
@@ -65,7 +65,7 @@
                 T: +40 21 3060281
             </p>
         </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center text-sm-left">
+        <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
             <p>
                 {{--                <a href="https://maps.google.com/?cid=10683645034450341709" target="_blank">Sibiu, Romania</a><br/>--}}
                 <b>Sibiu, Romania</b><br/>
@@ -74,7 +74,7 @@
                 M: +40 (730) 018344
             </p>
         </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center text-sm-left">
+        <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
             <p>
                 {{--                <a href="https://maps.google.com/?cid=15534180713851440036" target="_blank">Arad, Romania</a><br/>--}}
                 <b>Arad, Romania</b><br/>
@@ -84,19 +84,19 @@
                 M: +40 (729) 019952
             </p>
         </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center text-sm-left">
-            <p>
-                <b>Iasi, Romania</b><br/>
-                M: +40 (730) 011240
-            </p>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center text-sm-left">
-            <p>
-                <b>Craiova, Romania</b><br/>
-                M: +40 (730) 600072
-            </p>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center text-sm-left">
+        {{--        <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center text-sm-left">--}}
+        {{--            <p>--}}
+        {{--                <b>Iasi, Romania</b><br/>--}}
+        {{--                M: +40 (730) 011240--}}
+        {{--            </p>--}}
+        {{--        </div>--}}
+        {{--        <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center text-sm-left">--}}
+        {{--            <p>--}}
+        {{--                <b>Craiova, Romania</b><br/>--}}
+        {{--                M: +40 (730) 600072--}}
+        {{--            </p>--}}
+        {{--        </div>--}}
+        <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
             <p>
                 {{--                <a href="https://www.google.com/maps?cid=119518942697758357" target="_blank">Sofia, Bulgaria</a><br/>--}}
                 <b>Minex Bulgaria OOD<br/>Sofia, Bulgaria</b><br/>
@@ -106,7 +106,7 @@
                 T: +359 (2) 491 59 09
             </p>
         </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center text-sm-left">
+        <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
             <p>
                 {{--                <a href="https://www.google.ro/maps/place/Francuska+5,+Beograd+11000,+Serbia/@44.8171471,20.4597724,17.7z/data=!4m13!1m7!3m6!1s0x475a7ab3c73615d7:0xff115b58e47afd62!2sFrancuska+5,+Beograd+11000,+Serbia!3b1!8m2!3d44.8173921!4d20.4619684!3m4!1s0x475a7ab3c73615d7:0xff115b58e47afd62!8m2!3d44.8173921!4d20.4619684?hl=en"--}}
                 {{--                   target="_blank">--}}
@@ -118,7 +118,7 @@
                 M: +381 (63) 507586
             </p>
         </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center text-sm-left">
+        <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
             <p>
                 <b>Minex Baltics UAB<br/>Vilnius, Lithuania</b><br/>
                 A: Gariūnų g. 57,<br/>
