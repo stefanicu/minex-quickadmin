@@ -104,7 +104,7 @@
             <ul class="navbar-nav bnbsNav ml-0 mr-0">
                 <li class="nav-item dropdown has-mega-menu">
                     <span class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                        {{ strtoupper(app()->getLocale()) }}
+                        {{ languageToCountryCode(app()->getLocale()) }}
                     </span><b class="caret"></b>
                     <div id="navbarDropdownLng" class="dropdown-menu dropdown-menu--normal">
                         <ul class="list-unstyled">
