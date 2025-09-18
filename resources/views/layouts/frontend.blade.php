@@ -39,20 +39,20 @@
                 $canonical = route(currentRouteChangeName($langLocale), $parameters);
             @endphp
 
-            <link rel="canonical" href="{{ $canonical }}"/>
         @endif
-        {{--        @php--}}
-        {{--            if($langLocale == 'en'){--}}
-        {{--                $hreflang1 = 'en-US';--}}
-        {{--                $hreflang2 = 'en-GB';--}}
-        {{--            } else {--}}
-        {{--                $hreflang1 = $langLocale.'-'.strtoupper($langLocale);--}}
-        {{--                $hreflang2 = 'en-'.strtoupper($langLocale);--}}
-        {{--            }--}}
-        {{--        @endphp--}}
-        {{--        <link rel="alternate" hreflang="{{ $hreflang1 }}" href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>--}}
-        {{--        <link rel="alternate" hreflang="{{ $hreflang2 }}" href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>--}}
+        @php
+            if($langLocale == 'en'){
+                $hreflang = 'en';
+                $default_href = route(currentRouteChangeName($langLocale), $parameters);
+            } else {
+                $hreflang = $langLocale.'-'.languageToCountryCode($langLocale);
+            }
+        @endphp
+        <link rel="alternate" hreflang="{{ $hreflang }}" href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>
+
     @endforeach
+    <link rel="alternate" hreflang="x-default" href="{{ $default_href }}"/>
+    <link rel="canonical" href="{{ $canonical }}"/>
 
     <meta name="robots" content="max-snippet:-1,max-image-preview:large,max-video-preview:-1">
     <link href="/img/favicon.png" rel="shortcut icon">
