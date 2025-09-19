@@ -60,15 +60,13 @@
     @if(isset($metaData['meta_title']))
         <title>{{ $metaData['meta_title'] }}
             @if(request()->has('page') && request('page') > 1)
-                - page {{ request('page') }}
-            @endif</title>
+                - {{ trans('pagination.page') }} {{ request('page') }}
+            @endif
+        </title>
     @endif
 
     @if(isset($metaData['meta_description']))
-        <meta name="description" content="{{ $metaData['meta_description'] }}
-            @if(request()->has('page') && request('page') > 1)
-                - page {{ request('page') }}
-            @endif<">
+        <meta name="description" content="{{ $metaData['meta_description'] }}@if(request()->has('page') && request('page') > 1) - {{ trans('pagination.page') }} {{ request('page') }}@endif">
     @endif
 
     @if(isset($metaData['meta_image_url']))
@@ -116,20 +114,12 @@
     <!-- End Google Tag Manager -->
 
     <!--link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"-->
-    <link nonce="{{ session('csp_nonce') }}" href="https://fonts.googleapis.com/css?family=Exo+2:400,800"
-          rel="stylesheet"
-          type="text/css">
-    <link nonce="{{ session('csp_nonce') }}"
-          href="https://fonts.googleapis.com/css?family=Comfortaa:300,400&amp;subset=cyrillic"
-          rel="stylesheet">
-    <link nonce="{{ session('csp_nonce') }}" href="https://fonts.googleapis.com/css?family=Josefin+Sans:300"
-          rel="stylesheet"
-          type="text/css">
+    <link nonce="{{ session('csp_nonce') }}" href="https://fonts.googleapis.com/css?family=Exo+2:400,800" rel="stylesheet" type="text/css">
+    <link nonce="{{ session('csp_nonce') }}" href="https://fonts.googleapis.com/css?family=Comfortaa:300,400&amp;subset=cyrillic" rel="stylesheet">
+    <link nonce="{{ session('csp_nonce') }}" href="https://fonts.googleapis.com/css?family=Josefin+Sans:300" rel="stylesheet" type="text/css">
     <script nonce="{{ session('csp_nonce') }}" src='https://www.google.com/recaptcha/api.js'></script>
-    <link nonce="{{ session('csp_nonce') }}" rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css"/>
-    <script nonce="{{ session('csp_nonce') }}"
-            src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+    <link nonce="{{ session('csp_nonce') }}" rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css"/>
+    <script nonce="{{ session('csp_nonce') }}" src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
 
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.min.css') }}">
     <link href="{{ asset('css/minex.css') }}" rel="stylesheet">
@@ -174,8 +164,6 @@
     <iframe nonce="{{ session('csp_nonce') }}" src="https://www.googletagmanager.com/ns.html?id=GTM-PM3K8LC" height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
 <!-- End Google Tag Manager (noscript) -->
-
-<h1>TEST</h1>
 
 <div id="totop" class="main_minex">
 
