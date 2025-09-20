@@ -37,9 +37,7 @@
                     <h1 class="h2">{{ $reference->name }}</h1>
 
                     @if(auth()->check())
-                        <a class="position-absolute mr-2"
-                           href="{{ url('').'/admin/references/' . $reference->id . '/edit' }}"
-                           target="_blank">Edit</a>
+                        <a class="position-absolute mr-2" href="{{ url('').'/admin/references/' . $reference->id . '/edit?lang='.app()->getLocale() }}" target="_blank">Edit</a>
                     @endif
                 </div>
                 <hr>
@@ -47,9 +45,7 @@
                 {!! $reference->content !!}
 
                 @if(auth()->check())
-                    <a class="position-absolute mr-2"
-                       href="{{ url('').'/admin/references/' . $reference->id . '/edit' }}"
-                       target="_blank">Edit</a>
+                    <a class="position-absolute mr-2" href="{{ url('').'/admin/references/' . $reference->id . '/edit?lang='.app()->getLocale() }}" target="_blank">Edit</a>
                 @endif
             </div>
             <div class="col-12 col-md-4">
