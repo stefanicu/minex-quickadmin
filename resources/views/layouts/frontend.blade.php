@@ -58,11 +58,9 @@
     <link href="/img/favicon.png" rel="shortcut icon">
 
     @if(isset($metaData['meta_title']))
-        <title>{{ $metaData['meta_title'] }}
-            @if(request()->has('page') && request('page') > 1)
+        <title>{{ $metaData['meta_title'] }}@if(request()->has('page') && request('page') > 1)
                 - {{ trans('pagination.page') }} {{ request('page') }}
-            @endif
-        </title>
+            @endif</title>
     @endif
 
     @if(isset($metaData['meta_description']))
