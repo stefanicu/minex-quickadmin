@@ -20,7 +20,7 @@ class ReplaceHtmlFromMetaDescription extends Command
      *
      * @var string
      */
-    protected $description = 'Replace <p></p><strong></strong><table></table> from meta description.';
+    protected $description = 'Replace html tags from meta description.';
     
     /**
      * Execute the console command.
@@ -35,7 +35,12 @@ class ReplaceHtmlFromMetaDescription extends Command
         
         echo '
 
-        ========================  UPDATE COMPLETED!
+        ========================  All meta descriptions are updated  ========================
+        
+        ========================          UPDATE COMPLETED!          ========================
+        
+        
+        
 
         ';
     }
