@@ -35,7 +35,7 @@
                     <h1 class="h2">{{ $blog->name }}<br>
                         <small class="data">{{ Carbon\Carbon::parse($blog->created_at)->format('d.m.Y') }}</small></h1>
                     @if(auth()->check())
-                        <a class="position-absolute mr-2" href="{{ url('').'/admin/blogs/'.$blog->id.'/edit' }}" target="_blank">Edit</a>
+                        <a class="position-absolute mr-2" href="{{ url('').'/admin/blogs/'.$blog->id.'/edit?lang='.app()->getLocale() }}" target="_blank">Edit</a>
                     @endif
                 </div>
 
@@ -46,7 +46,7 @@
                 {!! $blog->content !!}
 
                 @if(auth()->check())
-                    <a class="position-absolute mr-2" href="{{ url('').'/admin/blogs/'.$blog->id.'/edit' }}" target="_blank">Edit</a>
+                    <a class="position-absolute mr-2" href="{{ url('').'/admin/blogs/'.$blog->id.'/edit?lang='.app()->getLocale() }}" target="_blank">Edit</a>
                 @endif
             </div>
             <div class="d-none d-lg-block col-md-4 pb-4 mb-4">
