@@ -19,5 +19,20 @@ return [
         'sr' => 'RS', // Serbian - Serbia
         'uk' => 'UA', // Ukrainian - Ukraine
     ],
+    'languages_names' => [
+        'en' => 'English', // Regatul Unit
+        'bg' => 'Български', // Bulgaria
+        'bs' => 'Bosanski', // Bosnia Și Herțegovina
+        'et' => 'Eesti', // Estonia
+        'hr' => 'Hrvatski', // Croația
+        'hu' => 'Magyar', // Ungaria
+        'lt' => 'Lietuvių', // Lituania
+        'lv' => 'Latviešu', // Letonia
+        'mk' => 'Македонски', // Macedonia De Nord
+        'ro' => 'Română', // România
+        'sl' => 'Slovenščina', // Slovenia
+        'sr' => 'Srpski', // Serbia
+        'uk' => 'Українська', // Ucraina
+    ]
 
 ];
