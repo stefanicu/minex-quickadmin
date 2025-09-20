@@ -39,8 +39,7 @@
                             <small class="catapp font-weight-lighter">{{ trans('pages.brand') }}</small>
                         </h1>
                         @if(auth()->check())
-                            <a class="position-absolute mr-2" href="{{ url('').'/admin/brands/'.$brand->id.'/edit' }}"
-                               target="_blank">Edit</a>
+                            <a class="position-absolute mr-2" href="{{ url('').'/admin/brands/'.$brand->id.'/edit?lang='.app()->getLocale() }}" target="_blank">Edit</a>
                         @endif
                     </div>
                     <hr>
@@ -89,8 +88,7 @@
                     @endif
 
                     @if(auth()->check())
-                        <a class="position-absolute mr-2" href="{{ url('').'/admin/brands/'.$brand->id.'/edit' }}"
-                           target="_blank">Edit</a>
+                        <a class="position-absolute mr-2" href="{{ url('').'/admin/brands/'.$brand->id.'/edit?lang='.app()->getLocale() }}" target="_blank">Edit</a>
                     @endif
                 </div>
                 <div class="col-12 col-md-4 pb-3">
