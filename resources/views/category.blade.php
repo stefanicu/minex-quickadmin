@@ -49,9 +49,7 @@
                                 <small class="catapp font-weight-lighter">{{ trans('pages.category') }}</small>
                             </h1>
                             @if(auth()->check())
-                                <a class="position-absolute mr-2"
-                                   href="{{ url('').'/admin/categories/'.$category->id.'/edit' }}"
-                                   target="_blank">Edit</a>
+                                <a class="position-absolute mr-2" href="{{ url('').'/admin/categories/'.$category->id.'/edit?lang='.app()->getLocale() }}" target="_blank">Edit</a>
                             @endif
                         </div>
                         <hr>
@@ -69,9 +67,7 @@
                                 <small class="catapp font-weight-lighter">{{ trans('pages.category') }}</small>
                             </h1>
                             @if(auth()->check())
-                                <a class="position-absolute mr-2"
-                                   href="{{ url('').'/admin/categories/'.$category->id.'/edit' }}"
-                                   target="_blank">Edit</a>
+                                <a class="position-absolute mr-2" href="{{ url('').'/admin/categories/'.$category->id.'/edit?lang='.app()->getLocale() }}" target="_blank">Edit</a>
                             @endif
                         </div>
                         <hr>
@@ -127,8 +123,7 @@
                 @endif
             </div>
             @if(auth()->check())
-                <a class="position-absolute mr-2" href="{{ url('').'/admin/categories/'.$category->id.'/edit' }}"
-                   target="_blank">Edit</a>
+                <a class="position-absolute mr-2" href="{{ url('').'/admin/categories/'.$category->id.'/edit?lang='.app()->getLocale() }}" target="_blank">Edit</a>
             @endif
             <br/>
             <br/>
