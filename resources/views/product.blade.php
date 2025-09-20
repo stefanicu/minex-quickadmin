@@ -50,9 +50,7 @@
                     <h1 class="h2">{{ $product->name }}</h1>
 
                     @if(auth()->check())
-                        <a class="position-absolute mr-2"
-                           href="{{ url('').'/admin/products/' . $product->id . '/edit' }}"
-                           target="_blank">Edit</a>
+                        <a class="position-absolute mr-2" href="{{ url('').'/admin/products/' . $product->id . '/edit?lang='.app()->getLocale() }}" target="_blank">Edit</a>
                     @endif
                 </div>
 
@@ -190,9 +188,7 @@
                     @endif
 
                     @if(auth()->check())
-                        <a class="position-absolute mr-2"
-                           href="{{ url('').'/admin/products/' . $product->id . '/edit' }}"
-                           target="_blank">Edit</a>
+                        <a class="position-absolute mr-2" href="{{ url('').'/admin/products/' . $product->id . '/edit?lang='.app()->getLocale() }}" target="_blank">Edit</a>
                     @endif
                 </div>
 
