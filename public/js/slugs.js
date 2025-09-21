@@ -37,11 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const generateSlug = () => {
-        // 🛑 Do nothing if slug already has a value
-        if (slugInput.value.trim() !== "") {
-            return;
-        }
-
         const name = nameInput.value;
         const transliterated = transliterate(name);
 
@@ -52,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!slug) slug = "n-a";
 
-        slugInput.value = slug;
+        // slugInput.value = slug;
     };
 
     // Generate slug on page load if needed
