@@ -145,6 +145,15 @@ class BlogController extends Controller
     
     public function update(UpdateBlogRequest $request, Blog $blog)
     {
+        $locale = app()->getLocale();
+        $slug = $request->slug;
+        if ( ! $slug) {
+            $slug = slugGenerate($request->name, $locale);
+        }
+        $slug = slugDuplicateCount($slug, 'blog_translations', app()->getLocale(), 'blog_id', $blog->id);
+        
+        $request->merge(['slug' => $slug]);
+        
         $blog->update($request->all());
         
         if ($request->input('image', false)) {
@@ -179,7 +188,9 @@ class BlogController extends Controller
             $blog->image->delete();
         }
         
-        return redirect()->route('admin.blogs.edit', $blog)->withInput()->withErrors([]);
+        return redirect()->route('admin.blogs.edit', $blog)
+            ->withInput(array_merge($request->all(), ['slug' => $blog->slug]))
+            ->withErrors([]);
     }
     
     public function destroy(Blog $blog)

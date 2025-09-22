@@ -50,8 +50,11 @@ trait TranslateWithQueue
             }
             
             // Generate and add the slug if name is set and translated
-            if ($translatedName && isset($record->slug)) {
-                $newRecordData['slug'] = generateSlug($translatedName, $modelTranslation, $locale);
+            if ($translatedName) {
+                if ( ! $record->slug) {
+                    $slugGenerated = slugGenerate($translatedName, $locale);
+                }
+                $newRecordData['slug'] = slugDuplicateCount($slugGenerated, $modelTranslation, $locale, $foreignKey, $id);
             }
             
             // Insert the new record (if no existing record)

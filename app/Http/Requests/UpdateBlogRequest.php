@@ -29,13 +29,10 @@ class UpdateBlogRequest extends FormRequest
                     ->ignore(request()->route('blog')->id, 'blog_id')
             ],
             'slug' => [
-                'string',
-                'min:0',
                 'max:255',
-                'required',
-                Rule::unique('blog_translations', 'slug')
-                    ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('blog')->id, 'blog_id')
+                //                Rule::unique('blog_translations', 'slug')
+                //                    ->where('locale', app()->getLocale())
+                //                    ->ignore(request()->route('blog')->id, 'blog_id')
             ],
             'content' => [
                 'nullable',
