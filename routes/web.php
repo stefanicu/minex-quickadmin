@@ -119,8 +119,7 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
 });
 
 Route::get('/', function () {
-    $defaultLocale = config('app.fallback_locale', 'en'); // Default language
-    return redirect($defaultLocale);
+    return view('layouts.gateway');
 });
 
 // Define translatable routes separately for each language
