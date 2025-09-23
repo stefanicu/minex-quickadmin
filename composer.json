@@ -43,8 +43,6 @@
       "app/Helpers/currentRouteChangeName.php",
       "app/Helpers/getStaticMetaData.php",
       "app/Helpers/getSvgDimensions.php",
-      "app/Helpers/slugDuplicateCount.php",
-      "app/Helpers/slugGenerate.php",
       "app/Helpers/languageToCountryCode.php"
     ]
   },
