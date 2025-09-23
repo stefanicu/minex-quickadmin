@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Schema;
 
 trait TranslateWithQueue
 {
+    use SlugGenerator;
+    
     public function translateQueueByColumns($modelTranslation, $foreignKey, $locale, $id)
     {
         // Determine source locale based on the current locale __
@@ -42,19 +44,26 @@ trait TranslateWithQueue
         
         if ($existingRecord === null) {
             // If no existing record, prepare to insert
-            $translatedName = isset($record->name) ? ChatGPTService::translate($record->name, $locale, $sourceLocale) : null;
+            $translatedName = isset($record->name)
+                ? ChatGPTService::translate($record->name, $locale, $sourceLocale)
+                : null;
             
             // Add name if translated
             if ($translatedName) {
                 $newRecordData['name'] = $translatedName;
-            }
-            
-            // Generate and add the slug if name is set and translated
-            if ($translatedName) {
+                
                 if ( ! $record->slug) {
-                    $slugGenerated = slugGenerate($translatedName, $locale);
+                    $slugGenerated = $this->generateSlug($translatedName, $locale);
+                } else {
+                    $slugGenerated = $record->slug;
                 }
-                $newRecordData['slug'] = slugDuplicateCount($slugGenerated, $modelTranslation, $locale, $foreignKey, $id);
+                $newRecordData['slug'] = $this->ensureUniqueSlug(
+                    $slugGenerated,
+                    $modelTranslation,
+                    $locale,
+                    $foreignKey,
+                    $id
+                );
             }
             
             // Insert the new record (if no existing record)
