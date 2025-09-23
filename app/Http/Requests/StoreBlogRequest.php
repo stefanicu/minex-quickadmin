@@ -26,10 +26,7 @@ class StoreBlogRequest extends FormRequest
                 'unique:blog_translations',
             ],
             'slug' => [
-                'string',
-                'min:0',
                 'max:255',
-                'unique:blog_translations',
             ],
             'content' => [
                 'nullable',
