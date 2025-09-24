@@ -20,6 +20,23 @@
             </div>
         </div>
 
+        @if(session('success'))
+            <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success! 🎉</strong> {{ session('success') }}
+            </div>
+
+            <script>
+                setTimeout(function () {
+                    let alert = document.getElementById('success-alert');
+                    if (alert) {
+                        alert.classList.remove('show');
+                        alert.classList.add('fade');
+                        setTimeout(() => alert.remove(), 500); // Remove it completely after fading
+                    }
+                }, 5000); // 3 seconds
+            </script>
+        @endif
+
         <div class="card-body">
             <form method="POST" action="{{ route("admin.blogs.update", [$blog->id]) }}" enctype="multipart/form-data">
                 @method('PUT')
@@ -109,6 +126,7 @@
                     <div class="form-group">
                         <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
                             <input type="hidden" name="id" id="id" value="{{ $blog->id }}">
+                            <input type="hidden" name="model" id="model" value="blogs">
                             <input type="hidden" name="model_translation" id="model_translation" value="blog_translations">
                             <input type="hidden" name="foreign_key" id="foreign_key" value="blog_id">
                             <input type="hidden" name="language" id="language" value="{{ app()->getLocale() }}">
@@ -123,6 +141,7 @@
                 <div class="form-group">
                     <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
                         <input type="hidden" name="id" id="id" value="{{ $blog->id }}">
+                        <input type="hidden" name="model" id="model" value="blogs">
                         <input type="hidden" name="model_translation" id="model_translation" value="blog_translations">
                         <input type="hidden" name="foreign_key" id="foreign_key" value="blog_id">
                         <input type="hidden" name="language" id="language" value="{{ app()->getLocale() }}">
