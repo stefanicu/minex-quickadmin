@@ -29,6 +29,7 @@ trait TranslateWithQueue
         
         // Get all columns from the translation table dynamically (excluding id, foreign_key, and locale)
         $columns = Schema::getColumnListing($modelTranslation);
+        
         $columns = array_diff($columns, ['id', $foreignKey, 'locale', 'online']); // Exclude the unwanted columns
         
         // Check if a record for the target language exists
@@ -74,6 +75,10 @@ trait TranslateWithQueue
         $columnsToUpdate = [];
         foreach ($columns as $column) {
             $value = $record->{$column};
+            
+            if ($column === 'content') {
+                //dd($column, $value);
+            }
             
             // If the target field is empty and the source field has a value
             if (empty($existingRecord->{$column}) && ! empty($value) && $column !== 'slug') {
