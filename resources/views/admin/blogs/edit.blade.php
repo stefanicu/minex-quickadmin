@@ -20,6 +20,7 @@
             </div>
         </div>
 
+
         @if(session('success'))
             <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>Success! 🎉</strong> {{ session('success') }}
@@ -36,7 +37,7 @@
                 }, 5000); // 3 seconds
             </script>
         @endif
-
+        
         <div class="card-body">
             <form method="POST" action="{{ route("admin.blogs.update", [$blog->id]) }}" enctype="multipart/form-data">
                 @method('PUT')
@@ -126,7 +127,6 @@
                     <div class="form-group">
                         <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
                             <input type="hidden" name="id" id="id" value="{{ $blog->id }}">
-                            <input type="hidden" name="model" id="model" value="blogs">
                             <input type="hidden" name="model_translation" id="model_translation" value="blog_translations">
                             <input type="hidden" name="foreign_key" id="foreign_key" value="blog_id">
                             <input type="hidden" name="language" id="language" value="{{ app()->getLocale() }}">
@@ -141,7 +141,6 @@
                 <div class="form-group">
                     <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
                         <input type="hidden" name="id" id="id" value="{{ $blog->id }}">
-                        <input type="hidden" name="model" id="model" value="blogs">
                         <input type="hidden" name="model_translation" id="model_translation" value="blog_translations">
                         <input type="hidden" name="foreign_key" id="foreign_key" value="blog_id">
                         <input type="hidden" name="language" id="language" value="{{ app()->getLocale() }}">
@@ -151,6 +150,7 @@
             </form>
         </div>
     </div>
+
 @endsection
 
 @section('scripts')
