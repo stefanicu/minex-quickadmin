@@ -27,6 +27,6 @@ class TranslationAllLanguagesController extends Controller
             $this->translateQueueByColumns($modelTranslation, $foreignKey, $locale, $id);
         }
         
-        return redirect()->route('admin.products.edit', $request->input('id'))->with('success', __('Translations are being processed in the background for All Languages'));
+        return redirect()->back()->with('success', __('Translations are being processed in the background for All Languages'));
     }
 }
