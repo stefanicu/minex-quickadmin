@@ -93,6 +93,27 @@ class BlogController extends Controller
     
     public function store(StoreBlogRequest $request)
     {
+        if ($request->input('image', false)) {
+            $tempPath = storage_path('tmp/uploads/'.basename($request->input('image')));
+            // Validate the image dimensions
+            [$width, $height] = getimagesize($tempPath);
+            
+            if ($width != 750 || $height != 500) {
+                // Delete the temporary file if validation fails
+                if (file_exists($tempPath)) {
+                    unlink($tempPath);
+                }
+                return redirect()->back()->withInput()->withErrors([
+                    'image' => __("admin.image_dimensions", [
+                        'expected_width' => 750,
+                        'expected_height' => 500,
+                        'uploaded_width' => $width,
+                        'uploaded_height' => $height
+                    ]),
+                ]);
+            }
+        }
+        
         // Proceed with creating the blog only if the validation passes
         $blog = new Blog();
         $this->saveWithSlug($request, $blog);
