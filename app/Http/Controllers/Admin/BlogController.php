@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyBlogRequest;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Models\Blog;
+use App\Traits\HandlesTranslatableSlug;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -16,7 +17,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class BlogController extends Controller
 {
-    use MediaUploadingTrait;
+    use MediaUploadingTrait, HandlesTranslatableSlug;
     
     public function index(Request $request)
     {
@@ -114,7 +115,8 @@ class BlogController extends Controller
         }
         
         // Proceed with creating the blog only if the validation passes
-        $blog = Blog::create($request->all());
+        $blog = new Blog();
+        $this->saveWithSlug($request, $blog);
         
         if ($request->input('image', false)) {
             $blog->addMedia(storage_path('tmp/uploads/'.basename($request->input('image'))))->toMediaCollection('image');
@@ -145,16 +147,7 @@ class BlogController extends Controller
     
     public function update(UpdateBlogRequest $request, Blog $blog)
     {
-        $locale = app()->getLocale();
-        $slug = $request->slug;
-        if ( ! $slug) {
-            $slug = slugGenerate($request->name, $locale);
-        }
-        $slug = slugDuplicateCount($slug, 'blog_translations', app()->getLocale(), 'blog_id', $blog->id);
-        
-        $request->merge(['slug' => $slug]);
-        
-        $blog->update($request->all());
+        $this->saveWithSlug($request, $blog);
         
         if ($request->input('image', false)) {
             if ( ! $blog->image || $request->input('image') !== $blog->image->file_name) {
