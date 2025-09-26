@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyPageRequest;
 use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
 use App\Models\Page;
+use App\Traits\HandlesTranslatableSlug;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -16,7 +17,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PageController extends Controller
 {
-    use MediaUploadingTrait;
+    use MediaUploadingTrait, HandlesTranslatableSlug;
     
     public function index(Request $request)
     {
@@ -110,7 +111,8 @@ class PageController extends Controller
         }
         
         // Proceed with creating the page only if the validation passes
-        $page = Page::create($request->all());
+        $page = new Page();
+        $this->saveWithSlug($request, $page);
         
         if ($request->input('image', false)) {
             $page->addMedia(storage_path('tmp/uploads/'.basename($request->input('image'))))->toMediaCollection('image');
@@ -120,7 +122,7 @@ class PageController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $page->id]);
         }
         
-        return redirect()->route('admin.pages.index');
+        return redirect()->route('admin.pages.edit', ['page' => $page->id]);
     }
     
     public function edit(Page $page)
@@ -141,7 +143,7 @@ class PageController extends Controller
     
     public function update(UpdatePageRequest $request, Page $page)
     {
-        $page->update($request->all());
+        $this->saveWithSlug($request, $page);
         
         if ($request->input('image', false)) {
             if ( ! $page->image || $request->input('image') !== $page->image->file_name) {
@@ -175,7 +177,9 @@ class PageController extends Controller
             $page->image->delete();
         }
         
-        return redirect()->route('admin.pages.edit', $page)->withInput()->withErrors([]);
+        return redirect()->route('admin.pages.edit', $page)
+            ->withInput(array_merge($request->all(), ['slug' => $page->slug]))
+            ->withErrors([]);
     }
     
     public function destroy(Page $page)

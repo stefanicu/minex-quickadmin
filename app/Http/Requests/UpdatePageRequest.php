@@ -29,13 +29,11 @@ class UpdatePageRequest extends FormRequest
                     ->ignore(request()->route('page')->id, 'page_id')
             ],
             'slug' => [
-                'string',
-                'min:0',
                 'max:255',
-                'required',
-                Rule::unique('page_translations', 'slug')
-                    ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('page')->id, 'page_id')
+                //                'required',
+                //                Rule::unique('page_translations', 'slug')
+                //                    ->where('locale', app()->getLocale())
+                //                    ->ignore(request()->route('page')->id, 'page_id')
             ],
             'content' => [
                 'nullable',

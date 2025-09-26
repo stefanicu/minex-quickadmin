@@ -13,17 +13,15 @@
                 <div class="row">
                     <div class="form-group col-12 col-xl-6">
                         <label class="required" for="name">{{ trans('cruds.page.fields.name') }}</label>
-                        <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text"
-                               name="name" id="name" value="{{ old('name', '') }}" required>
+                        <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
                         @if($errors->has('name'))
                             <span class="text-danger">{{ $errors->first('name') }}</span>
                         @endif
                         <span class="help-block">{{ trans('cruds.page.fields.name_helper') }}</span>
                     </div>
                     <div class="form-group col-12 col-xl-6">
-                        <label class="required" for="slug">{{ trans('cruds.page.fields.slug') }}</label>
-                        <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text"
-                               name="slug" id="slug" value="{{ old('slug', '') }}" required>
+                        <label for="slug">{{ trans('cruds.page.fields.slug') }}</label>
+                        <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', '') }}">
                         @if($errors->has('slug'))
                             <span class="text-danger">{{ $errors->first('slug') }}</span>
                         @endif
@@ -33,8 +31,7 @@
 
                 <div class="form-group">
                     <label for="content">{{ trans('cruds.page.fields.content') }}</label>
-                    <textarea class="form-control ckeditor {{ $errors->has('content') ? 'is-invalid' : '' }}" rows="200"
-                              name="content" id="content">{!! old('content', '') !!}</textarea>
+                    <textarea class="form-control ckeditor {{ $errors->has('content') ? 'is-invalid' : '' }}" rows="200" name="content" id="content">{!! old('content', '') !!}</textarea>
                     @if($errors->has('content'))
                         <span class="text-danger">{{ $errors->first('content') }}</span>
                     @endif
@@ -91,7 +88,6 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/slugs.js') }}"></script>
     <script>
         $(document).ready(function () {
             function SimpleUploadAdapter(editor) {

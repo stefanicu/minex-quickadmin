@@ -26,11 +26,7 @@ class StorePageRequest extends FormRequest
                 'unique:page_translations',
             ],
             'slug' => [
-                'string',
-                'min:0',
                 'max:255',
-                'required',
-                'unique:page_translations',
             ],
             'content' => [
                 'nullable',
