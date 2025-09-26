@@ -53,11 +53,8 @@ trait TranslateWithQueue
             if ($translatedName) {
                 $newRecordData['name'] = $translatedName;
                 
-                if ( ! $record->slug) {
-                    $slugGenerated = $this->generateSlug($translatedName, $locale);
-                } else {
-                    $slugGenerated = $record->slug;
-                }
+                $slugGenerated = $this->generateSlug($translatedName, $locale);
+                
                 $newRecordData['slug'] = $this->ensureUniqueSlug(
                     $slugGenerated,
                     $modelTranslation,
