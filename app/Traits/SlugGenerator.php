@@ -11,81 +11,57 @@ trait SlugGenerator
      */
     protected function generateSlug(string $name, string $locale): string
     {
-        // Aplică reguli de transliterare specifice pentru fiecare limbă înainte de procesarea generală
-        switch ($locale) {
-            case 'bg': // Bulgară
-                $charMap = [
-                    // Problemă specifică: 'ъ' devine 'a'
-                    'ъ' => 'a', 'Ъ' => 'A',
-                    // Digrafe comune
-                    'щ' => 'sht', 'Щ' => 'Sht',
-                    'ж' => 'zh', 'Ж' => 'Zh',
-                    'ч' => 'ch', 'Ч' => 'Ch',
-                    'ш' => 'sh', 'Ш' => 'Sh',
-                    'ю' => 'yu', 'Ю' => 'Yu',
-                    'я' => 'ya', 'Я' => 'Ya',
-                    'ц' => 'ts', 'Ц' => 'Ts',
-                ];
-                $name = str_replace(array_keys($charMap), array_values($charMap), $name);
-                break;
+        // Mapă globală ISO simplificată (ASCII-only)
+        $charMap = [
+            // Comun (BG, MK, SR, UK etc.)
+            'щ' => 'sht', 'Щ' => 'Sht',
+            'ж' => 'zh', 'Ж' => 'Zh',
+            'ч' => 'ch', 'Ч' => 'Ch',
+            'ш' => 'sh', 'Ш' => 'Sh',
+            'ю' => 'yu', 'Ю' => 'Yu',
+            'я' => 'ya', 'Я' => 'Ya',
+            'ц' => 'ts', 'Ц' => 'Ts',
             
-            case 'sr': // Sârbă (Cyrillic)
-            case 'bs': // Bosniacă
-            case 'hr': // Croată
-                $charMap = [
-                    'Ђ' => 'Dj', 'ђ' => 'dj',
-                    'Љ' => 'Lj', 'љ' => 'lj',
-                    'Њ' => 'Nj', 'њ' => 'nj',
-                    'Џ' => 'Dz', 'џ' => 'dz',
-                    // Asigură maparea corectă pentru caractere care altfel ar deveni identice
-                    'Ћ' => 'C', 'ћ' => 'c',
-                    'Ч' => 'C', 'ч' => 'c',
-                    'Ш' => 'S', 'ш' => 's',
-                    'Ж' => 'Z', 'ж' => 'z',
-                ];
-                $name = str_replace(array_keys($charMap), array_values($charMap), $name);
-                break;
+            // Bulgară
+            'й' => 'j', 'Й' => 'J',
+            'ъ' => 'u', 'Ъ' => 'U',
             
-            case 'mk': // Macedoneană
-                $charMap = [
-                    'Ѓ' => 'Gj', 'ѓ' => 'gj',
-                    'Ѕ' => 'Dz', 'ѕ' => 'dz',
-                    'Ќ' => 'Kj', 'ќ' => 'kj',
-                    'Љ' => 'Lj', 'љ' => 'lj',
-                    'Њ' => 'Nj', 'њ' => 'nj',
-                    'Џ' => 'Dzh', 'џ' => 'dzh',
-                ];
-                $name = str_replace(array_keys($charMap), array_values($charMap), $name);
-                break;
+            // Macedoneană
+            'ј' => 'j', 'Ј' => 'J',
+            'ѓ' => 'gj', 'Ѓ' => 'Gj',
+            'ќ' => 'kj', 'Ќ' => 'Kj',
+            'љ' => 'lj', 'Љ' => 'Lj',
+            'њ' => 'nj', 'Њ' => 'Nj',
+            'џ' => 'dz', 'Џ' => 'Dz',
+            'ѕ' => 'dz', 'Ѕ' => 'Dz',
             
-            case 'uk': // Ucraineană
-                $charMap = [
-                    'Є' => 'Ye', 'є' => 'ye',
-                    'Ї' => 'Yi', 'ї' => 'yi',
-                    'Й' => 'Y', 'й' => 'y',
-                    'Щ' => 'Shch', 'щ' => 'shch',
-                    'Г' => 'H', 'г' => 'h',
-                    'Ґ' => 'G', 'ґ' => 'g',
-                    'Ю' => 'Yu', 'ю' => 'yu',
-                    'Я' => 'Ya', 'я' => 'ya',
-                ];
-                $name = str_replace(array_keys($charMap), array_values($charMap), $name);
-                break;
-        }
+            // Sârbă / Bosniacă / Croată
+            'ђ' => 'dj', 'Ђ' => 'Dj',
+            'ћ' => 'c', 'Ћ' => 'C',
+            // notă: pentru slug-uri → "č" devine "ch"
+            'ч' => 'ch', 'Ч' => 'Ch',
+            'ш' => 'sh', 'Ш' => 'Sh',
+            'ж' => 'zh', 'Ж' => 'Zh',
+            
+            // Ucraineană
+            'є' => 'ye', 'Є' => 'Ye',
+            'ї' => 'yi', 'Ї' => 'Yi',
+            'й' => 'j', 'Й' => 'J',
+            'щ' => 'shch', 'Щ' => 'Shch',
+            'г' => 'h', 'Г' => 'H',
+            'ґ' => 'g', 'Ґ' => 'G',
+        ];
         
-        // Transliterează restul caracterelor (inclusiv diacriticele latine) în ASCII
+        // Aplică maparea personalizată
+        $name = str_replace(array_keys($charMap), array_values($charMap), $name);
+        
+        // Transliterează restul caracterelor în ASCII
         $slug = transliterator_transliterate('Any-Latin; Latin-ASCII', $name);
         
-        // Convertește la litere mici
+        // Normalizează pentru slug
         $slug = strtolower($slug);
-        
-        // Înlocuiește orice secvență de caractere care nu sunt litere sau cifre cu o singură cratimă
         $slug = preg_replace('/[^a-z0-9]+/', '-', $slug);
-        
-        // Elimină cratimele de la începutul și sfârșitul șirului
-        $slug = trim($slug, '-');
-        
-        return $slug;
+        return trim($slug, '-');
     }
     
     /**
