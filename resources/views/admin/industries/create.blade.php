@@ -24,17 +24,15 @@
                 <div class="row">
                     <div class="form-group col-12 col-xl-6">
                         <label class="required" for="name">{{ trans('cruds.industry.fields.name') }}</label>
-                        <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text"
-                               name="name" id="name" value="{{ old('name', '') }}" required>
+                        <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
                         @if($errors->has('name'))
                             <span class="text-danger">{{ $errors->first('name') }}</span>
                         @endif
                         <span class="help-block">{{ trans('cruds.industry.fields.name_helper') }}</span>
                     </div>
                     <div class="form-group col-12 col-xl-6">
-                        <label class="required" for="slug">{{ trans('cruds.industry.fields.slug') }}</label>
-                        <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text"
-                               name="slug" id="slug" value="{{ old('slug', '') }}" required>
+                        <label for="slug">{{ trans('cruds.industry.fields.slug') }}</label>
+                        <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', '') }}">
                         @if($errors->has('slug'))
                             <span class="text-danger">{{ $errors->first('slug') }}</span>
                         @endif
@@ -45,8 +43,7 @@
                 <div class="row align-items-center">
                     <div class="form-group col-12 align-items-center">
                         <label for="photo">{{ trans('cruds.industry.fields.photo') }}</label>
-                        <div class="needsclick dropzone {{ $errors->has('photo') ? 'is-invalid' : '' }}"
-                             id="photo-dropzone"></div>
+                        <div class="needsclick dropzone {{ $errors->has('photo') ? 'is-invalid' : '' }}" id="photo-dropzone"></div>
                         @if($errors->has('photo'))
                             <span class="text-danger">{{ $errors->first('photo') }}</span>
                         @endif

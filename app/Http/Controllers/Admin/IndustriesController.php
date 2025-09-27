@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyIndustryRequest;
 use App\Http\Requests\StoreIndustryRequest;
 use App\Http\Requests\UpdateIndustryRequest;
 use App\Models\Industry;
+use App\Traits\HandlesTranslatableSlug;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class IndustriesController extends Controller
 {
-    use MediaUploadingTrait;
+    use MediaUploadingTrait, HandlesTranslatableSlug;
     
     public function index(Request $request)
     {
@@ -125,7 +126,8 @@ class IndustriesController extends Controller
         }
         
         // Proceed with creating the industry only if the validation passes
-        $industry = Industry::create($request->all());
+        $industry = new Industry();
+        $this->saveWithSlug($request, $industry);
         
         if ($request->input('photo', false)) {
             $industry->addMedia(storage_path('tmp/uploads/'.basename($request->input('photo'))))->toMediaCollection('photo');
@@ -135,7 +137,7 @@ class IndustriesController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $industry->id]);
         }
         
-        return redirect()->route('admin.industries.index');
+        return redirect()->route('admin.industries.edit', ['industry' => $industry->id]);
     }
     
     public function edit(Industry $industry)
@@ -147,7 +149,7 @@ class IndustriesController extends Controller
     
     public function update(UpdateIndustryRequest $request, Industry $industry)
     {
-        $industry->update($request->all());
+        $this->saveWithSlug($request, $industry);
         
         if ($request->input('photo', false)) {
             if ( ! $industry->photo || $request->input('photo') !== $industry->photo->file_name) {
@@ -179,7 +181,9 @@ class IndustriesController extends Controller
             $industry->photo->delete();
         }
         
-        return redirect()->route('admin.industries.edit', $industry)->withInput()->withErrors([]);
+        return redirect()->route('admin.industries.edit', $industry)
+            ->withInput(array_merge($request->all(), ['slug' => $industry->slug]))
+            ->withErrors([]);
     }
     
     public function destroy(Industry $industry)

@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Industry;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Response;
 
 class StoreIndustryRequest extends FormRequest
 {
@@ -13,7 +11,7 @@ class StoreIndustryRequest extends FormRequest
     {
         return Gate::allows('industry_create');
     }
-
+    
     public function rules()
     {
         return [
@@ -28,11 +26,7 @@ class StoreIndustryRequest extends FormRequest
                 'unique:industry_translations',
             ],
             'slug' => [
-                'string',
-                'min:0',
                 'max:255',
-                'required',
-                'unique:industry_translations',
             ],
         ];
     }

@@ -6,6 +6,23 @@
             {{ trans('global.edit') }} {{ trans('cruds.industry.title_singular') }}
         </div>
 
+        @if(session('success'))
+            <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success! 🎉</strong> {{ session('success') }}
+            </div>
+
+            <script>
+                setTimeout(function () {
+                    let alert = document.getElementById('success-alert');
+                    if (alert) {
+                        alert.classList.remove('show');
+                        alert.classList.add('fade');
+                        setTimeout(() => alert.remove(), 500); // Remove it completely after fading
+                    }
+                }, 5000); // 3 seconds
+            </script>
+        @endif
+
         <div class="card-body">
             <form method="POST" action="{{ route("admin.industries.update", [$industry->id]) }}"
                   enctype="multipart/form-data">
@@ -14,8 +31,7 @@
                 <div class="form-group">
                     <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
                         <input type="hidden" name="online" value="0">
-                        <input class="form-check-input" type="checkbox" name="online" id="online"
-                               value="1" {{ $industry->online || old('online', 0) === 1 ? 'checked' : '' }}>
+                        <input class="form-check-input" type="checkbox" name="online" id="online" value="1" {{ $industry->online || old('online', 0) === 1 ? 'checked' : '' }}>
                         <label class="form-check-label" for="online">{{ trans('cruds.industry.fields.online') }}</label>
                     </div>
                     @if($errors->has('online'))
@@ -27,17 +43,15 @@
                 <div class="row">
                     <div class="form-group col-12 col-xl-6">
                         <label class="required" for="name">{{ trans('cruds.industry.fields.name') }}</label>
-                        <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text"
-                               name="name" id="name" value="{{ old('name', $industry->name) }}" required>
+                        <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $industry->name) }}" required>
                         @if($errors->has('name'))
                             <span class="text-danger">{{ $errors->first('name') }}</span>
                         @endif
                         <span class="help-block">{{ trans('cruds.industry.fields.name_helper') }}</span>
                     </div>
                     <div class="form-group col-12 col-xl-6">
-                        <label class="required" for="slug">{{ trans('cruds.industry.fields.slug') }}</label>
-                        <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text"
-                               name="slug" id="slug" value="{{ old('slug', $industry->slug) }}" required>
+                        <label for="slug">{{ trans('cruds.industry.fields.slug') }}</label>
+                        <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug', $industry->slug) }}">
                         @if($errors->has('slug'))
                             <span class="text-danger">{{ $errors->first('slug') }}</span>
                         @endif
@@ -49,8 +63,7 @@
                     <div class="form-group col-12 align-items-center">
                         <label for="photo">{{ trans('cruds.industry.fields.photo') }}</label>
                         <span class="help-block">{{ trans('cruds.industry.fields.photo_helper') }}</span>
-                        <div class="needsclick dropzone {{ $errors->has('photo') ? 'is-invalid' : '' }}"
-                             id="photo-dropzone"></div>
+                        <div class="needsclick dropzone {{ $errors->has('photo') ? 'is-invalid' : '' }}" id="photo-dropzone"></div>
                         @if($errors->has('photo'))
                             <span class="text-danger d-block">{{ $errors->first('photo') }}</span>
                         @endif
