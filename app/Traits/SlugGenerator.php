@@ -9,7 +9,7 @@ trait SlugGenerator
     /**
      * Generează slug din text cu suport pentru multiple limbi
      */
-    protected function generateSlug(string $name, string $locale): string
+    protected function generateSlug(string $name, string $locale, ?string $manualSlug = null): string
     {
         // Mapă globală ISO simplificată (ASCII-only)
         $charMap = [
@@ -38,10 +38,9 @@ trait SlugGenerator
             // Sârbă / Bosniacă / Croată
             'ђ' => 'dj', 'Ђ' => 'Dj',
             'ћ' => 'c', 'Ћ' => 'C',
-            // notă: pentru slug-uri → "č" devine "ch"
-            'ч' => 'ch', 'Ч' => 'Ch',
-            'ш' => 'sh', 'Ш' => 'Sh',
-            'ж' => 'zh', 'Ж' => 'Zh',
+            'č' => 'ch', 'Č' => 'Ch',
+            'š' => 'sh', 'Š' => 'Sh',
+            'ž' => 'zh', 'Ž' => 'Zh',
             
             // Ucraineană
             'є' => 'ye', 'Є' => 'Ye',
@@ -52,15 +51,19 @@ trait SlugGenerator
             'ґ' => 'g', 'Ґ' => 'G',
         ];
         
+        // Alege sursa (manualSlug > name)
+        $source = $manualSlug ?: $name;
+        
         // Aplică maparea personalizată
-        $name = str_replace(array_keys($charMap), array_values($charMap), $name);
+        $source = str_replace(array_keys($charMap), array_values($charMap), $source);
         
         // Transliterează restul caracterelor în ASCII
-        $slug = transliterator_transliterate('Any-Latin; Latin-ASCII', $name);
+        $slug = transliterator_transliterate('Any-Latin; Latin-ASCII', $source);
         
         // Normalizează pentru slug
         $slug = strtolower($slug);
         $slug = preg_replace('/[^a-z0-9]+/', '-', $slug);
+        
         return trim($slug, '-');
     }
     
