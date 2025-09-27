@@ -13,9 +13,7 @@ trait HandlesTranslatableSlug
         $locale = $config['locale'];
         $slug = $request->slug;
         
-        if ( ! $slug) {
-            $slug = $this->generateSlug($request->name, $locale ?? 'en');
-        }
+        $slug = $this->generateSlug($request->name, $locale ?? 'en', $slug);
         
         $slug = $this->ensureUniqueSlug(
             $slug,
