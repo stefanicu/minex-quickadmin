@@ -104,7 +104,7 @@
             <ul class="navbar-nav bnbsNav ml-0 mr-0">
                 <li class="nav-item dropdown has-mega-menu">
                     <span class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                        {{ languageToCountryCode(app()->getLocale()) }}
+                        {{ languageToCountryCode(app()->getLocale(), true) }}
                     </span><b class="caret"></b>
                     <div id="navbarDropdownLng" class="dropdown-menu dropdown-menu--normal">
                         <ul class="list-unstyled">
@@ -129,7 +129,7 @@
                                         }
                                     @endphp
                                     <li><a class="d-block px-4"
-                                           href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"><strong>{{ languageToCountryCode($langLocale) }}</strong></a>
+                                           href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"><strong>{{ languageToCountryCode($langLocale, true) }}</strong></a>
                                     </li>
                                 @endif
                             @endforeach
