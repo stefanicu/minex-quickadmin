@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyBrandRequest;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\UpdateBrandRequest;
 use App\Models\Brand;
+use App\Traits\HandlesTranslatableSlug;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -16,7 +17,13 @@ use Yajra\DataTables\Facades\DataTables;
 
 class BrandsController extends Controller
 {
-    use MediaUploadingTrait;
+    use MediaUploadingTrait, HandlesTranslatableSlug;
+    
+    protected $slugConfig = [
+        'table' => 'brands',
+        'locale' => null,
+        'key_column' => 'id'
+    ];
     
     public function index(Request $request)
     {
@@ -108,7 +115,8 @@ class BrandsController extends Controller
         }
         
         // Proceed with creating the brand only if the validation passes
-        $brand = Brand::create($request->all());
+        $brand = new Brand();
+        $this->saveWithSlug($request, $brand);
         
         if ($request->input('photo', false)) {
             $brand->addMedia($tempPath)->toMediaCollection('photo');
@@ -118,7 +126,7 @@ class BrandsController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $brand->id]);
         }
         
-        return redirect()->route('admin.brands.index');
+        return redirect()->route('admin.brands.edit', ['brand' => $brand->id]);
     }
     
     public function edit(Brand $brand)
@@ -130,7 +138,7 @@ class BrandsController extends Controller
     
     public function update(UpdateBrandRequest $request, Brand $brand)
     {
-        $brand->update($request->all());
+        $this->saveWithSlug($request, $brand);
         
         if ($request->input('photo', false)) {
             if ( ! $brand->photo || $request->input('photo') !== $brand->photo->file_name) {
@@ -162,7 +170,9 @@ class BrandsController extends Controller
             $brand->photo->delete();
         }
         
-        return redirect()->route('admin.brands.edit', $brand)->withInput()->withErrors([]);
+        return redirect()->route('admin.brands.edit', $brand)
+            ->withInput(array_merge($request->all(), ['slug' => $brand->slug]))
+            ->withErrors([]);
     }
     
     public function destroy(Brand $brand)

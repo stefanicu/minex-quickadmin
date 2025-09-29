@@ -23,11 +23,7 @@ class UpdateBrandRequest extends FormRequest
                 'unique:brands,name,'.request()->route('brand')->id,
             ],
             'slug' => [
-                'string',
-                'min:0',
                 'max:255',
-                'required',
-                'unique:brands,slug,'.request()->route('brand')->id,
             ],
             'meta_title' => [
                 'string',
