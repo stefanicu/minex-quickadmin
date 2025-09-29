@@ -497,3 +497,7 @@ figure.table {
 .sidebar-title {
     margin-top: 1.8rem;
 }
+
+.bnbsNav {
+    min-width: 8rem
+}
