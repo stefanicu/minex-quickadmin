@@ -47,6 +47,12 @@
             } else {
                 $hreflang = $langLocale.'-'.languageToCountryCode($langLocale);
             }
+            $path = request()->path();
+            $segments = explode('/', trim($path, '/')); // sparge URL-ul pe segmente
+
+            if (count($segments) === 1 && strlen($segments[0]) === 2) {
+                $default_href = url('');
+            }
         @endphp
         <link rel="alternate" hreflang="{{ $hreflang }}" href="{{ route(currentRouteChangeName($langLocale), $parameters) }}"/>
 
@@ -57,11 +63,11 @@
     <meta name="robots" content="max-snippet:-1,max-image-preview:large,max-video-preview:-1">
     <link href="/img/favicon.png" rel="shortcut icon">
 
+    @php // @formatter:off @endphp
     @if(isset($metaData['meta_title']))
-        <title>{{ $metaData['meta_title'] }}@if(request()->has('page') && request('page') > 1)
-                - {{ trans('pagination.page') }} {{ request('page') }}
-            @endif</title>
+        <title>{{ $metaData['meta_title'] }}@if(request()->has('page') && request('page') > 1) - {{ trans('pagination.page') }} {{ request('page') }}@endif</title>
     @endif
+    @php // @formatter:on @endphp
 
     @if(isset($metaData['meta_description']))
         <meta name="description" content="{{ $metaData['meta_description'] }}@if(request()->has('page') && request('page') > 1) - {{ trans('pagination.page') }} {{ request('page') }}@endif">
