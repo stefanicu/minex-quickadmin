@@ -10,6 +10,7 @@ use App\Models\ApplicationTranslation;
 use App\Models\Category;
 use App\Models\CategoryTranslation;
 use App\Models\Filter;
+use App\Traits\HandlesTranslatableSlug;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class FiltersController extends Controller
 {
+    use HandlesTranslatableSlug;
+    
     public function index(Request $request)
     {
         abort_if(Gate::denies('filter_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -108,13 +111,14 @@ class FiltersController extends Controller
             }
         }
         
-        $filter = Filter::create($request->all());
+        $filter = new Filter();
+        $this->saveWithSlug($request, $filter);
         
         if ($request->form_category) {
             return redirect()->route('admin.categories.edit', ['category' => $request->category_id]);
         }
         
-        return redirect()->route('admin.filters.index');
+        return redirect()->route('admin.filters.edit', ['filter' => $filter->id]);
     }
     
     public function edit(Filter $filter)
@@ -134,9 +138,11 @@ class FiltersController extends Controller
     
     public function update(UpdateFilterRequest $request, Filter $filter)
     {
-        $filter->update($request->all());
+        $this->saveWithSlug($request, $filter);
         
-        return redirect()->route('admin.filters.edit', $filter)->withInput()->withErrors([]);
+        return redirect()->route('admin.filters.edit', $filter)
+            ->withInput(array_merge($request->all(), ['slug' => $filter->slug]))
+            ->withErrors([]);
     }
     
     public function destroy(Filter $filter)
