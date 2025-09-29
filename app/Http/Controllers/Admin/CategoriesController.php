@@ -210,7 +210,7 @@ class CategoriesController extends Controller
             $category->cover_photo->delete();
         }
         
-        return redirect()->route('admin.categories.edit', $category)
+        return redirect()->route('admin.categories.edit', ['category' => $category->id])
             ->withInput(array_merge($request->all(), ['slug' => $category->slug]))
             ->withErrors([]);
     }
