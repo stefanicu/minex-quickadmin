@@ -27,10 +27,6 @@ class StoreReferenceRequest extends FormRequest
             ],
             'slug' => [
                 'max:255',
-            ],
-            'content' => [
-                'string',
-                'required'
             ]
         ];
     }
