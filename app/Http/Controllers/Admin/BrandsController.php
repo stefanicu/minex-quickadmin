@@ -170,9 +170,7 @@ class BrandsController extends Controller
             $brand->photo->delete();
         }
         
-        return redirect()->route('admin.brands.edit', ['brand' => $brand->id])
-            ->withInput(array_merge($request->all(), ['slug' => $brand->slug]))
-            ->withErrors([]);
+        return redirect()->route('admin.brands.edit', $brand)->withErrors([]);
     }
     
     public function destroy(Brand $brand)
