@@ -177,9 +177,7 @@ class PageController extends Controller
             $page->image->delete();
         }
         
-        return redirect()->route('admin.pages.edit', $page)
-            ->withInput(array_merge($request->all(), ['slug' => $page->slug]))
-            ->withErrors([]);
+        return redirect()->route('admin.pages.edit', $page)->withErrors([]);
     }
     
     public function destroy(Page $page)
