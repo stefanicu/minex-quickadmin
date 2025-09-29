@@ -31,10 +31,6 @@ class UpdateReferenceRequest extends FormRequest
             'slug' => [
                 'max:255',
             ],
-            'content' => [
-                'string',
-                'required'
-            ],
             'meta_title' => [
                 'string',
                 'min:0',
