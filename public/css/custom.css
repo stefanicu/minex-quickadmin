@@ -257,5 +257,61 @@ ul.pagination li.active a {
 #translateButtonAllForm {
     position: absolute;
     bottom: 20px;
-    right: 150px;
+    right: 210px;
+}
+
+#forceTranslateButtonAllForm {
+    position: absolute;
+    bottom: 20px;
+    right: 345px;
+}
+
+.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active {
+    background-color: #fd8a2e !important;
+}
+
+.bg-orange {
+    background-color: #fd8a2e !important;
+}
+
+.text-orange {
+    color: #fd8a2e !important;
+}
+
+.btn-orange {
+    color: #fff;
+    background-color: #fd8a2e;
+    border-color: #fd8a2e;
+}
+
+.btn-orange:hover {
+    color: #fff;
+    background-color: #e65c00;
+    border-color: #cc5200;
+}
+
+.btn-outline-orange {
+    color: #fd8a2e;
+    border-color: #fd8a2e;
+}
+
+.btn-outline-orange:hover {
+    color: #fff;
+    background-color: #fd8a2e;
+    border-color: #fd8a2e;
+}
+
+.badge-orange {
+    color: #fff;
+    background-color: #fd8a2e;
+}
+
+.alert-orange {
+    color: #721c00;
+    background-color: #ffe0cc;
+    border-color: #ffccb3;
+}
+
+.border-orange {
+    border-color: #fd8a2e !important;
 }
