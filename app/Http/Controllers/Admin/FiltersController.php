@@ -140,9 +140,7 @@ class FiltersController extends Controller
     {
         $this->saveWithSlug($request, $filter);
         
-        return redirect()->route('admin.filters.edit', ['filter' => $filter->id])
-            ->withInput(array_merge($request->all(), ['slug' => $filter->slug]))
-            ->withErrors([]);
+        return redirect()->route('admin.filters.edit', $filter)->withErrors([]);
     }
     
     public function destroy(Filter $filter)
