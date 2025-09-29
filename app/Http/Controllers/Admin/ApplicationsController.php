@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateApplicationRequest;
 use App\Models\Application;
 use App\Models\Category;
 use App\Models\CategoryTranslation;
+use App\Traits\HandlesTranslatableSlug;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ApplicationsController extends Controller
 {
-    use MediaUploadingTrait;
+    use MediaUploadingTrait, HandlesTranslatableSlug;
     
     public function index(Request $request)
     {
@@ -133,7 +134,8 @@ class ApplicationsController extends Controller
             }
         }
         
-        $application = Application::create($request->all());
+        $application = new Application();
+        $this->saveWithSlug($request, $application);
         
         if ($request->input('image', false)) {
             $application->addMedia($tempPath)->toMediaCollection('image');
@@ -143,7 +145,7 @@ class ApplicationsController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $application->id]);
         }
         
-        return redirect()->route('admin.applications.index');
+        return redirect()->route('admin.applications.edit', ['application' => $application->id]);
     }
     
     public function edit(Application $application)
@@ -168,7 +170,7 @@ class ApplicationsController extends Controller
     
     public function update(UpdateApplicationRequest $request, Application $application)
     {
-        $application->update($request->all());
+        $this->saveWithSlug($request, $application);
         
         // Get selected category IDs from the form
         $categoryIds = $request->input('categories', []);
@@ -209,7 +211,9 @@ class ApplicationsController extends Controller
             $application->image->delete();
         }
         
-        return redirect()->route('admin.applications.edit', $application)->withErrors([]);
+        return redirect()->route('admin.applications.edit', $application)
+            ->withInput(array_merge($request->all(), ['slug' => $application->slug]))
+            ->withErrors([]);
     }
     
     public function destroy(Application $application)
