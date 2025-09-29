@@ -25,10 +25,7 @@ class StoreCategoryRequest extends FormRequest
                 'required',
             ],
             'slug' => [
-                'string',
-                'min:0',
                 'max:255',
-                'required',
             ],
             'application_id' => [
                 'integer',
