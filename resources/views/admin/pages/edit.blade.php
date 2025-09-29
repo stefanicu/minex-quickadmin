@@ -135,13 +135,26 @@
 
                 <div class="form-group">
                     <input type="hidden" name="locale" value="{{app()->getLocale()}}">
-                    <button class="btn btn-danger" type="submit">
+                    <button class="btn btn-orange" type="submit">
                         {{ trans('global.save') }}
                     </button>
                 </div>
             </form>
 
             @if( app()->getLocale() === 'en' )
+                <form id="forceTranslateButtonAllForm" method="POST" class="" action="{{ route("admin.force.translation.languages") }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group">
+                        <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
+                            <input type="hidden" name="id" id="id" value="{{ $page->id }}">
+                            <input type="hidden" name="model_translation" id="model_translation" value="page_translations">
+                            <input type="hidden" name="foreign_key" id="foreign_key" value="page_id">
+                            <input type="hidden" name="language" id="language" value="{{ app()->getLocale() }}">
+                            <button type="submit" class="btn btn-danger">{{ trans('admin.force_translation_button_all') }}</button>
+                        </div>
+                    </div>
+                </form>
+
                 <form id="translateButtonAllForm" method="POST" class="" action="{{ route("admin.translation.languages") }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
@@ -164,7 +177,13 @@
                         <input type="hidden" name="model_translation" id="model_translation" value="page_translations">
                         <input type="hidden" name="foreign_key" id="foreign_key" value="page_id">
                         <input type="hidden" name="language" id="language" value="{{ app()->getLocale() }}">
-                        <button type="submit" class="btn btn-success">{{ trans('admin.translation_button', ['language' => strtoupper(app()->getLocale())]) }}</button>
+                        @if(app()->getLocale() === 'en')
+                            <button type="submit" class="btn btn-success">{{ trans('admin.translation_button', ['from' => 'RO','to' => strtoupper(app()->getLocale())]) }}</button>
+                        @elseif(app()->getLocale() === 'ro')
+                            <button type="submit" class="btn btn-success">{{ trans('admin.translation_button', ['from' => 'EN','to' => strtoupper(app()->getLocale())]) }}</button>
+                        @else
+                            <button type="submit" class="btn btn-success">{{ trans('admin.translation_button', ['from' => 'EN and RO','to' => strtoupper(app()->getLocale())]) }}</button>
+                        @endif
                     </div>
                 </div>
             </form>
