@@ -317,9 +317,7 @@ class ReferencesController extends Controller
             $index++;
         }
         
-        return redirect()->route('admin.references.edit', ['reference' => $reference->id])
-            ->withInput(array_merge($request->all(), ['slug' => $reference->slug]))
-            ->withErrors([]);
+        return redirect()->route('admin.references.edit', $reference)->withErrors([]);
     }
     
     public function destroy(Reference $reference)
