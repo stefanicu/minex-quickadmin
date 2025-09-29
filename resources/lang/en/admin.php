@@ -3,8 +3,9 @@
 return [
     'site_title' => 'Minex Group',
     'no_page_link_yet' => 'No page link yet',
-    'translation_button' => 'Translate to :language',
-    'translation_button_all' => 'Translate to all languages',
+    'translation_button' => 'Translate from :from to :to',
+    'translation_button_all' => 'Translate to all',
+    'force_translation_button_all' => 'Force Translate to all',
     'translation_type' => 'The type of translation',
     'translation_total_online_items_count' => 'Total online items',
     'translation_items' => 'Items',
