@@ -35,13 +35,7 @@ class UpdateApplicationRequest extends FormRequest
                     ->ignore(request()->route('application')->id, 'application_id')
             ],
             'slug' => [
-                'string',
-                'min:0',
                 'max:255',
-                'required',
-                Rule::unique('application_translations', 'slug')
-                    ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('application')->id, 'application_id')
             ],
             'meta_title' => [
                 'string',
