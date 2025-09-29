@@ -30,11 +30,7 @@ class StoreProductRequest extends FormRequest
                 'unique:product_translations',
             ],
             'slug' => [
-                'string',
-                'min:0',
                 'max:255',
-                'required',
-                'unique:product_translations',
             ],
             'applications.*' => [
                 'integer',

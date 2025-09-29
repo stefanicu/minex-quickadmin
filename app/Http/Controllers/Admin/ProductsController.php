@@ -17,6 +17,7 @@ use App\Models\FilterTranslation;
 use App\Models\Product;
 use App\Models\ReferenceTranslation;
 use App\Services\ChatGPTService;
+use App\Traits\HandlesTranslatableSlug;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -26,7 +27,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ProductsController extends Controller
 {
-    use MediaUploadingTrait;
+    use MediaUploadingTrait, HandlesTranslatableSlug;
     
     protected $chatGptService;
     
@@ -202,7 +203,8 @@ class ProductsController extends Controller
             }
         }
         
-        $product = Product::create($request->all());
+        $product = new Product();
+        $this->saveWithSlug($request, $product);
         
         $product->references()->sync($request->input('references', []));
         
@@ -274,7 +276,7 @@ class ProductsController extends Controller
     
     public function update(UpdateProductRequest $request, Product $product)
     {
-        $product->update($request->all());
+        $this->saveWithSlug($request, $product);
         
         // Update pe relația many-to-many
         $product->references()->sync($request->input('references', []));
@@ -346,7 +348,9 @@ class ProductsController extends Controller
             $index++;
         }
         
-        return redirect()->route('admin.products.edit', $product)->withErrors([]);
+        return redirect()->route('admin.products.edit', $product)
+            ->withInput(array_merge($request->all(), ['slug' => $product->slug]))
+            ->withErrors([]);
     }
     
     public function destroy(Product $product)

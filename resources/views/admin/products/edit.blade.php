@@ -65,8 +65,8 @@
                         <span class="help-block">{{ trans('cruds.product.fields.name_helper') }}</span>
                     </div>
                     <div class="form-group col-12 col-xl-4">
-                        <label class="required" for="slug">{{ trans('cruds.product.fields.slug') }}</label>
-                        <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug',$product->slug) }}" required>
+                        <label for="slug">{{ trans('cruds.product.fields.slug') }}</label>
+                        <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text" name="slug" id="slug" value="{{ old('slug',$product->slug) }}">
                         @if($errors->has('slug'))
                             <span class="text-danger">{{ $errors->first('slug') }}</span>
                         @endif
@@ -324,7 +324,6 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/slugs.js') }}"></script>
     <script>
         $(document).ready(function () {
             var selectedCategoryId = "{{ $product->category_id }}";

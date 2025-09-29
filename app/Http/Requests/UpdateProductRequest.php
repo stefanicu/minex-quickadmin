@@ -33,13 +33,7 @@ class UpdateProductRequest extends FormRequest
                     ->ignore(request()->route('product')->id, 'product_id')
             ],
             'slug' => [
-                'string',
-                'min:0',
                 'max:255',
-                'required',
-                Rule::unique('product_translations', 'slug')
-                    ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('product')->id, 'product_id')
             ],
             'applications.*' => [
                 'integer',
