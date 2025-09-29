@@ -211,9 +211,7 @@ class ApplicationsController extends Controller
             $application->image->delete();
         }
         
-        return redirect()->route('admin.applications.edit', ['application' => $application->id])
-            ->withInput(array_merge($request->all(), ['slug' => $application->slug]))
-            ->withErrors([]);
+        return redirect()->route('admin.applications.edit', $application)->withErrors([]);
     }
     
     public function destroy(Application $application)
