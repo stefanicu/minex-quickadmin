@@ -25,10 +25,7 @@ class UpdateFilterRequest extends FormRequest
                 'required',
             ],
             'slug' => [
-                'string',
-                'min:0',
                 'max:255',
-                'required',
             ],
             'category_id' => [
                 'integer',
