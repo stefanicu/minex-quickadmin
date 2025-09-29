@@ -181,9 +181,7 @@ class BlogController extends Controller
             $blog->image->delete();
         }
         
-        return redirect()->route('admin.blogs.edit', ['blog' => $blog->id])
-            ->withInput(array_merge($request->all(), ['slug' => $blog->slug]))
-            ->withErrors([]);
+        return redirect()->route('admin.blogs.edit', $blog)->withErrors([]);
     }
     
     public function destroy(Blog $blog)
