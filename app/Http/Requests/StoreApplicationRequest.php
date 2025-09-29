@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Application;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Response;
 
 class StoreApplicationRequest extends FormRequest
 {
@@ -13,7 +11,7 @@ class StoreApplicationRequest extends FormRequest
     {
         return Gate::allows('application_create');
     }
-
+    
     public function rules()
     {
         return [
@@ -28,11 +26,7 @@ class StoreApplicationRequest extends FormRequest
                 'unique:application_translations',
             ],
             'slug' => [
-                'string',
-                'min:0',
                 'max:255',
-                'required',
-                'unique:application_translations',
             ],
             'categories.*' => [
                 'integer',
