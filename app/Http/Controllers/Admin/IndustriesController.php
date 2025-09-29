@@ -181,9 +181,7 @@ class IndustriesController extends Controller
             $industry->photo->delete();
         }
         
-        return redirect()->route('admin.industries.edit', ['industry' => $industry->id])
-            ->withInput(array_merge($request->all(), ['slug' => $industry->slug]))
-            ->withErrors([]);
+        return redirect()->route('admin.industries.edit', $industry)->withErrors([]);
     }
     
     public function destroy(Industry $industry)
