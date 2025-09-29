@@ -9,6 +9,7 @@ use App\Http\Requests\StoreReferenceRequest;
 use App\Http\Requests\UpdateReferenceRequest;
 use App\Models\IndustryTranslation;
 use App\Models\Reference;
+use App\Traits\HandlesTranslatableSlug;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +19,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ReferencesController extends Controller
 {
-    use MediaUploadingTrait;
+    use MediaUploadingTrait, HandlesTranslatableSlug;
     
     public function index(Request $request)
     {
@@ -208,7 +209,8 @@ class ReferencesController extends Controller
             }
         }
         
-        $reference = Reference::create($request->all());
+        $reference = new Reference();
+        $this->saveWithSlug($request, $reference);
         
         if ($request->input('photo_wide', false)) {
             $reference->addMedia(storage_path('tmp/uploads/'.basename($request->input('photo_wide'))))->toMediaCollection('photo_wide');
@@ -224,7 +226,7 @@ class ReferencesController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $reference->id]);
         }
         
-        return redirect()->route('admin.references.index');
+        return redirect()->route('admin.references.edit', ['reference' => $reference->id]);
     }
     
     public function edit(Reference $reference)
@@ -240,7 +242,7 @@ class ReferencesController extends Controller
     
     public function update(UpdateReferenceRequest $request, Reference $reference)
     {
-        $reference->update($request->all());
+        $this->saveWithSlug($request, $reference);
         
         if ($request->input('photo_wide', false)) {
             if ( ! $reference->photo_wide || $request->input('photo_wide') !== $reference->photo_wide->file_name) {
@@ -315,7 +317,9 @@ class ReferencesController extends Controller
             $index++;
         }
         
-        return redirect()->route('admin.references.edit', $reference)->withErrors([]);
+        return redirect()->route('admin.references.edit', $reference)
+            ->withInput(array_merge($request->all(), ['slug' => $reference->slug]))
+            ->withErrors([]);
     }
     
     public function destroy(Reference $reference)

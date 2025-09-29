@@ -20,6 +20,22 @@
             </div>
         </div>
 
+        @if(session('success'))
+            <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success! 🎉</strong> {{ session('success') }}
+            </div>
+
+            <script>
+                setTimeout(function () {
+                    let alert = document.getElementById('success-alert');
+                    if (alert) {
+                        alert.classList.remove('show');
+                        alert.classList.add('fade');
+                        setTimeout(() => alert.remove(), 500); // Remove it completely after fading
+                    }
+                }, 5000); // 3 seconds
+            </script>
+        @endif
 
         <div class="card-body">
             <form method="POST" action="{{ route("admin.references.update", [$reference->id]) }}"
@@ -51,9 +67,9 @@
                         <span class="help-block">{{ trans('cruds.reference.fields.name_helper') }}</span>
                     </div>
                     <div class="form-group col-12 col-xl-4">
-                        <label class="required" for="slug">{{ trans('cruds.reference.fields.slug') }}</label>
+                        <label for="slug">{{ trans('cruds.reference.fields.slug') }}</label>
                         <input class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" type="text"
-                               name="slug" id="slug" value="{{ old('slug', $reference->slug) }}" required>
+                               name="slug" id="slug" value="{{ old('slug', $reference->slug) }}">
                         @if($errors->has('slug'))
                             <span class="text-danger">{{ $errors->first('slug') }}</span>
                         @endif
@@ -215,7 +231,6 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/slugs.js') }}"></script>
     <script>
         $(document).ready(function () {
             function SimpleUploadAdapter(editor) {

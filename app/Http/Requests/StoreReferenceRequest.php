@@ -26,11 +26,7 @@ class StoreReferenceRequest extends FormRequest
                 'unique:reference_translations',
             ],
             'slug' => [
-                'string',
-                'min:0',
                 'max:255',
-                'required',
-                'unique:reference_translations',
             ],
             'content' => [
                 'string',

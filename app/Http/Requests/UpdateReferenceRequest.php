@@ -29,13 +29,7 @@ class UpdateReferenceRequest extends FormRequest
                     ->ignore(request()->route('reference')->id, 'reference_id')
             ],
             'slug' => [
-                'string',
-                'min:0',
                 'max:255',
-                'required',
-                Rule::unique('reference_translations', 'slug')
-                    ->where('locale', app()->getLocale())
-                    ->ignore(request()->route('reference')->id, 'reference_id')
             ],
             'content' => [
                 'string',
