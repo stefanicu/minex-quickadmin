@@ -9,7 +9,7 @@ trait SlugGenerator
     /**
      * Generează slug din text cu suport pentru multiple limbi
      */
-    protected function generateSlug(string $name, string $locale, ?string $manualSlug = null): string
+    protected function generateSlug(string $name, ?string $locale, ?string $manualSlug = null): string
     {
         // Mapă globală ISO simplificată (ASCII-only)
         $charMap = [
