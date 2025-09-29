@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\ApplicationTranslation;
 use App\Models\Category;
 use App\Models\Filter;
+use App\Traits\HandlesTranslatableSlug;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class CategoriesController extends Controller
 {
-    use MediaUploadingTrait;
+    use MediaUploadingTrait, HandlesTranslatableSlug;
     
     public function index(Request $request)
     {
@@ -125,7 +126,8 @@ class CategoriesController extends Controller
             }
         }
         
-        $category = Category::create($request->all());
+        $category = new Category();
+        $this->saveWithSlug($request, $category);
         
         if ($request->input('cover_photo', false)) {
             $category->addMedia($tempPath)->toMediaCollection('cover_photo');
@@ -139,7 +141,7 @@ class CategoriesController extends Controller
             return redirect()->route('admin.applications.edit', ['application' => $request->application_id]);
         }
         
-        return redirect()->route('admin.categories.index');
+        return redirect()->route('admin.categories.edit', ['category' => $category->id]);
     }
     
     public function edit(Category $category)
@@ -167,7 +169,7 @@ class CategoriesController extends Controller
     
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $category->update($request->all());
+        $this->saveWithSlug($request, $category);
         
         // Get selected category IDs from the form
         $filterIds = $request->input('filters', []);
@@ -208,7 +210,9 @@ class CategoriesController extends Controller
             $category->cover_photo->delete();
         }
         
-        return redirect()->route('admin.categories.edit', $category)->withInput()->withErrors([]);
+        return redirect()->route('admin.categories.edit', $category)
+            ->withInput(array_merge($request->all(), ['slug' => $category->slug]))
+            ->withErrors([]);
     }
     
     public function destroy(Category $category)
