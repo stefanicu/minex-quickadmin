@@ -25,10 +25,7 @@ class StoreFilterRequest extends FormRequest
                 'required',
             ],
             'slug' => [
-                'string',
-                'min:0',
                 'max:255',
-                'required',
             ],
             'category_id' => [
                 'integer',
