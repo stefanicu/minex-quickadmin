@@ -917,3 +917,83 @@
     height: 50px;
     width: auto;
 }
+
+/* Margin top */
+.mt-4 {
+    margin-top: calc(var(--spacing) * 4);
+}
+
+.mt-6 {
+    margin-top: calc(var(--spacing) * 6);
+}
+
+/* Padding */
+.px-6 {
+    padding-inline: calc(var(--spacing) * 6);
+}
+
+/* Font weight */
+.font-semibold {
+    font-weight: 600;
+}
+
+/* Font size */
+.text-6xl {
+    font-size: 5rem;
+    line-height: 1;
+}
+
+.text-7xl {
+    font-size: 6rem;
+    line-height: 1;
+}
+
+.text-8xl {
+    font-size: 7rem;
+    line-height: 1;
+}
+
+/* Responsive font size */
+@media (min-width: 640px) {
+    .sm\:text-6xl {
+        font-size: 5rem;
+        line-height: 1;
+    }
+
+    .sm\:text-7xl {
+        font-size: 6rem;
+        line-height: 1;
+    }
+}
+
+@media (min-width: 1024px) {
+    .lg\:text-6xl {
+        font-size: 5rem;
+        line-height: 1;
+    }
+
+    .lg\:text-7xl {
+        font-size: 6rem;
+        line-height: 1;
+    }
+
+    .lg\:text-8xl {
+        font-size: 7rem;
+        line-height: 1;
+    }
+}
+
+/* Background colors */
+.bg-orange-500\/80 {
+    background-color: color-mix(in srgb, var(--color-orange-500) 80%, transparent);
+}
+
+/* Hover & shadow responsive */
+.md\:hover\:shadow-xl {
+    @media (min-width: 768px) {
+        &:hover {
+            --tw-shadow: 0 20px 25px -5px var(--tw-shadow-color, rgba(0, 0, 0, 0.1)), 0 8px 10px -6px var(--tw-shadow-color, rgba(0, 0, 0, 0.1));
+            box-shadow: var(--tw-shadow);
+        }
+    }
+}
