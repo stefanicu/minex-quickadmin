@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactFormSubmission;
 use App\Models\Contact;
 use App\Models\ContactSpam;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
@@ -49,7 +51,7 @@ class ContactController extends Controller
         if ( ! empty($request->all())) {
             if (empty($request->district)) {
                 try {
-                    Contact::create([
+                    $contact = Contact::create([
                         'name' => $request->name,
                         'surname' => $request->surname,
                         'email' => $request->email,
@@ -66,6 +68,10 @@ class ContactController extends Controller
                         'product' => $request->product,
                         'ip' => $request->ip,
                     ]);
+                    // Trimite e-mailul după ce contactul a fost salvat
+                    Mail::to('stefan.nicula@9online.ro')->send(new ContactFormSubmission($contact));
+                    Mail::bcc('marketing@minexgroup.eu', 'stefanicu@gmail.com');
+                    Mail::subject('Contact HOME - MinexGroup.eu');
                 } catch (\Exception $exception) {
                     return back()->withError($exception->getMessage());
                 }
