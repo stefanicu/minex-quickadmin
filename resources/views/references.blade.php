@@ -66,6 +66,12 @@
                                                                 alt="{{ $reference->name }}"
                                                                 title="{{ $reference->name }}"
                                                                 class="mx-auto img-fluid lozad img-hover">
+                                                    @elseif($reference->getPhotoSquareAttribute()->all() !== null && $reference->getPhotoSquareAttribute()->count()==1)
+                                                        <img
+                                                                srcset="{{ $reference->getPhotoSquareAttribute()->all()[0]->getUrl() }}"
+                                                                alt="{{ $reference->name }}"
+                                                                title="{{ $reference->name }}"
+                                                                class="mx-auto img-fluid lozad img-hover">
                                                     @else
                                                         <div class="reference_image_default">{{ trans('pages.no_image') }}</div>
                                                     @endif
