@@ -2,67 +2,58 @@
 
 namespace App\Mail;
 
-use App\Models\Contact;
+use App\Models\Product;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class ContactFormSubmission extends Mailable
 {
     use Queueable, SerializesModels;
-
-    /**
-     * Instanța modelului Contact cu datele din formular.
-     *
-     * @var \App\Models\Contact
-     */
-    public $contact;
-
-    /**
-     * Creează o nouă instanță a mesajului.
-     *
-     * @param  \App\Models\Contact  $contact
-     * @return void
-     */
-    public function __construct(Contact $contact)
+    
+    public $data;
+    
+    public function __construct($data)
     {
-        $this->contact = $contact;
+        $this->data = $data;
     }
-
-    /**
-     * Definește "plicul" mesajului (subiect, destinatar etc.).
-     *
-     * @return \Illuminate\Mail\Mailables\Envelope
-     */
-    public function envelope()
+    
+    public function build()
     {
-        return new Envelope(
-            subject: 'Formular de Contact Nou',
-        );
-    }
-
-    /**
-     * Definește conținutul mesajului.
-     *
-     * @return \Illuminate\Mail\Mailables\Content
-     */
-    public function content()
-    {
-        return new Content(
-            view: 'emails.contact_submission',
-        );
-    }
-
-    /**
-     * Definește atașamentele mesajului.
-     *
-     * @return array
-     */
-    public function attachments()
-    {
-        return [];
+        $source = "Homepage";
+        $type = "HOMEPAGE";
+        
+        // limba activă
+        $locale = app()->getLocale();
+        $this->data['locale'] = $locale;
+        
+        if ( ! empty($this->data['product'])) {
+            // cu relații
+            $product = Product::with(['application', 'category'])->find($this->data['product']);
+            
+            if ($product) {
+                $source = "Product {$product->translate($locale)->name}";
+                $type = 'PRODUCT';
+                
+                // produs locale
+                $this->data['product_name'] = $product->translate($locale)->name;
+                $this->data['product_slug'] = $product->translate($locale)->slug;
+                $this->data['application_slug'] = $product->application->translate($locale)->slug ?? '';
+                $this->data['category_slug'] = $product->category->translate($locale)->slug ?? '';
+                
+                // produs en
+                if ($locale != 'en') {
+                    $this->data['product_name_en'] = $product->translate('en')->name ?? '';
+                    $this->data['product_slug_en'] = $product->translate('en')->slug ?? '';
+                    $this->data['application_slug_en'] = $product->application->translate('en')->slug ?? '';
+                    $this->data['category_slug_en'] = $product->category->translate('en')->slug ?? '';
+                }
+            }
+        }
+        
+        return $this->from(config('mail.from.address'), "Form $type minexgroup.eu")
+            ->subject("Mesaj nou din formularul de contact ($source)")
+            ->view('emails.contact')
+            ->with('contact', $this->data);
     }
 }
