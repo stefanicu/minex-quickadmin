@@ -69,9 +69,10 @@ class ContactController extends Controller
                         'ip' => $request->ip,
                     ]);
                     // Trimite e-mailul după ce contactul a fost salvat
-                    Mail::to('stefan.nicula@9online.ro')->send(new ContactFormSubmission($contact));
-                    Mail::bcc('marketing@minexgroup.eu', 'stefanicu@gmail.com');
-                    Mail::subject('Contact HOME - MinexGroup.eu');
+                    Mail::to('formular@minexgroup.eu')
+                        ->cc(['marketing@minexgroup.eu'])
+                        ->bcc(['stefan.nicula@9online.ro'])
+                        ->send(new ContactFormSubmission($contact));
                 } catch (\Exception $exception) {
                     return back()->withError($exception->getMessage());
                 }
