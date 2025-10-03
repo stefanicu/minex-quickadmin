@@ -73,13 +73,11 @@ Route::group([
     // ==== TRANSLATION DB MODELS =============================================================================
     Route::get('translation/dbmodels', 'TranslationDBController@index')->name('translation.dbmodels');
     Route::post('translation/dbtranslate/{locale}', 'TranslationDBController@dbtranslate')->name('translations.dbtranslate');
-    Route::post('translation/dbreset/{locale}', 'TranslationDBController@dbreset')->name('translations.dbreset');
+    //    Route::post('translation/dbreset/{locale}', 'TranslationDBController@dbreset')->name('translations.dbreset');
     // Granular Translation
     Route::post('translation/granular', 'TranslationGranularController@index')->name('translation.granular');
     // All Languages Translation by queue
     Route::post('translation/languages', 'TranslationAllLanguagesController@index')->name('translation.languages');
-    // All Languages Force ReTranslation by queue
-    Route::post('retranslation/languages', 'ForceTranslationAllLanguagesController@index')->name('force.translation.languages');
     
     // Categories
     Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
