@@ -236,7 +236,7 @@
     </ul>
 
     <p class="text-right my-0 m-button">
-        <a href="{{ route('pages.'.app()->getLocale(),['slug'=>'gdpr']) }}">{{ trans('pages.gdpr_compliance') }}</a><br>&#169; {{ trans('pages.copyright') }}
+        <a href="{{ route('pages.'.app()->getLocale(),['slug'=>$gdprTranslation->slug]) }}">{{ trans('pages.gdpr_compliance') }}</a><br>&#169; {{ trans('pages.copyright') }}
     </p>
 
 </footer>
