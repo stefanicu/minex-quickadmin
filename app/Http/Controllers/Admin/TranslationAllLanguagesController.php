@@ -24,7 +24,9 @@ class TranslationAllLanguagesController extends Controller
         $locales = array_diff($locales, ['en']); // Exclude the unwanted columns
         
         foreach ($locales as $locale) {
-            $this->translateQueueByColumns($modelTranslation, $foreignKey, $locale, $id);
+            if ($locale !== 'ro' && $locale !== 'en') {
+                $this->translateQueueByColumns($modelTranslation, $foreignKey, $locale, $id);
+            }
         }
         
         return redirect()->back()->with('success', __('Translations are being processed in the background for All Languages'));
