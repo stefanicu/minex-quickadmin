@@ -262,12 +262,11 @@ class ProductsController extends Controller
             }
         ])->find($product->filter_id);
         
-        
         if (empty($product->name)) {
             if ($currentLocale == 'en' || ! isset($product->translate('en')->name)) {
-                $product->name = $this->chatGptService->translate($product->translate('ro')->name, $currentLocale, 'ro');
+                $product->name = $this->chatGptService->translate($product->translate('ro')->name, 'en', 'ro');
             } else {
-                $product->name = $this->chatGptService->translate($product->translate('en')->name, $currentLocale, 'en');
+                $product->name = $this->chatGptService->translate($product->translate('en')->name, $currentLocale, 'en', $product->translate('ro')->name);
             }
         }
         
