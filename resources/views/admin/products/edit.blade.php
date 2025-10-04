@@ -285,7 +285,7 @@
 
                 <div class="form-group">
                     <input type="hidden" name="locale" value="{{ app()->getLocale() }}">
-                    <button class="btn btn-danger" type="submit">
+                    <button class="btn btn-orange" type="submit">
                         {{ trans('global.save') }}
                     </button>
                 </div>
