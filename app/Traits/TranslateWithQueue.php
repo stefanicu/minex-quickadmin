@@ -45,7 +45,6 @@ trait TranslateWithQueue
         
         if ($existingRecord === null) {
             // If no existing record, prepare to insert
-            
             if ($locale === 'en') {
                 $translatedName = isset($record->name)
                     ? ChatGPTService::translate($record->name, $locale, $sourceLocale)
@@ -66,15 +65,18 @@ trait TranslateWithQueue
             if ($translatedName) {
                 $newRecordData['name'] = $translatedName;
                 
-                $slugGenerated = $this->generateSlug($translatedName, $locale);
-                
-                $newRecordData['slug'] = $this->ensureUniqueSlug(
-                    $slugGenerated,
-                    $modelTranslation,
-                    $locale,
-                    $foreignKey,
-                    $id
-                );
+                // verifică dacă tabela are coloana 'slug'
+                if (Schema::hasColumn($modelTranslation, 'slug')) {
+                    $slugGenerated = $this->generateSlug($translatedName, $locale);
+                    
+                    $newRecordData['slug'] = $this->ensureUniqueSlug(
+                        $slugGenerated,
+                        $modelTranslation,
+                        $locale,
+                        $foreignKey,
+                        $id
+                    );
+                }
             }
             
             //if (count($newRecordData) === 4) {
@@ -106,21 +108,25 @@ trait TranslateWithQueue
                     ->where($foreignKey, '=', $id)
                     ->first();
                 
-                $slugGenerated = $this->generateSlug($newRecord->name, $locale);
-                
-                $newRecordSlug = $this->ensureUniqueSlug(
-                    $slugGenerated,
-                    $modelTranslation,
-                    $locale,
-                    $foreignKey,
-                    $id
-                );
-                
-                // Update slug in the new record
-                DB::table($modelTranslation)
-                    ->where($foreignKey, $id)
-                    ->where('locale', $locale)
-                    ->update(['slug' => $newRecordSlug]);
+                // verifică dacă tabela are coloana 'slug'
+                if (Schema::hasColumn($modelTranslation, 'slug')) {
+                    $slugGenerated = $this->generateSlug($newRecord->name, $locale);
+                    
+                    $newRecordSlug = $this->ensureUniqueSlug(
+                        $slugGenerated,
+                        $modelTranslation,
+                        $locale,
+                        $foreignKey,
+                        $id
+                    );
+                    
+                    
+                    // Update slug in the new record
+                    DB::table($modelTranslation)
+                        ->where($foreignKey, $id)
+                        ->where('locale', $locale)
+                        ->update(['slug' => $newRecordSlug]);
+                }
             }
         }
         
