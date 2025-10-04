@@ -37,8 +37,12 @@ class TranslateBulkUpdate implements ShouldQueue
             // Determine source locale based on the current locale
             $sourceLocale = ($this->locale === 'en') ? 'ro' : 'en';
             
+            $romanian_reference_value = DB::table($this->modelTranslation)
+                ->where('locale', $this->locale)
+                ->where($this->foreignKey, $this->id)->first();
+            
             // Call ChatGPT API
-            $translatedValue = ChatGPTService::translate($this->value, $this->locale, $sourceLocale);
+            $translatedValue = ChatGPTService::translate($this->value, $this->locale, $sourceLocale, $romanian_reference_value->{$this->column});
             
             // Ensure translation is valid
             if (empty($translatedValue)) {
