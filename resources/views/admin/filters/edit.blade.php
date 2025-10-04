@@ -90,18 +90,18 @@
                 </div>
 
                 <!-- SEO fields -->
-                <div class="row p-4 my-4 seo_meta">
-                    <div class="form-group col-12">
-                        <label for="meta_title">Meta Title</label>
-                        <input class="form-control" type="text" id="meta_title" name="meta_title"
-                               value="{{ old('meta_title', $filter->meta_title ?? '') }}">
-                    </div>
-                    <div class="form-group col-12">
-                        <label for="meta_description">Meta Description</label>
-                        <textarea class="form-control" id="meta_description"
-                                  name="meta_description">{{ old('meta_description', $filter->meta_description ?? '') }}</textarea>
-                    </div>
-                </div>
+                {{--                <div class="row p-4 my-4 seo_meta">--}}
+                {{--                    <div class="form-group col-12">--}}
+                {{--                        <label for="meta_title">Meta Title</label>--}}
+                {{--                        <input class="form-control" type="text" id="meta_title" name="meta_title"--}}
+                {{--                               value="{{ old('meta_title', $filter->meta_title ?? '') }}">--}}
+                {{--                    </div>--}}
+                {{--                    <div class="form-group col-12">--}}
+                {{--                        <label for="meta_description">Meta Description</label>--}}
+                {{--                        <textarea class="form-control" id="meta_description"--}}
+                {{--                                  name="meta_description">{{ old('meta_description', $filter->meta_description ?? '') }}</textarea>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
                 <!-- SEO fields end -->
 
 
