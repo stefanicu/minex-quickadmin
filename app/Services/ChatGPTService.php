@@ -127,7 +127,7 @@ class ChatGPTService
                     'Authorization' => 'Bearer '.self::$apiKey,
                     'Content-Type' => 'application/json',
                 ],
-                'timeout' => 120,
+                'timeout' => 300,
                 'retry' => 3,
                 'json' => [
                     'model' => 'gpt-5',
