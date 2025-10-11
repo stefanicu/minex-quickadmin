@@ -14,7 +14,7 @@ class ChatGPTService
     {
         if (is_null(self::$client)) {
             self::$client = new Client();
-            self::$apiKey = config('app.openai_api_key_gpt5');
+            self::$apiKey = config('app.openai_api_key');
         }
     }
     
