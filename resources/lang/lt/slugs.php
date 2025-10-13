@@ -10,5 +10,5 @@ return array (
   'reference' => 'nuoroda',
   'references' => 'nuorodos',
   'testimonials' => 'atsiliepimai',
-  'blog' => 'tinklaraštis',
+  'blog' => 'tinklarastis',
 );
