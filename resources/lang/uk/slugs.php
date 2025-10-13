@@ -1,14 +1,14 @@
 <?php
 
 return array (
-  'brand' => 'партнер',
-  'brands' => 'партнери',
-  'product' => 'продукт',
-  'products' => 'продукти',
-  'category' => 'категорія',
-  'categories' => 'категорії',
-  'reference' => 'посилання',
-  'references' => 'посилання',
-  'testimonials' => 'відгуки',
-  'blog' => 'блоґ',
+  'brand' => 'partner',
+  'brands' => 'partneri',
+  'product' => 'produkt',
+  'products' => 'produkti',
+  'category' => 'kategoriya',
+  'categories' => 'kategorii',
+  'reference' => 'posylannia',
+  'references' => 'posylannia',
+  'testimonials' => 'vidhuky',
+  'blog' => 'bloh',
 );
