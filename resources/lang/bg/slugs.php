@@ -1,19 +1,14 @@
 <?php
 
-return [
-    'brand' => 'partner',
-    'brands' => 'partners',
-    
-    'product' => 'product',
-    'products' => 'products',
-    
-    'category' => 'category',
-    'categories' => 'categories',
-    
-    'reference' => 'reference',
-    'references' => 'references',
-    
-    'testimonials' => 'testimonials',
-    
-    'blog' => 'blog',
-];
+return array (
+  'brand' => 'partnyor',
+  'brands' => 'partnyori',
+  'product' => 'produkt',
+  'products' => 'produkti',
+  'category' => 'kategoriya',
+  'categories' => 'kategorii',
+  'reference' => 'referentsiya',
+  'references' => 'referentsii',
+  'testimonials' => 'preporaki',
+  'blog' => 'blog',
+);
