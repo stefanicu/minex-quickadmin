@@ -55,11 +55,16 @@ trait TranslateWithQueue
                     ->where($foreignKey, '=', $id)
                     ->first();
                 
-                $translatedName = isset($record->name)
-                    ? ChatGPTService::translate($record->name, $locale, $sourceLocale, $romanianReferenceRecord->name)
-                    : null;
+                if (isset($romanianReferenceRecord->name)) {
+                    $translatedName = isset($record->name)
+                        ? ChatGPTService::translate($record->name, $locale, $sourceLocale, $romanianReferenceRecord->name)
+                        : null;
+                } else {
+                    $translatedName = isset($record->name)
+                        ? ChatGPTService::translate($record->name, $locale, $sourceLocale)
+                        : null;
+                }
             }
-            
             
             // Add name if translated
             if ($translatedName) {
