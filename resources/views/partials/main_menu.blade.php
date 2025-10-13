@@ -106,7 +106,7 @@
                     <span class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
                         {{ languageToCountryCode(app()->getLocale(), true) }}
                     </span><b class="caret"></b>
-                    <div id="navbarDropdownLng" class="dropdown-menu dropdown-menu--normal">
+                    <div id="navbarDropdownLng" class="dropdown-menu shadow dropdown-menu--normal">
                         <ul class="list-unstyled">
                             @foreach(config('panel.available_languages') as $langLocale => $langName)
                                 @if($langLocale != app()->getLocale())
