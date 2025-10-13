@@ -17,7 +17,7 @@
     <meta name="robots" content="max-snippet:-1,max-image-preview:large,max-video-preview:-1">
     <link href="/img/favicon.png" rel="shortcut icon">
 
-    <title>Minex Group International</title>
+    <title>Minex</title>
     <meta name="description" content="Choose your language - Изберете език - Odaberite jezik - Vali keel - Odaberite jezik - Válassza ki a nyelvet - Pasirinkite kalbą - Izvēlieties valodu - Изберете јазик - Alege limba - Izberite jezik - Izaberite jezik - Виберіть мову">
 
     <link href="{{ asset('css/tailwind.css') }}" rel="stylesheet">
