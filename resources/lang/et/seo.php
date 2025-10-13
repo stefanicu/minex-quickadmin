@@ -1,14 +1,14 @@
 <?php
 
-return array(
-    'home_title' => 'Minex Group International – Arusaamad pinnatöötlusest & metallitöötlusest',
-    'home_description' => 'Minex Group International – teie usaldusväärne partner keeruliste tehniliste projektide arendamisel pindade töötlemiseks ja metallitöötlemiseks. Pakume teile kõike alates projekteerimisest ja ehitamisest kuni varustamise ja hoolduseni',
-    'brands_title' => 'Brändid | Minex Group International – Näpunäited pinnatöötluse ja metallitöötluse kohta',
-    'brands_description' => 'Avastage Minex Group Internationali kaubamärke: juhtivad pinnatöötluses ja metallide töötluses. Avastage meie disaini-, ehituse-, varustuse- ja hooldusteenus.',
-    'references_title' => 'Viited | Minex Group International – Ülevaated pinnatöötlusest ja metallitöötlusest',
-    'references_description' => 'Avasta Minex Group Internationali Viited: Edukalt teostatud projektid pinnatöötluses ja metallide töötlemises, sealhulgas MARUB Brasov.',
-    'testimonials_title' => 'Iseloomustused | Minex Group International – Teadmised pindade töötlemisest ja metallitöötlemisest',
-    'testimonials_description' => 'Avastage Minex Group Internationali Iseloomustused: Kuulake meie klientidelt meie ekspertiisi kohta pinnatöötluse ja metallitöötluse lahendustes.',
-    'blogs_title' => 'Blogi | Minex Group International – Teadmised Pinnatöötlusest ja Metallitöötlusest',
-    'blogs_description' => 'Uurige Minex Group Internationali ajaveebi. Lugege artikleid, ülevaateid ja uudiseid pinnatöötluse, metallitöötluse ja tööstuse innovatsiooni kohta.',
+return array (
+  'home_title' => 'Minex – Arusaamad pinnatöötlusest & metallitöötlusest',
+  'home_description' => 'Minex – teie usaldusväärne partner keeruliste tehniliste projektide arendamisel pindade töötlemiseks ja metallitöötlemiseks. Pakume teile kõike alates projekteerimisest ja ehitamisest kuni varustamise ja hoolduseni',
+  'brands_title' => 'Pinnatöötlusseadmete kaubamärgid ja partnerid | Minex',
+  'brands_description' => 'Avastage meie OEM-partnerid ja usaldusväärsed tootjad liivapritsi, katmise, ventilatsiooni ja muu jaoks—lai haare ja tõestatud väärtus. Vaadake kõiki kaubamärke.',
+  'references_title' => 'Tööstusprojektide viited ja juhtumiuuringud | Minex',
+  'references_description' => 'Vaadake meie viiteid: tööstuslik pinnapuhastus, katmine, ventilatsioon, filtreerimine ja niiskuse eemaldamise projektid kogu Euroopas. Vaadake tööstusharu kaupa.',
+  'testimonials_title' => 'Iseloomustused – Tööstuslikud pinnatöötluslahendused | Minex',
+  'testimonials_description' => 'Autentsed kliendikogemused laevatehastest ja tootjatelt—tõestatud tulemused liivapritsis, värvimises, ventilatsioonis ja niiskuse eemaldamises. Vaadake kasutuslugusid.',
+  'blogs_title' => 'Blogi – Tööstuslikud teadmised ja ressursid | Minex',
+  'blogs_description' => 'Uuri Minex Group Internationali blogi. Loe artikleid, ülevaateid ja uudiseid pinnatöötluse, metallitöötluse ja tööstusinnovatsiooni kohta.',
 );
