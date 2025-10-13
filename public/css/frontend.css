@@ -498,6 +498,6 @@ figure.table {
     margin-top: 1.8rem;
 }
 
-.bnbsNav {
-    min-width: 8rem
+#navbarDropdownLng {
+    right: 0 !important;
 }
