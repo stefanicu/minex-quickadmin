@@ -9,6 +9,6 @@ return array (
   'categories' => 'kategorije',
   'reference' => 'referenca',
   'references' => 'reference',
-  'testimonials' => 'svjedočanstva',
+  'testimonials' => 'svjedocanstva',
   'blog' => 'blog',
 );
