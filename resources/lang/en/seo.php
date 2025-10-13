@@ -1,14 +1,14 @@
 <?php
 
 return array (
-  'home_title' => 'Minex Group International – Insights on Surface Treatment & Metal Processing',
-  'home_description' => 'Minex Group International – your reliable partner in developing complex technical projects for surface treatment and metal processing. We offer you everything from designing and construction, to equipping and maintenance',
-  'brands_title' => 'Brands | Minex Group International – Insights on Surface Treatment & Metal Processing',
-  'brands_description' => 'Explore Minex Group International’s brands: leaders in surface treatment and metal processing. Discover our design, construction, equipment, and maintenance service.',
-  'references_title' => 'References | Minex Group International – Insights on Surface Treatment & Metal Processing',
-  'references_description' => 'Explore Minex Group International’s References: Showcasing successful projects in surface treatment and metal processing, including MARUB Brasov.',
-  'testimonials_title' => 'Testimonials | Minex Group International – Insights on Surface Treatment & Metal Processing',
-  'testimonials_description' => 'Discover Minex Group International’s Testimonials: Hear from our clients about our expertise in surface treatment and metal processing solution.',
-  'blogs_title' => 'Blog | Minex Group International – Insights on Surface Treatment & Metal Processing',
-  'blogs_description' => 'Explore Minex Group International’s Blog. Read articles, insights, and news on surface treatment, metal processing, and industry innovation. ttt',
+  'home_title' => 'Minex – Insights on Surface Treatment & Metal Processing',
+  'home_description' => 'Minex – your reliable partner in developing complex technical projects for surface treatment and metal processing. We offer you everything from designing and construction, to equipping and maintenance',
+  'brands_title' => 'Surface Treatment Equipment Brands & Partners | Minex',
+  'brands_description' => 'Discover our OEM partners and trusted manufacturers for blasting, coating, ventilation and more—broad coverage and proven value. See all brands.',
+  'references_title' => 'Industrial Project References & Case Studies | Minex',
+  'references_description' => 'See our references: industrial blasting, coating, ventilation, filtration & dehumidification projects across Europe. View by industry.',
+  'testimonials_title' => 'Testimonials – Industrial Surface Treatment Solutions | Minex',
+  'testimonials_description' => 'Authentic client experiences from shipyards and manufacturers—proven results in blasting, painting, ventilation and dehumidification. See user stories.',
+  'blogs_title' => 'Blog – Industrial Insights & Resources | Minex',
+  'blogs_description' => 'Explore Minex Group International’s Blog. Read articles, insights, and news on surface treatment, metal processing, and industry innovation.',
 );
