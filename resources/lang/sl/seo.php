@@ -1,14 +1,14 @@
 <?php
 
 return array (
-  'home_title' => 'Minex Group International – Vpogledi v Površinsko Obdelavo in Obdelavo Kovin',
-  'home_description' => 'Minex Group International – vaš zanesljiv partner pri razvoju kompleksnih tehničnih projektov za površinsko obdelavo in predelavo kovin. Ponujamo vam vse od načrtovanja in gradnje, do opremljanja in vzdrževanja.',
-  'brands_title' => 'Blagovne znamke | Minex Group International – Vpogledi v Površinsko Obravnava in Obdelava Kovin',
-  'brands_description' => 'Raziščite blagovne znamke skupine Minex Group International: vodilni na področju obdelave površin in obdelave kovin. Odkrijte našo zasnovo, gradnjo, opremo in storitve vzdrževanja.',
-  'references_title' => 'Reference | Minex Group International – Pogledi na Površinsko Obdelavo in Obdelavo Kovin',
-  'references_description' => 'Raziskujte Reference Minex Group International: Prikazuje uspešne projekte pri površinski obdelavi in obdelavi kovin, vključno z MARUB Brașov.',
-  'testimonials_title' => 'Izpovedi | Minex Group International – Vpogledi v površinsko obdelavo in obdelavo kovin',
-  'testimonials_description' => 'Odkrijte mnenja strank Minex Group International: Slišite od naših strank o naši strokovnosti pri rešitvah za površinsko obdelavo in obdelavo kovin.',
-  'blogs_title' => 'Blog | Minex Group International – Vpogledi v površinsko obdelavo in obdelavo kovin',
-  'blogs_description' => 'Raziščite blog Minex Group International. Preberite članke, vpoglede in novice o površinski obdelavi, obdelavi kovin in industrijskih inovacijah.',
+  'home_title' => 'Minex – Vpogledi v Površinsko Obdelavo in Obdelavo Kovin',
+  'home_description' => 'Minex – vaš zanesljiv partner pri razvoju kompleksnih tehničnih projektov za površinsko obdelavo in predelavo kovin. Ponujamo vam vse od načrtovanja in gradnje, do opremljanja in vzdrževanja.',
+  'brands_title' => 'Blagovne znamke in partnerji za opremo za površinsko obdelavo | Minex',
+  'brands_description' => 'Odkrijte naše OEM partnerje in zaupanja vredne proizvajalce za peskanje, premazovanje, prezračevanje in več — široka pokritost in dokazana vrednost. Oglejte si vse blagovne znamke.',
+  'references_title' => 'Industrijski referenčni projekti in študije primerov | Minex',
+  'references_description' => 'Oglejte si naše reference: industrijsko peskanje, premazovanje, prezračevanje, filtracija in razvlaževanje projektov po vsej Evropi. Prikaz po panogah.',
+  'testimonials_title' => 'Pričevanja – Industrijske rešitve za obdelavo površin | Minex',
+  'testimonials_description' => 'Pristne izkušnje strank iz ladjedelnic in proizvodnje—dokazani rezultati pri peskanju, barvanju, prezračevanju in razvlaževanju. Oglejte si uporabniške zgodbe.',
+  'blogs_title' => 'Blog – Industrijski vpogledi in viri | Minex',
+  'blogs_description' => 'Raziščite blog podjetja Minex Group International. Preberite članke, vpoglede in novice o površinski obdelavi, obdelavi kovin in inovacijah v industriji.',
 );
