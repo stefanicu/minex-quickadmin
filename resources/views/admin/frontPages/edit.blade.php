@@ -90,7 +90,7 @@
 
                 <div class="form-group">
                     <input type="hidden" name="locale" value="{{app()->getLocale()}}">
-                    <button class="btn btn-danger" type="submit">
+                    <button class="btn btn-orange" type="submit">
                         {{ trans('global.save') }}
                     </button>
                 </div>
@@ -105,7 +105,7 @@
                             <input type="hidden" name="model_translation" id="model_translation" value="frontPage_translations">
                             <input type="hidden" name="foreign_key" id="foreign_key" value="frontPage_id">
                             <input type="hidden" name="language" id="language" value="{{ app()->getLocale() }}">
-                            <button type="submit" class="btn btn-warning">{{ trans('admin.translation_button_all') }}</button>
+                            <button type="submit" class="btn btn-danger">{{ trans('admin.translation_button_all') }}</button>
                         </div>
                     </div>
                 </form>
@@ -119,7 +119,13 @@
                         <input type="hidden" name="model_translation" id="model_translation" value="front_page_translations">
                         <input type="hidden" name="foreign_key" id="foreign_key" value="front_page_id">
                         <input type="hidden" name="language" id="language" value="{{ app()->getLocale() }}">
-                        <button type="submit" class="btn btn-success">{{ trans('admin.translation_button', ['language' => strtoupper(app()->getLocale())]) }}</button>
+                        @if(app()->getLocale() === 'en')
+                            <button type="submit" class="btn btn-primary">{{ trans('admin.translation_button', ['from' => 'RO','to' => 'EN']) }}</button>
+                        @elseif(app()->getLocale() === 'ro')
+                            <button type="submit" class="btn btn-primary">{{ trans('admin.translation_button', ['from' => 'EN','to' => 'RO']) }}</button>
+                        @else
+                            <button type="submit" class="btn btn-primary">{{ trans('admin.translation_button', ['from' => 'EN and RO','to' => strtoupper(app()->getLocale())]) }}</button>
+                        @endif
                     </div>
                 </div>
             </form>
@@ -192,10 +198,19 @@
                         extraPlugins: [SimpleUploadAdapter],
                         heading: {
                             options: [
-                                {model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph'},
+                                {model: 'paragraph', title: 'Paragraf', class: 'ck-heading_paragraph'},
+                                {model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2'},
+                                {model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3'},
+                                {model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4'}
+                            ]
+                        },
+                        heading: {
+                            options: [
+                                {model: 'paragraph', title: 'Paragraf', class: 'ck-heading_paragraph'},
                                 {model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1'},
                                 {model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2'},
-                                {model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3'}
+                                {model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3'},
+                                {model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4'}
                             ]
                         }
                     }
