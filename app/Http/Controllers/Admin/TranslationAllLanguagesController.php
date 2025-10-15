@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Traits\TranslateWithQueue;
 use Gate;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class TranslationAllLanguagesController extends Controller
@@ -27,27 +26,29 @@ class TranslationAllLanguagesController extends Controller
         foreach ($locales as $locale) {
             if ($locale !== 'ro' && $locale !== 'en') {
                 $this->translateQueueByColumns($modelTranslation, $foreignKey, $locale, $id);
-            } else {
-                $translatedName = $name = DB::table($modelTranslation)
-                    ->where($foreignKey, $id)
-                    ->where('locale', $locale)
-                    ->value('name');
-                
-                $slugGenerated = $this->generateSlug($translatedName, $locale);
-                
-                $newSlug = $this->ensureUniqueSlug(
-                    $slugGenerated,
-                    $modelTranslation,
-                    $locale,
-                    $foreignKey,
-                    $id
-                );
-                
-                DB::table($modelTranslation)
-                    ->where($foreignKey, $id)
-                    ->where('locale', $locale)
-                    ->update(['slug' => $newSlug]);
             }
+            //            else
+            //            {
+            //                $translatedName = $name = DB::table($modelTranslation)
+            //                    ->where($foreignKey, $id)
+            //                    ->where('locale', $locale)
+            //                    ->value('name');
+            //
+            //                $slugGenerated = $this->generateSlug($translatedName, $locale);
+            //
+            //                $newSlug = $this->ensureUniqueSlug(
+            //                    $slugGenerated,
+            //                    $modelTranslation,
+            //                    $locale,
+            //                    $foreignKey,
+            //                    $id
+            //                );
+            //
+            //                DB::table($modelTranslation)
+            //                    ->where($foreignKey, $id)
+            //                    ->where('locale', $locale)
+            //                    ->update(['slug' => $newSlug]);
+            //            }
         }
         
         return redirect()->back()->with('success', __('Translations are being processed in the background for All Languages'));
