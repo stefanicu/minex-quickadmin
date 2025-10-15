@@ -18,7 +18,7 @@ class Application extends Model implements HasMedia, TranslatableContract
     public $table = 'applications';
     
     public $translatedAttributes = [
-        'online', 'name', 'slug', 'content', 'call_to_action', 'call_to_action_link',
+        'online', 'name', 'slug', 'title', 'subtitle', 'content', 'call_to_action', 'call_to_action_link',
         'meta_title', 'meta_description', 'author', 'robots', 'canonical_url'
     ];
     
