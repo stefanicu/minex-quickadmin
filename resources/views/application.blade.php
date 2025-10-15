@@ -31,6 +31,14 @@
                     <img class="img-fluid lozad" src="{{ $cover_image_url }}" alt="{{ trans('pages.application') }}">
                 </noscript>
             </picture>
+            @php
+                //            <figcaption class="overlay-text">
+                //                <div class="heroTitle">
+                //                    {{ $application->name }}
+                //                    {{--                    <small class="catapp font-weight-lighter">{{ trans('pages.application') }}</small>--}}
+                //                </div>
+                //            </figcaption>
+            @endphp
         </figure>
     </div>
 
@@ -42,10 +50,11 @@
                     <small class="catapp font-weight-lighter">{{ trans('pages.application') }}</small>
                 </h1>
                 <hr>
-                <div class="py-4">
-                    {!! $application->content !!}
-                </div>
-                <p>{{ trans('pages.chose_category') }}</p>
+                <h2>{{ $application->title }}</h2>
+                @if( $application->subtitle )
+                    <p class="subtitle">{{ $application->subtitle }}</p>
+                @endif
+
                 <ul class="list-unstyled row justify-content-start full-row-prod assets-row grid">
                     @foreach($categories as $category)
                         <li class="col-12 col-sm-6 col-md-4 py-2">
@@ -67,12 +76,16 @@
                         </li>
                     @endforeach
                 </ul>
+
+                <div class="py-4">
+                    {!! $application->content !!}
+                </div>
             </div>
 
             @if($application->call_to_action)
                 <div class="w-100 py-4">
-                    <p class="text-center py-2 px-4 my-4">
-                        <a href="{{ url('') . '/' . app()->getLocale() . '/' . $application->call_to_action_link }}" target="_blank" class="btn btn-primary btn-lg p-4 mx-auto">{{ $application->call_to_action }}</a>
+                    <p class="text-center p-4 my-4">
+                        <a href="{{ url('') . '/' . app()->getLocale() . '/' . $application->call_to_action_link }}" target="_blank" class="btn btn-primary btn-lg py-2 px-4 mx-auto">{{ $application->call_to_action }}</a>
                     </p>
                 </div>
             @endif
