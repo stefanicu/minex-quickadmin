@@ -76,6 +76,18 @@ function initialize() {
             lng: 23.4532,
         },
         {
+            info: `<p><b>Minex Bulgaria OOD</b><br/><br/>
+                    West Industrial Zone<br />
+                    6010 Stara Zagora, Bulgaria</p>
+                    <dl>
+                    <dt>M:</dt> <dd><a href="tel:+359896588773">+359 89 6588773</a></dd>
+                    <dt>E:</dt> <dd><a href="mailto:galin.georgiev@minexgroup.eu">galin.georgiev@minexgroup.eu</a></dd>
+                    </dl>
+                    <p><a href="https://maps.app.goo.gl/QGK2LpjRZtiZRNyL8" target="_blank">View in Google Maps</a></p>`,
+            lat: 42.409376770303176,
+            lng: 25.608345391730982,
+        },
+        {
             info: `<p><b>Minex Group - Balkans Representative Office</b></p>
                     <dl>
                     <dt>M:</dt> <dd><a href="tel:+38163507586">+381 (63) 507586</a></dd>
