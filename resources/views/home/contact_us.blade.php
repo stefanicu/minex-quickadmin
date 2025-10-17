@@ -55,33 +55,14 @@
 </section>
 
 <section class="container my-4 p-4 mx-auto">
-    <div id="addresses" class="row justify-content-center">
+    <div id="addresses" class="row justify-content-left">
         <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
             <p>
                 {{--                <a href="https://maps.google.com/?cid=12183351190759340993" target="_blank">Bucuresti, Romania</a><br/>--}}
-                <b>Bucuresti, Romania</b><br/>
+                <b>Minex Group International<br/>Bucuresti, Romania</b><br/>
                 A: Bd. Metalurgiei Nr. 85<br/>
                 041832 Bucuresti, Romania<br/>
                 T: +40 21 3060281
-            </p>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
-            <p>
-                {{--                <a href="https://maps.google.com/?cid=10683645034450341709" target="_blank">Sibiu, Romania</a><br/>--}}
-                <b>Sibiu, Romania</b><br/>
-                A: Str. Stefan cel Mare Nr. 150<br/>
-                550321 Sibiu, Romania<br/>
-                M: +40 (730) 018344
-            </p>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
-            <p>
-                {{--                <a href="https://maps.google.com/?cid=15534180713851440036" target="_blank">Arad, Romania</a><br/>--}}
-                <b>Arad, Romania</b><br/>
-                A: Str. II Nr. 3,<br/>
-                Zona Industriala N-V<br/>
-                310491 Arad, Romania<br/>
-                M: +40 (729) 019952
             </p>
         </div>
         {{--        <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center text-sm-left">--}}
@@ -99,7 +80,7 @@
         <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
             <p>
                 {{--                <a href="https://www.google.com/maps?cid=119518942697758357" target="_blank">Sofia, Bulgaria</a><br/>--}}
-                <b>Minex Bulgaria OOD<br/>Sofia, Bulgaria</b><br/>
+                <b>Minex Group Bulgaria<br/>Sofia, Bulgaria</b><br/>
                 A: Logic Park STAD:<br/>
                 467 Okolovrasten pat St.<br/>
                 1532 Sofia, Bulgaria<br/>
@@ -120,10 +101,38 @@
         </div>
         <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
             <p>
+                {{--                <a href="https://maps.google.com/?cid=10683645034450341709" target="_blank">Sibiu, Romania</a><br/>--}}
+                <b>Sibiu, Romania</b><br/>
+                A: Str. Stefan cel Mare Nr. 150<br/>
+                550321 Sibiu, Romania<br/>
+                M: +40 (730) 018344
+            </p>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
+            <p>
+                {{--                <a href="https://www.google.com/maps?cid=119518942697758357" target="_blank">Sofia, Bulgaria</a><br/>--}}
+                <b>Stara Zagora, Bulgaria</b><br/>
+                A: West Industrial Zone:<br/>
+                6010 Stara Zagora, Bulgaria<br/>
+                T: +359 (89) 658 87 73
+            </p>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
+            <p>
                 <b>Minex Baltics UAB<br/>Vilnius, Lithuania</b><br/>
                 A: Gariūnų g. 57,<br/>
                 02300 Vilnius, Lithuania<br/>
                 M: +370 674 63371
+            </p>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
+            <p>
+                {{--                <a href="https://maps.google.com/?cid=15534180713851440036" target="_blank">Arad, Romania</a><br/>--}}
+                <b>Arad, Romania</b><br/>
+                A: Str. II Nr. 3,<br/>
+                Zona Industriala N-V<br/>
+                310491 Arad, Romania<br/>
+                M: +40 (729) 019952
             </p>
         </div>
     </div>
