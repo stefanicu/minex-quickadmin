@@ -119,7 +119,6 @@ function initialize() {
         zoomControlOptions: {
             position: google.maps.ControlPosition.RIGHT_CENTER
         },
-        mapTypeControl: true,
         mapTypeControlOptions: {
             style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
             position: google.maps.ControlPosition.TOP_RIGHT
@@ -133,9 +132,9 @@ function initialize() {
             position: google.maps.ControlPosition.RIGHT_TOP
         },
         scaleControl: true,
-        scrollwheel: true,
-        gestureHandling: 'greedy', // Permite scroll liber fără Ctrl
-        mapId: '95f351d503268e4bddf8ae5d' // Pentru Advanced Markers
+        gestureHandling: 'cooperative', // Permite scroll doar cu Ctrl
+        mapId: '95f351d503268e4bddf8ae5d', // Pentru Advanced Markers
+        mapTypeControl: false
     };
 
     // Initialize the map
