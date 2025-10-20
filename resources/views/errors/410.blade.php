@@ -3,18 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    @foreach(config('panel.available_languages') as $langLocale => $langName)
-        @if($langLocale ===  'en')
-            <link rel="alternate" hreflang="{{ $langLocale }}" href="{{ route('home.' . $langLocale) }}"/>
-        @else
-            <link rel="alternate" hreflang="{{ $langLocale.'-'.languageToCountryCode($langLocale) }}" href="{{ route('home.' . $langLocale) }}"/>
-        @endif
-    @endforeach
-    <link rel="alternate" hreflang="x-default" href="{{ url('') }}"/>
-    <link rel="canonical" href="{{ url('') }}"/>
-
-    <meta name="robots" content="noindex, follow">
+    <meta name="robots" content="noindex, nofollow">
     <link href="/img/favicon.png" rel="shortcut icon">
 
     <title>410 Gone - Page Not Available</title>
