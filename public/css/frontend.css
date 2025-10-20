@@ -508,11 +508,14 @@ figure.table {
 
 .section--figure .overlay-text {
     position: absolute;
-    left: 5rem;
-    bottom: 5rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: #fff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-    max-width: 80%;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.4); /* opțional */
+    padding: 5px 10px;
+    border-radius: 4px;
 }
 
 .section--figure .overlay-title {
@@ -534,6 +537,31 @@ figure.table {
     text-shadow: 6px 5px 10px black;
 }
 
+.heroTitle {
+    font-size: 4rem; /* default */
+}
+
+@media (max-width: 1199px) {
+    /* md */
+    .heroTitle {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 991px) {
+    /* sm */
+    .heroTitle {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 767px) {
+    /* xs */
+    .heroTitle {
+        font-size: 1rem;
+    }
+}
+
 .heroTitle small {
     font-size: 3rem;
     color: #ababab;
@@ -543,5 +571,4 @@ figure.table {
     color: #797979;
     font-size: 1.2rem;
     font-weight: bolder;
-    margin-bottom: 2rem;
 }
