@@ -31,31 +31,25 @@
                     <img class="img-fluid lozad" src="{{ $cover_image_url }}" alt="{{ trans('pages.application') }}">
                 </noscript>
             </picture>
-            @php
-                //            <figcaption class="overlay-text">
-                //                <div class="heroTitle">
-                //                    {{ $application->name }}
-                //                    {{--                    <small class="catapp font-weight-lighter">{{ trans('pages.application') }}</small>--}}
-                //                </div>
-                //            </figcaption>
-            @endphp
+            <figcaption class="overlay-text">
+                <div class="heroTitle">
+                    {{ $application->name }}
+                    {{--                    <small class="catapp font-weight-lighter">{{ trans('pages.application') }}</small>--}}
+                </div>
+            </figcaption>
         </figure>
     </div>
 
     <section class="new">
         <div class="container">
             <div class="col-xs-12">
-                <h1 class="h2">
-                    {{ $application->name }}
-                    <small class="catapp font-weight-lighter">{{ trans('pages.application') }}</small>
-                </h1>
-                <hr>
-                <h2>{{ $application->title }}</h2>
+                <h1>{{ $application->title }}</h1>
                 @if( $application->subtitle )
                     <p class="subtitle">{{ $application->subtitle }}</p>
                 @endif
+                <hr>
 
-                <ul class="list-unstyled row justify-content-start full-row-prod assets-row grid">
+                <ul class="list-unstyled row justify-content-start full-row-prod assets-row mt-4 grid">
                     @foreach($categories as $category)
                         <li class="col-12 col-sm-6 col-md-4 py-2">
                             <a href="{{ route('category.'.app()->getLocale(), ['app_slug' => $application->slug ?? null,'cat_slug' => $category->slug ?? null]) }}" class="d-flex flex-column text-center pb-2">
