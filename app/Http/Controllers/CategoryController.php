@@ -32,7 +32,7 @@ class CategoryController extends Controller
             ->with('translations')
             ->first();
         
-        if ( ! $category) {
+        if ( ! $category || ! $application) {
             abort(404);
         }
         
