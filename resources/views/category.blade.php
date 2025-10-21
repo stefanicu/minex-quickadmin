@@ -33,47 +33,43 @@
                     <img class="img-fluid lozad" src="{{ $cover_image_url }}" alt="{{ trans('pages.category') }}">
                 </noscript>
             </picture>
+            <figcaption class="overlay-text">
+                <div class="heroTitle">
+                    {{ $category->name }}
+                    {{--                    <small class="catapp font-weight-lighter">{{ trans('pages.category') }}</small>--}}
+                </div>
+            </figcaption>
         </figure>
     </div>
 
     <section class="new">
-
-
         <div class="container">
             <div class="row">
-                @if($products->count() === 0)
-                    <div class="col-12">
-                        <div class="d-flex justify-content-between">
-                            <h1 class="h2">
-                                {{ $category->name }}
-                                <small class="catapp font-weight-lighter">{{ trans('pages.category') }}</small>
-                            </h1>
-                            @if(auth()->check())
-                                <a class="position-absolute mr-2" href="{{ url('').'/admin/categories/'.$category->id.'/edit?lang='.app()->getLocale() }}" target="_blank">Edit</a>
-                            @endif
-                        </div>
-                        <hr>
-                        <div class="py-4">
-                            {!! $category->content !!}
-                        </div>
-                        <p>{{ __('pages.no_products') }}</p>
+                @php
+                    $hasProducts = $products->count() > 0;
+                @endphp
 
+                <div class="col-12 {{ $hasProducts ? 'col-md-8' : '' }}">
+
+                    @if(auth()->check())
+                        <a class="position-absolute mr-2" href="{{ url('').'/admin/categories/'.$category->id.'/edit?lang='.app()->getLocale() }}" target="_blank">Edit</a>
+                    @endif
+
+                    @if($category->title)
+                        <h1>{{ $category->title }}</h1>
+                        @if( $category->subtitle )
+                            <p class="subtitle">{{ $category->subtitle }}</p>
+                        @endif
+                    @else
+                        <h1>{{ $category->name }}</h1>
+                        <p class="subtitle">{{ trans('pages.category') }}</p>
+                    @endif
+                    <hr>
+                    <div class="py-4">
+                        {!! $category->content !!}
                     </div>
-                @else
-                    <div class="col-12 col-md-8">
-                        <div class="d-flex justify-content-between">
-                            <h1 class="h2">
-                                {{ $category->name }}
-                                <small class="catapp font-weight-lighter">{{ trans('pages.category') }}</small>
-                            </h1>
-                            @if(auth()->check())
-                                <a class="position-absolute mr-2" href="{{ url('').'/admin/categories/'.$category->id.'/edit?lang='.app()->getLocale() }}" target="_blank">Edit</a>
-                            @endif
-                        </div>
-                        <hr>
-                        <div class="py-4">
-                            {!! $category->content !!}
-                        </div>
+
+                    @if($hasProducts)
                         <ul id="grid3_borders" class="list-unstyled row justify-content-start assets-row main-row-prod main-row--grid">
                             @foreach($products as $product)
                                 @if($product->translateOrDefault(app()->getLocale()))
@@ -82,11 +78,10 @@
                                            class="d-flex flex-column w-100 h-100">
                                             @if($product->getMainPhotoAttribute() !== null)
                                                 <figure class="mx-auto">
-                                                    <img
-                                                            srcset="{{ $product->getMainPhotoAttribute()->getUrl() }}"
-                                                            alt="{{ $product->name }}"
-                                                            title="{{ $product->name }}"
-                                                            class="img-hover lozad img-fluid lazy-fade">
+                                                    <img srcset="{{ $product->getMainPhotoAttribute()->getUrl() }}"
+                                                         alt="{{ $product->name }}"
+                                                         title="{{ $product->name }}"
+                                                         class="img-hover lozad img-fluid lazy-fade">
                                                 </figure>
                                             @else
                                                 <div class="product_image_default">No image</div>
@@ -105,7 +100,12 @@
                                 </p>
                             </div>
                         @endif
-                    </div>
+                    @else
+                        <p>{{ __('pages.no_products') }}</p>
+                    @endif
+                </div>
+
+                @if($hasProducts)
                     <div id="categories_list" class="col-12 col-md-4">
                         <div class="h3 sidebar-title">{{ trans('pages.product_categories') }}</div>
                         <ul class="list-group">
@@ -113,8 +113,8 @@
                                 <li class="list-group-item {{ $category->id == $cat->id ? 'active' : '' }}">
                                     <a href="{{ route('category.'.app()->getLocale(), ['app_slug' => $application->slug,'cat_slug' => $cat->slug]) }}"
                                        class="d-flex justify-content-between align-items-center category_count">
-                                        {{ $cat->name }}<span
-                                                class="badge badge-primary badge-pill">{{ $cat->products_count }}</span>
+                                        {{ $cat->name }}
+                                        <span class="badge badge-primary badge-pill">{{ $cat->products_count }}</span>
                                     </a>
                                 </li>
                             @endforeach
@@ -124,9 +124,9 @@
             </div>
             @if(auth()->check())
                 <a class="position-absolute mr-2" href="{{ url('').'/admin/categories/'.$category->id.'/edit?lang='.app()->getLocale() }}" target="_blank">Edit</a>
+                <br/>
+                <br/>
             @endif
-            <br/>
-            <br/>
         </div>
     </section>
 
