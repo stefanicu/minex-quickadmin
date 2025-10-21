@@ -27,6 +27,16 @@ class UpdateCategoryRequest extends FormRequest
             'slug' => [
                 'max:255',
             ],
+            'title' => [
+                'string',
+                'min:0',
+                'max:255',
+                'required',
+            ],
+            'subtitle' => [
+                'min:0',
+                'max:255',
+            ],
             'page_views' => [
                 'nullable',
                 'integer',
