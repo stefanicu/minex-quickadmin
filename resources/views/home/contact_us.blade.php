@@ -62,7 +62,7 @@
                 <b>Minex Group International<br/>Bucuresti, Romania</b><br/>
                 A: Bd. Metalurgiei Nr. 85<br/>
                 041832 Bucuresti, Romania<br/>
-                T: +40 21 3060281
+                T: +40 (21) 3060281
             </p>
         </div>
         {{--        <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center text-sm-left">--}}
@@ -80,11 +80,11 @@
         <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
             <p>
                 {{--                <a href="https://www.google.com/maps?cid=119518942697758357" target="_blank">Sofia, Bulgaria</a><br/>--}}
-                <b>Minex Group Bulgaria<br/>Sofia, Bulgaria</b><br/>
+                <b>Minex Bulgaria OOD<br/>Sofia, Bulgaria</b><br/>
                 A: Logic Park STAD:<br/>
                 467 Okolovrasten pat St.<br/>
                 1532 Sofia, Bulgaria<br/>
-                T: +359 (2) 491 59 09
+                T: +359 (0) 24915909
             </p>
         </div>
         <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
@@ -114,7 +114,7 @@
                 <b>Stara Zagora, Bulgaria</b><br/>
                 A: West Industrial Zone:<br/>
                 6010 Stara Zagora, Bulgaria<br/>
-                T: +359 (89) 658 87 73
+                T: +359 (0) 896588773
             </p>
         </div>
         <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
@@ -122,7 +122,7 @@
                 <b>Minex Baltics UAB<br/>Vilnius, Lithuania</b><br/>
                 A: Gariūnų g. 57,<br/>
                 02300 Vilnius, Lithuania<br/>
-                M: +370 674 63371
+                M: +370 (674) 63371
             </p>
         </div>
         <div class="col-12 col-sm-6 col-md-4 text-center text-sm-left">
