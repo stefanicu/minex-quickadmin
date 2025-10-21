@@ -15,7 +15,7 @@
     <div class="section--content d-flex align-items-center">
         <div class="v-alighn px-4">
             @if($references)
-                <h2 class="h3">{{ $references->name }}</h2>
+                <h3 class="h3">{{ $references->name }}</h3>
                 <ul class="d-flex mx-auto list-unstyled justify-content-center flex-wrap row-icons">
                     @foreach($references_industries as $references_industry)
                         @php
