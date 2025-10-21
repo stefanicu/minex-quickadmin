@@ -15,7 +15,7 @@
     <div class="section--content d-flex align-items-center">
         <div class="v-alighn px-4">
             @if($maintenance)
-                <h2 class="h3">{{ $maintenance->name }}</h2>
+                <h3 class="h3">{{ $maintenance->name }}</h3>
                 {!! $maintenance->first_text !!}<br>
                 <a href="{{ route('testimonials.'.app()->getLocale()) }}" class="btn btn btn-light">{{ $maintenance->button }}</a>
             @endif
