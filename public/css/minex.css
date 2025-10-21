@@ -91,6 +91,8 @@ option {
 
 .animate-area--sub {
     font-size: 1.8rem;
+    margin: 0;
+    font-family: comfortaa, -apple-system, BlinkMacSystemFont, segoe ui, Roboto, helvetica neue, Arial, noto sans, sans-serif;
 }
 
 .wrap_russian {
@@ -127,4 +129,13 @@ dt {
 
 dd {
     grid-column-start: 2;
+}
+
+.section h3 {
+    color: #ff7200;
+    font-weight: 700;
+}
+
+.section__primary h3 {
+    color: #fff;
 }
