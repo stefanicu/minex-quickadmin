@@ -15,7 +15,7 @@
     <div class="section--content d-flex align-items-center">
         <div class="v-alighn px-4">
             @if($about_us)
-                <h2 class="h3">{{ $about_us->name }}</h2>
+                <h3 class="h3">{{ $about_us->name }}</h3>
                 {!! $about_us->first_text !!}
             @endif
         </div>
