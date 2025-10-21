@@ -20,7 +20,7 @@ function initialize() {
     // Location data
     var locations = [
         {
-            info: `<p><b>Minex Group - Romania - Headquarter</b><br/><br/>
+            info: `<p><b>Minex Group International - Bucuresti</b><br/><br/>
                 Bd. Metalurgiei nr.85, 041832<br/>
                 Bucuresti, Romania</p>
                 <dl>
@@ -33,7 +33,7 @@ function initialize() {
             lng: 26.137053,
         },
         {
-            info: `<p><b>Minex Group - Romania - Arad</b><br/><br/>
+            info: `<p><b>Minex Group International - Arad</b><br/><br/>
                 Str. II Nr. 3, Zona Industriala N-V, 310491<br/>
                 Arad, Romania</p>
                 <dl>
@@ -47,7 +47,7 @@ function initialize() {
             lng: 21.311336,
         },
         {
-            info: `<p><b>Minex Group - Romania - Sibiu</b><br/><br/>
+            info: `<p><b>Minex Group International - Sibiu</b><br/><br/>
                     General Industrial Park (Incinta Hidrosib)<br/>
                     Str. Stefan cel Mare nr. 150, 550321<br/>
                      Sibiu, Romania</p>
@@ -62,12 +62,12 @@ function initialize() {
             lng: 24.18916333,
         },
         {
-            info: `<p><b>Minex Group - Bulgaria</b><br/><br/>
+            info: `<p><b>Minex Bulgaria OOD - Sofia</b><br/><br/>
                     Logic Park STAD: 467 Okolovrasten pat St. 1532<br />
                     Sofia, Bulgaria</p>
                     <dl>
-                    <dt>M:</dt> <dd><a href="tel:+3590885647622">+359 (0) 885647622</a></dd>
-                    <dt>T:</dt> <dd><a href="tel:+359024915909">+359 (0) 24915909</a></dd>
+                    <dt>M:</dt> <dd><a href="tel:+359885647622">+359 (0) 885647622</a></dd>
+                    <dt>T:</dt> <dd><a href="tel:+35924915909">+359 (0) 24915909</a></dd>
                     <dt>F:</dt> <dd>+359 (0) 24915909</dd>
                     <dt>E:</dt> <dd><a href="mailto:office@minexgroup.eu">office@minexgroup.eu</a></dd>
                     </dl>
@@ -76,11 +76,11 @@ function initialize() {
             lng: 23.4532,
         },
         {
-            info: `<p><b>Minex Bulgaria OOD</b><br/><br/>
+            info: `<p><b>Minex Bulgaria OOD - Stara Zagora</b><br/><br/>
                     West Industrial Zone<br />
                     6010 Stara Zagora, Bulgaria</p>
                     <dl>
-                    <dt>M:</dt> <dd><a href="tel:+359896588773">+359 89 6588773</a></dd>
+                    <dt>M:</dt> <dd><a href="tel:+359896588773">+359 (0) 896588773</a></dd>
                     <dt>E:</dt> <dd><a href="mailto:galin.georgiev@minexgroup.eu">galin.georgiev@minexgroup.eu</a></dd>
                     </dl>
                     <p><a href="https://maps.app.goo.gl/QGK2LpjRZtiZRNyL8" target="_blank">View in Google Maps</a></p>`,
