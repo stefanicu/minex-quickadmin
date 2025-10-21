@@ -15,7 +15,7 @@
     <div class="section--content d-flex align-items-center">
         <div class="v-alighn px-4">
             @if($consultancy)
-                <h2 class="h3">{{ $consultancy->name }}</h2>
+                <h3 class="h3">{{ $consultancy->name }}</h3>
                 <p>{{ trans('pages.see_what_we_have_done') }}:</p>
                 <ul>
                     @foreach($consultancy_references as $consultancy_reference)
