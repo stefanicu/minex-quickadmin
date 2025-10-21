@@ -8,9 +8,9 @@
     <div class="animate-area--text text-center">
         @if($hero)
             {!! $hero->first_text !!}
-            <p class="animate-area--sub">
+            <h2 class="animate-area--sub">
                 @php echo strip_tags($hero->second_text,'<br><strong><b>') @endphp
-            </p>
+            </h2>
         @endif
     </div>
     <div class="animate-area--cover"></div>
