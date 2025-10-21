@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div id="contact" class="col-10">
             @if($contact_us)
-                <h2 class="h1 px-0 px-md-4">{{ $contact_us->name }}</h2>
+                <h3 class="h1 px-0 px-md-4">{{ $contact_us->name }}</h3>
             @endif
         </div>
     </div>
