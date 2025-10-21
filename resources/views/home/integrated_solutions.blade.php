@@ -15,7 +15,7 @@
     <div class="section--content d-flex align-items-center">
         <div class="v-alighn px-4">
             @if($integrated_solutions)
-                <h2 class="h3">{{ $integrated_solutions->name }}</h2>
+                <h3 class="h3">{{ $integrated_solutions->name }}</h3>
                 {!! $integrated_solutions->first_text !!}
                 <hr>
                 <p class="text-center">{{ trans('pages.see_what_we_have_done') }}</p>
