@@ -22,6 +22,10 @@ class BrandController extends Controller
             ->where('slug', '=', $brand_slug)
             ->first();
         
+        if ( ! $brand) {
+            abort(404);
+        }
+        
         // Step 1: Count products grouped by brand_id
         $productCounts = DB::table('products')
             ->join('product_translations', 'products.id', '=', 'product_translations.product_id')
