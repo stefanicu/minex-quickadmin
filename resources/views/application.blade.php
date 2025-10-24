@@ -76,7 +76,7 @@
                                     @else
                                         <div class="category_image_default">No image</div>
                                     @endif
-                                    <h2 class="h5 assets-title row-icons--desc px-2 mt-0">{{ $category->name }}</h2>
+                                    <p class="h5 assets-title row-icons--desc px-2 mt-0">{{ $category->name }}</p>
                                 </a>
                             </li>
                         @endforeach
