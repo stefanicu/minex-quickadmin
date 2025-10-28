@@ -45,6 +45,10 @@ class CategoryController extends Controller
             ->orderByTranslation('name')
             ->get();
         
+        if ($products->count() === 0) {
+            abort(404);
+        }
+        
         $categories = Category::where('application_id', $application->id)
             ->with('translations') // Load category translations
             ->orderByTranslation('name') // Order by translated name
