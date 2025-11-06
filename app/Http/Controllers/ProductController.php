@@ -39,7 +39,7 @@ class ProductController extends Controller
                 $brand->offline_message ?? $brandOfflineMessage = $brand->offline_message;
         }
         
-        if ( ! $product) {
+        if ( ! $product || $request->app_slug === trans('slugs.brand')) {
             abort(404);
         }
         
@@ -48,9 +48,15 @@ class ProductController extends Controller
         $category = Category::with('translations')->find($product->category_id);
         
         // Prevent error if application_id is null
+        if ($request->app_slug !== optional($application)->slug) {
+            abort(404);
+        }
         $application_slug = $request->app_slug ?? optional($application)->slug;
         
         // Prevent error if category_id is null
+        if ($request->cat_slug !== optional($category)->slug) {
+            abort(404);
+        }
         $category_slug = $request->cat_slug ?? optional($category)->slug;
         
         
