@@ -8,13 +8,11 @@ use Illuminate\Support\Facades\Log;
 class ChatGPTService
 {
     protected static $client;
-    protected static $apiKey;
     
     public static function init()
     {
         if (is_null(self::$client)) {
             self::$client = new Client();
-            self::$apiKey = config('app.openai_api_key');
         }
     }
     
@@ -121,44 +119,202 @@ class ChatGPTService
      */
     protected static function sendRequest($systemPrompt, $userPrompt): ?string
     {
-        try {
-            $response = self::$client->post('https://api.openai.com/v1/responses', [
-                'headers' => [
-                    'Authorization' => 'Bearer '.self::$apiKey,
-                    'Content-Type' => 'application/json',
-                ],
-                'timeout' => 300,
-                'retry' => 3,
-                'json' => [
-                    'model' => 'gpt-5',
-                    'reasoning' => [
-                        'effort' => 'minimal',
+        $maxAttempts = 3;
+        $baseTimeout = 120;
+        $lastException = null;
+        
+        for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+            try {
+                $response = self::$client->post('https://api.openai.com/v1/responses', [
+                    'headers' => [
+                        'Authorization' => 'Bearer '.config('app.openai_api_key'),
+                        'Content-Type' => 'application/json',
                     ],
-                    'text' => [
-                        'verbosity' => 'low',
-                    ],
-                    'input' => [
-                        [
-                            'role' => 'system',
-                            'content' => $systemPrompt,
-                        ],
-                        [
-                            'role' => 'user',
-                            'content' => $userPrompt,
+                    'timeout' => $baseTimeout,
+                    'json' => [
+                        'model' => 'gpt-5.1-chat-latest',
+                        'reasoning' => ['effort' => 'medium'],
+                        'text' => ['verbosity' => 'medium'],
+                        'input' => [
+                            ['role' => 'system', 'content' => $systemPrompt],
+                            ['role' => 'user', 'content' => $userPrompt],
                         ],
                     ],
-                ],
-            ]);
-            
-            $data = json_decode($response->getBody(), true);
-            
-            // log ca să vezi structura reală
-            // Log::info('ChatGPT raw response', $data);
-            
-            return trim($data['output'][1]['content'][0]['text'] ?? '');
-        } catch (\Exception $e) {
-            Log::error('ChatGPT API error: '.$e->getMessage());
-            return null;
+                ]);
+                
+                $statusCode = $response->getStatusCode();
+                $body = (string) $response->getBody();
+                $headers = $response->getHeaders();
+                $data = json_decode($body, true);
+                
+                if ($statusCode !== 200) {
+                    Log::warning('ChatGPT: non-200 status', [
+                        'attempt' => $attempt,
+                        'status' => $statusCode,
+                        'headers' => $headers,
+                        'body' => $body,
+                        'decoded' => $data,
+                    ]);
+                    
+                    if (in_array($statusCode, [429, 500, 502, 503, 504]) && $attempt < $maxAttempts) {
+                        sleep((int) pow(2, $attempt - 1));
+                        continue;
+                    }
+                    
+                    return null;
+                }
+                
+                $translation = null;
+                
+                if (isset($data['output']) && is_array($data['output'])) {
+                    foreach ($data['output'] as $item) {
+                        if ( ! empty($item['type']) && $item['type'] === 'message' && isset($item['content']) && is_array($item['content'])) {
+                            foreach ($item['content'] as $c) {
+                                if (isset($c['text']) && trim($c['text']) !== '') {
+                                    $translation = trim($c['text']);
+                                    break 2;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                if (empty($translation) && ! empty($data['output_text'])) {
+                    $translation = trim($data['output_text']);
+                }
+                
+                if (empty($translation) && ! empty($data['choices']) && is_array($data['choices'])) {
+                    foreach ($data['choices'] as $choice) {
+                        if ( ! empty($choice['message']['content'])) {
+                            if (is_string($choice['message']['content'])) {
+                                $translation = trim($choice['message']['content']);
+                                break;
+                            } elseif (is_array($choice['message']['content'])) {
+                                foreach ($choice['message']['content'] as $part) {
+                                    if (isset($part['text']) && trim($part['text']) !== '') {
+                                        $translation = trim($part['text']);
+                                        break 2;
+                                    }
+                                }
+                            }
+                        } elseif ( ! empty($choice['text'])) {
+                            $translation = trim($choice['text']);
+                            break;
+                        }
+                    }
+                }
+                
+                if (empty($translation)) {
+                    // helper to create a short preview for logs
+                    $preview = function ($val) {
+                        if ($val === null) {
+                            return null;
+                        }
+                        if (is_string($val)) {
+                            return mb_strimwidth($val, 0, 1000, '...');
+                        }
+                        return mb_strimwidth(json_encode($val, JSON_UNESCAPED_UNICODE), 0, 1000, '...');
+                    };
+                    
+                    $checked = [
+                        'paths_searched' => [
+                            'output -> [..] -> content -> text',
+                            'output_text',
+                            'choices -> [..] -> message -> content/text',
+                        ],
+                        'found_values_preview' => [
+                            'output' => isset($data['output']) ? $preview($data['output']) : null,
+                            'output_text' => isset($data['output_text']) ? $preview($data['output_text']) : null,
+                            'choices' => isset($data['choices']) ? $preview($data['choices']) : null,
+                            'usage' => isset($data['usage']) ? $preview($data['usage']) : null,
+                        ],
+                        'raw_body_length' => strlen($body),
+                        'json_decode_error' => json_last_error() === JSON_ERROR_NONE ? null : json_last_error_msg(),
+                    ];
+                    
+                    // Try pretty-printing JSON for easier reading; fallback to raw body
+                    $pretty = null;
+                    if (is_array($data)) {
+                        $pretty = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+                    } else {
+                        $pretty = $body;
+                    }
+                    
+                    Log::error('ChatGPT returned empty translation (attempt) - inspected fields and raw JSON', [
+                        'attempt' => $attempt,
+                        'status' => $statusCode,
+                        'headers' => $headers,
+                        'checked' => $checked,
+                        'pretty_json' => $pretty,
+                        'systemPromptLength' => strlen($systemPrompt),
+                        'userPromptLength' => strlen($userPrompt),
+                    ]);
+                    
+                    if ($attempt < $maxAttempts) {
+                        sleep((int) pow(2, $attempt - 1));
+                        continue;
+                    }
+                    
+                    return null;
+                }
+                
+                Log::debug('ChatGPT: Translation successful', [
+                    'inputLength' => strlen($userPrompt),
+                    'outputLength' => strlen($translation),
+                    'tokens' => [
+                        'input' => $data['usage']['input_tokens'] ?? null,
+                        'output' => $data['usage']['output_tokens'] ?? null,
+                    ],
+                ]);
+                
+                return $translation;
+            } catch (\GuzzleHttp\Exception\RequestException $e) {
+                $lastException = $e;
+                $resp = $e->getResponse();
+                $body = $resp ? (string) $resp->getBody() : null;
+                $status = $resp ? $resp->getStatusCode() : null;
+                $headers = $resp ? $resp->getHeaders() : null;
+                $decoded = $body ? json_decode($body, true) : null;
+                
+                Log::warning('ChatGPT HTTP error', [
+                    'attempt' => $attempt,
+                    'message' => $e->getMessage(),
+                    'status' => $status,
+                    'headers' => $headers,
+                    'body' => $body,
+                    'decoded' => $decoded,
+                ]);
+                
+                if ($attempt < $maxAttempts && in_array($status, [429, 500, 502, 503, 504])) {
+                    sleep((int) pow(2, $attempt - 1));
+                    continue;
+                }
+                
+                break;
+            } catch (\Exception $e) {
+                $lastException = $e;
+                Log::error('ChatGPT API error details', [
+                    'message' => $e->getMessage(),
+                    'code' => $e->getCode(),
+                    'systemPromptLength' => strlen($systemPrompt),
+                    'userPromptLength' => strlen($userPrompt),
+                    'trace' => $e->getTraceAsString(),
+                    'attempt' => $attempt,
+                ]);
+                
+                if ($attempt < $maxAttempts) {
+                    sleep((int) pow(2, $attempt - 1));
+                    continue;
+                }
+                
+                break;
+            }
         }
+        
+        if ($lastException) {
+            Log::error('ChatGPT final failure', ['exception' => $lastException->getMessage()]);
+        }
+        
+        return null;
     }
 }
