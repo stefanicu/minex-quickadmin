@@ -217,5 +217,5 @@ return [
      * OPEN AI KEYs
      */
     'openai_api_key' => env('OPENAI_API_KEY', null),
-
+    'openai_api_key_bkp' => env('OPENAI_API_KEY_BKP', null),
 ];
