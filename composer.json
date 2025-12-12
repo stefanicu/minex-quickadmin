@@ -21,7 +21,8 @@
     "laraveldaily/laravel-charts": "^0.1.29",
     "spatie/laravel-medialibrary": "^10.7",
     "spatie/laravel-sitemap": "^7.3",
-    "yajra/laravel-datatables-oracle": "^10.3"
+    "yajra/laravel-datatables-oracle": "^10.3",
+    "ext-dom": "*"
   },
   "require-dev": {
     "fakerphp/faker": "^1.9.1",
