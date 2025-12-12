@@ -3,13 +3,18 @@
 namespace App\Traits;
 
 use App\Jobs\TranslateBulkUpdate;
+use App\Jobs\TranslateContentJob;
 use App\Services\ChatGPTService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 
 trait TranslateWithQueue
 {
     use SlugGenerator;
+    
+    private $contentCharLimit = 1500;
+    private $minChunkSize = 500;
     
     public function translateQueueByColumns($modelTranslation, $foreignKey, $locale, $id)
     {
@@ -90,16 +95,40 @@ trait TranslateWithQueue
             //}
         }
         
-        // Now, update each column if needed and dispatch jobs in bulk
-        $columnsToUpdate = [];
+        // Variabile pentru chunking
+        $contentCharLimit = $this->contentCharLimit; // caractere per chunk
+        $minChunkSize = $this->minChunkSize;     // Dimensiune minimă a unui chunk
+        
         foreach ($columns as $column) {
             $value = $record->{$column};
             
             // If the target field is empty and the source field has a value
             if ( ! empty($value) && $column !== 'slug' && $column !== 'name') {
                 $columnsToUpdate[] = $column;
-                // Dispatch the job to the queue for each column
-                TranslateBulkUpdate::dispatch($modelTranslation, $foreignKey, $id, $locale, $column, $value);
+                
+                // Dacă e câmpul 'content' și are prea mult conținut, dispatch în queue
+                if ($column === 'content' && strlen($value) > $contentCharLimit) {
+                    TranslateContentJob::dispatch(
+                        $modelTranslation,
+                        $foreignKey,
+                        $id,
+                        $locale,
+                        $column,
+                        $value,
+                        $contentCharLimit,
+                        $minChunkSize
+                    );
+                } else {
+                    // Dispatch the job to the queue for each column
+                    TranslateBulkUpdate::dispatch(
+                        $modelTranslation,
+                        $foreignKey,
+                        $id,
+                        $locale,
+                        $column,
+                        $value
+                    );
+                }
             }
             
             // If the target field is empty and the source field has a value
@@ -125,7 +154,6 @@ trait TranslateWithQueue
                         $id
                     );
                     
-                    
                     // Update slug in the new record
                     DB::table($modelTranslation)
                         ->where($foreignKey, $id)
@@ -135,12 +163,327 @@ trait TranslateWithQueue
             }
         }
         
-        // ✅ După ce ai determinat coloanele care trebuie traduse
+        
+        // ✅ After you find the columns for translate
         if ( ! empty($columnsToUpdate) && $modelTranslation === 'blog_translations') {
             DB::table($modelTranslation)
                 ->where($foreignKey, $id)
                 ->where('locale', $locale)
                 ->update(['online' => 1]);
         }
+    }
+    
+    /**
+     * Traduce conținutul mare sincron prin chunking
+     *
+     * @param  string  $modelTranslation
+     * @param  string  $foreignKey
+     * @param  int  $id
+     * @param  string  $locale
+     * @param  string  $column
+     * @param  string  $content
+     * @param  int  $contentCharLimit
+     * @param  int  $minChunkSize
+     */
+    private function _translateContentWithChunking(
+        $modelTranslation,
+        $foreignKey,
+        $id,
+        $locale,
+        $column,
+        $content,
+        $contentCharLimit,
+        $minChunkSize
+    ): void {
+        Log::info('Content chunking started (synchronous)', [
+            'id' => $id,
+            'contentLength' => strlen($content),
+        ]);
+        
+        // Extrage blocurile HTML
+        $htmlBlocks = $this->extractHtmlBlocks($content);
+        
+        Log::info('HTML blocks extracted', [
+            'id' => $id,
+            'blockCount' => count($htmlBlocks),
+        ]);
+        
+        // Creează chunks
+        $chunks = $this->createChunksFromHtmlBlocks($htmlBlocks, $contentCharLimit);
+        
+        Log::info('Content split into chunks', [
+            'id' => $id,
+            'chunkCount' => count($chunks),
+        ]);
+        
+        // Determine source locale
+        $sourceLocale = ($locale === 'en') ? 'ro' : 'en';
+        
+        // Obține referința românească
+        $romanian_reference_value = DB::table($modelTranslation)
+            ->where('locale', $locale)
+            ->where($foreignKey, $id)->first();
+        
+        $translatedChunks = [];
+        
+        // Traduce fiecare chunk sincron
+        foreach ($chunks as $index => $chunk) {
+            Log::debug('Translating chunk synchronously', [
+                'id' => $id,
+                'chunkIndex' => $index,
+                'totalChunks' => count($chunks),
+                'chunkLength' => strlen($chunk),
+            ]);
+            
+            try {
+                // Traduce chunk-ul
+                $translatedChunk = ChatGPTService::translate(
+                    $chunk,
+                    $locale,
+                    $sourceLocale,
+                    $romanian_reference_value->{$column} ?? null
+                );
+                
+                // Verifică dacă traducerea e validă
+                if (empty($translatedChunk)) {
+                    throw new \Exception("Translation failed for chunk {$index}: Empty response from API");
+                }
+                
+                $translatedChunks[] = $translatedChunk;
+                
+                Log::info('Chunk translated successfully', [
+                    'id' => $id,
+                    'chunkIndex' => $index,
+                    'translatedLength' => strlen($translatedChunk),
+                ]);
+                
+                // Pauză între chunks pentru a nu supraîncărca API-ul
+                if ($index < count($chunks) - 1) {
+                    sleep(2); // 2 secunde între chunk-uri
+                }
+            } catch (\Exception $e) {
+                Log::error('Chunk translation failed', [
+                    'id' => $id,
+                    'chunkIndex' => $index,
+                    'error' => $e->getMessage(),
+                ]);
+                throw $e;
+            }
+        }
+        
+        // Concatenează toate chunk-urile traduse
+        $finalTranslation = implode('', $translatedChunks);
+        
+        if (empty($finalTranslation)) {
+            throw new \Exception('Final translation is empty after consolidation');
+        }
+        
+        Log::info('All chunks translated and consolidated', [
+            'id' => $id,
+            'totalChunks' => count($translatedChunks),
+            'finalLength' => strlen($finalTranslation),
+        ]);
+        
+        // Salvează traducerea finală în bază de date - O SINGURĂ DATĂ
+        DB::table($modelTranslation)
+            ->where('locale', $locale)
+            ->where($foreignKey, $id)
+            ->update([$column => $finalTranslation]);
+        
+        Log::info('Translation consolidated and saved to database', [
+            'id' => $id,
+            'column' => $column,
+            'locale' => $locale,
+            'finalLength' => strlen($finalTranslation),
+        ]);
+    }
+    
+    /**
+     * Extrage doar primul nivel de tag-uri cu conținuturile lor complete (inclusiv tag-uri nested)
+     *
+     * @param  string  $content
+     * @return array Fiecare element conține: ['tag' => 'p', 'openTag' => '<p...>', 'closeTag' => '</p>', 'content' => '...cu tot cu tag-urile nested...']
+     */
+    private function extractHtmlBlocks($content): array
+    {
+        $blocks = [];
+        
+        // Tag-urile de nivel 1 pe care le extragem
+        $topLevelTags = 'p|div|h[1-6]|blockquote|article|section|aside|nav|header|footer';
+        
+        // Pattern: Capta tag-ul deschidere, apoi orice content (inclusiv tag-uri nested), apoi tag-ul inchidere
+        $pattern = '/<('.$topLevelTags.')([^>]*)>((?:[^<]|<(?!\/\1>))*?)<\/\1>/is';
+        
+        preg_match_all($pattern, $content, $matches, PREG_OFFSET_CAPTURE);
+        
+        $lastOffset = 0;
+        
+        // Procesează matcheurile
+        for ($i = 0; $i < count($matches[0]); $i++) {
+            $fullMatch = $matches[0][$i][0];
+            $offset = $matches[0][$i][1];
+            
+            // Dacă e text netaguit înainte de acest tag, adaugă-l ca text plain
+            if ($offset > $lastOffset) {
+                $plainText = substr($content, $lastOffset, $offset - $lastOffset);
+                if ( ! empty(trim($plainText))) {
+                    $blocks[] = [
+                        'type' => 'text',
+                        'content' => $plainText,
+                    ];
+                }
+            }
+            
+            $tag = strtolower($matches[1][$i][0]);
+            $attributes = $matches[2][$i][0];
+            $innerContent = $matches[3][$i][0];
+            
+            // Construiește tag-urile
+            $openTag = '<'.$tag.$attributes.'>';
+            $closeTag = '</'.$tag.'>';
+            
+            $blocks[] = [
+                'type' => 'html',
+                'tag' => $tag,
+                'attributes' => $attributes,
+                'openTag' => $openTag,
+                'closeTag' => $closeTag,
+                'content' => $innerContent,
+            ];
+            
+            $lastOffset = $offset + strlen($fullMatch);
+        }
+        
+        // Adaugă textul rămas la final
+        if ($lastOffset < strlen($content)) {
+            $plainText = substr($content, $lastOffset);
+            if ( ! empty(trim($plainText))) {
+                $blocks[] = [
+                    'type' => 'text',
+                    'content' => $plainText,
+                ];
+            }
+        }
+        
+        return $blocks;
+    }
+    
+    /**
+     * Creează chunks din blocurile HTML, respectând limitele
+     *
+     * @param  array  $htmlBlocks
+     * @param  int  $maxChunkSize
+     * @return array
+     */
+    private function createChunksFromHtmlBlocks($htmlBlocks, $maxChunkSize): array
+    {
+        $chunks = [];
+        $currentChunk = '';
+        $currentChunkSize = 0;
+        
+        foreach ($htmlBlocks as $block) {
+            if ($block['type'] === 'html') {
+                $blockSize = strlen($block['openTag']) + strlen($block['content']) + strlen($block['closeTag']);
+                
+                // Dacă blocul singur e mai mare decât limita, fragmentează conținutul interior
+                if ($blockSize > $maxChunkSize) {
+                    // Salvează chunk-ul curent
+                    if ( ! empty($currentChunk)) {
+                        $chunks[] = trim($currentChunk);
+                        $currentChunk = '';
+                        $currentChunkSize = 0;
+                    }
+                    
+                    // Fragmentează conținutul interior al tag-ului
+                    $innerChunks = $this->splitTextBySentences($block['content'], $maxChunkSize);
+                    
+                    foreach ($innerChunks as $innerChunk) {
+                        $reconstructed = $block['openTag'].$innerChunk.$block['closeTag'];
+                        $chunks[] = $reconstructed;
+                    }
+                    continue;
+                }
+                
+                // Dacă adăugarea blocului ar depăși limita
+                if (($currentChunkSize + $blockSize > $maxChunkSize) && ! empty($currentChunk)) {
+                    $chunks[] = trim($currentChunk);
+                    $currentChunk = $block['openTag'].$block['content'].$block['closeTag'];
+                    $currentChunkSize = $blockSize;
+                } else {
+                    $currentChunk .= $block['openTag'].$block['content'].$block['closeTag'];
+                    $currentChunkSize += $blockSize;
+                }
+            } else {
+                // Text plain
+                $blockSize = strlen($block['content']);
+                
+                if (($currentChunkSize + $blockSize > $maxChunkSize) && ! empty($currentChunk)) {
+                    $chunks[] = trim($currentChunk);
+                    $currentChunk = $block['content'];
+                    $currentChunkSize = $blockSize;
+                } else {
+                    $currentChunk .= $block['content'];
+                    $currentChunkSize += $blockSize;
+                }
+            }
+        }
+        
+        // Salvează ultimul chunk
+        if ( ! empty($currentChunk)) {
+            $chunks[] = trim($currentChunk);
+        }
+        
+        return $chunks;
+    }
+    
+    /**
+     * Împarte textul pe propoziții
+     *
+     * @param  string  $text
+     * @param  int  $maxSize
+     * @return array
+     */
+    private function splitTextBySentences($text, $maxSize): array
+    {
+        // Detectează propoziții
+        $sentences = preg_split('/(?<=[.!?])\s+/u', $text, -1, PREG_SPLIT_NO_EMPTY);
+        
+        if (empty($sentences)) {
+            return [$text];
+        }
+        
+        $chunks = [];
+        $currentChunk = '';
+        $currentSize = 0;
+        
+        foreach ($sentences as $sentence) {
+            $sentenceSize = strlen($sentence);
+            
+            if ($sentenceSize > $maxSize) {
+                // Propoziție prea mare, o adaugă singură
+                if ( ! empty($currentChunk)) {
+                    $chunks[] = trim($currentChunk);
+                    $currentChunk = '';
+                    $currentSize = 0;
+                }
+                $chunks[] = $sentence;
+                continue;
+            }
+            
+            if (($currentSize + $sentenceSize > $maxSize) && ! empty($currentChunk)) {
+                $chunks[] = trim($currentChunk);
+                $currentChunk = $sentence;
+                $currentSize = $sentenceSize;
+            } else {
+                $currentChunk .= (empty($currentChunk) ? '' : ' ').$sentence;
+                $currentSize += $sentenceSize + 1;
+            }
+        }
+        
+        if ( ! empty($currentChunk)) {
+            $chunks[] = trim($currentChunk);
+        }
+        
+        return $chunks;
     }
 }
