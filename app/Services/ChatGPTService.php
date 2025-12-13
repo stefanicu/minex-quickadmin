@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\Log;
 class ChatGPTService
 {
     protected static $client;
-    
+
     public static function init()
     {
         if (is_null(self::$client)) {
             self::$client = new Client();
         }
     }
-    
+
     /**
      * Translate text with meaning check.
      * - Default: EN → target
@@ -26,13 +26,19 @@ class ChatGPTService
     public static function translate($text, $targetLanguage, $sourceLanguage, $romanianReference = null): ?string
     {
         self::init();
-        
-        $systemPrompt = self::systemPrompt($targetLanguage, $romanianReference);
-        $userPrompt = self::buildUserPrompt($targetLanguage, $text, $romanianReference, $sourceLanguage);
-        
+        // 1. Normalizează textul principal
+        $normalizedText = self::normalize_text_for_translation($text);
+
+        // 2. FIX: Normalizează și referința dacă există!
+        if ($romanianReference) {
+            $normalizedRomanianReference = self::normalize_text_for_translation($romanianReference);
+        }
+        $systemPrompt = self::systemPrompt($targetLanguage, $normalizedRomanianReference);
+        $userPrompt = self::buildUserPrompt($targetLanguage, $normalizedText, $normalizedRomanianReference, $sourceLanguage);
+
         return self::sendRequest($systemPrompt, $userPrompt);
     }
-    
+
     /**
      * Pregătește system prompt-ul (reguli generale)
      */
@@ -64,13 +70,14 @@ class ChatGPTService
                 - Output ONLY the translation, no explanations.
             ";
         }
-        
+
         // Regula generală EN → target
         return "
             You are a professional translation API specialized in industrial equipment, machinery, and engineering terminology.
             Always translate from English (en) into the requested target language.
-            Ensure the translation preserves the meaning and nuances of the English source.".
-            ($romanianReference ? " Validate against the Romanian reference meaning if provided." : "")."
+            Ensure the translation preserves the meaning and nuances of the English source." .
+            ($romanianReference ? " Validate against the Romanian reference meaning if provided." : "") . "
+            Treat special characters like dashes or bullets as simple punctuation.
             Keep technical accuracy and use consistent terminology.
 
             Domain context:
@@ -91,7 +98,7 @@ class ChatGPTService
             - Output ONLY the translation, no explanations.
         ";
     }
-    
+
     /**
      * Pregătește user prompt-ul (instrucțiuni pe textul concret)
      */
@@ -100,20 +107,73 @@ class ChatGPTService
         if ($targetLanguage === 'en') {
             return "Translate the following Romanian text into English.\n\nRomanian: {$text}";
         }
-        
+
         if ($targetLanguage === 'ro') {
             return "Translate the following English text into Romanian (without diacritics).\n\nEnglish: {$text}";
         }
-        
+
         if ($targetLanguage === 'rs') {
-            return "Translate the following English text into Serbian (Latin script).\n\nEnglish: {$text}\n".
+            return "Translate the following English text into Serbian (Latin script).\n\nEnglish: {$text}\n" .
                 ($romanianReference ? "Romanian reference meaning: {$romanianReference}" : "");
         }
-        
-        return "Translate the following English text into {$targetLanguage}.\n\nEnglish: {$text}\n".
+
+        return "Translate the following English text into {$targetLanguage}.\n\nEnglish: {$text}\n" .
             ($romanianReference ? "Romanian reference meaning: {$romanianReference}" : "");
     }
-    
+
+    static function normalize_text_for_translation(string $text): string
+    {
+        // Hack pentru a repara dubla codare (UTF-8 interpretat ca Windows-1252)
+        // Doar dacă ești sigur că asta e problema!
+        $fixed_text = mb_convert_encoding($text, 'Windows-1252', 'UTF-8');
+        if ($fixed_text !== false && mb_check_encoding($fixed_text, 'UTF-8')) {
+            // Dacă conversia inversă a rezultat într-un string UTF-8 valid, îl folosim
+            $text = $fixed_text;
+        }
+
+        // 1. Încercăm o transliterare automată pentru a reduce caracterele complexe la ASCII (opțional, dar recomandat pt AI)
+        // Aceasta transformă ș, ț, ă în s, t, a și diverse cratime în minus.
+        // Dacă vrei să păstrezi diacriticele românești, comentează linia de mai jos.
+        // $text = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $text);
+
+        // 2. Normalizare Unicode (Forma C - Composed)
+        if (class_exists('Normalizer')) {
+            $text = Normalizer::normalize($text, Normalizer::FORM_C);
+        }
+
+        // 3. Înlocuiri bazate pe clase Unicode (mult mai sigur decât lista manuală)
+
+        // \p{Pd} = Punctuation, Dash (prinde toate tipurile de cratime: en-dash, em-dash, minus etc.)
+        $text = preg_replace('/\p{Pd}/u', '-', $text);
+
+        // \p{Pi} și \p{Pf} = Initial/Final quote (ghilimele)
+        // Le înlocuim pe toate cu ghilimele duble standard
+        $text = preg_replace('/[\p{Pi}\p{Pf}\p{Po}&&[^\.,!\?\(\)\-\:;]]/u', '"', $text);
+
+        // Curățăm ghilimelele care au rămas sau au fost convertite greșit, forțăm ASCII quotes
+        $quotes_map = [
+            '“' => '"',
+            '”' => '"',
+            '„' => '"',
+            '‘' => "'",
+            '’' => "'",
+            '‚' => "'"
+        ];
+        $text = strtr($text, $quotes_map);
+
+        // \p{Z} = Separator (prinde toate tipurile de spații invizibile, non-breaking space etc.)
+        // Le înlocuim cu un spațiu simplu
+        $text = preg_replace('/\p{Z}/u', ' ', $text);
+
+        // 4. Eliminăm caracterele invizibile de control (mai puțin newline și tab)
+        $text = preg_replace('/[^\P{C}\n\t]/u', '', $text);
+
+        // 5. Curățare finală spații multiple
+        $text = preg_replace('/\s+/', ' ', $text);
+
+        return trim($text);
+    }
+
     /**
      * Trimite request-ul la OpenAI Responses API
      */
@@ -122,12 +182,12 @@ class ChatGPTService
         $maxAttempts = 3;
         $baseTimeout = 120;
         $lastException = null;
-        
+
         for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
             try {
                 $response = self::$client->post('https://api.openai.com/v1/responses', [
                     'headers' => [
-                        'Authorization' => 'Bearer '.config('app.openai_api_key'),
+                        'Authorization' => 'Bearer ' . config('app.openai_api_key'),
                         'Content-Type' => 'application/json',
                     ],
                     'timeout' => $baseTimeout,
@@ -141,12 +201,12 @@ class ChatGPTService
                         ],
                     ],
                 ]);
-                
+
                 $statusCode = $response->getStatusCode();
                 $body = (string) $response->getBody();
                 $headers = $response->getHeaders();
                 $data = json_decode($body, true);
-                
+
                 if ($statusCode !== 200) {
                     Log::warning('ChatGPT: non-200 status', [
                         'attempt' => $attempt,
@@ -155,20 +215,20 @@ class ChatGPTService
                         'body' => $body,
                         'decoded' => $data,
                     ]);
-                    
+
                     if (in_array($statusCode, [429, 500, 502, 503, 504]) && $attempt < $maxAttempts) {
                         sleep((int) pow(2, $attempt - 1));
                         continue;
                     }
-                    
+
                     return null;
                 }
-                
+
                 $translation = null;
-                
+
                 if (isset($data['output']) && is_array($data['output'])) {
                     foreach ($data['output'] as $item) {
-                        if ( ! empty($item['type']) && $item['type'] === 'message' && isset($item['content']) && is_array($item['content'])) {
+                        if (!empty($item['type']) && $item['type'] === 'message' && isset($item['content']) && is_array($item['content'])) {
                             foreach ($item['content'] as $c) {
                                 if (isset($c['text']) && trim($c['text']) !== '') {
                                     $translation = trim($c['text']);
@@ -178,14 +238,14 @@ class ChatGPTService
                         }
                     }
                 }
-                
-                if (empty($translation) && ! empty($data['output_text'])) {
+
+                if (empty($translation) && !empty($data['output_text'])) {
                     $translation = trim($data['output_text']);
                 }
-                
-                if (empty($translation) && ! empty($data['choices']) && is_array($data['choices'])) {
+
+                if (empty($translation) && !empty($data['choices']) && is_array($data['choices'])) {
                     foreach ($data['choices'] as $choice) {
-                        if ( ! empty($choice['message']['content'])) {
+                        if (!empty($choice['message']['content'])) {
                             if (is_string($choice['message']['content'])) {
                                 $translation = trim($choice['message']['content']);
                                 break;
@@ -197,13 +257,13 @@ class ChatGPTService
                                     }
                                 }
                             }
-                        } elseif ( ! empty($choice['text'])) {
+                        } elseif (!empty($choice['text'])) {
                             $translation = trim($choice['text']);
                             break;
                         }
                     }
                 }
-                
+
                 if (empty($translation)) {
                     // helper to create a short preview for logs
                     $preview = function ($val) {
@@ -215,7 +275,7 @@ class ChatGPTService
                         }
                         return mb_strimwidth(json_encode($val, JSON_UNESCAPED_UNICODE), 0, 1000, '...');
                     };
-                    
+
                     $checked = [
                         'paths_searched' => [
                             'output -> [..] -> content -> text',
@@ -231,7 +291,7 @@ class ChatGPTService
                         'raw_body_length' => strlen($body),
                         'json_decode_error' => json_last_error() === JSON_ERROR_NONE ? null : json_last_error_msg(),
                     ];
-                    
+
                     // Try pretty-printing JSON for easier reading; fallback to raw body
                     $pretty = null;
                     if (is_array($data)) {
@@ -239,7 +299,7 @@ class ChatGPTService
                     } else {
                         $pretty = $body;
                     }
-                    
+
                     Log::error('ChatGPT returned empty translation (attempt) - inspected fields and raw JSON', [
                         'attempt' => $attempt,
                         'status' => $statusCode,
@@ -249,15 +309,15 @@ class ChatGPTService
                         'systemPromptLength' => strlen($systemPrompt),
                         'userPromptLength' => strlen($userPrompt),
                     ]);
-                    
+
                     if ($attempt < $maxAttempts) {
                         sleep((int) pow(2, $attempt - 1));
                         continue;
                     }
-                    
+
                     return null;
                 }
-                
+
                 Log::debug('ChatGPT: Translation successful', [
                     'inputLength' => strlen($userPrompt),
                     'outputLength' => strlen($translation),
@@ -266,7 +326,7 @@ class ChatGPTService
                         'output' => $data['usage']['output_tokens'] ?? null,
                     ],
                 ]);
-                
+
                 return $translation;
             } catch (\GuzzleHttp\Exception\RequestException $e) {
                 $lastException = $e;
@@ -275,7 +335,7 @@ class ChatGPTService
                 $status = $resp ? $resp->getStatusCode() : null;
                 $headers = $resp ? $resp->getHeaders() : null;
                 $decoded = $body ? json_decode($body, true) : null;
-                
+
                 Log::warning('ChatGPT HTTP error', [
                     'attempt' => $attempt,
                     'message' => $e->getMessage(),
@@ -284,12 +344,12 @@ class ChatGPTService
                     'body' => $body,
                     'decoded' => $decoded,
                 ]);
-                
+
                 if ($attempt < $maxAttempts && in_array($status, [429, 500, 502, 503, 504])) {
                     sleep((int) pow(2, $attempt - 1));
                     continue;
                 }
-                
+
                 break;
             } catch (\Exception $e) {
                 $lastException = $e;
@@ -301,20 +361,20 @@ class ChatGPTService
                     'trace' => $e->getTraceAsString(),
                     'attempt' => $attempt,
                 ]);
-                
+
                 if ($attempt < $maxAttempts) {
                     sleep((int) pow(2, $attempt - 1));
                     continue;
                 }
-                
+
                 break;
             }
         }
-        
+
         if ($lastException) {
             Log::error('ChatGPT final failure', ['exception' => $lastException->getMessage()]);
         }
-        
+
         return null;
     }
 }
