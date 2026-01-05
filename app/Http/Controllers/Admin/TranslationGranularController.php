@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\ChatGPTService;
 use App\Traits\TranslateWithQueue;
 use Gate;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class TranslationGranularController extends Controller
 {
     use TranslateWithQueue;
     
-    public function index(Request $request)
+    public function index(Request $request, ChatGPTService $chatGptService)
     {
         abort_if(Gate::denies('translation_center_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
@@ -21,7 +22,7 @@ class TranslationGranularController extends Controller
         $foreignKey = $request->input('foreign_key');;
         $id = $request->input('id');
         
-        $this->translateQueueByColumns($modelTranslation, $foreignKey, $locale, $id);
+        $this->translateQueueByColumns($modelTranslation, $foreignKey, $locale, $id, $chatGptService);
         
         return redirect()->back()->with('success', __("Translation process has been successfully queued for update in the :locale language.", ['locale' => $locale]));
     }
