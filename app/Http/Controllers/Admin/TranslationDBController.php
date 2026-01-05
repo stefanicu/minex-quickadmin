@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\ChatGPTService;
 use App\Traits\TranslateWithQueue;
 use Gate;
 use Illuminate\Http\Request;
@@ -75,7 +76,7 @@ class TranslationDBController extends Controller
     }
     
     
-    public function dbtranslate(Request $request, $locale)
+    public function dbtranslate(Request $request, $locale, ChatGPTService $chatGptService)
     {
         // Retrieve available locales from configuration
         $availableLanguages = config('translatable.locales');
@@ -123,7 +124,7 @@ class TranslationDBController extends Controller
             $index = 1;
             foreach ($records as $record) {
                 if ($index <= $limit) {
-                    $this->translateQueueByColumns($model['translation_table'], $model['foreign_key'], $locale, $record->{$model['foreign_key']});
+                    $this->translateQueueByColumns($model['translation_table'], $model['foreign_key'], $locale, $record->{$model['foreign_key']}, $chatGptService);
                 }
                 $index++;
             }
