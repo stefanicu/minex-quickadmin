@@ -5,7 +5,7 @@ return [
     'time_format' => 'H:i:s',
     'primary_language' => 'en',
     'available_languages' => [
-        'en' => 'EN', // English - USA (or use GB for United Kingdom)
+        'en' => 'EN', // English - United States of America (or use GB for the United Kingdom)
         'bg' => 'BG', // Bulgarian - Bulgaria
         'bs' => 'BA', // Bosnian - Bosnia and Herzegovina
         'et' => 'EE', // Estonian - Estonia
@@ -20,7 +20,7 @@ return [
         'uk' => 'UA', // Ukrainian - Ukraine
     ],
     'languages_names' => [
-        'en' => 'English', // Regatul Unit
+        'en' => 'English', // Regatul unit
         'bg' => 'Български', // Bulgaria
         'bs' => 'Bosanski', // Bosnia Și Herțegovina
         'et' => 'Eesti', // Estonia
