@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Services\ChatGPTService;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -11,31 +12,32 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class TranslateBulkUpdate implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     
-    public $tries = 2;
-    public $maxExceptions = 1;
-    public $timeout = 300; // 5 minute per chunk
+    public int $tries = 2;
+    public int $maxExceptions = 1;
+    public int $timeout = 300; // 5 minute per chunk
     
-    protected $modelTranslation;
-    protected $foreignKey;
-    protected $id;
-    protected $locale;
-    protected $column;
-    protected $value;
-    protected $metadata;
+    protected string $modelTranslation;
+    protected string $foreignKey;
+    protected int $id;
+    protected string $locale;
+    protected string $column;
+    protected string $value;
+    protected array $metadata;
     
     public function __construct(
-        $modelTranslation,
-        $foreignKey,
-        $id,
-        $locale,
-        $column,
-        $value,
-        $metadata = []
+        string $modelTranslation,
+        string $foreignKey,
+        int $id,
+        string $locale,
+        string $column,
+        string $value,
+        array $metadata = []
     ) {
         $this->modelTranslation = $modelTranslation;
         $this->foreignKey = $foreignKey;
@@ -46,7 +48,7 @@ class TranslateBulkUpdate implements ShouldQueue
         $this->metadata = $metadata;
     }
     
-    public function handle()
+    public function handle(ChatGPTService $chatGptService): void
     {
         try {
             // Determine source locale based on the current locale
@@ -60,16 +62,19 @@ class TranslateBulkUpdate implements ShouldQueue
             if ( ! empty($this->metadata) && $this->metadata['isChunk'] ?? false) {
                 // E chunk - traduce și salvează în cache
                 $this->handleChunkTranslation(
-                    $sourceLocale
+                    $chatGptService,
+                    $sourceLocale,
+                    $romanian_reference_value
                 );
             } else {
                 // E translation normal (nu e chunked) - salvează direct
                 $this->handleNormalTranslation(
+                    $chatGptService,
                     $sourceLocale,
                     $romanian_reference_value
                 );
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error('TranslateBulkUpdate failed: '.$e->getMessage(), [
                 'id' => $this->id,
                 'column' => $this->column,
@@ -85,77 +90,87 @@ class TranslateBulkUpdate implements ShouldQueue
     /**
      * Tratează traducerea unui chunk individual
      */
-    private function handleChunkTranslation($sourceLocale, $romanian_reference_value): void
+    private function handleChunkTranslation(ChatGPTService $chatGptService, $sourceLocale, $romanian_reference_value): void
     {
-        $chunkIndex = $this->metadata['chunkIndex'] ?? 0;
-        $chunkSetId = $this->metadata['chunkSetId'] ?? null;
-        $totalChunks = $this->metadata['totalChunks'] ?? 1;
-        
-        Log::debug('Translating chunk', [
-            'id' => $this->id,
-            'chunkSetId' => $chunkSetId,
-            'chunkIndex' => $chunkIndex,
-            'totalChunks' => $totalChunks,
-        ]);
-        
-        // Traduce chunk-ul
-        $translatedChunk = ChatGPTService::translate(
-            $this->value,
-            $this->locale,
-            $sourceLocale,
-            $romanian_reference_value->{$this->column} ?? null
-        );
-        
-        // Verifică dacă traducerea e validă
-        if (empty($translatedChunk)) {
-            throw new \Exception("Translation failed for chunk {$chunkIndex}: Empty response from API");
+        try {
+            $chunkIndex = $this->metadata['chunkIndex'] ?? 0;
+            $chunkSetId = $this->metadata['chunkSetId'] ?? null;
+            $totalChunks = $this->metadata['totalChunks'] ?? 1;
+            
+            Log::debug('Translating chunk', [
+                'id' => $this->id,
+                'chunkSetId' => $chunkSetId,
+                'chunkIndex' => $chunkIndex,
+                'totalChunks' => $totalChunks,
+            ]);
+            
+            // Traduce chunk-ul
+            $translatedChunk = $chatGptService->translate(
+                $this->value,
+                $this->locale,
+                $sourceLocale,
+                $romanian_reference_value->{$this->column} ?? null
+            );
+            
+            // Verifică dacă traducerea e validă
+            if (empty($translatedChunk)) {
+                throw new Exception("Translation failed for chunk $chunkIndex: Empty response from API");
+            }
+            
+            // Salvează chunk-ul tradus în cache
+            $cacheKey = 'translation_chunks:'.$chunkSetId;
+            $translatedChunksData = Cache::get($cacheKey, []);
+            $translatedChunksData[$chunkIndex] = $translatedChunk;
+            
+            // Salvează cu TTL de 1 oră (în caz de retry-uri)
+            Cache::put($cacheKey, $translatedChunksData, 3600);
+            
+            Log::info('Chunk translated and cached', [
+                'id' => $this->id,
+                'chunkSetId' => $chunkSetId,
+                'chunkIndex' => $chunkIndex,
+                'chunkLength' => strlen($translatedChunk),
+            ]);
+        } catch (Exception $e) {
+            Log::error('handleChunkTranslation failed: '.$e->getMessage());
+            $this->release(30);
         }
-        
-        // Salvează chunk-ul tradus în cache
-        $cacheKey = 'translation_chunks:'.$chunkSetId;
-        $translatedChunksData = Cache::get($cacheKey, []);
-        $translatedChunksData[$chunkIndex] = $translatedChunk;
-        
-        // Salvează cu TTL de 2 ore (în caz de retry-uri)
-        Cache::put($cacheKey, $translatedChunksData, 7200);
-        
-        Log::info('Chunk translated and cached', [
-            'id' => $this->id,
-            'chunkSetId' => $chunkSetId,
-            'chunkIndex' => $chunkIndex,
-            'chunkLength' => strlen($translatedChunk),
-        ]);
     }
     
     /**
      * Tratează traducerea normală (nu chunked)
      */
-    private function handleNormalTranslation($sourceLocale, $romanian_reference_value): void
+    private function handleNormalTranslation(ChatGPTService $chatGptService, $sourceLocale, $romanian_reference_value): void
     {
-        // Traduce direct
-        $translatedValue = ChatGPTService::translate(
-            $this->value,
-            $this->locale,
-            $sourceLocale,
-            $romanian_reference_value->{$this->column} ?? null
-        );
-        
-        // Verifică dacă traducerea e validă
-        if (empty($translatedValue)) {
-            throw new \Exception('Translation failed: Empty response from API');
+        try {
+            // Traduce direct
+            $translatedValue = $chatGptService->translate(
+                $this->value,
+                $this->locale,
+                $sourceLocale,
+                $romanian_reference_value->{$this->column} ?? null
+            );
+            
+            // Verifică dacă traducerea e validă
+            if (empty($translatedValue)) {
+                throw new Exception('Translation failed: Empty response from API');
+            }
+            
+            // Salvează direct în bază de date
+            DB::table($this->modelTranslation)
+                ->where('locale', $this->locale)
+                ->where($this->foreignKey, $this->id)
+                ->update([$this->column => $translatedValue]);
+            
+            Log::info('Translation saved successfully', [
+                'id' => $this->id,
+                'column' => $this->column,
+                'locale' => $this->locale,
+                'translatedLength' => strlen($translatedValue),
+            ]);
+        } catch (Exception $e) {
+            Log::error('handleNormalTranslation failed: '.$e->getMessage());
+            $this->release(30);
         }
-        
-        // Salvează direct în bază de date
-        DB::table($this->modelTranslation)
-            ->where('locale', $this->locale)
-            ->where($this->foreignKey, $this->id)
-            ->update([$this->column => $translatedValue]);
-        
-        Log::info('Translation saved successfully', [
-            'id' => $this->id,
-            'column' => $this->column,
-            'locale' => $this->locale,
-            'translatedLength' => strlen($translatedValue),
-        ]);
     }
 }
