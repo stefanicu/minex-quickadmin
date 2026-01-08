@@ -28,7 +28,7 @@
     <script src="{{ asset('/js/validate/set.validate.js') }}"></script>
     <script src="{{ asset('/js/countries.js') }}?x={{ rand(398473,298379283647847) }}"></script>
     <script nonce="{{ session('csp_nonce') }}"
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRHi8eiqWm--iQQ-fNTq3AWKev7xCj2RA&callback=initialize&v=weekly&libraries=marker&loading=async"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2lR8NWEGdgk2MM7Xw3Kj5YUKcz4iG-A0&callback=initialize&v=weekly&libraries=marker&loading=async"
             async defer></script>
     <script src="{{ asset('/js/map.js?v=274624') }}"></script>
     <script src="{{ asset('/js/bxSlider/home_setup.js') }}"></script>
