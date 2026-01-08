@@ -7,13 +7,11 @@ use Illuminate\Support\Facades\Log;
 
 class ChatGPTService
 {
-    protected static $client;
+    protected $client;
     
-    public static function init()
+    public function __construct()
     {
-        if (is_null(self::$client)) {
-            self::$client = new Client();
-        }
+        $this->client = new Client();
     }
     
     /**
@@ -23,20 +21,18 @@ class ChatGPTService
      * - If target = ro → without diacritics
      * - If target = rs → Latin script
      */
-    public static function translate($text, $targetLanguage, $sourceLanguage, $romanianReference = null): ?string
+    public function translate($text, $targetLanguage, $sourceLanguage, $romanianReference = null): ?string
     {
-        self::init();
+        $systemPrompt = $this->systemPrompt($targetLanguage, $romanianReference);
+        $userPrompt = $this->buildUserPrompt($targetLanguage, $text, $romanianReference, $sourceLanguage);
         
-        $systemPrompt = self::systemPrompt($targetLanguage, $romanianReference);
-        $userPrompt = self::buildUserPrompt($targetLanguage, $text, $romanianReference, $sourceLanguage);
-        
-        return self::sendRequest($systemPrompt, $userPrompt);
+        return $this->sendRequest($systemPrompt, $userPrompt);
     }
     
     /**
      * Pregătește system prompt-ul (reguli generale)
      */
-    protected static function systemPrompt($targetLanguage, $romanianReference = null): string
+    protected function systemPrompt($targetLanguage, $romanianReference = null): string
     {
         if ($targetLanguage === 'en') {
             // Excepție: RO → EN
@@ -58,6 +54,8 @@ class ChatGPTService
                 - Translate visible text inside HTML tags.
                 - Also translate text inside <img> attributes such as alt and title.
                 - Keep attribute names (alt, title, src, href, etc.) unchanged, only translate their values.
+                - Do not translate the content if it looks like technical code or variables that should remain in English (e.g. part numbers).
+                - Fix any visible text encoding errors (mojibake) in the source text, the source coud be writen on mac computer (e.g. not translate dashes with 'â€“', or quotes with 'â€œ', or spaces with 'â').
                 - Do not rephrase sentences; translate as literally as possible while preserving grammar.
                 - Do not add or remove words.
                 - Preserve HTML entities (&lt;, &gt;, &amp;).
@@ -85,6 +83,8 @@ class ChatGPTService
             - Translate visible text inside HTML tags.
             - Also translate text inside <img> attributes such as alt and title.
             - Keep attribute names (alt, title, src, href, etc.) unchanged, only translate their values.
+            - Do not translate the content if it looks like technical code or variables that should remain in English (e.g. part numbers).
+            - Fix any visible text encoding errors (mojibake) in the source text, the source coud be writen on mac computer (e.g. not translate dashes with 'â€“', or quotes with 'â€œ', or spaces with 'â').
             - Do not rephrase sentences; translate as literally as possible while preserving grammar.
             - Do not add or remove words.
             - Preserve HTML entities (&lt;, &gt;, &amp;).
@@ -95,7 +95,7 @@ class ChatGPTService
     /**
      * Pregătește user prompt-ul (instrucțiuni pe textul concret)
      */
-    protected static function buildUserPrompt($targetLanguage, $text, $romanianReference = null, $sourceLanguage = 'en'): string
+    protected function buildUserPrompt($targetLanguage, $text, $romanianReference = null, $sourceLanguage = 'en'): string
     {
         if ($targetLanguage === 'en') {
             return "Translate the following Romanian text into English.\n\nRomanian: {$text}";
@@ -117,7 +117,7 @@ class ChatGPTService
     /**
      * Trimite request-ul la OpenAI Responses API
      */
-    protected static function sendRequest($systemPrompt, $userPrompt): ?string
+    protected function sendRequest($systemPrompt, $userPrompt): ?string
     {
         $maxAttempts = 3;
         $baseTimeout = 120;
@@ -125,7 +125,7 @@ class ChatGPTService
         
         for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
             try {
-                $response = self::$client->post('https://api.openai.com/v1/responses', [
+                $response = $this->client->post('https://api.openai.com/v1/responses', [
                     'headers' => [
                         'Authorization' => 'Bearer '.config('app.openai_api_key'),
                         'Content-Type' => 'application/json',
