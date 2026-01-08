@@ -282,7 +282,7 @@ class TranslateContentJob implements ShouldQueue
                 }
             });
             
-            Log::info('Translation consolidated and saved to database from queue job', [
+            Log::info('=== Translation CONSOLIDATED and saved to database from queue job ------------ ', [
                 'id' => $this->id,
                 'column' => $this->column,
                 'locale' => $this->locale,
@@ -317,7 +317,9 @@ class TranslateContentJob implements ShouldQueue
         $blocks = [];
         
         // Normalize encoding and wrap in a container to parse fragments
-        $html = '<!DOCTYPE html><html><body>'.$content.'</body></html>';
+        // FIX CRITIC: Adăugăm meta charset pentru a forța DOMDocument să citească UTF-8 corect.
+        // Fără asta, caracterele speciale (gen en-dash) sunt interpretate ca Latin-1 și devin mojibake (â€...)
+        $html = '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body>'.$content.'</body></html>';
         
         $doc = new DOMDocument();
         // Suppress warnings from malformed HTML
