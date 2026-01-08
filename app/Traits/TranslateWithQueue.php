@@ -16,7 +16,7 @@ trait TranslateWithQueue
     private $contentCharLimit = 1500;
     private $minChunkSize = 500;
     
-    public function translateQueueByColumns($modelTranslation, $foreignKey, $locale, $id)
+    public function translateQueueByColumns($modelTranslation, $foreignKey, $locale, $id, ChatGPTService $chatGptService)
     {
         // Determine source locale based on the current locale
         $sourceLocale = ($locale === 'en') ? 'ro' : 'en';
@@ -52,7 +52,7 @@ trait TranslateWithQueue
             // If no existing record, prepare to insert
             if ($locale === 'en') {
                 $translatedName = isset($record->name)
-                    ? ChatGPTService::translate($record->name, $locale, $sourceLocale)
+                    ? $chatGptService->translate($record->name, $locale, $sourceLocale)
                     : null;
             } else {
                 $romanianReferenceRecord = DB::table($modelTranslation)
@@ -62,11 +62,11 @@ trait TranslateWithQueue
                 
                 if (isset($romanianReferenceRecord->name)) {
                     $translatedName = isset($record->name)
-                        ? ChatGPTService::translate($record->name, $locale, $sourceLocale, $romanianReferenceRecord->name)
+                        ? $chatGptService->translate($record->name, $locale, $sourceLocale, $romanianReferenceRecord->name)
                         : null;
                 } else {
                     $translatedName = isset($record->name)
-                        ? ChatGPTService::translate($record->name, $locale, $sourceLocale)
+                        ? $chatGptService->translate($record->name, $locale, $sourceLocale)
                         : null;
                 }
             }
@@ -103,7 +103,7 @@ trait TranslateWithQueue
             $value = $record->{$column};
             
             // If the target field is empty and the source field has a value
-            if ( ! empty($value) && $column !== 'slug' && $column !== 'name') {
+            if ( ! empty($value) && $column !== 'slug') {
                 $columnsToUpdate[] = $column;
                 
                 // Dacă e câmpul 'content' și are prea mult conținut, dispatch în queue
@@ -128,37 +128,6 @@ trait TranslateWithQueue
                         $column,
                         $value
                     );
-                }
-            }
-            
-            // If the target field is empty and the source field has a value
-            if ( ! empty($value) && $column === 'name') {
-                $columnsToUpdate[] = $column;
-                // Dispatch the job to the queue for each column
-                (new TranslateBulkUpdate($modelTranslation, $foreignKey, $id, $locale, $column, $value))->handle();
-                
-                $newRecord = DB::table($modelTranslation)
-                    ->where('locale', $locale)
-                    ->where($foreignKey, '=', $id)
-                    ->first();
-                
-                // verifică dacă tabela are coloana 'slug'
-                if (Schema::hasColumn($modelTranslation, 'slug')) {
-                    $slugGenerated = $this->generateSlug($newRecord->name, $locale);
-                    
-                    $newRecordSlug = $this->ensureUniqueSlug(
-                        $slugGenerated,
-                        $modelTranslation,
-                        $locale,
-                        $foreignKey,
-                        $id
-                    );
-                    
-                    // Update slug in the new record
-                    DB::table($modelTranslation)
-                        ->where($foreignKey, $id)
-                        ->where('locale', $locale)
-                        ->update(['slug' => $newRecordSlug]);
                 }
             }
         }
@@ -193,7 +162,8 @@ trait TranslateWithQueue
         $column,
         $content,
         $contentCharLimit,
-        $minChunkSize
+        $minChunkSize,
+        ChatGPTService $chatGptService
     ): void {
         Log::info('Content chunking started (synchronous)', [
             'id' => $id,
@@ -237,7 +207,7 @@ trait TranslateWithQueue
             
             try {
                 // Traduce chunk-ul
-                $translatedChunk = ChatGPTService::translate(
+                $translatedChunk = $chatGptService->translate(
                     $chunk,
                     $locale,
                     $sourceLocale,
