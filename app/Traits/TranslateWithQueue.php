@@ -21,6 +21,11 @@ trait TranslateWithQueue
         // Determine source locale based on the current locale
         $sourceLocale = ($locale === 'en') ? 'ro' : 'en';
         
+        if ($modelTranslation === 'frontPage_translations') {
+            $modelTranslation = 'front_page_translations';
+            $foreignKey = 'front_page_id';
+        }
+        
         // Fetch the source record only once (Romanian or English, depending on the locale)
         $record = DB::table($modelTranslation)
             ->whereIn('locale', [$sourceLocale]) // Fetch only source language record
