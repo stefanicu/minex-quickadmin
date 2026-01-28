@@ -572,3 +572,7 @@ figure.table {
     font-size: 1.2rem;
     font-weight: bolder;
 }
+
+b, strong {
+    text-shadow: 0.5px 0.5px 0 currentColor;
+}
