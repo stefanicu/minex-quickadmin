@@ -190,8 +190,23 @@ class TranslateContentJob implements ShouldQueue
                             $cacheLock->release();
                         }
                     } else {
-                        $translatedChunks[$index] = $translatedChunk;
-                        cache()->put($cacheKey, $translatedChunks, 7200);
+                        // If cache lock not acquired, re-dispatch the job delayed
+                        Log::warning('Could not acquire cache lock for chunk, re-dispatching delayed job', [
+                            'id' => $this->id,
+                            'chunkIndex' => $index,
+                            'attempt' => $this->attempts(),
+                        ]);
+                        static::dispatch(
+                            $this->modelTranslation,
+                            $this->foreignKey,
+                            $this->id,
+                            $this->locale,
+                            $this->column,
+                            $this->content,
+                            $this->contentCharLimit,
+                            $this->minChunkSize
+                        )->delay(now()->addSeconds(15));
+                        return;
                     }
 
                     Log::info('Chunk translated successfully', [
