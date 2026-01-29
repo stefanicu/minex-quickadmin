@@ -140,10 +140,7 @@ trait TranslateWithQueue
         
         // ✅ After you find the columns for translate
         if ( ! empty($columnsToUpdate) && $modelTranslation === 'blog_translations') {
-            DB::table($modelTranslation)
-                ->where($foreignKey, $id)
-                ->where('locale', $locale)
-                ->update(['online' => 1]);
+            \App\Models\Blog::updateOnlineStatus($id);
         }
     }
     
