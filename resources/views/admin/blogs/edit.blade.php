@@ -42,17 +42,6 @@
             <form method="POST" action="{{ route("admin.blogs.update", [$blog->id]) }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
-                <div class="form-group">
-                    <div class="form-check {{ $errors->has('online') ? 'is-invalid' : '' }}">
-                        <input type="hidden" name="online" value="0">
-                        <input class="form-check-input" type="checkbox" name="online" id="online" value="1" {{ old('online', optional($blog->translations->firstWhere('locale', app()->getLocale()))->online) ? 'checked' : '' }}>
-                        <label class="form-check-label" for="online">{{ trans('cruds.blog.fields.online') }}</label>
-                    </div>
-                    @if($errors->has('online'))
-                        <span class="text-danger">{{ $errors->first('online') }}</span>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.blog.fields.online_helper') }}</span>
-                </div>
 
                 <div class="row">
                     <div class="form-group col-12 col-xl-6">
