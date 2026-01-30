@@ -576,3 +576,32 @@ figure.table {
 b, strong {
     text-shadow: 0.5px 0.5px 0 currentColor;
 }
+
+/* Containerul principal */
+#internal-pg-nav1 ul {
+    display: flex; /* d-flex */
+    justify-content: center; /* justify-content-center */
+    list-style: none; /* list-unstyled */
+    margin-left: auto; /* mx-auto */
+    margin-right: auto;
+    padding-left: 0; /* elimină indentarea implicită */
+}
+
+#internal-pg-nav1 ul li {
+    display: flex; /* d-flex */
+    flex-direction: column; /* flex-column */
+    text-align: center; /* text-center */
+    padding-left: 1.5rem; /* px-4 */
+    padding-right: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    font-size: 2rem; /* echivalent .h2 din Bootstrap */
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#internal-pg-nav1 ul li strong {
+    display: block;
+    font-size: 1rem; /* echivalent .h2 din Bootstrap */
+    margin-bottom: 0.5rem;
+}
