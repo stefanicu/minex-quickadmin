@@ -110,14 +110,14 @@ class Blog extends Model implements HasMedia, TranslatableContract
         
         return null;
     }
-
+    
     public static function updateOnlineStatus($blogId)
     {
         $locales = config('translatable.locales');
         $translationsCount = \DB::table('blog_translations')->where('blog_id', $blogId)->count();
-
+        
         $isOnline = ($translationsCount >= count($locales)) ? 1 : 0;
-
+        
         \DB::table('blog_translations')->where('blog_id', $blogId)->update(['online' => $isOnline]);
         \DB::table('blogs')->where('id', $blogId)->update(['online' => $isOnline]);
     }
