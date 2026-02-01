@@ -55,7 +55,6 @@
 }
 
 .reference_image_default {
-    -o-object-fit: cover;
     object-fit: cover;
     width: 200px;
     height: auto;
@@ -68,7 +67,6 @@
 }
 
 .blog_image_default {
-    -o-object-fit: cover;
     object-fit: cover;
     width: 730px;
     height: 487px;
@@ -79,7 +77,6 @@
 }
 
 .blog_slider_image_default {
-    -o-object-fit: cover;
     object-fit: cover;
     width: 100%;
     height: 100%;
@@ -278,7 +275,7 @@ em.error.help-block {
     min-height: 75px;
     width: auto;
     position: absolute;
-    left: -20px
+    left: -20px;
 }
 
 #addresses a {
@@ -309,32 +306,32 @@ em.error.help-block {
     overflow: hidden;
     background: #fff;
     transition: all ease-in-out .3s;
-    border: 0px solid rgba(0, 0, 0, 0.05);
+    border: 0 solid rgba(0, 0, 0, 0.05);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     margin: 0 0 1em 0;
+}
 
-    &:hover {
-        box-shadow: .1rem 1rem 2rem rgba(0, 0, 0, 0.12), -.1rem 0 2rem rgba(0, 0, 0, 0.12);
-    }
+.blog .card:hover {
+    box-shadow: .1rem 1rem 2rem rgba(0, 0, 0, 0.12), -.1rem 0 2rem rgba(0, 0, 0, 0.12);
+}
 
-    .card-img {
-        position: relative;
-        overflow: hidden;
+.blog .card .card-img {
+    position: relative;
+    overflow: hidden;
+}
 
-        &:hover {
-            border-top-left-radius: 0.25rem;
-            border-top-right-radius: 0.25rem;
-        }
+.blog .card .card-img:hover {
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
 
-        &:hover img {
-            transform: scale(1.2);
-        }
+.blog .card .card-img:hover img {
+    transform: scale(1.2);
+}
 
-        & img {
-            transition: all 1s ease 0s;
-            width: 100%;
-        }
-    }
+.blog .card .card-img img {
+    transition: all 1s ease 0s;
+    width: 100%;
 }
 
 .blog .card .card-footer .views {
@@ -364,7 +361,7 @@ em.error.help-block {
 }
 
 /* For screens smaller than 'sm' */
-@media (max-width: 575.98px) {
+@media (max-width: 575px) {
 
     .blog .img-cover {
         width: 100%;
@@ -537,10 +534,6 @@ figure.table {
     text-shadow: 6px 5px 10px black;
 }
 
-.heroTitle {
-    font-size: 4rem; /* default */
-}
-
 @media (max-width: 1199px) {
     /* md */
     .heroTitle {
@@ -574,7 +567,7 @@ figure.table {
 }
 
 b, strong {
-    text-shadow: 0.5px 0.5px 0 currentColor;
+    text-shadow: 1px 1px 0 currentColor;
 }
 
 /* Containerul principal */
@@ -593,7 +586,6 @@ b, strong {
     text-align: center; /* text-center */
     padding-left: 1.5rem; /* px-4 */
     padding-right: 1.5rem;
-    font-size: 1rem;
     line-height: 1.5;
     font-size: 2rem; /* echivalent .h2 din Bootstrap */
     margin-top: 1rem;
