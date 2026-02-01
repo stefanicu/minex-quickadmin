@@ -15,6 +15,13 @@
                     </div>
                 @endif
 
+                <div id="loading-spinner" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <span>Translating, please wait...</span>
+                </div>
+
                 <ul class="nav nav-tabs" id="languageTabs">
                     @foreach($languages as $lang)
                         <li class="nav-item">
@@ -69,8 +76,8 @@
                                     {{-- Skip English --}}
                                     <form id="translateButtonForm" method="POST" action="{{ route('admin.translations.translate', $lang) }}" class="absolute top-1">
                                         @csrf
-                                        <input type="hidden" name="file" id="file" value="{{ $_GET['file'] }}">
-                                        <button type="submit" class="btn btn-success" onclick="location.href='{{ route('admin.translations.translate', $lang) }}'" @if($emptyCount === 0) disabled @endif >
+                                        <input type="hidden" name="file" value="{{ request('file') }}">
+                                        <button type="submit" class="btn btn-success" @if($emptyCount === 0) disabled @endif >
                                             Translate to {{ languageToCountryCode($lang) }} ({{ $emptyCount }} empty {{ $emptyCount === 1 ? 'field' : 'fileds' }})
                                         </button>
                                     </form>
@@ -90,7 +97,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const languageTabs = document.querySelectorAll("#languageTabs .nav-link");
-            const translateButtonForm = document.getElementById('translateButtonForm');
+            const translateButtonForms = document.querySelectorAll('.translateButtonForm');
             const loadingSpinner = document.getElementById('loading-spinner');
 
             // Redirect to the first file if no file is selected and translations exist
@@ -122,8 +129,8 @@
             });
 
             // Handle translate form submission with loading spinner and AJAX
-            if (translateButtonForm) {
-                translateButtonForm.addEventListener('submit', function (e) {
+            translateButtonForms.forEach(form => {
+                form.addEventListener('submit', function (e) {
                     e.preventDefault();
 
                     if (loadingSpinner) {
@@ -132,7 +139,7 @@
                     }
 
                     // Use Ajax to submit the form asynchronously
-                    const form = new FormData(this);
+                    const formData = new FormData(this);
                     const xhr = new XMLHttpRequest();
                     xhr.open('POST', this.action, true);
 
@@ -148,9 +155,9 @@
                         }
                     };
 
-                    xhr.send(form);
+                    xhr.send(formData);
                 });
-            }
+            });
         });
     </script>
 @endsection
