@@ -40,7 +40,7 @@ return array (
   'articles' => 'Articles',
   'gdpr_compliance' => 'GDPR compliance',
   'copyright' => 'Minex Group International',
-  'see_what_we_have_done' => 'See what we\'ve done for',
+  'see_what_we_have_done' => 'We have delivered proven solutions for leading industrial companies, including:',
   'contact_thank_you' => 'Your message was successfully sent, thank you!',
   'other' => 'Other',
   'no_image' => 'No image',
