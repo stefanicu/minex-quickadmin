@@ -39,6 +39,7 @@
                     @endforeach
 
                 </ul>
+                <div>{!! $references->first_text !!}</div>
             @endif
         </div>
     </div>

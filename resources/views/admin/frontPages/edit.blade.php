@@ -21,7 +21,7 @@
                     @endif
                     <span class="help-block">{{ trans('cruds.frontPage.fields.name_helper') }}</span>
                 </div>
-                @if(!in_array($frontPage->id,[5]))
+                @if(!in_array($frontPage->id,[]))
                     <div class="form-group">
                         <label for="first_text">{{ trans('cruds.frontPage.fields.first_text') }}</label>
                         <textarea class="form-control ckeditor {{ $errors->has('first_text') ? 'is-invalid' : '' }}"
@@ -34,7 +34,7 @@
                     </div>
                 @endif
 
-                @if(!in_array($frontPage->id,[3,5,7]))
+                @if(!in_array($frontPage->id,[5,7]))
                     <div class="form-group">
                         <label for="second_text">{{ trans('cruds.frontPage.fields.second_text') }}</label>
                         <textarea class="form-control ckeditor {{ $errors->has('second_text') ? 'is-invalid' : '' }}"

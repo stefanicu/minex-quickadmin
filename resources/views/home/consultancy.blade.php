@@ -16,6 +16,7 @@
         <div class="v-alighn px-4">
             @if($consultancy)
                 <h3 class="h3">{{ $consultancy->name }}</h3>
+                <div>{!! $consultancy->first_text !!}</div>
                 <p>{{ trans('pages.see_what_we_have_done') }}:</p>
                 <ul>
                     @foreach($consultancy_references as $consultancy_reference)
@@ -33,7 +34,7 @@
     <div class="container my-2">
         <div class="row">
             @if($consultancy)
-                <div class="col col-lg-5">{!! $consultancy->first_text !!}</div>
+                <div class="col col-lg-5">{!! $consultancy->second_text !!}</div>
                 <div class="col col-lg-7">
                     <blockquote class="blockquote-home blockquote__primary">{!! $consultancy->quote !!}</blockquote>
                     <img data-src="{{ asset('/img/home/s3/broken-nat-min.jpg') }}" class="img-fluid lozad lazy-fade"

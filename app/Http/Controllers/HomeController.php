@@ -37,7 +37,7 @@ class HomeController extends Controller
         
         $consultancy = FrontPage::leftJoin('front_page_translations', 'front_pages.id', '=',
             'front_page_translations.front_page_id')
-            ->select('name', 'first_text', 'quote')
+            ->select('name', 'first_text', 'second_text', 'quote')
             ->where('locale', '=', app()->getLocale())
             ->where('front_page_id', '=', 3)
             ->first();
@@ -61,7 +61,7 @@ class HomeController extends Controller
         
         $references = FrontPage::leftJoin('front_page_translations', 'front_pages.id', '=',
             'front_page_translations.front_page_id')
-            ->select('name', 'button')
+            ->select('name', 'first_text', 'button')
             ->where('locale', '=', app()->getLocale())
             ->where('front_page_id', '=', 5)
             ->first();
