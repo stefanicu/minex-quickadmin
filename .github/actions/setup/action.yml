@@ -1,0 +1,27 @@
+name: 'Setup Environment'
+description: 'Sets up PHP, Node.js and installs dependencies'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        extensions: mbstring, xml, pdo, pdo_mysql, bcmath
+        coverage: none
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install Composer dependencies
+      shell: bash
+      run: composer install --no-dev --optimize-autoloader --no-interaction
+
+    - name: Install NPM dependencies and build
+      shell: bash
+      run: |
+        npm install
+        npm run build
