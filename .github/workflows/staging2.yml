@@ -25,7 +25,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y sshpass
-          sshpass -p "${{ secrets.SFTP_PASSWORD }}" rsync -avz --delete -c --exclude='.git*' --exclude='storage' --exclude='.env' --exclude='node_modules' --exclude='public/storage' --exclude='public/uploads' -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.SFTP_PORT }}" ./deploy_dir/ ${{ secrets.SFTP_USERNAME }}@${{ secrets.SFTP_HOST }}:${{ secrets.STAGING2_SFTP_PATH }}
+          sshpass -p "${{ secrets.SFTP_PASSWORD }}" rsync -avz -c --exclude='.git*' --exclude='storage' --exclude='.env' --exclude='node_modules' --exclude='public/storage' --exclude='public/uploads' -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.SFTP_PORT }}" ./deploy_dir/ ${{ secrets.SFTP_USERNAME }}@${{ secrets.SFTP_HOST }}:${{ secrets.STAGING2_SFTP_PATH }}
 
       - name: Post-deployment commands via SSH
         uses: appleboy/ssh-action@v1.1.0
