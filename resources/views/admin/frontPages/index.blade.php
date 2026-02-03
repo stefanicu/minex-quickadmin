@@ -3,7 +3,7 @@
 
     <div class="card">
         <div class="card-header">
-            {{ trans('cruds.frontPage.title_singular') }} {{ trans('global.list') }} AAAAAAAAssssssss
+            {{ trans('cruds.frontPage.title_singular') }} {{ trans('global.list') }} deploy-ul vietii
         </div>
 
         <div class="card-body">
