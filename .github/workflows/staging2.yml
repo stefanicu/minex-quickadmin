@@ -1,4 +1,4 @@
-name: Deploy to Staging
+name: Deploy to Staging2
 
 on:
   push:
@@ -6,44 +6,55 @@ on:
       - staging2
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Environment
-        uses: ./.github/actions/setup
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, bcmath, pdo_mysql
+
+      - name: Install dependencies
+        run: |
+          composer install --no-dev --optimize-autoloader --no-interaction
+          npm ci
+          npm run build
 
       - name: Prepare deployment folder
         run: |
           mkdir deploy_dir
-          cp -r app bootstrap config database public resources routes storage vendor artisan composer.json composer.lock package.json package-lock.json vite.config.js deploy_dir/
+          cp -r app bootstrap config database public resources routes vendor artisan composer.json composer.lock deploy_dir/
 
-      - name: Deploy files via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
+      - name: Sync to server via rsync
+        uses: burnett01/rsync-deployments@v2.1
         with:
-          server: ${{ secrets.SFTP_HOST }}
-          username: ${{ secrets.SFTP_USERNAME }}
-          password: ${{ secrets.SFTP_PASSWORD }}
-          port: ${{ secrets.SFTP_PORT }}
-          local_path: './deploy_dir/*'
+          switches: -avz --delete --exclude=.env --exclude=storage
+          path: deploy_dir/
           remote_path: ${{ secrets.STAGING2_SFTP_PATH }}
-          sftp_only: true
-          ssh_private_key: ''
+          remote_host: ${{ secrets.SFTP_HOST }}
+          remote_user: ${{ secrets.SFTP_USERNAME }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          remote_port: ${{ secrets.SFTP_PORT }}
 
-      - name: Post-deployment commands via SSH
-        uses: appleboy/ssh-action@v1.1.0
+      - name:
+          Post-deploy: Migrate & optimize
+        uses: appleboy/ssh-action@v1.7.0
         with:
           host: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USERNAME }}
-          password: ${{ secrets.SFTP_PASSWORD }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SFTP_PORT }}
           script: |
             cd ${{ secrets.STAGING2_SFTP_PATH }}
             [ -f .env ] || cp .env.example .env
+            composer install --no-dev --optimize-autoloader
             php artisan migrate --force
+            php artisan optimize:clear
             php artisan optimize
             php artisan view:cache
             php artisan event:cache
