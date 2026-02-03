@@ -23,7 +23,7 @@ jobs:
           username: ${{ secrets.SFTP_USERNAME }}
           password: ${{ secrets.SFTP_PASSWORD }}
           port: ${{ secrets.SFTP_PORT }}
-          source: "*,!node_modules,!.git,!.github,!tests,!.phpunit.result.cache"
+          source: "app,bootstrap,config,database,public,resources,routes,storage,vendor,artisan,composer.json,composer.lock,package.json,package-lock.json,vite.config.js"
           target: ${{ secrets.STAGING2_SFTP_PATH }}
           rm: false
           strip_components: 0
