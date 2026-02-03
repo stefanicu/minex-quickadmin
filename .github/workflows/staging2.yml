@@ -19,10 +19,10 @@ jobs:
       - name: Deploy files via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.SFTP_HOST }}
-          username: ${{ secrets.SFTP_USERNAME }}
-          password: ${{ secrets.SFTP_PASSWORD }}
-          port: ${{ secrets.SFTP_PORT }}
+          host: ${{ secrets.STAGING_SFTP_HOST }}
+          username: ${{ secrets.STAGING_SFTP_USERNAME }}
+          password: ${{ secrets.STAGING_SFTP_PASSWORD }}
+          port: ${{ secrets.STAGING_SFTP_PORT }}
           source: |
             *
             !node_modules
@@ -30,19 +30,19 @@ jobs:
             !.github
             !tests
             !.phpunit.result.cache
-          target: ${{ secrets.SFTP_PATH }}
+          target: ${{ secrets.STAGING_SFTP_PATH }}
           rm: false
           strip_components: 0
 
       - name: Post-deployment commands via SSH
         uses: appleboy/ssh-action@v1.1.0
         with:
-          host: ${{ secrets.SFTP_HOST }}
-          username: ${{ secrets.SFTP_USERNAME }}
-          password: ${{ secrets.SFTP_PASSWORD }}
-          port: ${{ secrets.SFTP_PORT }}
+          host: ${{ secrets.STAGING_SFTP_HOST }}
+          username: ${{ secrets.STAGING_SFTP_USERNAME }}
+          password: ${{ secrets.STAGING_SFTP_PASSWORD }}
+          port: ${{ secrets.STAGING_SFTP_PORT }}
           script: |
-            cd ${{ secrets.SFTP_PATH }}
+            cd ${{ secrets.STAGING_SFTP_PATH }}
             [ -f .env ] || cp .env.example .env
             php artisan migrate --force
             php artisan optimize
