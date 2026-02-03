@@ -1,4 +1,4 @@
-name: Deploy to Staging2
+name: Deploy to Staging
 
 on:
   push:
@@ -6,55 +6,38 @@ on:
       - staging2
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-          extensions: mbstring, bcmath, pdo_mysql
-
-      - name: Install dependencies
-        run: |
-          composer install --no-dev --optimize-autoloader --no-interaction
-          npm ci
-          npm run build
+      - name: Setup Environment
+        uses: ./.github/actions/setup
 
       - name: Prepare deployment folder
         run: |
           mkdir deploy_dir
-          cp -r app bootstrap config database public resources routes vendor artisan composer.json composer.lock deploy_dir/
+          cp -r app bootstrap config database public resources routes storage vendor artisan composer.json composer.lock package.json package-lock.json vite.config.js deploy_dir/
 
-      - name: Sync to server via rsync
-        uses: burnett01/rsync-deployments@v2.1
-        with:
-          switches: -avz --delete --exclude=.env --exclude=storage
-          path: deploy_dir/
-          remote_path: ${{ secrets.STAGING2_SFTP_PATH }}
-          remote_host: ${{ secrets.SFTP_HOST }}
-          remote_user: ${{ secrets.SFTP_USERNAME }}
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          remote_port: ${{ secrets.SFTP_PORT }}
+      - name: Deploy files via Rsync
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sshpass
+          sshpass -p "${{ secrets.SFTP_PASSWORD }}" rsync -avz --delete -c --exclude='.git*' --exclude='storage' --exclude='.env' --exclude='node_modules' --exclude='public/storage' --exclude='public/uploads' -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.SFTP_PORT }}" ./deploy_dir/ ${{ secrets.SFTP_USERNAME }}@${{ secrets.SFTP_HOST }}:${{ secrets.STAGING2_SFTP_PATH }}
 
-      - name:
-          Post-deploy: Migrate & optimize
-        uses: appleboy/ssh-action@v1.7.0
+      - name: Post-deployment commands via SSH
+        uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.SFTP_PASSWORD }}
           port: ${{ secrets.SFTP_PORT }}
           script: |
             cd ${{ secrets.STAGING2_SFTP_PATH }}
             [ -f .env ] || cp .env.example .env
-            composer install --no-dev --optimize-autoloader
             php artisan migrate --force
-            php artisan optimize:clear
             php artisan optimize
             php artisan view:cache
             php artisan event:cache
