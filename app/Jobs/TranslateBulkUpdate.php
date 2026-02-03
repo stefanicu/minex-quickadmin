@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Services\ChatGPTService;
+use App\Traits\TranslateLinks;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,7 +17,7 @@ use Throwable;
 
 class TranslateBulkUpdate implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, TranslateLinks;
     
     public int $tries = 2;
     public int $maxExceptions = 1;
@@ -33,11 +34,11 @@ class TranslateBulkUpdate implements ShouldQueue
     public function __construct(
         string $modelTranslation,
         string $foreignKey,
-        int $id,
+        int    $id,
         string $locale,
         string $column,
         string $value,
-        array $metadata = []
+        array  $metadata = []
     ) {
         $this->modelTranslation = $modelTranslation;
         $this->foreignKey = $foreignKey;
@@ -155,6 +156,9 @@ class TranslateBulkUpdate implements ShouldQueue
             if (empty($translatedValue)) {
                 throw new Exception('Translation failed: Empty response from API');
             }
+            
+            // Traducem link-urile din conținutul tradus
+            $translatedValue = $this->translateLinksInHtml($translatedValue, $this->locale, $sourceLocale);
             
             // Salvează direct în bază de date
             DB::table($this->modelTranslation)
