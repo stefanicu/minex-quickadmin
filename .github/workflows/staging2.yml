@@ -23,16 +23,11 @@ jobs:
           username: ${{ secrets.SFTP_USERNAME }}
           password: ${{ secrets.SFTP_PASSWORD }}
           port: ${{ secrets.SFTP_PORT }}
-          source: |
-            *
-            !node_modules
-            !.git
-            !.github
-            !tests
-            !.phpunit.result.cache
+          source: "*,!node_modules,!.git,!.github,!tests,!.phpunit.result.cache"
           target: ${{ secrets.STAGING2_SFTP_PATH }}
           rm: false
           strip_components: 0
+          debug: true
 
       - name: Post-deployment commands via SSH
         uses: appleboy/ssh-action@v1.1.0
