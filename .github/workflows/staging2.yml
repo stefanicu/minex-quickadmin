@@ -1,4 +1,4 @@
-name: Build, deploy
+name: Deploy to Staging
 
 on:
   push:
@@ -6,41 +6,35 @@ on:
       - staging2
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: '8.3'
+          extensions: mbstring, xml, pdo, pdo_mysql, bcmath
+          coverage: none
 
-      - name: Composer Update Dependencies
-        run: composer update --ignore-platform-reqs
+      - name: Install Composer dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction
 
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-      - name: Migrate database changes
-        run: php artisan migrate
+      - name: Install NPM dependencies and build
+        run: |
+          npm install
+          npm run build
 
-      - name: Reset routes
-        run: php artisan route:clear
-
-      - name: Reset cache
-        run: php artisan cache:clear
-
-      - name: Reset config
-        run: php artisan config:clear
-
-      - name: Optimize
-        run: php artisan optimize
-
-      - name: Sync files to SFTP Server
-        uses: appleboy/ssh-action@v1.1.0
+      - name: Deploy files via SCP
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USERNAME }}
@@ -48,10 +42,25 @@ jobs:
           port: ${{ secrets.SFTP_PORT }}
           source: |
             *
-            !.env
-            !storage/*.key
             !node_modules
-            !vendor
-          target: "/var/www/staging2.minexgroup.eu"
+            !.git
+            !.github
+            !tests
+            !.phpunit.result.cache
+          target: ${{ secrets.SFTP_PATH }}
+          rm: false
+          strip_components: 0
 
-
+      - name: Post-deployment commands via SSH
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USERNAME }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          port: ${{ secrets.SFTP_PORT }}
+          script: |
+            cd ${{ secrets.SFTP_PATH }}
+            php artisan migrate --force
+            php artisan optimize
+            php artisan view:cache
+            php artisan event:cache
