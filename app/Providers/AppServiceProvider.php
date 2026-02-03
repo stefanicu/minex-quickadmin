@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         
         Paginator::useBootstrapFour();
         
-        if ( ! request()->is('admin/*')) {
+        if ( ! request()->is('admin/*') && ! app()->runningUnitTests()) {
             // Share the applications globally for all views
             View::composer('*', function ($view) {
                 // Get all applications, or whatever specific data you need

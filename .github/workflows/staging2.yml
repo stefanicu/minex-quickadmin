@@ -16,23 +16,21 @@ jobs:
       - name: Setup Environment
         uses: ./.github/actions/setup
 
-      - name: Deploy files via SCP
-        uses: appleboy/scp-action@v0.1.7
+      - name: Prepare deployment folder
+        run: |
+          mkdir deploy_dir
+          cp -r app bootstrap config database public resources routes storage vendor artisan composer.json composer.lock package.json package-lock.json vite.config.js deploy_dir/
+
+      - name: Deploy files via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
         with:
-          host: ${{ secrets.SFTP_HOST }}
+          server: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USERNAME }}
           password: ${{ secrets.SFTP_PASSWORD }}
           port: ${{ secrets.SFTP_PORT }}
-          source: |
-            *
-            !node_modules
-            !.git
-            !.github
-            !tests
-            !.phpunit.result.cache
-          target: ${{ secrets.STAGING2_SFTP_PATH }}
-          rm: false
-          strip_components: 0
+          local_path: './deploy_dir/*'
+          remote_path: ${{ secrets.STAGING2_SFTP_PATH }}
+          sftp_only: true
 
       - name: Post-deployment commands via SSH
         uses: appleboy/ssh-action@v1.1.0
