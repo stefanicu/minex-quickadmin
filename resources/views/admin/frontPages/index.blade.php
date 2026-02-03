@@ -3,7 +3,7 @@
 
     <div class="card">
         <div class="card-header">
-            {{ trans('cruds.frontPage.title_singular') }} {{ trans('global.list') }} --- 1. git actions auto deploy
+            {{ trans('cruds.frontPage.title_singular') }} {{ trans('global.list') }} --- 13333. git actions auto deploy
         </div>
 
         <div class="card-body">
