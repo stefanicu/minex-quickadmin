@@ -11,6 +11,10 @@ class ViewServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        if (app()->runningUnitTests()) {
+            return;
+        }
+
         View::composer('*', function ($view) {
             $locale = app()->getLocale();
             
